@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class DBUtil {
 
-	private static String url = "jdbc:sqlite:data/test.db";
+	private static String url = "jdbc:sqlite:data/QuotePrice.db";
 	private static String classPath = "org.sqlite.JDBC";
 
 	private static Connection conn = null;
