@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="package" name="QuotePrice">
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="target"/>
+    <property name="classes.dir" value="classes"/>
+    <property name="jar.dir" value="${build.dir}/jar"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="config.dir" value="config"/>
+    <property name="plugin.dir" value="plugin"/>
+    <property name="jar_name" value="app"/>
+    <property name="start_class" value="com.zhongda.quote.view.LoginForm"/>
+    <path id="application" location="${jar.dir}/${jar_name}.jar"/>
+    <path id="lib_path">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+    <target name="clean" description="清除构建">
+        <echo>开始清除构建,删除target目录</echo>
+        <delete dir="${build.dir}"/>
+        <echo>清除构建完成</echo>
+    </target>
+    <!--
+    编译系统有intellij处理
+    <target name="compile" description="编译系统">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="src" destdir="${classes.dir}" encoding="GBK" classpathref="lib_path"/>
+    </target>
+    -->
+    <target name="init" description="初始化资源文件">
+        <echo>开始初始化资源文件</echo>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.dir}\jar"/>
+        <copydir dest="${build.dir}\lib" src="${lib.dir}"/>
+        <copydir dest="${build.dir}\config" src="${config.dir}"/>
+        <copydir dest="${plugin.dir}\plugin" src="${plugin.dir}"/>
+        <copy todir="${build.dir}" file="start.bat"/>
+        <echo>初始化资源文件完成</echo>
+    </target>
+    <target name="package" depends="clean,init" description="打包">
+        <echo>开始打包</echo>
+        <pathconvert property="mf.classpath" pathsep=" ">
+            <mapper>
+                <chainedmapper>
+                    <!-- 移除绝对路径 -->
+                    <flattenmapper />
+                    <!-- 加上lib前缀 -->
+                    <globmapper from="*" to="../lib/*" />
+                </chainedmapper>
+            </mapper>
+            <fileset dir="${lib.dir}">
+                <include name="*.jar" />
+            </fileset>
+        </pathconvert>
+        <jar destfile="${jar.dir}/${jar_name}.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${start_class}"/>
+                <attribute name="Class-Path" value="${mf.classpath} "/>
+            </manifest>
+        </jar>
+        <echo>打包完成</echo>
+    </target>
+    <target name="run" depends="package" description="运行">
+        <echo>启动主程序</echo>
+        <java fork="true" classname="${start_class}">
+            <sysproperty key="file.encoding" value="UTF-8" />
+            <classpath>
+                <path refid="application"/>
+                <path refid="lib_path"/>
+            </classpath>
+        </java>
+        <echo>启动成功</echo>
+    </target>
+</project>
