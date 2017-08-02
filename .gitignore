@@ -1,9 +1,8 @@
-/target/
-
-/classes/
-
+target/
+/target
+classes/
+/classes
 .classpath
-
-.project
-
-/.settings/
+.class
+.settings/
+/.settings
