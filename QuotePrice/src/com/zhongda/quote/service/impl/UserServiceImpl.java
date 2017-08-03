@@ -2,23 +2,23 @@ package com.zhongda.quote.service.impl;
 
 import java.util.List;
 
-import com.zhongda.quote.dao.UserDao;
-import com.zhongda.quote.dao.impl.UserDaoImpl;
+import com.zhongda.quote.dao.UserMapper;
 import com.zhongda.quote.model.User;
 import com.zhongda.quote.service.UserService;
+import com.zhongda.quote.utils.MyBatisUtil;
 
 public class UserServiceImpl implements UserService{
 
-	private UserDao userDaoImpl = new UserDaoImpl();
+	private UserMapper userMapper =  MyBatisUtil.getSqlSession().getMapper(UserMapper.class);
 
 	public List<User> selectUserList() {
-		List<User> userList = userDaoImpl.selectUserList();
+		List<User> userList = userMapper.selectUserList();
 		return userList;
 	}
 
 	@Override
 	public List<User> selectUserListByName(String string) {
-		List<User> userList = userDaoImpl.selectUserListByName(string);
+		List<User> userList = userMapper.selectUserListByName(string);
 		return userList;
 	}
 

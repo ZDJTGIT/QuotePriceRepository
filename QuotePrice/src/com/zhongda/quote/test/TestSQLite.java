@@ -5,12 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.zhongda.quote.utils.DBUtil;
+import com.zhongda.quote.utils.MyBatisUtil;
 
 public class TestSQLite {
 
 	public static void main(String[] args) throws SQLException {
-		Connection conn = DBUtil.getConn();
+		Connection conn = MyBatisUtil.getSqlSession().getConnection();
 		Statement stat = conn.createStatement();
 
 		// 2 创建一个表tbl1，录入数据

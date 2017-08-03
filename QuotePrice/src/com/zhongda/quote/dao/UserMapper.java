@@ -4,9 +4,14 @@ import java.util.List;
 
 import com.zhongda.quote.model.User;
 
-public interface UserDao {
+public interface UserMapper {
+
+    int insert(User record);
+
+	int insertSelective(User record);
 
 	List<User> selectUserList();
 
 	List<User> selectUserListByName(String string);
+
 }
