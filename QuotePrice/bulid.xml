@@ -5,8 +5,6 @@
     <property name="classes.dir" value="classes"/>
     <property name="jar.dir" value="${build.dir}/jar"/>
     <property name="lib.dir" value="lib"/>
-    <property name="config.dir" value="config"/>
-    <property name="plugin.dir" value="plugin"/>
     <property name="jar_name" value="app"/>
     <property name="start_class" value="com.zhongda.quote.view.LoginForm"/>
     <path id="application" location="${jar.dir}/${jar_name}.jar"/>
@@ -30,8 +28,6 @@
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${build.dir}\jar"/>
         <copydir dest="${build.dir}\lib" src="${lib.dir}"/>
-        <copydir dest="${build.dir}\config" src="${config.dir}"/>
-        <copydir dest="${plugin.dir}\plugin" src="${plugin.dir}"/>
         <copy todir="${build.dir}" file="start.bat"/>
         <echo>初始化资源文件完成</echo>
     </target>

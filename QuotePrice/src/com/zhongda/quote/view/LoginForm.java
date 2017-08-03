@@ -7,11 +7,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+
 import com.zhongda.quote.controller.JButtController;
+import com.zhongda.quote.utils.SkinUtil;
 
 public class LoginForm {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTextField jtf_string;
 
 	/**
@@ -41,6 +44,7 @@ public class LoginForm {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
