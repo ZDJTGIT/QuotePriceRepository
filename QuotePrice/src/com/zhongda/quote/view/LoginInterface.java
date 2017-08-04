@@ -1,27 +1,22 @@
 package com.zhongda.quote.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Frame;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
-import com.zhongda.quote.controller.JButtonLoginClose;
-import com.zhongda.quote.controller.JBuuttonLogin;
-import com.zhongda.quote.controller.JPanelBackPhoto;
-import com.zhongda.quote.controller.JPasswordFieldUser;
-import com.zhongda.quote.controller.JPasswordLiser;
-import com.zhongda.quote.controller.JTextFieldUser;
+import com.zhongda.quote.controller.LoginInterfaceAction;
 import com.zhongda.quote.utils.SkinUtil;
+import com.zhongda.quote.view.uiutils.JPanelBackPhoto;
+import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
+import com.zhongda.quote.view.uiutils.JTextFieldUser;
 
 /**
  * 登录界面
@@ -111,7 +106,8 @@ public class LoginInterface {
 		jb_close.setOpaque(false);
 		jb_close.setFocusPainted(false);
 		jb_close.setIcon(new ImageIcon("images/loginClose.png"));
-		jb_close.addActionListener(new JButtonLoginClose());
+		jb_close.addActionListener(new LoginInterfaceAction());
+		jb_close.setActionCommand("close");
 		jp_right.add(jb_close);
 		
 		
@@ -128,6 +124,7 @@ public class LoginInterface {
 		jt_user.setBounds(30, 65, 320, 48);
 		jt_user.setText("机器码");
 		jt_user.setFont(new Font("宋体", 0, 19));
+		jt_user.addMouseListener(new LoginInterfaceAction(jp_password,"qw"));
 		jp_right.add(jt_user);
 		
 		//密码
@@ -135,7 +132,8 @@ public class LoginInterface {
 		jp_password.setBounds(30, 133, 320, 48);
 		jp_password.setFont(new Font("宋体", 0, 19));
 		jp_password.setText("解码值");
-		jp_password.addMouseListener((new JPasswordLiser(jp_password)));
+		jp_password.addMouseListener((new LoginInterfaceAction(jp_password)));
+		jp_password.setActionCommand("password");
 		jp_password.setEchoChar('\0');
 		jp_right.add(jp_password);
 		
@@ -144,7 +142,8 @@ public class LoginInterface {
 		jb_login.setFont(new Font("宋体", 1, 20));
 		jb_login.setBounds(30, 196, 320, 48);
 		jb_login.setBackground(new Color(255, 101, 1));
-		jb_login.addActionListener(new JBuuttonLogin());
+		jb_login.addActionListener(new LoginInterfaceAction());
+		jb_login.setActionCommand("login");
 		jp_right.add(jb_login);
 		
 		
