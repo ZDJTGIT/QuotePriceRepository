@@ -9,13 +9,11 @@ import java.awt.event.MouseListener;
 import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
 
 /**
- * com.zhongda.quote.view.LoginInterface界面所有组件监听类
+ * <p>com.zhongda.quote.view.LoginInterface界面所有组件监听类。描述以句号结尾。</p>
+ * @author 研发中心-罗 杰<1250368725@qq.com>
+ * @since 2017年8月4日
  * 
- * @author LiVerson
- *
- *         2017年8月4日
  */
-
 public class LoginInterfaceAction implements ActionListener, MouseListener {
 
 	private String name;
@@ -56,7 +54,10 @@ public class LoginInterfaceAction implements ActionListener, MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getSource().equals(passwordFieldUser)) {
-			if (passwordFieldUser.getText().equals("解码值")) {
+			//注意：建议不使用过时的方法---将确定值改前避免空指针异常
+			//if (passwordFieldUser.getText().equals("解码值")) {
+			String passwordCommand = new String(passwordFieldUser.getPassword());
+			if ("解码值".equals(passwordCommand)) {
 				passwordFieldUser.setText("");
 			}
 			passwordFieldUser.setEchoChar('*');
@@ -87,7 +88,7 @@ public class LoginInterfaceAction implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent e) {
 		name = e.getActionCommand();
 		if (name.equals("login")) {
-			System.out.println("登录逻辑代码还没写，罗杰是个大坑逼，看到这条信息的人请远离罗杰");
+			System.out.println("好好说话");
 		} else if (name.equals("close")) {
 			System.exit(0);
 		}
