@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.quote.dao.InspectionContentMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.quote.model.InspectionContent">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
+    <result column="inspection_object_quantity" jdbcType="INTEGER" property="inspectionObjectQuantity" />
+    <result column="single_object_quantity" jdbcType="INTEGER" property="singleObjectQuantity" />
+    <result column="single_quantity_range" jdbcType="VARCHAR" property="singleQuantityRange" />
+    <result column="sample_basis_id" jdbcType="INTEGER" property="sampleBasisId" />
+    <result column="quote_basis_id" jdbcType="INTEGER" property="quoteBasisId" />
+    <result column="batch_id" jdbcType="INTEGER" property="batchId" />
+    <result column="inspection_content_amount" jdbcType="FLOAT" property="inspectionContentAmount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, inspection_content_name, inspection_object_quantity, single_object_quantity, 
+    single_quantity_range, sample_basis_id, quote_basis_id, batch_id, inspection_content_amount
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from InspectionContent
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from InspectionContent
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.quote.model.InspectionContent">
+    insert into InspectionContent (id, inspection_content_name, inspection_object_quantity, 
+      single_object_quantity, single_quantity_range, 
+      sample_basis_id, quote_basis_id, batch_id, 
+      inspection_content_amount)
+    values (#{id,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR}, #{inspectionObjectQuantity,jdbcType=INTEGER}, 
+      #{singleObjectQuantity,jdbcType=INTEGER}, #{singleQuantityRange,jdbcType=VARCHAR}, 
+      #{sampleBasisId,jdbcType=INTEGER}, #{quoteBasisId,jdbcType=INTEGER}, #{batchId,jdbcType=INTEGER}, 
+      #{inspectionContentAmount,jdbcType=FLOAT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.quote.model.InspectionContent">
+    insert into InspectionContent
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="inspectionContentName != null">
+        inspection_content_name,
+      </if>
+      <if test="inspectionObjectQuantity != null">
+        inspection_object_quantity,
+      </if>
+      <if test="singleObjectQuantity != null">
+        single_object_quantity,
+      </if>
+      <if test="singleQuantityRange != null">
+        single_quantity_range,
+      </if>
+      <if test="sampleBasisId != null">
+        sample_basis_id,
+      </if>
+      <if test="quoteBasisId != null">
+        quote_basis_id,
+      </if>
+      <if test="batchId != null">
+        batch_id,
+      </if>
+      <if test="inspectionContentAmount != null">
+        inspection_content_amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionContentName != null">
+        #{inspectionContentName,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionObjectQuantity != null">
+        #{inspectionObjectQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="singleObjectQuantity != null">
+        #{singleObjectQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="singleQuantityRange != null">
+        #{singleQuantityRange,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleBasisId != null">
+        #{sampleBasisId,jdbcType=INTEGER},
+      </if>
+      <if test="quoteBasisId != null">
+        #{quoteBasisId,jdbcType=INTEGER},
+      </if>
+      <if test="batchId != null">
+        #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionContentAmount != null">
+        #{inspectionContentAmount,jdbcType=FLOAT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.quote.model.InspectionContent">
+    update InspectionContent
+    <set>
+      <if test="inspectionContentName != null">
+        inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionObjectQuantity != null">
+        inspection_object_quantity = #{inspectionObjectQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="singleObjectQuantity != null">
+        single_object_quantity = #{singleObjectQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="singleQuantityRange != null">
+        single_quantity_range = #{singleQuantityRange,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleBasisId != null">
+        sample_basis_id = #{sampleBasisId,jdbcType=INTEGER},
+      </if>
+      <if test="quoteBasisId != null">
+        quote_basis_id = #{quoteBasisId,jdbcType=INTEGER},
+      </if>
+      <if test="batchId != null">
+        batch_id = #{batchId,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionContentAmount != null">
+        inspection_content_amount = #{inspectionContentAmount,jdbcType=FLOAT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.quote.model.InspectionContent">
+    update InspectionContent
+    set inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
+      inspection_object_quantity = #{inspectionObjectQuantity,jdbcType=INTEGER},
+      single_object_quantity = #{singleObjectQuantity,jdbcType=INTEGER},
+      single_quantity_range = #{singleQuantityRange,jdbcType=VARCHAR},
+      sample_basis_id = #{sampleBasisId,jdbcType=INTEGER},
+      quote_basis_id = #{quoteBasisId,jdbcType=INTEGER},
+      batch_id = #{batchId,jdbcType=INTEGER},
+      inspection_content_amount = #{inspectionContentAmount,jdbcType=FLOAT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

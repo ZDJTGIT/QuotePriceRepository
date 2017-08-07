@@ -6,7 +6,7 @@
     <property name="jar.dir" value="${build.dir}/jar"/>
     <property name="lib.dir" value="lib"/>
     <property name="jar_name" value="app"/>
-    <property name="start_class" value="com.zhongda.quote.view.LoginForm"/>
+    <property name="start_class" value="com.zhongda.quote.view.LoginFrame"/>
     <path id="application" location="${jar.dir}/${jar_name}.jar"/>
     <path id="lib_path">
         <fileset dir="${lib.dir}" includes="**/*.jar"/>
