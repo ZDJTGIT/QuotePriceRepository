@@ -49,6 +49,10 @@
     </environments>
 
     <mappers>
-        <mapper resource="com/zhongda/quote/dao/UserMapper.xml"/>
+        <mapper resource="com/zhongda/quote/dao/QuoteTaskMapper.xml"/>
+        <mapper resource="com/zhongda/quote/dao/QuoteProjectMapper.xml"/>
+        <mapper resource="com/zhongda/quote/dao/InspectionContentMapper.xml"/>
+        <mapper resource="com/zhongda/quote/dao/InspectionBatchMapper.xml"/>
+        <mapper resource="com/zhongda/quote/dao/IndustryMapper.xml"/>
     </mappers>
 </configuration>
