@@ -29,8 +29,8 @@ public class JPasswordFieldUser extends JPasswordField {
 	public JPasswordFieldUser(String file) {
 		// 获取当前路径下的图片
 		icon = new ImageIcon(file);
-		Insets insets = new Insets(0, 50, 0, 0);
-		// 设置文本输入距左边20
+		Insets insets = new Insets(0, 120, 0, 0);
+		// 设置文本输入距左边50
 		this.setMargin(insets);
 	}
 

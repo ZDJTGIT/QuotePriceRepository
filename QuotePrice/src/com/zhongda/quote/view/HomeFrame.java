@@ -1,20 +1,31 @@
 package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.zhongda.quote.utils.SkinUtil;
+import com.zhongda.quote.view.uiutils.JMenBarColor;
 
 /**
  * <p>
@@ -48,8 +59,44 @@ public class HomeFrame {
 	private JMenuItem jm_l_2;
 	private JToolBar jtb_tb;
 	private JButton jb_bt_1;
-	private JButton jb_bt_2;
-
+	private JButton jb_bt_save;
+	private JTabbedPane tabbedPane;
+	private JSplitPane sp_left;
+	private JSplitPane sp_center;
+	private JSplitPane sp_right;
+	private JPanel jp_left;
+	private JPanel jp_up;
+	private JPanel jp_down;
+	private JPanel jp_right;
+	private JToolBar jtb_south;
+	private JLabel jtbs_jlb_left;
+	private JLabel jtbs_jlb_2;
+	private JLabel jtbs_jlb_3;
+	private JLabel jtbs_jlb_right;
+	private JMenBarColor jmb_left;
+	private JPanel panel;
+	private JToolBar jtb_jsrw;
+	private JLabel jmb_left_lb;
+	private JButton bt_jsrw;
+	private JButton bt_jsrw2;
+	private JMenBarColor jmb_center_up;
+	private JPanel panel_2;
+	private JToolBar jtb_center_up;
+	private JButton jb_center_up_1;
+	private JButton jb_center_up_2;
+	private JMenBarColor jmb_center_down;
+	private JPanel panel_4;
+	private JToolBar jtb_center_down;
+	private JMenBarColor jmb_right;
+	private JPanel panel_1;
+	private JToolBar jtb_right_jcnr;
+	private JButton jtb_center_down_1;
+	private JButton jtb_center_down_2;
+	private JButton jtb_right_1;
+	private JButton jtb_right_2;
+	private JLabel jlb_center_ip;
+	private JLabel jlb_center_down;
+	private JLabel jlb_right_jcnr;
 
 	/**
 	 * Create the frame.
@@ -63,14 +110,15 @@ public class HomeFrame {
 	public void init() {
 		SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		frame = new JFrame();
-		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 0, 1440, 760);
-		frame.setLocationRelativeTo(null);// 居中
+		// frame.setLocationRelativeTo(null);// 居中
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setIconImage(frame.getToolkit().getImage("images/zdLogo1.png"));
 		frame.setTitle("中大检测报价软件单机版");
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.setVisible(true);
+		frame.setResizable(false);// 不允许改变窗口大小
 
 		jmb_tb = new JMenuBar();
 		frame.setJMenuBar(jmb_tb);
@@ -138,13 +186,181 @@ public class HomeFrame {
 		jtb_tb = new JToolBar();
 		frame.getContentPane().add(jtb_tb, BorderLayout.NORTH);
 
-		jb_bt_1 = new JButton("按钮1");
+		jb_bt_1 = new JButton();
+		jb_bt_1.setIcon(new ImageIcon("images/creat.png"));
 		jb_bt_1.setFocusPainted(false);// 去除按钮边线
 		jtb_tb.add(jb_bt_1);
 
-		jb_bt_2 = new JButton("按钮2");
-		jb_bt_2.setFocusPainted(false);// 去除按钮边线
-		jtb_tb.add(jb_bt_2);
+		jb_bt_save = new JButton();
+		jb_bt_save.setIcon(new ImageIcon("images/save.png"));
+		jb_bt_save.setFocusPainted(false);// 去除按钮边线
+		jtb_tb.add(jb_bt_save);
+
+		// 任务JTabbedPane面板
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setFont(new Font("黑体", 0, 15));
+		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+
+		sp_left = new JSplitPane();
+		sp_left.setDividerLocation(800);
+		tabbedPane.addTab("任务管理", null, sp_left, null);
+
+		sp_center = new JSplitPane();
+		sp_center.setDividerLocation(400);
+		sp_left.setRightComponent(sp_center);
+
+		sp_right = new JSplitPane();
+		sp_right.setDividerLocation(400);// 设置splitpane左边大小
+
+		sp_right.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		sp_center.setLeftComponent(sp_right);
+
+		// splitPane分区的JPane
+		jp_up = new JPanel();
+		sp_right.setLeftComponent(jp_up);
+		jp_up.setLayout(new BorderLayout(0, 0));
+		
+		//项目分段
+		jmb_center_up = new JMenBarColor();
+		jp_up.add(jmb_center_up, BorderLayout.NORTH);
+		
+		jlb_center_ip = new JLabel("任务项目");
+		jlb_center_ip.setBorder(new EmptyBorder(3, 10, 3, 0 ));
+		jlb_center_ip.setFont(new Font("黑体", 1, 14));
+		jmb_center_up.add(jlb_center_ip);
+		
+		panel_2 = new JPanel();
+		jp_up.add(panel_2, BorderLayout.CENTER);
+		panel_2.setLayout(new BorderLayout(0, 0));
+		
+		jtb_center_up = new JToolBar();
+		panel_2.add(jtb_center_up, BorderLayout.NORTH);
+		
+		jb_center_up_1 = new JButton("按");
+		jb_center_up_1.setFocusPainted(false);// 去除按钮边线
+		jtb_center_up.add(jb_center_up_1);
+		
+		jb_center_up_2 = new JButton("钮");
+		jb_center_up_2.setFocusPainted(false);// 去除按钮边线
+		jtb_center_up.add(jb_center_up_2);
+
+		jp_down = new JPanel();
+		sp_right.setRightComponent(jp_down);
+		jp_down.setLayout(new BorderLayout(0, 0));
+		
+		//检测批
+		jmb_center_down = new JMenBarColor();
+		jp_down.add(jmb_center_down, BorderLayout.NORTH);
+		
+		jlb_center_down = new JLabel("检测批");
+		jlb_center_down.setBorder(new EmptyBorder(3, 10, 3, 0 ));
+		jlb_center_down.setFont(new Font("黑体", 1, 14));
+		jmb_center_down.add(jlb_center_down);
+		
+		panel_4 = new JPanel();
+		jp_down.add(panel_4, BorderLayout.CENTER);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
+		jtb_center_down = new JToolBar();
+		panel_4.add(jtb_center_down, BorderLayout.NORTH);
+		
+		jtb_center_down_1 = new JButton("按");
+		jtb_center_down_1.setFocusPainted(false);// 去除按钮边线
+		jtb_center_down.add(jtb_center_down_1);
+		
+		jtb_center_down_2 = new JButton("钮");
+		jtb_center_down_2.setFocusPainted(false);// 去除按钮边线
+		jtb_center_down.add(jtb_center_down_2);
+
+		jp_right = new JPanel();
+		sp_center.setRightComponent(jp_right);
+		jp_right.setLayout(new BorderLayout(0, 0));
+		
+		//检测内容
+		jmb_right = new JMenBarColor();
+		jp_right.add(jmb_right, BorderLayout.NORTH);
+		
+		jlb_right_jcnr = new JLabel("检测内容");
+		jlb_right_jcnr.setBorder(new EmptyBorder(3, 10, 3, 0 ));
+		jlb_right_jcnr.setFont(new Font("黑体", 1, 14));
+		jmb_right.add(jlb_right_jcnr);
+		
+		panel_1 = new JPanel();
+		jp_right.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+		jtb_right_jcnr = new JToolBar();
+		panel_1.add(jtb_right_jcnr, BorderLayout.NORTH);
+		
+		jtb_right_1 = new JButton("按");
+		jtb_right_1.setFocusPainted(false);// 去除按钮边线
+		jtb_right_jcnr.add(jtb_right_1);
+		
+		jtb_right_2 = new JButton("钮");
+		jtb_right_2.setFocusPainted(false);// 去除按钮边线
+		jtb_right_jcnr.add(jtb_right_2);
+
+		jp_left = new JPanel();
+		sp_left.setLeftComponent(jp_left);
+		jp_left.setLayout(new BorderLayout(0, 0));
+		
+		//建设任务
+		jmb_left = new JMenBarColor();
+		jmb_left.setBackground(Color.cyan);
+		jp_left.add(jmb_left, BorderLayout.NORTH);
+		
+		jmb_left_lb = new JLabel("建设任务");
+		jmb_left_lb.setBorder(new EmptyBorder(3, 10, 3, 0 ));
+		jmb_left_lb.setFont(new Font("黑体", 1, 14));
+		jmb_left.add(jmb_left_lb);
+		
+		panel = new JPanel();
+		jp_left.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		jtb_jsrw = new JToolBar();
+		panel.add(jtb_jsrw, BorderLayout.NORTH);
+		
+		bt_jsrw = new JButton();
+		bt_jsrw.setFocusPainted(false);// 去除按钮边线
+		jtb_jsrw.add(bt_jsrw);
+		
+		bt_jsrw2 = new JButton();
+		bt_jsrw2.setFocusPainted(false);// 去除按钮边线
+		jtb_jsrw.add(bt_jsrw2);
+
+		//最下方提示信息组件
+		jtb_south = new JToolBar();
+		frame.getContentPane().add(jtb_south, BorderLayout.SOUTH);
+
+		jtbs_jlb_left = new JLabel("就绪                ");
+		jtbs_jlb_left.setBorder(new BevelBorder(BevelBorder.RAISED));
+		jtb_south.add(jtbs_jlb_left);
+
+		jtbs_jlb_2 = new JLabel("湖南中大检测软件有限公司          ");
+		jtbs_jlb_2.setBorder(new BevelBorder(BevelBorder.RAISED));
+		jtb_south.add(jtbs_jlb_2);
+
+		jtbs_jlb_3 = new JLabel("服务热线： 86-0731-88137791                 ");
+		jtbs_jlb_3.setBorder(new BevelBorder(BevelBorder.RAISED));
+		jtb_south.add(jtbs_jlb_3);
+
+		jtbs_jlb_right = new JLabel(
+				"                                                                                                                                                                                                                          ");
+		jtbs_jlb_right.setBorder(new BevelBorder(BevelBorder.RAISED));
+		jtb_south.add(jtbs_jlb_right);
+
+		// Object[][] rowData = { { "1001", "李汉", "软件部", new Double(3000) },
+		// { "1002", "朱泽", "软件部", new Double(3100) },
+		// { "1003", "刘宇", "经理部", new Double(3000) } };
+		// // 初始化列名
+		// Object[] columnsName = { "编号", "姓名", "部门", "月薪" };
+		// DefaultTableModel dtm = new DefaultTableModel(rowData, columnsName);
+		// jp_left.setLayout(new BorderLayout(0, 0));
+		// jp_up.setLayout(new BorderLayout(0, 0));
+		// jp_down.setLayout(new BorderLayout(0, 0));
+		// jp_right.setLayout(new BorderLayout(0, 0));
+
 	}
 
 	public Image titlePhoto(String file) {
@@ -158,4 +374,16 @@ public class HomeFrame {
 		return image;
 	}
 
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					HomeFrame window = new HomeFrame();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 }

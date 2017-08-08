@@ -126,14 +126,10 @@ public class LoginFrame {
 		jp_right.add(jt_user);
 
 		// 密码
-		jp_password = new JPasswordFieldUser("images/password16.png");
+		jp_password = new JPasswordFieldUser("images/4.png");
 		jp_password.setBounds(30, 133, 320, 48);
 		jp_password.setFont(new Font("宋体", 0, 19));
-		jp_password.setText("解码值");
-		jp_password.addFocusListener((new LoginFrameAction(jp_password,
-				"password")));
 		jp_password.setActionCommand("password");
-		jp_password.setEchoChar('\0');
 		jp_right.add(jp_password);
 
 		// 登录
