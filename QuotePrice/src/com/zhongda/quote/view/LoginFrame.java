@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.zhongda.quote.action.LoginFrameAction;
+import com.zhongda.quote.utils.GetMachineUtil;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JPanelBackPhoto;
 import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
@@ -38,7 +39,11 @@ public class LoginFrame {
 	private JPasswordFieldUser jp_password;
 	private JButton jb_login;
 	private JLabel jl_number;
-
+	private static String machineCode;
+	static{
+		//机器码
+		machineCode = GetMachineUtil.getMachineLanguage();
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -74,7 +79,7 @@ public class LoginFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
-
+		
 		jp_left = new JPanelBackPhoto("images/zhongda.png");
 		jp_left.setBounds(0, 0, 614, 334);
 		frame.getContentPane().add(jp_left);
@@ -85,7 +90,7 @@ public class LoginFrame {
 		frame.getContentPane().add(jp_right);
 
 		// 右側JPanel組件
-		// 註冊通行证
+		// 注册通行证
 		jpr_down = new JPanel();
 		jpr_down.setBounds(1, 274, 381, 60);
 		jpr_down.setBackground(new Color(0, 159, 134));
@@ -121,7 +126,8 @@ public class LoginFrame {
 		// 账号
 		jt_user = new JTextFieldUser("images/user16.png");
 		jt_user.setBounds(30, 65, 320, 48);
-		jt_user.setText("机器码");
+		jt_user.setText("机器码:"+machineCode);
+		jt_user.setEditable(false);
 		jt_user.setFont(new Font("宋体", 0, 19));
 		jp_right.add(jt_user);
 
@@ -137,7 +143,7 @@ public class LoginFrame {
 		jb_login.setFont(new Font("宋体", 1, 20));
 		jb_login.setBounds(30, 196, 320, 48);
 		jb_login.setBackground(new Color(255, 101, 1));
-		jb_login.addActionListener(new LoginFrameAction(frame));
+		jb_login.addActionListener(new LoginFrameAction(frame,jp_password));
 		jb_login.setActionCommand("login");
 		jp_right.add(jb_login);
 

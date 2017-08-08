@@ -9,6 +9,8 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JFrame;
 
+import com.zhongda.quote.utils.GetMachineUtil;
+import com.zhongda.quote.utils.MachineKeyUtil;
 import com.zhongda.quote.view.HomeFrame;
 import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
 
@@ -27,6 +29,7 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 	private JPasswordFieldUser passwordFieldUser;
 	private String compoName;
 	private JFrame jFrame;
+	private String passwordCommand;
 
 	public LoginFrameAction() {
 
@@ -39,6 +42,11 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 	 */
 	public LoginFrameAction(JFrame frame) {
 		jFrame = frame;
+	}
+
+	public LoginFrameAction(JFrame frame, JPasswordFieldUser passwordFieldUser) {
+		jFrame = frame;
+		this.passwordFieldUser = passwordFieldUser;
 	}
 
 	/**
@@ -68,17 +76,24 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 		if ("close".equals(name)) {
 			System.exit(0);
 		} else if ("login".equals(name)) {
-			jFrame.dispose();
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						HomeFrame window = new HomeFrame();
-						window.frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
+			String machineSerial = GetMachineUtil.getMachineLanguage();
+			String machineKey = MachineKeyUtil.getMachineKey(machineSerial);
+			String pwd = new String(passwordFieldUser.getPassword());
+			if (machineKey.equals(pwd)) {
+				jFrame.dispose();
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							HomeFrame window = new HomeFrame();
+							window.frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
-				}
-			});
+				});
+			} else {
+				// 机器码与解码值不匹配
+			}
 		}
 
 	}
@@ -86,9 +101,9 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 	@Override
 	public void focusGained(FocusEvent e) {
 		if (("password").equals(compoName)) {
-			String passwordCommand = new String(passwordFieldUser.getPassword());
+			passwordCommand = new String(passwordFieldUser.getPassword());
 			if ("解码值".equals(passwordCommand)) {
-				passwordFieldUser.setText("");
+				passwordFieldUser.setText("解码值:");
 			}
 			passwordFieldUser.setEchoChar('*');
 			passwordFieldUser.setFont(new Font("宋体", 0, 15));
