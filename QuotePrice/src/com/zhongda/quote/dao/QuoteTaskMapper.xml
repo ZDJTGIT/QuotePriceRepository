@@ -13,26 +13,32 @@
     <result column="task_amount" jdbcType="FLOAT" property="taskAmount" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, task_number, task_name, task_description, industry, create_user, create_date, 
+    id, task_number, task_name, task_description, industry, create_user, create_date,
     last_update_date, task_amount
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from QuoteTask
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from QuoteTask
+    where task_name = "%"#{taskName,jdbcType=VARCHAR}"%"
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from QuoteTask
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zhongda.quote.model.QuoteTask">
-    insert into QuoteTask (id, task_number, task_name, 
-      task_description, industry, create_user, 
+    insert into QuoteTask (id, task_number, task_name,
+      task_description, industry, create_user,
       create_date, last_update_date, task_amount
       )
-    values (#{id,jdbcType=INTEGER}, #{taskNumber,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, 
-      #{taskDescription,jdbcType=VARCHAR}, #{industry,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{taskNumber,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR},
+      #{taskDescription,jdbcType=VARCHAR}, #{industry,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR},
       #{createDate,jdbcType=VARCHAR}, #{lastUpdateDate,jdbcType=VARCHAR}, #{taskAmount,jdbcType=FLOAT}
       )
   </insert>

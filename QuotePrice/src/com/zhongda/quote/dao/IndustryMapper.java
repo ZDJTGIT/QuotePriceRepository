@@ -21,5 +21,5 @@ public interface IndustryMapper {
      *	查询出所有的行业
      * @return
      */
-    List<Industry> selectAll();
+    List<Industry> selectAllIndustry();
 }

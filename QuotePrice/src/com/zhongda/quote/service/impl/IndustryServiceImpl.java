@@ -12,8 +12,8 @@ public class IndustryServiceImpl implements IndustryService {
 	private IndustryMapper industryMapper = MyBatisUtil.getSqlSession().getMapper(IndustryMapper.class);
 
 	@Override
-	public List<Industry> selectAllIndustry() {
-		return industryMapper.selectAll();
+	public List<Industry> queryAllIndustry() {
+		return industryMapper.selectAllIndustry();
 	}
 
 }

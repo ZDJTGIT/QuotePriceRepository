@@ -10,5 +10,5 @@ public interface IndustryService {
 	 * 查询出所有的行业
 	 * @return
 	 */
-	public List<Industry> selectAllIndustry();
+	List<Industry> queryAllIndustry();
 }

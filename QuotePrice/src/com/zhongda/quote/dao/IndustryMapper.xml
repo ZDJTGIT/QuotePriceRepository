@@ -14,7 +14,7 @@
     from Industry
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
+  <select id="selectAllIndustry" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from Industry
