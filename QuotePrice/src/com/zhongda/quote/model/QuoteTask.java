@@ -18,8 +18,26 @@ public class QuoteTask {
     private String lastUpdateDate;
 
     private Double taskAmount;
+    
+    
 
-    public Integer getId() {
+    public QuoteTask() {
+	}
+    
+    
+
+	public QuoteTask(String taskNumber, String taskName,
+			String taskDescription, Integer industry, String createUser) {
+		this.taskNumber = taskNumber;
+		this.taskName = taskName;
+		this.taskDescription = taskDescription;
+		this.industry = industry;
+		this.createUser = createUser;
+	}
+
+
+
+	public Integer getId() {
         return id;
     }
 
