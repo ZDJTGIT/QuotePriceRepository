@@ -4,15 +4,14 @@
   <resultMap id="BaseResultMap" type="com.zhongda.quote.model.InspectionBatch">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="inspection_batch_name" jdbcType="VARCHAR" property="inspectionBatchName" />
-    <result column="sample_quantity" jdbcType="INTEGER" property="sampleQuantity" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="inspection_batch_amount" jdbcType="FLOAT" property="inspectionBatchAmount" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, inspection_batch_name, sample_quantity, project_id, inspection_batch_amount
+    id, inspection_batch_name, project_id, inspection_batch_amount
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from InspectionBatch
     where id = #{id,jdbcType=INTEGER}
@@ -22,10 +21,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zhongda.quote.model.InspectionBatch">
-    insert into InspectionBatch (id, inspection_batch_name, sample_quantity, 
-      project_id, inspection_batch_amount)
-    values (#{id,jdbcType=INTEGER}, #{inspectionBatchName,jdbcType=VARCHAR}, #{sampleQuantity,jdbcType=INTEGER}, 
-      #{projectId,jdbcType=INTEGER}, #{inspectionBatchAmount,jdbcType=FLOAT})
+    insert into InspectionBatch (id, inspection_batch_name, project_id,
+      inspection_batch_amount)
+    values (#{id,jdbcType=INTEGER}, #{inspectionBatchName,jdbcType=VARCHAR}, #{projectId,jdbcType=INTEGER},
+      #{inspectionBatchAmount,jdbcType=FLOAT})
   </insert>
   <insert id="insertSelective" parameterType="com.zhongda.quote.model.InspectionBatch">
     insert into InspectionBatch
@@ -35,9 +34,6 @@
       </if>
       <if test="inspectionBatchName != null">
         inspection_batch_name,
-      </if>
-      <if test="sampleQuantity != null">
-        sample_quantity,
       </if>
       <if test="projectId != null">
         project_id,
@@ -53,9 +49,6 @@
       <if test="inspectionBatchName != null">
         #{inspectionBatchName,jdbcType=VARCHAR},
       </if>
-      <if test="sampleQuantity != null">
-        #{sampleQuantity,jdbcType=INTEGER},
-      </if>
       <if test="projectId != null">
         #{projectId,jdbcType=INTEGER},
       </if>
@@ -70,9 +63,6 @@
       <if test="inspectionBatchName != null">
         inspection_batch_name = #{inspectionBatchName,jdbcType=VARCHAR},
       </if>
-      <if test="sampleQuantity != null">
-        sample_quantity = #{sampleQuantity,jdbcType=INTEGER},
-      </if>
       <if test="projectId != null">
         project_id = #{projectId,jdbcType=INTEGER},
       </if>
@@ -85,9 +75,9 @@
   <update id="updateByPrimaryKey" parameterType="com.zhongda.quote.model.InspectionBatch">
     update InspectionBatch
     set inspection_batch_name = #{inspectionBatchName,jdbcType=VARCHAR},
-      sample_quantity = #{sampleQuantity,jdbcType=INTEGER},
       project_id = #{projectId,jdbcType=INTEGER},
       inspection_batch_amount = #{inspectionBatchAmount,jdbcType=FLOAT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 public class JPanelBackPhoto extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	java.awt.Image image;

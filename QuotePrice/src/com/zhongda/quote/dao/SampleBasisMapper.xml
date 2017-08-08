@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.quote.dao.SampleBasisMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.quote.model.SampleBasis">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
+    <result column="inspection_method_name" jdbcType="VARCHAR" property="inspectionMethodName" />
+    <result column="basis_file_number" jdbcType="VARCHAR" property="basisFileNumber" />
+    <result column="basis_file_name" jdbcType="VARCHAR" property="basisFileName" />
+    <result column="basis_file_index" jdbcType="VARCHAR" property="basisFileIndex" />
+    <result column="basis_image" jdbcType="VARCHAR" property="basisImage" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, inspection_content_name, inspection_method_name, basis_file_number, basis_file_name, 
+    basis_file_index, basis_image
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SampleBasis
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from SampleBasis
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.quote.model.SampleBasis">
+    insert into SampleBasis (id, inspection_content_name, inspection_method_name, 
+      basis_file_number, basis_file_name, basis_file_index, 
+      basis_image)
+    values (#{id,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR}, #{inspectionMethodName,jdbcType=VARCHAR}, 
+      #{basisFileNumber,jdbcType=VARCHAR}, #{basisFileName,jdbcType=VARCHAR}, #{basisFileIndex,jdbcType=VARCHAR}, 
+      #{basisImage,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.quote.model.SampleBasis">
+    insert into SampleBasis
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="inspectionContentName != null">
+        inspection_content_name,
+      </if>
+      <if test="inspectionMethodName != null">
+        inspection_method_name,
+      </if>
+      <if test="basisFileNumber != null">
+        basis_file_number,
+      </if>
+      <if test="basisFileName != null">
+        basis_file_name,
+      </if>
+      <if test="basisFileIndex != null">
+        basis_file_index,
+      </if>
+      <if test="basisImage != null">
+        basis_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="inspectionContentName != null">
+        #{inspectionContentName,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionMethodName != null">
+        #{inspectionMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="basisFileNumber != null">
+        #{basisFileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="basisFileName != null">
+        #{basisFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="basisFileIndex != null">
+        #{basisFileIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="basisImage != null">
+        #{basisImage,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.quote.model.SampleBasis">
+    update SampleBasis
+    <set>
+      <if test="inspectionContentName != null">
+        inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionMethodName != null">
+        inspection_method_name = #{inspectionMethodName,jdbcType=VARCHAR},
+      </if>
+      <if test="basisFileNumber != null">
+        basis_file_number = #{basisFileNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="basisFileName != null">
+        basis_file_name = #{basisFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="basisFileIndex != null">
+        basis_file_index = #{basisFileIndex,jdbcType=VARCHAR},
+      </if>
+      <if test="basisImage != null">
+        basis_image = #{basisImage,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.quote.model.SampleBasis">
+    update SampleBasis
+    set inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
+      inspection_method_name = #{inspectionMethodName,jdbcType=VARCHAR},
+      basis_file_number = #{basisFileNumber,jdbcType=VARCHAR},
+      basis_file_name = #{basisFileName,jdbcType=VARCHAR},
+      basis_file_index = #{basisFileIndex,jdbcType=VARCHAR},
+      basis_image = #{basisImage,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

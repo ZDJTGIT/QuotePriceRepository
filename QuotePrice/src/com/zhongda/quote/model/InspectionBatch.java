@@ -3,51 +3,43 @@ package com.zhongda.quote.model;
 public class InspectionBatch {
     private Integer id;
 
-    private String inspectionBatchName;
+	private String inspectionBatchName;
 
-    private Integer sampleQuantity;
+	private Integer projectId;
 
-    private Integer projectId;
+	private Double inspectionBatchAmount;
 
-    private Double inspectionBatchAmount;
+	public Integer getId() {
+		return id;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public String getInspectionBatchName() {
+		return inspectionBatchName;
+	}
 
-    public String getInspectionBatchName() {
-        return inspectionBatchName;
-    }
+	public void setInspectionBatchName(String inspectionBatchName) {
+		this.inspectionBatchName = inspectionBatchName == null ? null
+				: inspectionBatchName.trim();
+	}
 
-    public void setInspectionBatchName(String inspectionBatchName) {
-        this.inspectionBatchName = inspectionBatchName == null ? null : inspectionBatchName.trim();
-    }
+	public Integer getProjectId() {
+		return projectId;
+	}
 
-    public Integer getSampleQuantity() {
-        return sampleQuantity;
-    }
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
 
-    public void setSampleQuantity(Integer sampleQuantity) {
-        this.sampleQuantity = sampleQuantity;
-    }
+	public Double getInspectionBatchAmount() {
+		return inspectionBatchAmount;
+	}
 
-    public Integer getProjectId() {
-        return projectId;
-    }
+	public void setInspectionBatchAmount(Double inspectionBatchAmount) {
+		this.inspectionBatchAmount = inspectionBatchAmount;
+	}
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
-
-    public Double getInspectionBatchAmount() {
-        return inspectionBatchAmount;
-    }
-
-    public void setInspectionBatchAmount(Double inspectionBatchAmount) {
-        this.inspectionBatchAmount = inspectionBatchAmount;
-    }
 }

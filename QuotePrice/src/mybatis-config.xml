@@ -54,5 +54,9 @@
         <mapper resource="com/zhongda/quote/dao/InspectionContentMapper.xml"/>
         <mapper resource="com/zhongda/quote/dao/InspectionBatchMapper.xml"/>
         <mapper resource="com/zhongda/quote/dao/IndustryMapper.xml"/>
+        <mapper resource="com/zhongda/quote/dao/SampleBasisMapper.xml"/>
+        <mapper resource="com/zhongda/quote/dao/QuoteBasisMapper.xml"/>
+        <mapper resource="com/zhongda/quote/dao/SysInspectionContentMapper.xml"/>
+        <mapper resource="com/zhongda/quote/dao/AddressMapper.xml"/>
     </mappers>
 </configuration>

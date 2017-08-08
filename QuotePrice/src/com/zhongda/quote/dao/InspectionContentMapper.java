@@ -3,7 +3,9 @@ package com.zhongda.quote.dao;
 import com.zhongda.quote.model.InspectionContent;
 
 public interface InspectionContentMapper {
-    int deleteByPrimaryKey(Integer id);
+
+
+	int deleteByPrimaryKey(Integer id);
 
     int insert(InspectionContent record);
 

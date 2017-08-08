@@ -39,7 +39,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{taskNumber,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR},
       #{taskDescription,jdbcType=VARCHAR}, #{industry,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR},
-      #{createDate,jdbcType=VARCHAR}, #{lastUpdateDate,jdbcType=VARCHAR}, #{taskAmount,jdbcType=FLOAT}
+      datetime('now'), datetime('now'), #{taskAmount,jdbcType=FLOAT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.zhongda.quote.model.QuoteTask">

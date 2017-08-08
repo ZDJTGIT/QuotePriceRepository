@@ -3,7 +3,9 @@ package com.zhongda.quote.dao;
 import com.zhongda.quote.model.InspectionBatch;
 
 public interface InspectionBatchMapper {
-    int deleteByPrimaryKey(Integer id);
+
+
+	int deleteByPrimaryKey(Integer id);
 
     int insert(InspectionBatch record);
 
