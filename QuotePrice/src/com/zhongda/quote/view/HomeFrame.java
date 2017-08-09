@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.io.IOException;
 
@@ -134,6 +135,11 @@ public class HomeFrame {
 	private JLabel lblNewLabel_7;
 	private JPanel panel;
 	private JLabel lblNewLabel_8;
+	private int sp_left_size;
+	private int sp_center_size;
+	private int sp_right_size;
+	private Insets screenInsets;
+	private int height;
 
 	/**
 	 * Create the frame.
@@ -149,8 +155,13 @@ public class HomeFrame {
 		SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// 获取当前电脑屏幕宽高
 		scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(0, 0, scrSize.width, scrSize.height);
+		// 获取当前电脑任务栏高度
+		screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(
+				frame.getGraphicsConfiguration());
+		height = screenInsets.bottom;
+		frame.setBounds(0, 0, scrSize.width, scrSize.height - height);
 		// frame.setLocationRelativeTo(null);// 居中
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setIconImage(frame.getToolkit().getImage("images/zdLogo1.png"));
@@ -252,9 +263,10 @@ public class HomeFrame {
 		jf_jpanel.add(tabbedPane, BorderLayout.CENTER);
 		tabbedPane.setFont(new Font("黑体", 0, 15));
 
-		int we = (int) (scrSize.getWidth() * 0.5);
-		int wi2 = (int) (scrSize.getWidth() * 0.3);
-		int wi3 = (int) (scrSize.getHeight() * 0.4);
+		// 调整模块大小
+		sp_left_size = (int) (scrSize.getWidth() * 0.5);
+		sp_center_size = (int) (scrSize.getWidth() * 0.3);
+		sp_right_size = (int) (scrSize.getHeight() * 0.4);
 
 		panel = new JPanel();
 		tabbedPane.addTab("任务管理", null, panel, null);
@@ -263,14 +275,14 @@ public class HomeFrame {
 
 		sp_left = new JSplitPane();
 		panel.add(sp_left);
-		sp_left.setDividerLocation(we);
+		sp_left.setDividerLocation(sp_left_size);
 
 		sp_center = new JSplitPane();
-		sp_center.setDividerLocation(wi2);
+		sp_center.setDividerLocation(sp_center_size);
 		sp_left.setRightComponent(sp_center);
 
 		sp_right = new JSplitPane();
-		sp_right.setDividerLocation(wi3);// 设置splitpane左边大小
+		sp_right.setDividerLocation(sp_right_size);// 设置splitpane左边大小
 
 		sp_right.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		sp_center.setLeftComponent(sp_right);
