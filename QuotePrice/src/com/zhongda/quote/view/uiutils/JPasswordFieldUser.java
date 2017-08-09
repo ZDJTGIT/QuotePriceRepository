@@ -32,6 +32,7 @@ public class JPasswordFieldUser extends JPasswordField {
 		Insets insets = new Insets(0, 120, 0, 0);
 		// 设置文本输入距左边50
 		this.setMargin(insets);
+		
 	}
 
 	@Override
