@@ -132,6 +132,8 @@ public class HomeFrame {
 	private JButton bt_jsrw_next;
 	private JLabel lblNewLabel_6;
 	private JLabel lblNewLabel_7;
+	private JPanel panel;
+	private JLabel lblNewLabel_8;
 
 	/**
 	 * Create the frame.
@@ -148,7 +150,7 @@ public class HomeFrame {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-		frame.setBounds(100, 0, scrSize.width, scrSize.height);
+		frame.setBounds(0, 0, scrSize.width, scrSize.height);
 		// frame.setLocationRelativeTo(null);// 居中
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setIconImage(frame.getToolkit().getImage("images/zdLogo1.png"));
@@ -220,11 +222,12 @@ public class HomeFrame {
 		jmb_tb.add(jm_h);
 
 		jf_jpanel = new JPanel();
-		frame.getContentPane().add(jf_jpanel, BorderLayout.WEST);
+		frame.getContentPane().add(jf_jpanel, BorderLayout.CENTER);
 		jf_jpanel.setLayout(new BorderLayout(0, 0));
 
 		// 最下方提示信息组件
 		jtb_south = new JToolBar();
+		jtb_south.setFloatable(false);
 		jf_jpanel.add(jtb_south, BorderLayout.SOUTH);
 
 		jtbs_jlb_left = new JLabel("就绪                ");
@@ -249,18 +252,24 @@ public class HomeFrame {
 		jf_jpanel.add(tabbedPane, BorderLayout.CENTER);
 		tabbedPane.setFont(new Font("黑体", 0, 15));
 
-		sp_left = new JSplitPane();
 		int we = (int) (scrSize.getWidth() * 0.5);
+		int wi2 = (int) (scrSize.getWidth() * 0.3);
+		int wi3 = (int) (scrSize.getHeight() * 0.4);
+
+		panel = new JPanel();
+		tabbedPane.addTab("任务管理", null, panel, null);
+		panel.setFont(new Font("黑体", 0, 20));
+		panel.setLayout(new BorderLayout(0, 0));
+
+		sp_left = new JSplitPane();
+		panel.add(sp_left);
 		sp_left.setDividerLocation(we);
-		tabbedPane.addTab("任务管理", null, sp_left, null);
 
 		sp_center = new JSplitPane();
-		int wi2 = (int) (scrSize.getWidth() * 0.3);
 		sp_center.setDividerLocation(wi2);
 		sp_left.setRightComponent(sp_center);
 
 		sp_right = new JSplitPane();
-		int wi3 = (int) (scrSize.getHeight() * 0.4);
 		sp_right.setDividerLocation(wi3);// 设置splitpane左边大小
 
 		sp_right.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -551,6 +560,9 @@ public class HomeFrame {
 		jtb_tb = new JToolBar();
 		jf_jpanel.add(jtb_tb, BorderLayout.NORTH);
 		jtb_tb.setFloatable(false);
+
+		lblNewLabel_8 = new JLabel("  ");
+		jtb_tb.add(lblNewLabel_8);
 
 		jb_bt_1 = new JButton();
 		jb_bt_1.setIcon(new ImageIcon("images/creat.png"));
