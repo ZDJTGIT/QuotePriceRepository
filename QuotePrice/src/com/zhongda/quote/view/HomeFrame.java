@@ -162,13 +162,13 @@ public class HomeFrame {
 				frame.getGraphicsConfiguration());
 		height = screenInsets.bottom;
 		frame.setBounds(0, 0, scrSize.width, scrSize.height - height);
-		// frame.setLocationRelativeTo(null);// 居中
+		frame.setLocationRelativeTo(null);// 居中
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setIconImage(frame.getToolkit().getImage("images/zdLogo1.png"));
 		frame.setTitle("中大检测报价软件单机版");
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		frame.setVisible(true);
-		frame.setResizable(false);// 不允许改变窗口大小
+		// frame.setResizable(false);// 不允许改变窗口大小
 
 		jmb_tb = new JMenuBar();
 		frame.setJMenuBar(jmb_tb);
