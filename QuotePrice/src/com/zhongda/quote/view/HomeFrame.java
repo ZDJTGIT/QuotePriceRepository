@@ -250,15 +250,18 @@ public class HomeFrame {
 		tabbedPane.setFont(new Font("黑体", 0, 15));
 
 		sp_left = new JSplitPane();
-		sp_left.setDividerLocation(800);
+		int we = (int) (scrSize.getWidth() * 0.5);
+		sp_left.setDividerLocation(we);
 		tabbedPane.addTab("任务管理", null, sp_left, null);
 
 		sp_center = new JSplitPane();
-		sp_center.setDividerLocation(700);
+		int wi2 = (int) (scrSize.getWidth() * 0.3);
+		sp_center.setDividerLocation(wi2);
 		sp_left.setRightComponent(sp_center);
 
 		sp_right = new JSplitPane();
-		sp_right.setDividerLocation(400);// 设置splitpane左边大小
+		int wi3 = (int) (scrSize.getHeight() * 0.4);
+		sp_right.setDividerLocation(wi3);// 设置splitpane左边大小
 
 		sp_right.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		sp_center.setLeftComponent(sp_right);
