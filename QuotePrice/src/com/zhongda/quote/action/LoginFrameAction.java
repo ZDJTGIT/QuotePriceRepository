@@ -8,6 +8,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.zhongda.quote.utils.GetMachineUtil;
 import com.zhongda.quote.utils.MachineKeyUtil;
@@ -93,6 +94,7 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 				});
 			} else {
 				// 机器码与解码值不匹配
+				JOptionPane.showMessageDialog(null, "解码值不正确或为授权!", "操作提醒", JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 

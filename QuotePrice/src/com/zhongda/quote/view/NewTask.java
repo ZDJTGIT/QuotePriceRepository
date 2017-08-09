@@ -193,7 +193,7 @@ public class NewTask {
 		for (int i = 0; i < list.size(); i++) {
 			vector.add(list.get(i).getIndustryName());
 		}
-		JComboBox comboBox = new JComboBox(vector);
+		final JComboBox comboBox = new JComboBox(vector);
 		comboBox.setBounds(342, 254, 240, 21);
 		tframe.getContentPane().add(comboBox);
 
@@ -247,7 +247,7 @@ public class NewTask {
 					JOptionPane.showMessageDialog(null, "任务创建成功！", "提示信息",
 							JOptionPane.PLAIN_MESSAGE);
 					// 把获取的任务信息储存到数据库
-					QuoteTask quoteTask = new QuoteTask("ZD201708080008",
+					final QuoteTask quoteTask = new QuoteTask("ZD201708080008",
 							fer_1, fer_5, fer_4, fer_2);
 //					String msg = new QuoteTaskServiceImpl()
 //					.createQuoteTask(quoteTask);

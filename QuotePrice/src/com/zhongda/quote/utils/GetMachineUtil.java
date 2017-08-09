@@ -16,7 +16,8 @@ public class GetMachineUtil {
 	 */
 	public static String getMachineLanguage(){
 		 String serial = null;
-		 String property =null;
+		@SuppressWarnings("unused")
+		String property =null;
 		 Scanner sc = null;
 		 try {
 			Process process = Runtime.getRuntime().exec(  
