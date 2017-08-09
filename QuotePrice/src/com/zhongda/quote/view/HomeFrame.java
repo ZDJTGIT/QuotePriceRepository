@@ -3,7 +3,6 @@ package com.zhongda.quote.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
@@ -589,17 +588,6 @@ public class HomeFrame {
 		jtb_tb.add(jb_bt_save);
 		jtb_tb.setRollover(true);
 
-		// Object[][] rowData = { { "1001", "李汉", "软件部", new Double(3000) },
-		// { "1002", "朱泽", "软件部", new Double(3100) },
-		// { "1003", "刘宇", "经理部", new Double(3000) } };
-		// // 初始化列名
-		// Object[] columnsName = { "编号", "姓名", "部门", "月薪" };
-		// DefaultTableModel dtm = new DefaultTableModel(rowData, columnsName);
-		// jp_left.setLayout(new BorderLayout(0, 0));
-		// jp_up.setLayout(new BorderLayout(0, 0));
-		// jp_down.setLayout(new BorderLayout(0, 0));
-		// jp_right.setLayout(new BorderLayout(0, 0));
-
 	}
 
 	public Image titlePhoto(String file) {
@@ -613,16 +601,4 @@ public class HomeFrame {
 		return image;
 	}
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					HomeFrame window = new HomeFrame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 }
