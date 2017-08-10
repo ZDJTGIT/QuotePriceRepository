@@ -313,6 +313,8 @@ public class HomeFrame {
 		jb_center_up_1 = new JButton();
 		jb_center_up_1.setIcon(new ImageIcon("images/add.png"));
 		jb_center_up_1.setToolTipText("新增任务");
+		jb_center_up_1.addActionListener(new HomeFrameAction());
+		jb_center_up_1.setActionCommand("creatProject");
 		jb_center_up_1.setFocusPainted(false);// 去除按钮边线
 		jtb_center_up.add(jb_center_up_1);
 
@@ -514,7 +516,7 @@ public class HomeFrame {
 		bt_createTask.setIcon(new ImageIcon("images/creat_1.png"));
 		bt_createTask.setToolTipText("新建建设任务");
 		bt_createTask.setFocusPainted(false);// 去除按钮边线
-		//添加创建任务事件
+		// 添加创建任务事件
 		bt_createTask.addActionListener(new HomeFrameAction());
 		bt_createTask.setActionCommand("createTask");
 		jtb_jsrw.add(bt_createTask);

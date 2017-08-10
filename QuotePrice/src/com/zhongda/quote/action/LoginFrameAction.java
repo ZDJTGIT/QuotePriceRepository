@@ -8,7 +8,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import com.zhongda.quote.view.HomeFrame;
 import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
@@ -75,27 +74,28 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 		if ("close".equals(name)) {
 			System.exit(0);
 		} else if ("login".equals(name)) {
-//***********为方便测试，机器码功能暂时注释
-//			String machineSerial = GetMachineUtil.getMachineLanguage();
-//			String machineKey = MachineKeyUtil.getMachineKey(machineSerial);
-//			String pwd = new String(passwordFieldUser.getPassword());
-//			if (machineKey.equals(pwd)) {
-//				jFrame.dispose();
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							HomeFrame window = new HomeFrame();
-							window.frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+			// ***********为方便测试，机器码功能暂时注释
+			// String machineSerial = GetMachineUtil.getMachineLanguage();
+			// String machineKey = MachineKeyUtil.getMachineKey(machineSerial);
+			// String pwd = new String(passwordFieldUser.getPassword());
+			// if (machineKey.equals(pwd)) {
+			jFrame.dispose();
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						HomeFrame window = new HomeFrame();
+						window.frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				});
-//			} else {
-//				// 机器码与解码值不匹配
-//				JOptionPane.showMessageDialog(null, "解码值不正确或为授权!", "操作提醒", JOptionPane.PLAIN_MESSAGE);
-//			}
-//***********为方便测试，机器码功能暂时注释
+				}
+			});
+			// } else {
+			// // 机器码与解码值不匹配
+			// JOptionPane.showMessageDialog(null, "解码值不正确或为授权!", "操作提醒",
+			// JOptionPane.PLAIN_MESSAGE);
+			// }
+			// ***********为方便测试，机器码功能暂时注释
 		}
 
 	}
