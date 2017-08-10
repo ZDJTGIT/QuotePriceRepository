@@ -12,7 +12,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -32,7 +31,7 @@ import javax.swing.plaf.ButtonUI;
 import javax.swing.plaf.ComboBoxUI;
 
 /**
- * 
+ *
  *<p>
  *com.zhongda.quote.view.NewTaskFrame 窗口中日历组件
  *<p>
@@ -40,13 +39,17 @@ import javax.swing.plaf.ComboBoxUI;
  * @sine 2017年8月10日
  */
 public class DateField extends JPanel {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField tfDate;
 	private JButton button;
 	private JDialog dlg;
 	private JPanel paCalendar;
 	private boolean show;
-	private JComboBox cboYear;
-	private JComboBox cboMonth;
+	private JComboBox<Integer> cboYear;
+	private JComboBox<Integer> cboMonth;
 	private JLabel[] lbls = new JLabel[7];
 	private JToggleButton[] toggles = new JToggleButton[42];
 	private Border border;
@@ -55,14 +58,14 @@ public class DateField extends JPanel {
 	private int year;
 	private int month;
 	private int date;
-	private int dayOfWeek;
+	//private int dayOfWeek;
 	private String[] week = { "日", "一", "二", "三", "四", "五", "六" };
 
 	public DateField() {
 		year = Calendar.getInstance().get(Calendar.YEAR);
 		month = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		date = Calendar.getInstance().get(Calendar.DATE);
-		dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+		//dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 		initUI();
 		initDateDialog();
 		updateField();
@@ -118,8 +121,8 @@ public class DateField extends JPanel {
 				+ borderWidth));
 		paHeader.setBorder(BorderFactory.createEmptyBorder(borderWidth,
 				borderWidth, borderWidth, borderWidth));
-		paHeader.add(cboYear = new JComboBox());
-		paHeader.add(cboMonth = new JComboBox());
+		paHeader.add(cboYear = new JComboBox<Integer>());
+		paHeader.add(cboMonth = new JComboBox<Integer>());
 		initYearModel();
 		initMonthModel();
 		paCalendar.add(paHeader, BorderLayout.NORTH);

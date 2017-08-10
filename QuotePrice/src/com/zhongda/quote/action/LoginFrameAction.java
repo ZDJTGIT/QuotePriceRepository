@@ -10,17 +10,15 @@ import java.awt.event.FocusListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.zhongda.quote.utils.GetMachineUtil;
-import com.zhongda.quote.utils.MachineKeyUtil;
 import com.zhongda.quote.view.HomeFrame;
 import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
 
 /**
- * 
+ *
  * <p>
  * com.zhongda.quote.view.LoginFrame 窗口中所有监听事件
  * </p>
- * 
+ *
  * @author 研发中心-LiVerson<1061734892@qq.com>
  * @sine 2017年8月7日
  */
@@ -37,7 +35,7 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param frame
 	 *            组件所在的窗口对象
 	 */
@@ -51,7 +49,7 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param jp
 	 *            传入组件类型为JPasswordFieldUser
 	 */
@@ -60,7 +58,7 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param jp
 	 *            传入组件类型为JPasswordFieldUser
 	 * @param name
@@ -77,11 +75,12 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 		if ("close".equals(name)) {
 			System.exit(0);
 		} else if ("login".equals(name)) {
-			String machineSerial = GetMachineUtil.getMachineLanguage();
-			String machineKey = MachineKeyUtil.getMachineKey(machineSerial);
-			String pwd = new String(passwordFieldUser.getPassword());
-			if (machineKey.equals(pwd)) {
-				jFrame.dispose();
+//***********为方便测试，机器码功能暂时注释
+//			String machineSerial = GetMachineUtil.getMachineLanguage();
+//			String machineKey = MachineKeyUtil.getMachineKey(machineSerial);
+//			String pwd = new String(passwordFieldUser.getPassword());
+//			if (machineKey.equals(pwd)) {
+//				jFrame.dispose();
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
@@ -92,10 +91,11 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 						}
 					}
 				});
-			} else {
-				// 机器码与解码值不匹配
-				JOptionPane.showMessageDialog(null, "解码值不正确或为授权!", "操作提醒", JOptionPane.PLAIN_MESSAGE);
-			}
+//			} else {
+//				// 机器码与解码值不匹配
+//				JOptionPane.showMessageDialog(null, "解码值不正确或为授权!", "操作提醒", JOptionPane.PLAIN_MESSAGE);
+//			}
+//***********为方便测试，机器码功能暂时注释
 		}
 
 	}

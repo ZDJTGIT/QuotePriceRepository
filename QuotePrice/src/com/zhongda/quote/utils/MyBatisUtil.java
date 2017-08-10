@@ -6,6 +6,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+/**
+ *<p>Mybatis操作数据库的工具类</p>
+ * @author zmdeng
+ * @date 2017年8月9日
+ */
 public class MyBatisUtil {
 
 	private static SqlSessionFactory factory;
@@ -14,6 +19,7 @@ public class MyBatisUtil {
 		 String resource = "mybatis-config.xml";
 	     InputStream is = MyBatisUtil.class.getClassLoader().getResourceAsStream(resource);
 	     factory = new SqlSessionFactoryBuilder().build(is);
+
 	}
 
     /**

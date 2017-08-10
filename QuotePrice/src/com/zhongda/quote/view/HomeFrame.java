@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
+import com.zhongda.quote.action.HomeFrameAction;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JMenBarColor;
 
@@ -34,7 +35,7 @@ import com.zhongda.quote.view.uiutils.JMenBarColor;
  * <p>
  * UI主界面
  * </p>
- * 
+ *
  * @author 研发中心-LiVerson<1061734892@qq.com>
  * @sine 2017年8月7日
  */
@@ -81,8 +82,8 @@ public class HomeFrame {
 	private JPanel jpanel_left;
 	private JToolBar jtb_jsrw;
 	private JLabel jmb_left_lb;
-	private JButton bt_jsrw;
-	private JButton bt_jsrw2;
+	private JButton bt_createTask;
+	private JButton bt_importTask;
 	private JMenBarColor jmb_center_up;
 	private JPanel jpanel_center_up;
 	private JToolBar jtb_center_up;
@@ -101,12 +102,12 @@ public class HomeFrame {
 	private JLabel jlb_center_ip;
 	private JLabel jlb_center_down;
 	private JLabel jlb_right_jcnr;
-	private JButton bt_jsrw3;
-	private JButton bt_jsrw4;
-	private JButton bt_jsrw5;
+	private JButton bt_exportTask;
+	private JButton bt_updateTask;
+	private JButton bt_deleteTask;
 	private JLabel jlb_jsrw;
 	private JTextField jtf_jsrw;
-	private JButton bt_jsrw_find;
+	private JButton bt_queryTask;
 	private JPanel jf_jpanel;
 	private JButton jb_center_up_3;
 	private JButton jb_center_up_4;
@@ -129,7 +130,7 @@ public class HomeFrame {
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
 	private JTextField jtf_jcnr;
-	private JButton bt_jsrw_next;
+	private JButton bt_createTask_next;
 	private JLabel lblNewLabel_6;
 	private JLabel lblNewLabel_7;
 	private JPanel panel;
@@ -509,37 +510,40 @@ public class HomeFrame {
 		jpanel_left.add(jtb_jsrw, BorderLayout.NORTH);
 
 		// 建设任务工具栏
-		bt_jsrw = new JButton();
-		bt_jsrw.setIcon(new ImageIcon("images/creat_1.png"));
-		bt_jsrw.setToolTipText("新建建设任务");
-		bt_jsrw.setFocusPainted(false);// 去除按钮边线
-		jtb_jsrw.add(bt_jsrw);
+		bt_createTask = new JButton();
+		bt_createTask.setIcon(new ImageIcon("images/creat_1.png"));
+		bt_createTask.setToolTipText("新建建设任务");
+		bt_createTask.setFocusPainted(false);// 去除按钮边线
+		//添加创建任务事件
+		bt_createTask.addActionListener(new HomeFrameAction());
+		bt_createTask.setActionCommand("createTask");
+		jtb_jsrw.add(bt_createTask);
 
-		bt_jsrw2 = new JButton();
-		bt_jsrw2.setIcon(new ImageIcon("images/daoru.png"));
-		bt_jsrw2.setToolTipText("导入建设任务");
-		bt_jsrw2.setFocusPainted(false);// 去除按钮边线
-		jtb_jsrw.add(bt_jsrw2);
+		bt_importTask = new JButton();
+		bt_importTask.setIcon(new ImageIcon("images/daoru.png"));
+		bt_importTask.setToolTipText("导入建设任务");
+		bt_importTask.setFocusPainted(false);// 去除按钮边线
+		jtb_jsrw.add(bt_importTask);
 
-		bt_jsrw3 = new JButton();
-		bt_jsrw3.setIcon(new ImageIcon("images/daochu.png"));
-		bt_jsrw3.setToolTipText("导出建设任务");
-		bt_jsrw3.setFocusPainted(false);// 去除按钮边线
-		jtb_jsrw.add(bt_jsrw3);
+		bt_exportTask = new JButton();
+		bt_exportTask.setIcon(new ImageIcon("images/daochu.png"));
+		bt_exportTask.setToolTipText("导出建设任务");
+		bt_exportTask.setFocusPainted(false);// 去除按钮边线
+		jtb_jsrw.add(bt_exportTask);
 
-		bt_jsrw4 = new JButton();
-		bt_jsrw4.setIcon(new ImageIcon("images/updatepen.png"));
-		bt_jsrw4.setToolTipText("修改建设任务");
-		bt_jsrw4.setFocusPainted(false);// 去除按钮边线
-		// bt_jsrw4.setBorder(new BevelBorder(BevelBorder.RAISED));
-		jtb_jsrw.add(bt_jsrw4);
+		bt_updateTask = new JButton();
+		bt_updateTask.setIcon(new ImageIcon("images/updatepen.png"));
+		bt_updateTask.setToolTipText("修改建设任务");
+		bt_updateTask.setFocusPainted(false);// 去除按钮边线
+		// bt_updateTask.setBorder(new BevelBorder(BevelBorder.RAISED));
+		jtb_jsrw.add(bt_updateTask);
 
-		bt_jsrw5 = new JButton();
-		bt_jsrw5.setIcon(new ImageIcon("images/delete.png"));
-		bt_jsrw5.setFocusPainted(false);// 去除按钮边线
-		bt_jsrw5.setToolTipText("删除建设任务");
+		bt_deleteTask = new JButton();
+		bt_deleteTask.setIcon(new ImageIcon("images/delete.png"));
+		bt_deleteTask.setFocusPainted(false);// 去除按钮边线
+		bt_deleteTask.setToolTipText("删除建设任务");
 		jtb_jsrw.addSeparator();// 分隔符
-		jtb_jsrw.add(bt_jsrw5);
+		jtb_jsrw.add(bt_deleteTask);
 		jtb_jsrw.addSeparator();
 
 		jlb_jsrw = new JLabel(" 查找 ");
@@ -552,17 +556,17 @@ public class HomeFrame {
 		lblNewLabel_7 = new JLabel(" ");
 		jtb_jsrw.add(lblNewLabel_7);
 
-		bt_jsrw_find = new JButton();
-		bt_jsrw_find.setIcon(new ImageIcon("images/find.png"));
-		bt_jsrw_find.setToolTipText("查找任务");
-		bt_jsrw_find.setFocusPainted(false);// 去除按钮边线
-		jtb_jsrw.add(bt_jsrw_find);
+		bt_queryTask = new JButton();
+		bt_queryTask.setIcon(new ImageIcon("images/find.png"));
+		bt_queryTask.setToolTipText("查找任务");
+		bt_queryTask.setFocusPainted(false);// 去除按钮边线
+		jtb_jsrw.add(bt_queryTask);
 
-		bt_jsrw_next = new JButton();
-		bt_jsrw_next.setIcon(new ImageIcon("images/next.png"));
-		bt_jsrw_next.setToolTipText("查找下一个");
-		bt_jsrw_next.setFocusPainted(false);// 去除按钮边线
-		jtb_jsrw.add(bt_jsrw_next);
+		bt_createTask_next = new JButton();
+		bt_createTask_next.setIcon(new ImageIcon("images/next.png"));
+		bt_createTask_next.setToolTipText("查找下一个");
+		bt_createTask_next.setFocusPainted(false);// 去除按钮边线
+		jtb_jsrw.add(bt_createTask_next);
 
 		lblNewLabel_6 = new JLabel("  ");
 		jtb_jsrw.add(lblNewLabel_6);
