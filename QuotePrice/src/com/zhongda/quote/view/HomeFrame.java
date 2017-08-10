@@ -18,12 +18,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
@@ -140,6 +143,9 @@ public class HomeFrame {
 	private int sp_right_size;
 	private Insets screenInsets;
 	private int height;
+	private JScrollPane jsp_jsrw;
+	private DefaultTableModel dtm;
+	private JTable jt_jsrw;
 
 	/**
 	 * Create the frame.
@@ -572,6 +578,22 @@ public class HomeFrame {
 
 		lblNewLabel_6 = new JLabel("  ");
 		jtb_jsrw.add(lblNewLabel_6);
+
+		// 建设任务表格面板
+
+		jsp_jsrw = new JScrollPane();
+
+		Object[][] rowData = { { "1001", "李汉", "软件部", new Double(3000) },
+				{ "1002", "朱泽", "软件部", new Double(3100) },
+				{ "1003", "刘宇", "经理部", new Double(3000) } };
+		// 初始化列名
+		Object[] columnsName = { "序号", "任务编号", "任务名称", "任务描述", "行业", "创建人",
+				"创建时间", "最后修改时间", "任务总金额" };
+		dtm = new DefaultTableModel(rowData, columnsName);
+		jt_jsrw = new JTable(dtm);
+		jsp_jsrw.setViewportView(jt_jsrw);
+		System.out.println(jt_jsrw.getTableHeader());
+		jpanel_left.add(jsp_jsrw, BorderLayout.CENTER);
 
 		// JToolBar工具栏及其下按钮
 		jtb_tb = new JToolBar();
