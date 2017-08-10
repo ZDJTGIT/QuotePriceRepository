@@ -2,7 +2,6 @@ package com.zhongda.quote.service.impl;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
 import com.zhongda.quote.dao.IndustryMapper;
@@ -14,7 +13,6 @@ public class IndustryServiceImpl implements IndustryService {
 
 	private static Logger logger = Logger.getLogger(IndustryServiceImpl.class);
 
-	private SqlSession sqlSession = MyBatisUtil.getSqlSession();
 	private IndustryMapper industryMapper = MyBatisUtil.getSqlSession().getMapper(IndustryMapper.class);
 
 	@Override
@@ -23,9 +21,9 @@ public class IndustryServiceImpl implements IndustryService {
 		try{
 			industryList = industryMapper.selectAllIndustry();
 		}catch(Exception e){
-			logger.info(e.getMessage());
+			logger.error(e.getMessage());
 		}finally{
-			sqlSession.close();
+			MyBatisUtil.closeSqlSession();
 		}
 		return industryList;
 

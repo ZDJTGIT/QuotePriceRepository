@@ -105,7 +105,7 @@ public class CreateTaskDialog {
 		bt_cancel.setBounds(344, 370, 98, 21);
 		panel.add(bt_cancel);
 		bt_cancel.setText("取消");
-		
+
 		bt_cancel.setFont(new Font("新宋体", Font.PLAIN, 13));
 
 		JTextArea jta_taskDescription = new JTextArea();

@@ -32,5 +32,11 @@ public interface QuoteTaskService {
 	 * @param taskName
 	 * @return
 	 */
-	List<QuoteTask> queryQuoteTask(String taskName);
+	List<QuoteTask> queryQuoteTaskByName(String taskName);
+
+	/**
+	 * 查询所有报价任务
+	 * @return
+	 */
+	List<QuoteTask> queryAllQuoteTask();
 }

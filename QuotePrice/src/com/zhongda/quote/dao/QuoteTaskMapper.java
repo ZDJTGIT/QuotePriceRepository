@@ -13,13 +13,14 @@ public interface QuoteTaskMapper {
 	 */
     int deleteByPrimaryKey(Integer id);
 
+
+    int insert(QuoteTask record);
+
     /**
      * 插入一条报价任务
      * @param record
      * @return
      */
-    int insert(QuoteTask record);
-
     int insertSelective(QuoteTask record);
 
     QuoteTask selectByPrimaryKey(Integer id);
@@ -39,4 +40,10 @@ public interface QuoteTaskMapper {
      * @return
      */
 	List<QuoteTask> selectByName(String taskName);
+
+	/**
+     * 查询所有报价任务任务
+     * @return
+     */
+	List<QuoteTask> selectAll();
 }

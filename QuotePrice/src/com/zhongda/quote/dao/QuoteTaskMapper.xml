@@ -31,6 +31,11 @@
 		from QuoteTask
 		where task_name = "%"#{taskName,jdbcType=VARCHAR}"%"
 	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from QuoteTask
+	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from QuoteTask
 		where id = #{id,jdbcType=INTEGER}
