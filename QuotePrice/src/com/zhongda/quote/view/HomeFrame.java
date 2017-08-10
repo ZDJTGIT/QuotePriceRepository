@@ -177,19 +177,19 @@ public class HomeFrame {
 		jm_f = new JMenu("文件(F) ");
 		jmb_tb.add(jm_f);
 
-		jm_f_1 = new JMenu("罗");
+		jm_f_1 = new JMenu("新建    Ctrl+N");
 		jm_f.add(jm_f_1);
 
-		jm_f_2 = new JMenuItem("杰");
+		jm_f_2 = new JMenuItem("保存    Ctrl+S");
 		jm_f.add(jm_f_2);
 
-		jm_f_3 = new JMenu("是");
+		jm_f_3 = new JMenu("检");
 		jm_f.add(jm_f_3);
 
-		jm_f_4 = new JMenuItem("坑");
+		jm_f_4 = new JMenuItem("测");
 		jm_f.add(jm_f_4);
 
-		jm_f_5 = new JMenuItem("B");
+		jm_f_5 = new JMenuItem("研");
 		jm_f.add(jm_f_5);
 
 		// 工具栏编辑及其子组件

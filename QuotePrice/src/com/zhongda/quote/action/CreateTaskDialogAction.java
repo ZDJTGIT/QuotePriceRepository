@@ -34,10 +34,8 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 	private JTextArea jta_taskDescription;
 	private JComboBox<Industry> jcb_industry;
 	private JDialog jDialog;
-
-	public CreateTaskDialogAction() {
-
-	}
+	private QuoteTask quoteTask;
+	
 	
 	public CreateTaskDialogAction(JTextField jtf_taskName,
 			JTextField jtf_createUser, DateField df_createDate,
@@ -53,10 +51,10 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 		this.jDialog = jDialog;
 	}
 
-	@Override
 	/**
 	 * 确定提交和退出按钮监听事件
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 		// 如果command为确认创建任务，则打开创建任务窗口
@@ -75,7 +73,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 					&& !"".equals(taskDescription) && null != industry) {
 
 				// 把获取的任务信息转换为model对象
-				QuoteTask quoteTask = new QuoteTask(taskName, taskDescription,
+				quoteTask = new QuoteTask(taskName, taskDescription,
 						industry.getId(), createUser, createDate, createDate);
 				// 启动任务线程往数据库插入数据
 				new SwingWorker<QuoteTask, Void>() {
@@ -105,7 +103,8 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 					"Attention", JOptionPane.OK_OPTION);
 			if (inf == JOptionPane.OK_OPTION) {
 				jDialog.dispose();
-			} else {
+			}else{
+				
 			}
 		}
 	}

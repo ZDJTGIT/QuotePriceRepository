@@ -26,24 +26,23 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 	private String name;
 	private JPasswordFieldUser passwordFieldUser;
 	private String compoName;
-	private JFrame jFrame;
 	private String passwordCommand;
+	private JFrame jFrame;
 
+	
 	public LoginFrameAction() {
-
 	}
-
+	
 	/**
 	 *
 	 * @param frame
 	 *            组件所在的窗口对象
 	 */
 	public LoginFrameAction(JFrame frame) {
-		jFrame = frame;
+		this.jFrame = frame;
 	}
 
 	public LoginFrameAction(JFrame frame, JPasswordFieldUser passwordFieldUser) {
-		jFrame = frame;
 		this.passwordFieldUser = passwordFieldUser;
 	}
 
@@ -97,7 +96,6 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 			// }
 			// ***********为方便测试，机器码功能暂时注释
 		}
-
 	}
 
 	@Override

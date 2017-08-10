@@ -60,6 +60,7 @@ public class CreateTaskDialog {
 
 	public CreateTaskDialog() {
 		init();
+		
 	}
 
 	public void init() {
@@ -240,5 +241,4 @@ public class CreateTaskDialog {
 				jtf_createUser, df_createDate, jcb_industry,
 				jta_taskDescription));
 	}
-
 }
