@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -14,31 +15,31 @@ import javax.swing.SwingWorker;
 import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.model.QuoteTask;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
-import com.zhongda.quote.view.DateField;
+import com.zhongda.quote.utils.DateField;
 
 /**
  *
  * <p>
- *创建任务窗口中所有监听事件处理类
+ * 创建任务窗口中所有监听事件处理类
  * <p>
  *
  * @author 研发中心-Mikepolite<1011592269@qq.com>
  * @sine 2017年8月9日
  */
-public class CreateTaskFrameAction implements ActionListener , WindowListener{
-
+public class CreateTaskDialogAction implements ActionListener, WindowListener {
 
 	private JTextField jtf_taskName;
 	private JTextField jtf_createUser;
 	private DateField df_createDate;
 	private JTextArea jta_taskDescription;
 	private JComboBox<Industry> jcb_industry;
+	private JDialog jDialog;
 
-	public CreateTaskFrameAction() {
+	public CreateTaskDialogAction() {
 
 	}
-
-	public CreateTaskFrameAction(JTextField jtf_taskName,
+	
+	public CreateTaskDialogAction(JTextField jtf_taskName,
 			JTextField jtf_createUser, DateField df_createDate,
 			JComboBox<Industry> jcb_industry, JTextArea jta_taskDescription) {
 		this.jtf_taskName = jtf_taskName;
@@ -46,6 +47,10 @@ public class CreateTaskFrameAction implements ActionListener , WindowListener{
 		this.df_createDate = df_createDate;
 		this.jta_taskDescription = jta_taskDescription;
 		this.jcb_industry = jcb_industry;
+	}
+	
+	public CreateTaskDialogAction(JDialog jDialog){
+		this.jDialog = jDialog;
 	}
 
 	@Override
@@ -58,7 +63,8 @@ public class CreateTaskFrameAction implements ActionListener , WindowListener{
 		if ("confirmCreateTask".equals(command)) {
 			String taskName = jtf_taskName.getText();
 			String createUser = jtf_createUser.getText();
-			JTextField jtf_createDate = (JTextField) df_createDate.getComponent(0);
+			JTextField jtf_createDate = (JTextField) df_createDate
+					.getComponent(0);
 			String createDate = jtf_createDate.getText();
 			Industry industry = (Industry) jcb_industry.getSelectedItem();
 			String taskDescription = jta_taskDescription.getText();
@@ -94,13 +100,12 @@ public class CreateTaskFrameAction implements ActionListener , WindowListener{
 						JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 			}
 
-		}else if("cancelCreateTask".equals(command)){
+		} else if ("cancelCreateTask".equals(command)) {
 			int inf = JOptionPane.showConfirmDialog(null, "确定退出么？",
 					"Attention", JOptionPane.OK_OPTION);
 			if (inf == JOptionPane.OK_OPTION) {
-				System.exit(0);
+				jDialog.dispose();
 			} else {
-
 			}
 		}
 	}
@@ -113,14 +118,16 @@ public class CreateTaskFrameAction implements ActionListener , WindowListener{
 
 	/*
 	 * (non-Javadoc)
-	 * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
+	 * 
+	 * @see
+	 * java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
 	 */
 	@Override
 	public void windowClosing(WindowEvent e) {
-		int inf = JOptionPane.showConfirmDialog(null, "确定关闭窗口？",
-				"Attention", JOptionPane.OK_OPTION);
+		int inf = JOptionPane.showConfirmDialog(null, "确定关闭窗口？", "Attention",
+				JOptionPane.OK_OPTION);
 		if (inf == JOptionPane.OK_OPTION) {
-			System.exit(0);
+			jDialog.dispose();
 		} else {
 
 		}

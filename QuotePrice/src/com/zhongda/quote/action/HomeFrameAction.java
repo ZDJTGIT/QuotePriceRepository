@@ -4,7 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.zhongda.quote.view.CreateTaskFrame;
+import com.zhongda.quote.view.CreateTaskDialog;
 
 /**
  *
@@ -22,8 +22,8 @@ public class HomeFrameAction implements ActionListener{
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						CreateTaskFrame window = new CreateTaskFrame();
-						window.tframe.setVisible(true);
+						CreateTaskDialog window = new CreateTaskDialog();
+						window.jDialog.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

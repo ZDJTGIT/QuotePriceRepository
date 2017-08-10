@@ -1,4 +1,4 @@
-package com.zhongda.quote.view;
+package com.zhongda.quote.utils;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

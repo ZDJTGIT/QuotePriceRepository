@@ -25,23 +25,24 @@ import javax.swing.SwingWorker;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
-import com.zhongda.quote.action.CreateTaskFrameAction;
+import com.zhongda.quote.action.CreateTaskDialogAction;
 import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.service.impl.IndustryServiceImpl;
+import com.zhongda.quote.utils.DateField;
 import com.zhongda.quote.utils.SkinUtil;
 
 /**
-*
-* <p>
-*创建任务窗口
-* <p>
-*
-* @author 研发中心-Mikepolite<1011592269@qq.com>
-* @sine 2017年8月9日
-*/
-public class CreateTaskFrame {
+ *
+ * <p>
+ * 创建任务窗口
+ * <p>
+ *
+ * @author 研发中心-Mikepolite<1011592269@qq.com>
+ * @sine 2017年8月9日
+ */
+public class CreateTaskDialog {
 
-	public JDialog tframe;
+	public JDialog jDialog;
 	// private JButton bone;
 	private JLabel ble;
 	private JLabel ble_1;
@@ -57,39 +58,38 @@ public class CreateTaskFrame {
 	private JButton bt_cancel;
 	private DateField df_createDate;
 
-
-	public CreateTaskFrame() {
+	public CreateTaskDialog() {
 		init();
 	}
 
 	public void init() {
 
 		SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
-		tframe = new JDialog();
+		jDialog = new JDialog();
+		System.out.println(jDialog);
 		// tframe.setSize(300, 400);
-		tframe.setBackground(new Color(100));
-		tframe.setBounds(500, 60, 472, 429);
-		tframe.setVisible(true);
+		jDialog.setBackground(new Color(100));
+		jDialog.setBounds(500, 60, 472, 429);
 		ImageIcon icon = new ImageIcon("images\\zdLogo1.png");
-		tframe.setTitle("中大检测新建任务");
-		tframe.setResizable(false);
-		tframe.setLocationRelativeTo(null);
-		tframe.setIconImage(icon.getImage());
-		tframe.getContentPane().setLayout(null);
-		tframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		jDialog.setTitle("中大检测新建任务");
+		jDialog.setResizable(false);
+		jDialog.setLocationRelativeTo(null);
+		jDialog.setIconImage(icon.getImage());
+		jDialog.getContentPane().setLayout(null);
+		jDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		jDialog.setModal(true);
 
 		ble_6 = new JLabel();
 		ble_6.setText("当前任务的总报价为：");
 		ble_6.setFont(new Font("新宋体", 1, 18));
 		ble_6.setForeground(Color.BLACK);
 		ble_6.setBounds(20, 490, 200, 30);
-		tframe.getContentPane().add(ble_6);
+		jDialog.getContentPane().add(ble_6);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 466, 422);
 		panel.setLayout(null);
-		tframe.getContentPane().add(panel);
-
+		jDialog.getContentPane().add(panel);
 
 		df_createDate = new DateField();
 		df_createDate.setBounds(243, 195, 199, 23);
@@ -105,6 +105,7 @@ public class CreateTaskFrame {
 		bt_cancel.setBounds(344, 370, 98, 21);
 		panel.add(bt_cancel);
 		bt_cancel.setText("取消");
+		
 		bt_cancel.setFont(new Font("新宋体", Font.PLAIN, 13));
 
 		JTextArea jta_taskDescription = new JTextArea();
@@ -214,9 +215,9 @@ public class CreateTaskFrame {
 									index, isSelected, cellHasFocus);
 							if (value != null) {
 								Industry industry = (Industry) value;
-								//将行业名称填入显示列表
-						        setText(industry.getIndustryName());
-						    }
+								// 将行业名称填入显示列表
+								setText(industry.getIndustryName());
+							}
 							return this;
 						};
 					});
@@ -228,17 +229,16 @@ public class CreateTaskFrame {
 			}
 		}.execute();
 
-
-		//添加关闭窗口事件
-		tframe.addWindowListener(new CreateTaskFrameAction());
-		//添加取消按钮事件
+		// 添加关闭窗口事件
+		jDialog.addWindowListener(new CreateTaskDialogAction(jDialog));
+		// 添加取消按钮事件
 		bt_cancel.setActionCommand("cancelCreateTask");
-		bt_cancel.addActionListener(new CreateTaskFrameAction());
-		//添加确认按钮事件
+		bt_cancel.addActionListener(new CreateTaskDialogAction(jDialog));
+		// 添加确认按钮事件
 		bt_confirm.setActionCommand("confirmCreateTask");
-		bt_confirm.addActionListener(new CreateTaskFrameAction(jtf_taskName,
-				jtf_createUser, df_createDate,
-				jcb_industry, jta_taskDescription));
+		bt_confirm.addActionListener(new CreateTaskDialogAction(jtf_taskName,
+				jtf_createUser, df_createDate, jcb_industry,
+				jta_taskDescription));
 	}
 
 }
