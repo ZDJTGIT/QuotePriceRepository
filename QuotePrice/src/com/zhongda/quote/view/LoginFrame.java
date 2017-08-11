@@ -87,6 +87,7 @@ public class LoginFrame {
 
 		jp_left = new JPanelBackPhoto("images/zhongda.png");
 		jp_left.setBounds(0, 0, 614, 334);
+		jp_left.setFocusable(true);
 		frame.getContentPane().add(jp_left);
 
 		jp_right = new JPanel();
@@ -140,6 +141,7 @@ public class LoginFrame {
 		jp_password = new JPasswordFieldUser("images/4.png");
 		jp_password.setBounds(30, 133, 320, 48);
 		jp_password.setFont(new Font("宋体", 0, 19));
+		jp_password.addKeyListener(new LoginFrameAction(frame, jp_password));
 		jp_password.setActionCommand("password");
 		jp_right.add(jp_password);
 
@@ -152,6 +154,9 @@ public class LoginFrame {
 		jb_login.setActionCommand("login");
 		jp_right.add(jb_login);
 
+		// 左面板键盘监听事件
+		jp_left.addKeyListener(new LoginFrameAction(frame, jp_password));
+
 		// 生成该窗口时启动任务线程加载数据库配置文件
 		new SwingWorker<String, Void>() {
 			protected String doInBackground() throws Exception {
@@ -161,9 +166,11 @@ public class LoginFrame {
 				MyBatisUtil.getSqlSession();
 				long end = new Date().getTime();
 				System.out.println("加载数据库配置文件结束");
-				System.out.println("此次加载数据库配置文件耗时："+(end-start)/1000+"秒");
+				System.out.println("此次加载数据库配置文件耗时：" + (end - start) / 1000
+						+ "秒");
 				return null;
 			}
+
 			@Override
 			protected void done() {
 

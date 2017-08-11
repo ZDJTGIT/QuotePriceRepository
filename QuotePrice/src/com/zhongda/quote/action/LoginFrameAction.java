@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
@@ -21,14 +23,14 @@ import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
  * @author 研发中心-LiVerson<1061734892@qq.com>
  * @sine 2017年8月7日
  */
-public class LoginFrameAction implements ActionListener, FocusListener {
+public class LoginFrameAction implements ActionListener, FocusListener,
+		KeyListener {
 
 	private String name;
 	private JPasswordFieldUser passwordFieldUser;
 	private String compoName;
 	private String passwordCommand;
 	private JFrame jFrame;
-
 
 	public LoginFrameAction() {
 	}
@@ -74,28 +76,7 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 		if ("close".equals(name)) {
 			System.exit(0);
 		} else if ("login".equals(name)) {
-			// ***********为方便测试，机器码功能暂时注释
-			// String machineSerial = GetMachineUtil.getMachineLanguage();
-			// String machineKey = MachineKeyUtil.getMachineKey(machineSerial);
-			// String pwd = new String(passwordFieldUser.getPassword());
-			// if (machineKey.equals(pwd)) {
-			jFrame.dispose();
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						HomeFrame window = new HomeFrame();
-						window.frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
-			// } else {
-			// // 机器码与解码值不匹配
-			// JOptionPane.showMessageDialog(null, "解码值不正确或为授权!", "操作提醒",
-			// JOptionPane.PLAIN_MESSAGE);
-			// }
-			// ***********为方便测试，机器码功能暂时注释
+			login();
 		}
 	}
 
@@ -116,6 +97,50 @@ public class LoginFrameAction implements ActionListener, FocusListener {
 	public void focusLost(FocusEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == 10) {
+			login();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void login() {
+		// ***********为方便测试，机器码功能暂时注释
+		// String machineSerial = GetMachineUtil.getMachineLanguage();
+		// String machineKey = MachineKeyUtil.getMachineKey(machineSerial);
+		// String pwd = new String(passwordFieldUser.getPassword());
+		// if (machineKey.equals(pwd)) {
+		jFrame.dispose();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					HomeFrame window = new HomeFrame();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		// } else {
+		// // 机器码与解码值不匹配
+		// JOptionPane.showMessageDialog(null, "解码值不正确或为授权!", "操作提醒",
+		// JOptionPane.PLAIN_MESSAGE);
+		// }
+		// ***********为方便测试，机器码功能暂时注释
 	}
 
 }
