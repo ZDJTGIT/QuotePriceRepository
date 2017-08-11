@@ -1,6 +1,5 @@
 package com.zhongda.quote.action;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutionException;
@@ -11,8 +10,7 @@ import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
-import com.zhongda.quote.view.CreateProjectFrame;
-import com.zhongda.quote.view.CreateTaskDialog;
+import com.zhongda.quote.utils.FrameGoUtils;
 
 /**
  *
@@ -25,7 +23,7 @@ import com.zhongda.quote.view.CreateTaskDialog;
  */
 public class HomeFrameAction implements ActionListener {
 
-	//主界面报价任务的引用
+	// 主界面报价任务的引用
 	private JTable jt_quoteTask;
 
 	public HomeFrameAction() {
@@ -40,24 +38,17 @@ public class HomeFrameAction implements ActionListener {
 		String command = e.getActionCommand();
 		// 如果command为创建任务，则打开创建任务窗口
 		if ("createTask".equals(command)) {
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						CreateTaskDialog window = new CreateTaskDialog(jt_quoteTask);
-						window.jDialog.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
+			FrameGoUtils.creatTask(jt_quoteTask);
 		} else if ("deleteTask".equals(command)) {
-			//获取Table中被选中的行序号
+			// 获取Table中被选中的行序号
 			int row = jt_quoteTask.getSelectedRow();
-			if(row<0){
-				JOptionPane.showMessageDialog(null, "没有选中需要删除的报价任务,请选中后再进行删除操作！",
-						"提示信息", JOptionPane.WARNING_MESSAGE);
-			}else{
-				int flag = JOptionPane.showConfirmDialog(null, "点击确认按钮，将会删除所选中的报价任务，包括报价任务下的所有项目以及检验批，是否确认删除？",
+			if (row < 0) {
+				JOptionPane.showMessageDialog(null,
+						"没有选中需要删除的报价任务,请选中后再进行删除操作！", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			} else {
+				int flag = JOptionPane.showConfirmDialog(null,
+						"点击确认按钮，将会删除所选中的报价任务，包括报价任务下的所有项目以及检验批，是否确认删除？",
 						"删除报价任务", JOptionPane.OK_OPTION);
 				if (flag == JOptionPane.OK_OPTION) {
 					Object value = jt_quoteTask.getValueAt(row, 0);
@@ -65,22 +56,25 @@ public class HomeFrameAction implements ActionListener {
 					// 启动任务线程删除选中报价任务
 					new SwingWorker<Boolean, Void>() {
 						protected Boolean doInBackground() throws Exception {
-							return new QuoteTaskServiceImpl().deleteQuoteTask(id);
+							return new QuoteTaskServiceImpl()
+									.deleteQuoteTask(id);
 						}
 
 						protected void done() {
 							try {
 								boolean flag = get();
 								if (flag) {
-									JOptionPane.showMessageDialog(null, "报价任务删除成功！",
-											"提示信息", JOptionPane.PLAIN_MESSAGE);
+									JOptionPane.showMessageDialog(null,
+											"报价任务删除成功！", "提示信息",
+											JOptionPane.PLAIN_MESSAGE);
 
 									DefaultTableModel model = (DefaultTableModel) jt_quoteTask
 											.getModel();
 									model.removeRow(row);
 								} else {
-									JOptionPane.showMessageDialog(null, "报价任务删除失败！",
-											"提示信息", JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null,
+											"报价任务删除失败！", "提示信息",
+											JOptionPane.ERROR_MESSAGE);
 								}
 							} catch (InterruptedException | ExecutionException e) {
 								e.printStackTrace();
@@ -89,17 +83,8 @@ public class HomeFrameAction implements ActionListener {
 					}.execute();
 				}
 			}
-		}else if ("creatProject".equals(command)) {
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						CreateProjectFrame createP = new CreateProjectFrame();
-						createP.dialog.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
+		} else if ("creatProject".equals(command)) {
+			FrameGoUtils.creatProject();
 		}
 	}
 }

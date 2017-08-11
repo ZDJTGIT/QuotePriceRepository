@@ -31,12 +31,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
-
 import com.zhongda.quote.action.HomeFrameAction;
 import com.zhongda.quote.model.QuoteTask;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
-import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JMenBarColor;
 
 /**
@@ -163,7 +160,7 @@ public class HomeFrame {
 
 	public void init() {
 
-		SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
+		// SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// 获取当前电脑屏幕宽高
@@ -587,7 +584,18 @@ public class HomeFrame {
 		// 初始化列名
 		Object[] columnsName = { "序号", "任务编号", "任务名称", "任务描述", "行业", "创建人",
 				"创建时间", "最后修改时间", "任务总金额" };
-		jt_quoteTask = new JTable();
+		jt_quoteTask = new JTable() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public boolean isCellEditable(int row, int column) {
+				if (column == 1 || column == 8 || column == 6 || column == 7)
+					return false;// 不可编辑
+				return true;// 可编辑
+			}
+		};
 		jsp_jsrw.setViewportView(jt_quoteTask);
 		jpanel_left.add(jsp_jsrw, BorderLayout.CENTER);
 
@@ -607,7 +615,7 @@ public class HomeFrame {
 					taskList = get();
 					// 将数据添加到table
 					int length = 0;
-					if(null != taskList && (length = taskList.size()) > 0){
+					if (null != taskList && (length = taskList.size()) > 0) {
 						Object[][] rowData = new Object[length][columnsName.length];
 						int index = 0;
 						for (QuoteTask quoteTask : taskList) {
@@ -615,7 +623,8 @@ public class HomeFrame {
 							rowData[index][1] = quoteTask.getTaskNumber();
 							rowData[index][2] = quoteTask.getTaskName();
 							rowData[index][3] = quoteTask.getTaskDescription();
-							rowData[index][4] = quoteTask.getIndustry().getIndustryName();
+							rowData[index][4] = quoteTask.getIndustry()
+									.getIndustryName();
 							rowData[index][5] = quoteTask.getCreateUser();
 							rowData[index][6] = quoteTask.getCreateDate();
 							rowData[index][7] = quoteTask.getLastUpdateDate();
@@ -623,7 +632,17 @@ public class HomeFrame {
 							index++;
 						}
 						dtm = new DefaultTableModel(rowData, columnsName);
+						jt_quoteTask.isCellEditable(2, 1);// 1列不可编辑
+						jt_quoteTask.isCellEditable(2, 8);// 8列不可编辑
+						jt_quoteTask.isCellEditable(2, 6);// 6列不可编辑
+						jt_quoteTask.isCellEditable(2, 7);// 7列不可编辑
+
 						jt_quoteTask.setModel(dtm);
+						jt_quoteTask.getColumnModel().getColumn(0)
+								.setMinWidth(0);
+						jt_quoteTask.getColumnModel().getColumn(0)
+								.setMaxWidth(0);
+
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -632,7 +651,6 @@ public class HomeFrame {
 				}
 			}
 		}.execute();
-
 
 		// JToolBar工具栏及其下按钮
 		jtb_tb = new JToolBar();

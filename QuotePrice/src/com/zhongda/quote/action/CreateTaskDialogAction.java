@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.model.QuoteTask;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
+import com.zhongda.quote.utils.FrameGoUtils;
 
 /**
  *
@@ -95,7 +96,6 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 							if (null != quoteTask) {
 								JOptionPane.showMessageDialog(null, "任务创建成功！",
 										"提示信息", JOptionPane.PLAIN_MESSAGE);
-								jDialog.dispose();
 
 								DefaultTableModel model = (DefaultTableModel) jt_quoteTask
 										.getModel();
@@ -111,7 +111,8 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 								rowData.add(quoteTask.getLastUpdateDate());
 								rowData.add(quoteTask.getTaskAmount());
 								model.addRow(rowData);
-								;
+								jDialog.dispose();
+								FrameGoUtils.creatProject();
 							} else {
 								JOptionPane.showMessageDialog(null, "任务创建失败！",
 										"提示信息", JOptionPane.ERROR_MESSAGE);
@@ -122,13 +123,13 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 					};
 				}.execute();
 			} else {
-				JOptionPane.showMessageDialog(null, "请完善您的任务信息！",
-						"提示信息", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "请完善您的任务信息！", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
 			}
 
 		} else if ("cancelCreateTask".equals(command)) {
-			int inf = JOptionPane.showConfirmDialog(null, "确定退出么？",
-					"取消创建报价任务", JOptionPane.OK_OPTION);
+			int inf = JOptionPane.showConfirmDialog(null, "确定退出么？", "取消创建报价任务",
+					JOptionPane.OK_OPTION);
 			if (inf == JOptionPane.OK_OPTION) {
 				jDialog.dispose();
 			}
@@ -143,7 +144,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
 	 */
