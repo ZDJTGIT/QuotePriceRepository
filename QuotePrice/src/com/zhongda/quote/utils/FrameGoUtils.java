@@ -24,7 +24,7 @@ public class FrameGoUtils {
 	 * @param jt_quoteTask
 	 *            任务面板JTable对象
 	 */
-	public static void creatTask(JTable jt_quoteTask) {
+	public static void creatTask(final JTable jt_quoteTask) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
