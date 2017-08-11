@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -601,13 +600,7 @@ public class HomeFrame {
 			@Override
 			protected List<QuoteTask> doInBackground() throws Exception {
 				// 从数据库获取报价任务数据
-				System.out.println("查询数据库开始");
-				long start = new Date().getTime();
-				List<QuoteTask> taskList = new QuoteTaskServiceImpl().queryAllQuoteTask();
-				long end = new Date().getTime();
-				System.out.println("查询数据库结束");
-				System.out.println("此次查询耗时："+(end-start)/1000+"秒");
-				return taskList;
+				return new QuoteTaskServiceImpl().queryAllQuoteTask();
 			}
 
 			@Override
@@ -616,8 +609,6 @@ public class HomeFrame {
 				try {
 					taskList = get();
 					// 将数据添加到table
-					System.out.println("添加数据到Table开始");
-					long start = new Date().getTime();
 					int length = 0;
 					if(null != taskList && (length = taskList.size()) > 0){
 						Object[][] rowData = new Object[length][columnsName.length];
@@ -636,9 +627,6 @@ public class HomeFrame {
 						}
 						dtm = new DefaultTableModel(rowData, columnsName);
 						jt_quoteTask.setModel(dtm);
-						long end = new Date().getTime();
-						System.out.println("添加数据到Table结束");
-						System.out.println("此次添加数据耗时："+(end-start)/1000+"秒");
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();

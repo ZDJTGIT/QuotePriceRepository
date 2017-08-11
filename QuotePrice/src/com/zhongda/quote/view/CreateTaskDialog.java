@@ -60,7 +60,7 @@ public class CreateTaskDialog {
 
 	public CreateTaskDialog() {
 		init();
-		
+
 	}
 
 	public void init() {
@@ -186,9 +186,7 @@ public class CreateTaskDialog {
 			@Override
 			protected List<Industry> doInBackground() throws Exception {
 				// 从数据库获取行业数据
-				List<Industry> industryList = new IndustryServiceImpl()
-						.queryAllIndustry();
-				return industryList;
+				return new IndustryServiceImpl().queryAllIndustry();
 			}
 
 			@Override
