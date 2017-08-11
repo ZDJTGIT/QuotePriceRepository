@@ -1,8 +1,8 @@
 package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,7 +54,6 @@ public class CreateTaskDialog {
 	private JLabel ble_3;
 	private JLabel ble_4;
 	private JLabel ble_5;
-	private JLabel ble_6;
 	private JTextField jtf_taskName;
 	private JTextField jtf_createUser;
 	private JComboBox<Industry> jcb_industry;
@@ -97,12 +96,6 @@ public class CreateTaskDialog {
 		jDialog.setModal(true);
 		jDialog.getContentPane().setLayout(new BorderLayout(0, 0));
 
-		ble_6 = new JLabel();
-		ble_6.setText("当前任务的总报价为：");
-		ble_6.setFont(new Font("新宋体", 1, 18));
-		ble_6.setForeground(Color.BLACK);
-		jDialog.getContentPane().add(ble_6);
-
 		panel = new JPanel();
 		jDialog.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
@@ -124,8 +117,9 @@ public class CreateTaskDialog {
 		Chooser ser = Chooser.getInstance();
 		jtf_date = new JTextField();
 		jtf_date.setText(getTodayDate());
+		jtf_date.setFont(new Font("宋体", 1, 15));
 		ser.register(jtf_date);
-		jtf_date.setBounds(250, 163, 221, 20);
+		jtf_date.setBounds(260, 163, 107, 20);
 		panel.add(jtf_date);
 
 		bt_confirm = new JButton();
@@ -189,7 +183,8 @@ public class CreateTaskDialog {
 		panel.add(ble_1);
 
 		jcb_industry = new JComboBox<Industry>();
-		jcb_industry.setBounds(250, 192, 221, 20);
+		jcb_industry.setFont(new Font("新宋体", 0, 15));
+		jcb_industry.setBounds(260, 192, 207, 25);
 		panel.add(jcb_industry);
 
 		lblNewLabel_2 = new JLabel("中大检测");
@@ -245,15 +240,17 @@ public class CreateTaskDialog {
 		}.execute();
 
 		// 添加关闭窗口事件
-		// jDialog.addWindowListener(new CreateTaskDialogAction(jDialog));
+		jDialog.addWindowListener(new CreateTaskDialogAction(jDialog));
 		// 添加取消按钮事件
 		bt_cancel.setActionCommand("cancelCreateTask");
 		bt_cancel.addActionListener(new CreateTaskDialogAction(jDialog));
 		// 添加确认按钮事件
 		bt_confirm.setActionCommand("confirmCreateTask");
-		bt_confirm.addActionListener(new CreateTaskDialogAction(jtf_taskName,
+		bt_confirm
+				.addActionListener(new CreateTaskDialogAction(jtf_taskName,
 
-		jtf_createUser, jtf_date, jcb_industry, textArea, jt_quoteTask));
+				jtf_createUser, jtf_date, jcb_industry, textArea, jt_quoteTask,
+						jDialog));
 	}
 
 	public String getTodayDate() {

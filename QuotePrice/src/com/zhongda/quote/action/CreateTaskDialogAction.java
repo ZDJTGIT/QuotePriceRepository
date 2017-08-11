@@ -44,7 +44,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 	public CreateTaskDialogAction(JTextField jtf_taskName,
 			JTextField jtf_createUser, JTextField df_createDate,
 			JComboBox<Industry> jcb_industry, JTextArea jta_taskDescription,
-			JTable jt_quoteTask) {
+			JTable jt_quoteTask, JDialog dialog) {
 
 		this.jtf_taskName = jtf_taskName;
 		this.jtf_createUser = jtf_createUser;
@@ -52,6 +52,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 		this.jta_taskDescription = jta_taskDescription;
 		this.jcb_industry = jcb_industry;
 		this.jt_quoteTask = jt_quoteTask;
+		this.jDialog = dialog;
 	}
 
 	public CreateTaskDialogAction(JDialog jDialog) {
@@ -94,6 +95,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 							if (null != quoteTask) {
 								JOptionPane.showMessageDialog(null, "任务创建成功！",
 										"提示信息", JOptionPane.PLAIN_MESSAGE);
+								jDialog.dispose();
 								DefaultTableModel model = (DefaultTableModel) jt_quoteTask
 										.getModel();
 								Vector<Object> rowData = new Vector<Object>();
