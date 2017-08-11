@@ -15,7 +15,7 @@ import javax.swing.SwingWorker;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.zhongda.quote.action.LoginFrameAction;
-import com.zhongda.quote.utils.GetMachineUtil;
+import com.zhongda.quote.machine.impl.SequenceServiceImpl;
 import com.zhongda.quote.utils.MyBatisUtil;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JPanelBackPhoto;
@@ -44,8 +44,7 @@ public class LoginFrame {
 	private JLabel jl_number;
 	private static String machineCode;
 	static {
-		// 机器码
-		machineCode = GetMachineUtil.getMachineLanguage();
+		machineCode = SequenceServiceImpl.getMachineCode();
 	}
 
 	/**
