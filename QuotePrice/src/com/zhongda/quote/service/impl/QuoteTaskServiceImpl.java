@@ -24,7 +24,7 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 	private QuoteTaskMapper quoteTaskMapper = sqlSession.getMapper(QuoteTaskMapper.class);
 
 	@Override
-	public String createQuoteTask(QuoteTask quoteTask) {
+	public QuoteTask createQuoteTask(QuoteTask quoteTask) {
 		//流水号工具类
 		PrimaryGeneraterUtil primaryGeneraterUtil = null;
 		String nextNumber = null;
@@ -37,23 +37,26 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 			//插入数据库的操作
 			index = quoteTaskMapper.insertSelective(quoteTask);
 			sqlSession.commit();
+			//插入数据成功
+			if(index>0){
+				//保存流水号
+				primaryGeneraterUtil.saveNextNumber(nextNumber);
+				//再查出该条数据
+				quoteTask = quoteTaskMapper.selectByNumber(nextNumber);
+			}else{
+				quoteTask = null;
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			sqlSession.rollback();
 		}finally{
 			MyBatisUtil.closeSqlSession();
 		}
-		if(index<1){
-			return "创建报价任务失败，请稍后重试！";
-		}else{
-			//保存流水号
-			primaryGeneraterUtil.saveNextNumber(nextNumber);
-			return "创建报价任务成功！";
-		}
+		return quoteTask;
 	}
 
 	@Override
-	public String deleteQuoteTask(Integer id) {
+	public boolean deleteQuoteTask(Integer id) {
 		int index = 0;
 		try {
 			index = quoteTaskMapper.deleteByPrimaryKey(id);
@@ -65,14 +68,14 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 			MyBatisUtil.closeSqlSession();
 		}
 		if(index<1){
-			return "删除报价任务失败，请稍后重试！";
+			return false;
 		}else{
-			return "删除报价任务成功！";
+			return true;
 		}
 	}
 
 	@Override
-	public String updateQuoteTask(QuoteTask quoteTask) {
+	public boolean updateQuoteTask(QuoteTask quoteTask) {
 		int index = 0;
 		try {
 			index = quoteTaskMapper.updateByPrimaryKeySelective(quoteTask);
@@ -84,9 +87,9 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 			MyBatisUtil.closeSqlSession();
 		}
 		if(index<1){
-			return "更新报价任务失败，请稍后重试！";
+			return false;
 		}else{
-			return "更新报价任务成功！";
+			return true;
 		}
 	}
 
@@ -116,4 +119,16 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 		return taskList;
 	}
 
+	@Override
+	public QuoteTask queryQuoteTaskByNumber(String taskNumber) {
+		QuoteTask quoteTask = null;
+		try{
+			quoteTask = quoteTaskMapper.selectByNumber(taskNumber);
+		}catch(Exception e){
+			logger.error(e.getMessage());
+		}finally{
+			MyBatisUtil.closeSqlSession();
+		}
+		return quoteTask;
+	}
 }

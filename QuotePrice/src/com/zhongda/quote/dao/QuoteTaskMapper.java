@@ -46,4 +46,11 @@ public interface QuoteTaskMapper {
      * @return
      */
 	List<QuoteTask> selectAll();
+
+	/**
+	 * 根据任务编号查询任务
+	 * @param taskNumber
+	 * @return
+	 */
+	QuoteTask selectByNumber(String taskNumber);
 }

@@ -4,13 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Vector;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableModel;
 
 import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.model.QuoteTask;
@@ -35,18 +39,21 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 	private JComboBox<Industry> jcb_industry;
 	private JDialog jDialog;
 	private QuoteTask quoteTask;
-	
-	
+	//主界面报价任务的引用
+	private JTable jt_quoteTask;
+
+
 	public CreateTaskDialogAction(JTextField jtf_taskName,
 			JTextField jtf_createUser, DateField df_createDate,
-			JComboBox<Industry> jcb_industry, JTextArea jta_taskDescription) {
+			JComboBox<Industry> jcb_industry, JTextArea jta_taskDescription, JTable jt_quoteTask) {
 		this.jtf_taskName = jtf_taskName;
 		this.jtf_createUser = jtf_createUser;
 		this.df_createDate = df_createDate;
 		this.jta_taskDescription = jta_taskDescription;
 		this.jcb_industry = jcb_industry;
+		this.jt_quoteTask = jt_quoteTask;
 	}
-	
+
 	public CreateTaskDialogAction(JDialog jDialog){
 		this.jDialog = jDialog;
 	}
@@ -78,17 +85,34 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 				// 启动任务线程往数据库插入数据
 				new SwingWorker<QuoteTask, Void>() {
 					protected QuoteTask doInBackground() throws Exception {
-						System.out.println("把数据存入数据库");
-						String msg = new QuoteTaskServiceImpl()
-								.createQuoteTask(quoteTask);
-						System.out.println(msg);
-						return quoteTask;
+						return new QuoteTaskServiceImpl().createQuoteTask(quoteTask);
 					}
 
 					protected void done() {
-						JOptionPane.showMessageDialog(null, "任务创建成功！", "提示信息",
-								JOptionPane.PLAIN_MESSAGE);
-						System.out.println("更新UI界面");
+						try {
+							quoteTask = get();
+							if(null != quoteTask){
+								JOptionPane.showMessageDialog(null, "任务创建成功！", "提示信息",
+										JOptionPane.PLAIN_MESSAGE);
+								DefaultTableModel model = (DefaultTableModel) jt_quoteTask.getModel();
+								Vector<Object> rowData = new Vector<Object>();
+								rowData.add(quoteTask.getId());
+								rowData.add(quoteTask.getTaskNumber());
+								rowData.add(quoteTask.getTaskName());
+								rowData.add(quoteTask.getTaskDescription());
+								rowData.add(quoteTask.getIndustry().getIndustryName());
+								rowData.add(quoteTask.getCreateUser());
+								rowData.add(quoteTask.getCreateDate());
+								rowData.add(quoteTask.getLastUpdateDate());
+								rowData.add(quoteTask.getTaskAmount());
+								model.addRow(rowData);;
+							}else{
+								JOptionPane.showMessageDialog(null, "任务创建失败！", "提示信息",
+										JOptionPane.PLAIN_MESSAGE);
+							}
+						} catch (InterruptedException | ExecutionException e) {
+							e.printStackTrace();
+						}
 					};
 				}.execute();
 			} else {
@@ -104,7 +128,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 			if (inf == JOptionPane.OK_OPTION) {
 				jDialog.dispose();
 			}else{
-				
+
 			}
 		}
 	}
@@ -117,7 +141,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
 	 */

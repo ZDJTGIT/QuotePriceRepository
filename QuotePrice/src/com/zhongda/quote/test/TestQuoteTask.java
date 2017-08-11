@@ -26,7 +26,7 @@ public class TestQuoteTask {
 		quoteTask.setTaskNumber("ZD201708080003");
 		quoteTask.setTaskName("Test任务");
 		quoteTask.setTaskDescription("呵呵");
-		quoteTask.setIndustry(1);
+		quoteTask.setIndustryId(1);
 		quoteTask.setCreateUser("haixin");
 		quoteTask.setTaskAmount(0.0);
 		quoteTask.setCreateDate(new Date().toString());

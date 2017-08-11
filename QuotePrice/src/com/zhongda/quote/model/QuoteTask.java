@@ -9,7 +9,7 @@ public class QuoteTask {
 
 	private String taskDescription;
 
-	private Integer industry;
+	private Integer industryId;
 
 	private String createUser;
 
@@ -19,14 +19,16 @@ public class QuoteTask {
 
 	private Double taskAmount;
 
+	private Industry industry;
+
 	public QuoteTask() {
 	}
 
-	public QuoteTask(String taskName, String taskDescription, Integer industry,
+	public QuoteTask(String taskName, String taskDescription, Integer industryId,
 			String createUser, String createDate, String lastUpdateDate) {
 		this.taskName = taskName;
 		this.taskDescription = taskDescription;
-		this.industry = industry;
+		this.industryId = industryId;
 		this.createUser = createUser;
 		this.createDate = createDate;
 		this.lastUpdateDate = lastUpdateDate;
@@ -65,14 +67,6 @@ public class QuoteTask {
 				.trim();
 	}
 
-	public Integer getIndustry() {
-		return industry;
-	}
-
-	public void setIndustry(Integer industry) {
-		this.industry = industry;
-	}
-
 	public String getCreateUser() {
 		return createUser;
 	}
@@ -104,5 +98,21 @@ public class QuoteTask {
 
 	public void setTaskAmount(Double taskAmount) {
 		this.taskAmount = taskAmount;
+	}
+
+	public Integer getIndustryId() {
+		return industryId;
+	}
+
+	public void setIndustryId(Integer industryId) {
+		this.industryId = industryId;
+	}
+
+	public void setIndustry(Industry industry) {
+		this.industry = industry;
+	}
+
+	public Industry getIndustry() {
+		return industry;
 	}
 }

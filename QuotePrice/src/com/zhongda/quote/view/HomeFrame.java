@@ -527,8 +527,6 @@ public class HomeFrame {
 		bt_createTask.setIcon(new ImageIcon("images/creat_1.png"));
 		bt_createTask.setToolTipText("新建建设任务");
 		bt_createTask.setFocusPainted(false);// 去除按钮边线
-		// 添加创建任务事件
-		bt_createTask.addActionListener(new HomeFrameAction());
 		bt_createTask.setActionCommand("createTask");
 		jtb_jsrw.add(bt_createTask);
 
@@ -618,7 +616,7 @@ public class HomeFrame {
 							rowData[index][1] = quoteTask.getTaskNumber();
 							rowData[index][2] = quoteTask.getTaskName();
 							rowData[index][3] = quoteTask.getTaskDescription();
-							rowData[index][4] = quoteTask.getIndustry();
+							rowData[index][4] = quoteTask.getIndustry().getIndustryName();
 							rowData[index][5] = quoteTask.getCreateUser();
 							rowData[index][6] = quoteTask.getCreateDate();
 							rowData[index][7] = quoteTask.getLastUpdateDate();
@@ -657,6 +655,9 @@ public class HomeFrame {
 		jb_bt_save.setFocusPainted(false);// 去除按钮边线
 		jtb_tb.add(jb_bt_save);
 		jtb_tb.setRollover(true);
+
+		// 添加创建任务事件
+		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask));
 
 	}
 

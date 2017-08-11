@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
@@ -57,10 +58,17 @@ public class CreateTaskDialog {
 	private JButton bt_confirm;
 	private JButton bt_cancel;
 	private DateField df_createDate;
+	//主界面报价任务的引用
+	private JTable jt_quoteTask;
 
 	public CreateTaskDialog() {
 		init();
 
+	}
+
+	public CreateTaskDialog(JTable jt_quoteTask) {
+		this.jt_quoteTask = jt_quoteTask;
+		init();
 	}
 
 	public void init() {
@@ -78,7 +86,7 @@ public class CreateTaskDialog {
 		jDialog.setIconImage(icon.getImage());
 		jDialog.getContentPane().setLayout(null);
 		jDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		jDialog.setModal(true);
+		//jDialog.setModal(true);
 
 		ble_6 = new JLabel();
 		ble_6.setText("当前任务的总报价为：");
@@ -237,6 +245,6 @@ public class CreateTaskDialog {
 		bt_confirm.setActionCommand("confirmCreateTask");
 		bt_confirm.addActionListener(new CreateTaskDialogAction(jtf_taskName,
 				jtf_createUser, df_createDate, jcb_industry,
-				jta_taskDescription));
+				jta_taskDescription, jt_quoteTask));
 	}
 }
