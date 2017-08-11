@@ -47,7 +47,7 @@ import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 public class CreateTaskDialog {
 
 	public JDialog jDialog;
-	// private JButton bone;
+
 	private JLabel ble_1;
 	private JLabel ble_2;
 	private JLabel ble_3;
@@ -90,10 +90,16 @@ public class CreateTaskDialog {
 		ImageIcon icon = new ImageIcon("images\\zdLogo1.png");
 		jDialog.setTitle("中大检测");
 		jDialog.setResizable(false);
-		jDialog.setLocationRelativeTo(null);
+		jDialog.setLocationRelativeTo(null);//设置界面居中
 		jDialog.setIconImage(icon.getImage());
 		jDialog.setModal(true);
 		jDialog.getContentPane().setLayout(new BorderLayout(0, 0));
+
+//		ble_6 = new JLabel();
+//		ble_6.setText("当前任务的总报价为：");
+//		ble_6.setFont(new Font("新宋体", 1, 18));
+//		ble_6.setForeground(Color.BLACK);
+//		jDialog.getContentPane().add(ble_6);
 
 		panel = new JPanel();
 		jDialog.getContentPane().add(panel, BorderLayout.CENTER);
