@@ -32,9 +32,10 @@ import javax.swing.plaf.ComboBoxUI;
 
 /**
  *
- *<p>
- *com.zhongda.quote.view.NewTaskFrame 窗口中日历组件
- *<p>
+ * <p>
+ * com.zhongda.quote.view.NewTaskFrame 窗口中日历组件
+ * <p>
+ * 
  * @author 研发中心-Mikepolite<1011592269@qq.com>
  * @sine 2017年8月10日
  */
@@ -58,14 +59,14 @@ public class DateField extends JPanel {
 	private int year;
 	private int month;
 	private int date;
-	//private int dayOfWeek;
+	// private int dayOfWeek;
 	private String[] week = { "日", "一", "二", "三", "四", "五", "六" };
 
 	public DateField() {
 		year = Calendar.getInstance().get(Calendar.YEAR);
 		month = Calendar.getInstance().get(Calendar.MONTH) + 1;
 		date = Calendar.getInstance().get(Calendar.DATE);
-		//dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+		// dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 		initUI();
 		initDateDialog();
 		updateField();
@@ -86,7 +87,7 @@ public class DateField extends JPanel {
 					dlg.setLocation(DateField.this.getLocationOnScreen().x,
 							DateField.this.getLocationOnScreen().y
 									+ DateField.this.height);
-					dlg.setAlwaysOnTop(true);
+					// dlg.setAlwaysOnTop(true);
 					dlg.setVisible(true);
 				} else {
 					dlg.dispose();

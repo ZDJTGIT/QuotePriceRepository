@@ -87,7 +87,6 @@ public class CreateProjectFrame {
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setBounds(0, 0, 500, 500);
 		dialog.setModal(true);// 此窗口至于前端
-		dialog.dispose();
 		dialog.setLocationRelativeTo(null);
 		dialog.setResizable(false);
 		dialog.getContentPane().setLayout(new BorderLayout(0, 0));
