@@ -1,0 +1,179 @@
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.logging.LogFactory@(LogFactory.java:115):Logging initialized using 'class org.apache.ibatis.logging.log4j.Log4jImpl' adapter.
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.VFS@(VFS.java:101):Class not found: org.jboss.vfs.VFS
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.JBoss6VFS@(JBoss6VFS.java:137):JBoss 6 VFS API is not available in this environment.
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.VFS@(VFS.java:101):Class not found: org.jboss.vfs.VirtualFile
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.VFS@(VFS.java:68):VFS implementation org.apache.ibatis.io.JBoss6VFS is not valid in this environment.
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.VFS@(VFS.java:80):Using VFS adapter org.apache.ibatis.io.DefaultVFS
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:197):Find JAR URL: jar:file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar!/com/zhongda/quote/model
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:203):Inner URL: file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar!/com/zhongda/quote/model
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:214):Extracted JAR URL: file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:291):Found JAR: file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:64):Listing jar:file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar!/com/zhongda/quote/model
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/Address.class
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/Industry.class
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/InspectionBatch.class
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/InspectionContent.class
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/QuoteBasis.class
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/QuoteProject.class
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/QuoteTask.class
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/SampleBasis.class
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/SysInspectionContent.class
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.Address matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.Industry matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.InspectionBatch matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.InspectionContent matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.QuoteBasis matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.QuoteProject matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.QuoteTask matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.SampleBasis matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.SysInspectionContent matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:304):PooledDataSource forcefully closed/removed all connections.
+[DEBUG]2017-08-11 12:51:04 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:304):PooledDataSource forcefully closed/removed all connections.
+[DEBUG]2017-08-11 12:51:11 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:129):Opening JDBC Connection
+[DEBUG]2017-08-11 12:51:11 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:378):Created connection 758918089.
+[DEBUG]2017-08-11 12:51:11 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@2d3c2bc9]
+[DEBUG]2017-08-11 12:51:11 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: select qt.*, i.* from QuoteTask qt, Industry i where qt.industry_id = i.id 
+[DEBUG]2017-08-11 12:51:11 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: 
+[DEBUG]2017-08-11 12:51:11 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:117):Resetting autocommit to true on JDBC Connection [org.sqlite.SQLiteConnection@2d3c2bc9]
+[DEBUG]2017-08-11 12:51:11 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:85):Closing JDBC Connection [org.sqlite.SQLiteConnection@2d3c2bc9]
+[DEBUG]2017-08-11 12:51:11 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:332):Returned connection 758918089 to pool.
+[DEBUG]2017-08-11 12:51:15 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:129):Opening JDBC Connection
+[DEBUG]2017-08-11 12:51:15 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:367):Checked out connection 758918089 from pool.
+[DEBUG]2017-08-11 12:51:15 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:95):Setting autocommit to false on JDBC Connection [org.sqlite.SQLiteConnection@2d3c2bc9]
+[DEBUG]2017-08-11 12:51:15 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@2d3c2bc9]
+[DEBUG]2017-08-11 12:51:15 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: select id, industry_name from Industry 
+[DEBUG]2017-08-11 12:51:15 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: 
+[DEBUG]2017-08-11 12:51:15 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:117):Resetting autocommit to true on JDBC Connection [org.sqlite.SQLiteConnection@2d3c2bc9]
+[DEBUG]2017-08-11 12:51:15 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:85):Closing JDBC Connection [org.sqlite.SQLiteConnection@2d3c2bc9]
+[DEBUG]2017-08-11 12:51:15 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:332):Returned connection 758918089 to pool.
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.logging.LogFactory@(LogFactory.java:115):Logging initialized using 'class org.apache.ibatis.logging.log4j.Log4jImpl' adapter.
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.VFS@(VFS.java:101):Class not found: org.jboss.vfs.VFS
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.JBoss6VFS@(JBoss6VFS.java:137):JBoss 6 VFS API is not available in this environment.
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.VFS@(VFS.java:101):Class not found: org.jboss.vfs.VirtualFile
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.VFS@(VFS.java:68):VFS implementation org.apache.ibatis.io.JBoss6VFS is not valid in this environment.
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.VFS@(VFS.java:80):Using VFS adapter org.apache.ibatis.io.DefaultVFS
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:197):Find JAR URL: jar:file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar!/com/zhongda/quote/model
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:203):Inner URL: file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar!/com/zhongda/quote/model
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:214):Extracted JAR URL: file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:291):Found JAR: file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:64):Listing jar:file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar!/com/zhongda/quote/model
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/Address.class
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/Industry.class
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/InspectionBatch.class
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/InspectionContent.class
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/QuoteBasis.class
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/QuoteProject.class
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/QuoteTask.class
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/SampleBasis.class
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/SysInspectionContent.class
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.Address matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.Industry matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.InspectionBatch matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.InspectionContent matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.QuoteBasis matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.QuoteProject matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.QuoteTask matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.SampleBasis matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.SysInspectionContent matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:304):PooledDataSource forcefully closed/removed all connections.
+[DEBUG]2017-08-11 13:39:39 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:304):PooledDataSource forcefully closed/removed all connections.
+[DEBUG]2017-08-11 13:39:44 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:129):Opening JDBC Connection
+[DEBUG]2017-08-11 13:39:44 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:378):Created connection 991580266.
+[DEBUG]2017-08-11 13:39:44 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:39:44 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: select qt.*, i.* from QuoteTask qt, Industry i where qt.industry_id = i.id 
+[DEBUG]2017-08-11 13:39:44 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: 
+[DEBUG]2017-08-11 13:39:44 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:117):Resetting autocommit to true on JDBC Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:39:44 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:85):Closing JDBC Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:39:44 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:332):Returned connection 991580266 to pool.
+[DEBUG]2017-08-11 13:39:50 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:129):Opening JDBC Connection
+[DEBUG]2017-08-11 13:39:50 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:367):Checked out connection 991580266 from pool.
+[DEBUG]2017-08-11 13:39:50 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:95):Setting autocommit to false on JDBC Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:39:50 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:39:50 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: select id, industry_name from Industry 
+[DEBUG]2017-08-11 13:39:50 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: 
+[DEBUG]2017-08-11 13:39:50 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:117):Resetting autocommit to true on JDBC Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:39:50 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:85):Closing JDBC Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:39:50 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:332):Returned connection 991580266 to pool.
+[DEBUG]2017-08-11 13:40:51 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:129):Opening JDBC Connection
+[DEBUG]2017-08-11 13:40:51 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:367):Checked out connection 991580266 from pool.
+[DEBUG]2017-08-11 13:40:51 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:95):Setting autocommit to false on JDBC Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:40:51 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:40:51 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: insert into QuoteTask ( task_number, task_name, task_description, create_user, create_date, last_update_date ) values ( ?, ?, ?, ?, ?, ? ) 
+[DEBUG]2017-08-11 13:40:51 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: ZD201708110030(String), 俗话说的好(String), 这是真的吗？(String), 落后就要挨打(String), 2017-08-12(String), 2017-08-12(String)
+[DEBUG]2017-08-11 13:40:51 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:66):Committing JDBC Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:40:52 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:40:52 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: select qt.*, i.* from QuoteTask qt, Industry i where qt.industry_id = i.id and qt.task_number = ? 
+[DEBUG]2017-08-11 13:40:52 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: ZD201708110030(String)
+[DEBUG]2017-08-11 13:40:52 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:117):Resetting autocommit to true on JDBC Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:40:52 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:85):Closing JDBC Connection [org.sqlite.SQLiteConnection@3b1a506a]
+[DEBUG]2017-08-11 13:40:52 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:332):Returned connection 991580266 to pool.
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.logging.LogFactory@(LogFactory.java:115):Logging initialized using 'class org.apache.ibatis.logging.log4j.Log4jImpl' adapter.
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.VFS@(VFS.java:101):Class not found: org.jboss.vfs.VFS
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.JBoss6VFS@(JBoss6VFS.java:137):JBoss 6 VFS API is not available in this environment.
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.VFS@(VFS.java:101):Class not found: org.jboss.vfs.VirtualFile
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.VFS@(VFS.java:68):VFS implementation org.apache.ibatis.io.JBoss6VFS is not valid in this environment.
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.VFS@(VFS.java:80):Using VFS adapter org.apache.ibatis.io.DefaultVFS
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:197):Find JAR URL: jar:file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar!/com/zhongda/quote/model
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:203):Inner URL: file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar!/com/zhongda/quote/model
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:214):Extracted JAR URL: file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:291):Found JAR: file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:64):Listing jar:file:/D:/java/Git/QuotePriceRepository/QuotePrice/target/jar/app.jar!/com/zhongda/quote/model
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/Address.class
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/Industry.class
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/InspectionBatch.class
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/InspectionContent.class
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/QuoteBasis.class
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/QuoteProject.class
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/QuoteTask.class
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/SampleBasis.class
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.DefaultVFS@(DefaultVFS.java:178):Found resource: /com/zhongda/quote/model/SysInspectionContent.class
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.Address matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.Industry matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.InspectionBatch matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.InspectionContent matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.QuoteBasis matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.QuoteProject matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.QuoteTask matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.SampleBasis matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.io.ResolverUtil@(ResolverUtil.java:250):Checking to see if class com.zhongda.quote.model.SysInspectionContent matches criteria [is assignable to Object]
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:304):PooledDataSource forcefully closed/removed all connections.
+[DEBUG]2017-08-11 13:46:32 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:304):PooledDataSource forcefully closed/removed all connections.
+[DEBUG]2017-08-11 13:46:34 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:129):Opening JDBC Connection
+[DEBUG]2017-08-11 13:46:34 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:378):Created connection 810240787.
+[DEBUG]2017-08-11 13:46:34 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:46:34 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: select qt.*, i.* from QuoteTask qt, Industry i where qt.industry_id = i.id 
+[DEBUG]2017-08-11 13:46:35 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: 
+[DEBUG]2017-08-11 13:46:35 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:117):Resetting autocommit to true on JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:46:35 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:85):Closing JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:46:35 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:332):Returned connection 810240787 to pool.
+[DEBUG]2017-08-11 13:46:40 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:129):Opening JDBC Connection
+[DEBUG]2017-08-11 13:46:40 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:367):Checked out connection 810240787 from pool.
+[DEBUG]2017-08-11 13:46:40 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:95):Setting autocommit to false on JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:46:40 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:46:40 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: select id, industry_name from Industry 
+[DEBUG]2017-08-11 13:46:40 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: 
+[DEBUG]2017-08-11 13:46:40 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:117):Resetting autocommit to true on JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:46:40 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:85):Closing JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:46:40 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:332):Returned connection 810240787 to pool.
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:129):Opening JDBC Connection
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:367):Checked out connection 810240787 from pool.
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:95):Setting autocommit to false on JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: insert into QuoteTask ( task_number, task_name, task_description, industry_id, create_user, create_date, last_update_date ) values ( ?, ?, ?, ?, ?, ?, ? ) 
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: ZD201708110031(String), 礼仪手册(String), 测试一下(String), 8(Integer), 中大-研发中心(String), 2017-08-24(String), 2017-08-24(String)
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:66):Committing JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: select qt.*, i.* from QuoteTask qt, Industry i where qt.industry_id = i.id and qt.task_number = ? 
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: ZD201708110031(String)
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:117):Resetting autocommit to true on JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:85):Closing JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 13:47:30 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:332):Returned connection 810240787 to pool.
+[DEBUG]2017-08-11 14:57:23 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:129):Opening JDBC Connection
+[DEBUG]2017-08-11 14:57:23 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:367):Checked out connection 810240787 from pool.
+[DEBUG]2017-08-11 14:57:23 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:95):Setting autocommit to false on JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 14:57:23 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):ooo Using Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 14:57:23 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==>  Preparing: select id, industry_name from Industry 
+[DEBUG]2017-08-11 14:57:23 org.apache.ibatis.logging.jdbc.BaseJdbcLogger@(BaseJdbcLogger.java:132):==> Parameters: 
+[DEBUG]2017-08-11 14:57:23 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:117):Resetting autocommit to true on JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 14:57:23 org.apache.ibatis.transaction.jdbc.JdbcTransaction@(JdbcTransaction.java:85):Closing JDBC Connection [org.sqlite.SQLiteConnection@304b4b13]
+[DEBUG]2017-08-11 14:57:23 org.apache.ibatis.datasource.pooled.PooledDataSource@(PooledDataSource.java:332):Returned connection 810240787 to pool.

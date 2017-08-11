@@ -1,8 +1,12 @@
 target/
 /target
+
 classes/
 /classes
+
 .classpath
+
 .class
+
 .settings/
 /.settings

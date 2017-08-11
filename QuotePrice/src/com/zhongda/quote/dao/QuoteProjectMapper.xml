@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.quote.dao.QuoteProjectMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.quote.model.QuoteProject">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_address" jdbcType="VARCHAR" property="projectAddress" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="project_amount" jdbcType="FLOAT" property="projectAmount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, project_name, project_address, task_id, project_amount
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from QuoteProject
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from QuoteProject
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.quote.model.QuoteProject">
+    insert into QuoteProject (id, project_name, project_address, 
+      task_id, project_amount)
+    values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{projectAddress,jdbcType=VARCHAR}, 
+      #{taskId,jdbcType=INTEGER}, #{projectAmount,jdbcType=FLOAT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.quote.model.QuoteProject">
+    insert into QuoteProject
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="projectAddress != null">
+        project_address,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="projectAmount != null">
+        project_amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectAddress != null">
+        #{projectAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="projectAmount != null">
+        #{projectAmount,jdbcType=FLOAT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.quote.model.QuoteProject">
+    update QuoteProject
+    <set>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectAddress != null">
+        project_address = #{projectAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="projectAmount != null">
+        project_amount = #{projectAmount,jdbcType=FLOAT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.quote.model.QuoteProject">
+    update QuoteProject
+    set project_name = #{projectName,jdbcType=VARCHAR},
+      project_address = #{projectAddress,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=INTEGER},
+      project_amount = #{projectAmount,jdbcType=FLOAT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
