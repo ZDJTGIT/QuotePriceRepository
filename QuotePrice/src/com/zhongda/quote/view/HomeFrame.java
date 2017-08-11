@@ -527,7 +527,6 @@ public class HomeFrame {
 		bt_createTask.setIcon(new ImageIcon("images/creat_1.png"));
 		bt_createTask.setToolTipText("新建建设任务");
 		bt_createTask.setFocusPainted(false);// 去除按钮边线
-		bt_createTask.setActionCommand("createTask");
 		jtb_jsrw.add(bt_createTask);
 
 		bt_importTask = new JButton();
@@ -657,7 +656,11 @@ public class HomeFrame {
 		jtb_tb.setRollover(true);
 
 		// 添加创建任务事件
+		bt_createTask.setActionCommand("createTask");
 		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask));
+		// 添加删除任务事件
+		bt_deleteTask.setActionCommand("deleteTask");
+		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask));
 
 	}
 

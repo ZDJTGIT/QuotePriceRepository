@@ -96,6 +96,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 								JOptionPane.showMessageDialog(null, "任务创建成功！",
 										"提示信息", JOptionPane.PLAIN_MESSAGE);
 								jDialog.dispose();
+
 								DefaultTableModel model = (DefaultTableModel) jt_quoteTask
 										.getModel();
 								Vector<Object> rowData = new Vector<Object>();
@@ -113,7 +114,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 								;
 							} else {
 								JOptionPane.showMessageDialog(null, "任务创建失败！",
-										"提示信息", JOptionPane.PLAIN_MESSAGE);
+										"提示信息", JOptionPane.ERROR_MESSAGE);
 							}
 						} catch (InterruptedException | ExecutionException e) {
 							e.printStackTrace();
@@ -121,20 +122,15 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 					};
 				}.execute();
 			} else {
-				Object[] options = { "确认", "取消" };
-				JOptionPane.showOptionDialog(null, "请完善您的任务信息", "警告",
-						JOptionPane.DEFAULT_OPTION,
-						JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+				JOptionPane.showMessageDialog(null, "请完善您的任务信息！",
+						"提示信息", JOptionPane.WARNING_MESSAGE);
 			}
 
 		} else if ("cancelCreateTask".equals(command)) {
 			int inf = JOptionPane.showConfirmDialog(null, "确定退出么？",
-					"Attention", JOptionPane.OK_OPTION);
+					"取消创建报价任务", JOptionPane.OK_OPTION);
 			if (inf == JOptionPane.OK_OPTION) {
 				jDialog.dispose();
-
-			} else {
-
 			}
 		}
 	}
@@ -147,7 +143,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
 	 */

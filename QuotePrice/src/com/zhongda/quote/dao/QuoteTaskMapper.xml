@@ -78,7 +78,7 @@
 			<if test="taskDescription != null">
 				task_description,
 			</if>
-			<if test="industry != null">
+			<if test="industryId != null">
 				industry_id,
 			</if>
 			<if test="createUser != null">
@@ -107,7 +107,7 @@
 			<if test="taskDescription != null">
 				#{taskDescription,jdbcType=VARCHAR},
 			</if>
-			<if test="industry != null">
+			<if test="industryId != null">
 				#{industryId,jdbcType=INTEGER},
 			</if>
 			<if test="createUser != null">
@@ -136,7 +136,7 @@
 			<if test="taskDescription != null">
 				task_description = #{taskDescription,jdbcType=VARCHAR},
 			</if>
-			<if test="industry != null">
+			<if test="industryId != null">
 				industry_id = #{industryId,jdbcType=INTEGER},
 			</if>
 			<if test="createUser != null">

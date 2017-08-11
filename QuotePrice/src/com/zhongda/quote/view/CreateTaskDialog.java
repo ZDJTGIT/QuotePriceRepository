@@ -2,7 +2,6 @@ package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
