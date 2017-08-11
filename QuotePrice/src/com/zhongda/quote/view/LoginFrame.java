@@ -16,6 +16,7 @@ import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.zhongda.quote.action.LoginFrameAction;
 import com.zhongda.quote.machine.impl.SequenceServiceImpl;
+//import com.zhongda.quote.machine.impl.SequenceServiceImpl;
 import com.zhongda.quote.utils.MyBatisUtil;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JPanelBackPhoto;

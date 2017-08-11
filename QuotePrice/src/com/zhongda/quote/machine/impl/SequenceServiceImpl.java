@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
-
-import com.zhongda.quote.machine.SequenceService;
 /**
  * <p>机器码。</p>
  * @author rojay<1250368725@qq.com>

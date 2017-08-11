@@ -6,3 +6,11 @@ classes/
 .class
 .settings/
 /.settings
+data/
+/data
+.db
+log/
+/log
+.log
+config.properties
+
