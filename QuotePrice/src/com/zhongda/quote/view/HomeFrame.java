@@ -642,7 +642,9 @@ public class HomeFrame {
 								.setMinWidth(0);
 						jt_quoteTask.getColumnModel().getColumn(0)
 								.setMaxWidth(0);
-
+						jt_quoteTask
+								.addMouseMotionListener(new HomeFrameAction(
+										jt_quoteTask));
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();

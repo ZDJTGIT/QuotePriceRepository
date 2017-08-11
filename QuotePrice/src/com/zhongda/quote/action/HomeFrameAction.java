@@ -2,6 +2,7 @@ package com.zhongda.quote.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseMotionListener;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
@@ -21,7 +22,7 @@ import com.zhongda.quote.utils.FrameGoUtils;
  * @author 研发中心-LiVerson<1061734892@qq.com>
  * @sine 2017年8月10日
  */
-public class HomeFrameAction implements ActionListener {
+public class HomeFrameAction implements ActionListener, MouseMotionListener {
 
 	// 主界面报价任务的引用
 	private JTable jt_quoteTask;
@@ -85,4 +86,25 @@ public class HomeFrameAction implements ActionListener {
 			FrameGoUtils.creatProject();
 		}
 	}
+
+	@Override
+	public void mouseDragged(java.awt.event.MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseMoved(java.awt.event.MouseEvent e) {
+		int row = jt_quoteTask.rowAtPoint(e.getPoint());
+		int col = jt_quoteTask.columnAtPoint(e.getPoint());
+		if (row > -1 && col > -1) {
+			Object value = jt_quoteTask.getValueAt(row, col);
+			if (null != value && !"".equals(value))
+				jt_quoteTask.setToolTipText(value.toString());// 悬浮显示单元格内容
+			else
+				jt_quoteTask.setToolTipText(null);// 关闭提示
+		}
+
+	}
+
 }
