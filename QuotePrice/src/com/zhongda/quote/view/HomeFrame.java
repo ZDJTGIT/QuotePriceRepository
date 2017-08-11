@@ -8,6 +8,9 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -24,6 +27,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SwingWorker;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +35,8 @@ import javax.swing.table.DefaultTableModel;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.zhongda.quote.action.HomeFrameAction;
+import com.zhongda.quote.model.QuoteTask;
+import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JMenBarColor;
 
@@ -145,7 +151,7 @@ public class HomeFrame {
 	private int height;
 	private JScrollPane jsp_jsrw;
 	private DefaultTableModel dtm;
-	private JTable jt_jsrw;
+	private JTable jt_quoteTask;
 
 	/**
 	 * Create the frame.
@@ -580,20 +586,68 @@ public class HomeFrame {
 		jtb_jsrw.add(lblNewLabel_6);
 
 		// 建设任务表格面板
-
 		jsp_jsrw = new JScrollPane();
 
-		Object[][] rowData = { { "1001", "李汉", "软件部", new Double(3000) },
-				{ "1002", "朱泽", "软件部", new Double(3100) },
-				{ "1003", "刘宇", "经理部", new Double(3000) } };
 		// 初始化列名
 		Object[] columnsName = { "序号", "任务编号", "任务名称", "任务描述", "行业", "创建人",
 				"创建时间", "最后修改时间", "任务总金额" };
-		dtm = new DefaultTableModel(rowData, columnsName);
-		jt_jsrw = new JTable(dtm);
-		jsp_jsrw.setViewportView(jt_jsrw);
-		System.out.println(jt_jsrw.getTableHeader());
+		jt_quoteTask = new JTable();
+		jsp_jsrw.setViewportView(jt_quoteTask);
 		jpanel_left.add(jsp_jsrw, BorderLayout.CENTER);
+
+		// 生成该窗口时启动任务线程从数据库加载初始化数据
+		new SwingWorker<List<QuoteTask>, QuoteTask>() {
+
+			@Override
+			protected List<QuoteTask> doInBackground() throws Exception {
+				// 从数据库获取报价任务数据
+				System.out.println("查询数据库开始");
+				long start = new Date().getTime();
+				List<QuoteTask> taskList = new QuoteTaskServiceImpl().queryAllQuoteTask();
+				long end = new Date().getTime();
+				System.out.println("查询数据库结束");
+				System.out.println("此次查询耗时："+(end-start)/1000+"秒");
+				return taskList;
+			}
+
+			@Override
+			protected void done() {
+				List<QuoteTask> taskList;
+				try {
+					taskList = get();
+					// 将数据添加到table
+					System.out.println("添加数据到Table开始");
+					long start = new Date().getTime();
+					int length = 0;
+					if(null != taskList && (length = taskList.size()) > 0){
+						Object[][] rowData = new Object[length][columnsName.length];
+						int index = 0;
+						for (QuoteTask quoteTask : taskList) {
+							rowData[index][0] = quoteTask.getId();
+							rowData[index][1] = quoteTask.getTaskNumber();
+							rowData[index][2] = quoteTask.getTaskName();
+							rowData[index][3] = quoteTask.getTaskDescription();
+							rowData[index][4] = quoteTask.getIndustry();
+							rowData[index][5] = quoteTask.getCreateUser();
+							rowData[index][6] = quoteTask.getCreateDate();
+							rowData[index][7] = quoteTask.getLastUpdateDate();
+							rowData[index][8] = quoteTask.getTaskAmount();
+							index++;
+						}
+						dtm = new DefaultTableModel(rowData, columnsName);
+						jt_quoteTask.setModel(dtm);
+						long end = new Date().getTime();
+						System.out.println("添加数据到Table结束");
+						System.out.println("此次添加数据耗时："+(end-start)/1000+"秒");
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			}
+		}.execute();
+
 
 		// JToolBar工具栏及其下按钮
 		jtb_tb = new JToolBar();

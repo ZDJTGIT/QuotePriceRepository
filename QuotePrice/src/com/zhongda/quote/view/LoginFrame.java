@@ -3,17 +3,20 @@ package com.zhongda.quote.view;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.zhongda.quote.action.LoginFrameAction;
 import com.zhongda.quote.utils.GetMachineUtil;
+import com.zhongda.quote.utils.MyBatisUtil;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JPanelBackPhoto;
 import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
@@ -21,7 +24,7 @@ import com.zhongda.quote.view.uiutils.JTextFieldUser;
 
 /**
  * 登录界面
- * 
+ *
  * @author liVerson
  * @time 2017-8-3 13:27:01
  *
@@ -149,5 +152,22 @@ public class LoginFrame {
 		jb_login.setActionCommand("login");
 		jp_right.add(jb_login);
 
+		// 生成该窗口时启动任务线程加载数据库配置文件
+		new SwingWorker<String, Void>() {
+			protected String doInBackground() throws Exception {
+				System.out.println("加载数据库配置文件开始");
+				long start = new Date().getTime();
+				// 加载数据库配置文件
+				MyBatisUtil.getSqlSession();
+				long end = new Date().getTime();
+				System.out.println("加载数据库配置文件结束");
+				System.out.println("此次加载数据库配置文件耗时："+(end-start)/1000+"秒");
+				return null;
+			}
+			@Override
+			protected void done() {
+
+			}
+		}.execute();
 	}
 }
