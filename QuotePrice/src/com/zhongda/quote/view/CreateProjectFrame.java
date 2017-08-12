@@ -5,21 +5,21 @@ import java.awt.Choice;
 import java.awt.EventQueue;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * 
@@ -42,19 +42,29 @@ public class CreateProjectFrame {
 	private JLabel lblNewLabel;
 	private JTextField jtf_pname;
 	private JLabel lblNewLabel_1;
-	private Choice jc_place_2;
-	private Choice jc_place_3;
 	private JLabel label_1;
 	private JTextField jtf_pp;
 	private JLabel label_2;
 	private JTextField jtf_po;
 	private JLabel label_3;
 	private JLabel lblNewLabel_2;
-	private Choice jc_place_1;
 	private Choice jc_pm;
 	private JSeparator separator;
 	private JButton jbt_yes;
 	private JButton jbt_no;
+	private JLabel lblNewLabel_3;
+	private JComboBox jcb_jyp;
+	private JPanel jp_jyp;
+	private JComboBox jcb_xjxm_1;
+	private JComboBox jcb_xjxm_2;
+	private JComboBox jcb_xjxm_3;
+	private JComboBox comboBox;
+	private JCheckBox chckbxNewCheckBox;
+	private JCheckBox chckbxNewCheckBox_1;
+	private JCheckBox chckbxNewCheckBox_2;
+	private JCheckBox chckbxNewCheckBox_3;
+	private JCheckBox chckbxNewCheckBox_4;
+	private JCheckBox chckbxNewCheckBox_5;
 
 	/**
 	 * Launch the application.
@@ -85,7 +95,7 @@ public class CreateProjectFrame {
 		SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		dialog = new JDialog();
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.setBounds(0, 0, 500, 500);
+		dialog.setBounds(0, 0, 500, 550);
 		dialog.setModal(true);// 此窗口至于前端
 		dialog.setLocationRelativeTo(null);
 		dialog.setResizable(false);
@@ -133,70 +143,100 @@ public class CreateProjectFrame {
 		lblNewLabel_1.setBounds(26, 163, 89, 15);
 		jPanel.add(lblNewLabel_1);
 
-		jc_place_1 = new Choice();
-		jc_place_1.setBounds(26, 184, 145, 21);
-		jPanel.add(jc_place_1);
+		jcb_xjxm_1 = new JComboBox();
+		jcb_xjxm_1.setBounds(26, 184, 145, 21);
+		jPanel.add(jcb_xjxm_1);
 
-		jc_place_2 = new Choice();
-		jc_place_2.setBounds(177, 184, 145, 21);
-		jPanel.add(jc_place_2);
+		jcb_xjxm_2 = new JComboBox();
+		jcb_xjxm_2.setBounds(177, 184, 145, 21);
+		jPanel.add(jcb_xjxm_2);
 
-		jc_place_3 = new Choice();
-		jc_place_3.setBounds(326, 184, 145, 21);
-		jPanel.add(jc_place_3);
+		jcb_xjxm_3 = new JComboBox();
+		jcb_xjxm_3.setBounds(326, 184, 145, 21);
+		jPanel.add(jcb_xjxm_3);
 
 		lblNewLabel_2 = new JLabel("报价方法");
 		lblNewLabel_2.setBounds(26, 211, 54, 15);
 		jPanel.add(lblNewLabel_2);
 
-		jc_pm = new Choice();
-		jc_pm.setBounds(26, 231, 445, 25);
-		jPanel.add(jc_pm);
+		comboBox = new JComboBox();
+		comboBox.setBounds(26, 231, 445, 25);
+		jPanel.add(comboBox);
 
 		label_1 = new JLabel("项目报价");
-		label_1.setBounds(26, 258, 54, 15);
+		label_1.setBounds(26, 376, 54, 15);
 		jPanel.add(label_1);
 
 		jtf_pp = new JTextField();
-		jtf_pp.setBounds(26, 283, 445, 25);
+		jtf_pp.setBounds(26, 395, 445, 25);
 		jPanel.add(jtf_pp);
 		jtf_pp.setColumns(10);
 
 		label_2 = new JLabel("其他费用报价");
-		label_2.setBounds(26, 315, 101, 15);
+		label_2.setBounds(26, 422, 101, 15);
 		jPanel.add(label_2);
 
 		jtf_po = new JTextField();
-		jtf_po.setBounds(26, 336, 445, 25);
+		jtf_po.setBounds(26, 440, 445, 25);
 		jPanel.add(jtf_po);
 		jtf_po.setColumns(10);
 
 		label_3 = new JLabel("中大检测");
-		label_3.setBounds(4, 375, 54, 23);
+		label_3.setBounds(4, 468, 54, 23);
 		jPanel.add(label_3);
 
 		separator = new JSeparator();
-		separator.setBounds(55, 387, 435, 2);
+		separator.setBounds(55, 480, 435, 2);
 		jPanel.add(separator);
 
 		jbt_yes = new JButton("确认");
 		jbt_yes.setFocusPainted(false);
-		jbt_yes.setBounds(282, 399, 93, 23);
+		jbt_yes.setBounds(282, 490, 93, 23);
 		jPanel.add(jbt_yes);
 
 		jbt_no = new JButton("取消");
-		jbt_no.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int temp = JOptionPane.showConfirmDialog(null, "你高兴吗?", "标题",
-						JOptionPane.YES_NO_OPTION);
-				if (temp == 0) {
-					dialog.dispose();
-				}
-			}
-		});
 		jbt_no.setFocusPainted(false);
-		jbt_no.setBounds(378, 399, 93, 23);
+		jbt_no.setBounds(378, 490, 93, 23);
 		jPanel.add(jbt_no);
+
+		lblNewLabel_3 = new JLabel("创建检测批");
+		lblNewLabel_3.setBounds(26, 265, 74, 21);
+		jPanel.add(lblNewLabel_3);
+
+		jcb_jyp = new JComboBox();
+		jcb_jyp.setBounds(110, 265, 361, 21);
+		jPanel.add(jcb_jyp);
+
+		jp_jyp = new JPanel();
+		jp_jyp.setBounds(26, 295, 445, 75);
+		jp_jyp.setBorder(BorderFactory.createTitledBorder(null, "检测批",
+				TitledBorder.LEFT, TitledBorder.TOP, new Font("宋体", 0, 14)));// 设置边框字体
+		jPanel.add(jp_jyp);
+		jp_jyp.setLayout(null);
+
+		chckbxNewCheckBox = new JCheckBox("社会");
+		chckbxNewCheckBox.setBounds(6, 17, 103, 23);
+		jp_jyp.add(chckbxNewCheckBox);
+
+		chckbxNewCheckBox_1 = new JCheckBox("我");
+		chckbxNewCheckBox_1.setBounds(174, 17, 103, 23);
+		jp_jyp.add(chckbxNewCheckBox_1);
+
+		chckbxNewCheckBox_2 = new JCheckBox("鑫哥");
+		chckbxNewCheckBox_2.setBounds(306, 17, 103, 23);
+		jp_jyp.add(chckbxNewCheckBox_2);
+
+		chckbxNewCheckBox_3 = new JCheckBox("人");
+		chckbxNewCheckBox_3.setBounds(6, 46, 103, 23);
+		jp_jyp.add(chckbxNewCheckBox_3);
+
+		chckbxNewCheckBox_4 = new JCheckBox("狠");
+		chckbxNewCheckBox_4.setBounds(174, 46, 103, 23);
+		jp_jyp.add(chckbxNewCheckBox_4);
+
+		chckbxNewCheckBox_5 = new JCheckBox("话不多");
+		chckbxNewCheckBox_5.setBounds(306, 46, 103, 23);
+		jp_jyp.add(chckbxNewCheckBox_5);
 
 	}
 }
