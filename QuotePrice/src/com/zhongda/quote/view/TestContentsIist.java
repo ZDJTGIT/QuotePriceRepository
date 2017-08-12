@@ -50,6 +50,7 @@ public class TestContentsIist {
       
 		jTable= new JTable(rowData,columnNames);
 		jTable.setRowHeight(20);//设置单元表格高度
+		jTable .getTableHeader().setReorderingAllowed(false);
 		jTable.getTableHeader().setPreferredSize(new Dimension(1, 24)); //设置表头高度
 		jsp= new JScrollPane(jTable);
 		jsp.setBounds(0, 0, 287, 267);
