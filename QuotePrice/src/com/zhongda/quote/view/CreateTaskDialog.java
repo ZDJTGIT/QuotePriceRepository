@@ -251,8 +251,7 @@ public class CreateTaskDialog {
 		bt_cancel.addActionListener(new CreateTaskDialogAction(jDialog));
 		// 添加确认按钮事件
 		bt_confirm.setActionCommand("confirmCreateTask");
-		bt_confirm
-				.addActionListener(new CreateTaskDialogAction(jtf_taskName,
+		bt_confirm.addActionListener(new CreateTaskDialogAction(jtf_taskName,
 
 				jtf_createUser, jtf_date, jcb_industry, textArea, jt_quoteTask,
 						jDialog));
