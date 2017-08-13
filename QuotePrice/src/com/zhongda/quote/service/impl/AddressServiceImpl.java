@@ -1,6 +1,8 @@
 package com.zhongda.quote.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -29,10 +31,10 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public List<Address> queryAllCityByProvince(Integer id) {
+	public List<Address> queryAllCityOrCountyByParent(Integer id) {
 		List<Address> addressList = null;
 		try{
-			addressList = addressMapper.selectAllCityByProvince(id);
+			addressList = addressMapper.selectAllCityOrCountyByParent(id);
 		}catch(Exception e){
 			logger.error(e.getMessage());
 		}finally{
@@ -42,16 +44,31 @@ public class AddressServiceImpl implements AddressService {
 	}
 
 	@Override
-	public List<Address> queryAllCountyByCity(Integer id) {
-		List<Address> addressList = null;
+	public Map<String, List<Address>> queryAllProvinceAndCityCountyByParent() {
+		Address address = null;
+		Map<String, List<Address>> addressMap = null;
 		try{
-			addressList = addressMapper.selectAllCountyByCity(id);
+			addressMap = new HashMap<String, List<Address>>();
+			//获取所有的省
+			List<Address> provinceList = addressMapper.selectAllProvince();
+			addressMap.put("provinceList", provinceList);
+			//获取第一个省
+			address = provinceList.get(0);
+			//获取第一个省下所有的市
+			List<Address> cityList = addressMapper.selectAllCityOrCountyByParent(address.getId());
+			addressMap.put("cityList", cityList);
+			//获取第一个市
+			address = cityList.get(0);
+			//获取第一个市下所有的区或县
+			List<Address> countyList = addressMapper.selectAllCityOrCountyByParent(address.getId());
+			addressMap.put("countyList", countyList);
+
 		}catch(Exception e){
 			logger.error(e.getMessage());
 		}finally{
 			MyBatisUtil.closeSqlSession();
 		}
-		return addressList;
+		return addressMap;
 	}
 
 }

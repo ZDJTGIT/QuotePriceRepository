@@ -1,6 +1,7 @@
 package com.zhongda.quote.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.zhongda.quote.model.Address;
 
@@ -13,16 +14,15 @@ public interface AddressService {
 	List<Address> queryAllProvince();
 
 	/**
-	 * 通过省的id查询出在该省下面所有的市
-	 * @param id 省份的id
+	 * 通过省(市)的id查询出在该省(市)下面所有的市(区或县)
+	 * @param id 省(市)的id
 	 * @return
 	 */
-	List<Address> queryAllCityByProvince(Integer id);
+	List<Address> queryAllCityOrCountyByParent(Integer id);
 
 	/**
-	 * 通过市的id查询出在该市下面所有的县(区)
-	 * @param id 市的id
+	 * h获取所有的省，以及默认省(第一个省)下所有的市，同时根据获取到的默认的市(第一个市)获取该市下所有的区或县
 	 * @return
 	 */
-	List<Address> queryAllCountyByCity(Integer id);
+	Map<String, List<Address>> queryAllProvinceAndCityCountyByParent();
 }

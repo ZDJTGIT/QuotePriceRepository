@@ -15,16 +15,10 @@ public interface AddressMapper {
 	List<Address> selectAllProvince();
 
 	/**
-	 * 通过省的id查询出在该省下面所有的市
-	 * @param id 省份的id
+	 * 通过省(市)的id查询出在该省(市)下面所有的市(区或县)
+	 * @param id 省(市)的id
 	 * @return
 	 */
-	List<Address> selectAllCityByProvince(Integer id);
+	List<Address> selectAllCityOrCountyByParent(Integer id);
 
-	/**
-	 * 通过市的id查询出在该市下面所有的县(区)
-	 * @param id 市的id
-	 * @return
-	 */
-	List<Address> selectAllCountyByCity(Integer id);
 }

@@ -24,13 +24,7 @@
     from Address
     where level = 1
   </select>
-  <select id="selectAllCityByProvince" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from Address
-    where pid = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="selectAllCountyByCity" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectAllCityOrCountyByParent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from Address

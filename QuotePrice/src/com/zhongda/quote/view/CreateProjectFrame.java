@@ -2,31 +2,44 @@ package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
 import java.awt.Choice;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
+import com.zhongda.quote.action.CreateProjectFrameAction;
+import com.zhongda.quote.model.Address;
+import com.zhongda.quote.service.impl.AddressServiceImpl;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 
 /**
- * 
+ *
  * <p>
  * 新建项目类UI
  * </p>
- * 
+ *
  * @author 研发中心-LiVerson<1061734892@qq.com>
  * @sine 2017年8月9日
  */
@@ -55,9 +68,9 @@ public class CreateProjectFrame {
 	private JLabel lblNewLabel_3;
 	private JComboBox jcb_jyp;
 	private JPanel jp_jyp;
-	private JComboBox jcb_xjxm_1;
-	private JComboBox jcb_xjxm_2;
-	private JComboBox jcb_xjxm_3;
+	private JComboBox<Address> jcb_province;
+	private JComboBox<Address> jcb_city;
+	private JComboBox<Address> jcb_county;
 	private JComboBox comboBox;
 	private JCheckBox chckbxNewCheckBox;
 	private JCheckBox chckbxNewCheckBox_1;
@@ -143,17 +156,17 @@ public class CreateProjectFrame {
 		lblNewLabel_1.setBounds(26, 163, 89, 15);
 		jPanel.add(lblNewLabel_1);
 
-		jcb_xjxm_1 = new JComboBox();
-		jcb_xjxm_1.setBounds(26, 184, 145, 21);
-		jPanel.add(jcb_xjxm_1);
+		jcb_province = new JComboBox<Address>();
+		jcb_province.setBounds(26, 184, 145, 21);
+		jPanel.add(jcb_province);
 
-		jcb_xjxm_2 = new JComboBox();
-		jcb_xjxm_2.setBounds(177, 184, 145, 21);
-		jPanel.add(jcb_xjxm_2);
+		jcb_city = new JComboBox<Address>();
+		jcb_city.setBounds(177, 184, 145, 21);
+		jPanel.add(jcb_city);
 
-		jcb_xjxm_3 = new JComboBox();
-		jcb_xjxm_3.setBounds(326, 184, 145, 21);
-		jPanel.add(jcb_xjxm_3);
+		jcb_county = new JComboBox<Address>();
+		jcb_county.setBounds(326, 184, 145, 21);
+		jPanel.add(jcb_county);
 
 		lblNewLabel_2 = new JLabel("报价方法");
 		lblNewLabel_2.setBounds(26, 211, 54, 15);
@@ -238,5 +251,76 @@ public class CreateProjectFrame {
 		chckbxNewCheckBox_5.setBounds(306, 46, 103, 23);
 		jp_jyp.add(chckbxNewCheckBox_5);
 
+		// 生成该窗口时启动任务线程从数据库加载初始化数据(所有省的数据,以及默认选中省后的所有市的数据和默认选中市后所有区的数据)
+		new SwingWorker<Map<String, List<Address>>, Void>() {
+
+			@Override
+			protected Map<String, List<Address>> doInBackground() throws Exception {
+				// 从数据库获取所有省的数据,以及默认选中省后的所有市的数据和默认选中市后所有区的数据
+				return new AddressServiceImpl().queryAllProvinceAndCityCountyByParent();
+			}
+
+			@Override
+			protected void done() {
+				Map<String, List<Address>> addressMap;
+				try {
+					addressMap = get();
+					List<Address> provinceList = addressMap.get("provinceList");
+					//填充省数据到省的ComboBox
+					initAddressComboBoxDataDisplay(jcb_province, provinceList);
+					List<Address> cityList = addressMap.get("cityList");
+					//填充市数据到市的ComboBox
+					initAddressComboBoxDataDisplay(jcb_city, cityList);
+					List<Address> countyList = addressMap.get("countyList");
+					//填充区数据到区的ComboBox
+					initAddressComboBoxDataDisplay(jcb_county, countyList);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			}
+
+			/**
+			 * 填充地址数据到地址的ComboBox
+			 * @param jcb_address 地址ComboBox
+			 * @param addressList 地址数据
+			 */
+			private void initAddressComboBoxDataDisplay(JComboBox<Address> jcb_address,
+					List<Address> addressList) {
+				Vector<Address> model = new Vector<Address>();
+				// 将数据添加到comboBox
+				for (Address address : addressList) {
+					model.addElement(address);
+				}
+				ComboBoxModel<Address> comboBoxModel = new DefaultComboBoxModel<Address>(
+						model);
+				jcb_address.setModel(comboBoxModel);
+				// 提供自定义渲染类，实现键值绑定
+				jcb_address.setRenderer(new DefaultListCellRenderer() {
+
+					private static final long serialVersionUID = 1L;
+
+					public Component getListCellRendererComponent(
+							JList<?> list, Object value, int index,
+							boolean isSelected, boolean cellHasFocus) {
+						super.getListCellRendererComponent(list, value,
+								index, isSelected, cellHasFocus);
+						if (value != null) {
+							Address address = (Address) value;
+							// 将省名称填入显示列表
+							setText(address.getName());
+						}
+						return this;
+					};
+				});
+			}
+		}.execute();
+
+		CreateProjectFrameAction createProjectFrameAction = new CreateProjectFrameAction(jcb_province,jcb_city,jcb_county);
+		//省的下拉列表选项选中后触发事件
+		jcb_province.addItemListener(createProjectFrameAction);
+		//市的下拉列表选项选中后触发事件
+		jcb_city.addItemListener(createProjectFrameAction);
 	}
 }

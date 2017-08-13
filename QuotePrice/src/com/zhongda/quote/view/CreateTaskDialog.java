@@ -196,7 +196,7 @@ public class CreateTaskDialog {
 		lblNewLabel_2.setBounds(4, 347, 54, 23);
 		panel.add(lblNewLabel_2);
 
-		// 生成该窗口时启动任务线程从数据库加载初始化数据
+		// 生成该窗口时启动任务线程从数据库加载初始化数据(所有行业的数据)
 		new SwingWorker<List<Industry>, Industry>() {
 
 			@Override
