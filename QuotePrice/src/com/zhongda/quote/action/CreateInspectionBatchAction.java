@@ -8,30 +8,40 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import com.zhongda.quote.view.TestContentsIist;
+import com.zhongda.quote.view.InspectionContentsListFrame;
 
-public class CreatrInspectionLotAction implements ActionListener {
+/**
+*
+* <p>
+* 创建检验批窗口中所有监听事件处理类
+* <p>
+*
+* @author 研发中心-Mikepolite<1011592269@qq.com>
+* @sine 2017年8月12日
+*/
+
+public class CreateInspectionBatchAction implements ActionListener {
 
 	private JDialog jDialog;
 	private JFrame frameContentsIist;
 	private JTextField textField_belong, textField_name, textField_search,
 			textField_offer;
 
-	public CreatrInspectionLotAction() {
+	public CreateInspectionBatchAction() {
 
 	}
 
-	public CreatrInspectionLotAction(JDialog jDialog) {
+	public CreateInspectionBatchAction(JDialog jDialog) {
 
 		this.jDialog = jDialog;
 	}
 	
-	public CreatrInspectionLotAction(JFrame frameContentsIist) {
+	public CreateInspectionBatchAction(JFrame frameContentsIist) {
 
 		this.frameContentsIist = frameContentsIist;
 	}
 	
-	public CreatrInspectionLotAction(JTextField textField_belong,
+	public CreateInspectionBatchAction(JTextField textField_belong,
 			JTextField textField_name, JTextField textField_search,
 			JTextField textField_offer, JDialog jDialog) {
 
@@ -48,7 +58,7 @@ public class CreatrInspectionLotAction implements ActionListener {
 		int i;
 		String command = e.getActionCommand();
 		if ("search".equals(command)) {// 鼠标单击搜索按钮，弹出TestContentsIist界面。
-			TestContentsIist TestContentsIist = new TestContentsIist();
+			InspectionContentsListFrame TestContentsIist = new InspectionContentsListFrame();
 			TestContentsIist.frameContentsIist.setVisible(true);
 		} else if ("yes".equals(command)) {// 鼠标单击确定按钮，判断数据完整性，提交数据
 			    String inspectionlot[]= { textField_belong.getText(),

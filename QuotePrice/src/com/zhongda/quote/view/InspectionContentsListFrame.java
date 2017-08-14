@@ -13,14 +13,24 @@ import com.zhongda.quote.utils.SkinUtil;
 import javax.swing.JTable;
 import javax.swing.JButton;
 
-public class TestContentsIist {
+/**
+*
+* <p>
+* 检验内容列表
+* <p>
+*
+* @author 研发中心-Mikepolite<1011592269@qq.com>
+* @sine 2017年8月12日
+*/
+
+public class InspectionContentsListFrame {
 	
 	public JFrame frameContentsIist;
 	private JScrollPane jsp;
 	private JTable jTable;
 	private JButton btnNewButton;
 	
-	public TestContentsIist(){
+	public InspectionContentsListFrame(){
 		initialize();
 	}
 	

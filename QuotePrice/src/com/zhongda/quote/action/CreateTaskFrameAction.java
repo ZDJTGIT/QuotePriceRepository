@@ -30,7 +30,7 @@ import com.zhongda.quote.utils.FrameGoUtils;
  * @author 研发中心-Mikepolite<1011592269@qq.com>
  * @sine 2017年8月9日
  */
-public class CreateTaskDialogAction implements ActionListener, WindowListener {
+public class CreateTaskFrameAction implements ActionListener, WindowListener {
 
 	private JTextField jtf_taskName;
 	private JTextField jtf_createUser;
@@ -42,7 +42,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 	// 主界面报价任务的引用
 	private JTable jt_quoteTask;
 
-	public CreateTaskDialogAction(JTextField jtf_taskName,
+	public CreateTaskFrameAction(JTextField jtf_taskName,
 			JTextField jtf_createUser, JTextField df_createDate,
 			JComboBox<Industry> jcb_industry, JTextArea jta_taskDescription,
 			JTable jt_quoteTask, JDialog dialog) {
@@ -56,7 +56,7 @@ public class CreateTaskDialogAction implements ActionListener, WindowListener {
 		this.jDialog = dialog;
 	}
 
-	public CreateTaskDialogAction(JDialog jDialog) {
+	public CreateTaskFrameAction(JDialog jDialog) {
 
 		this.jDialog = jDialog;
 	}

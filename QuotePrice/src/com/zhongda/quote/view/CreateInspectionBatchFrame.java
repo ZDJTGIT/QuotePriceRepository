@@ -1,6 +1,7 @@
 package com.zhongda.quote.view;
 
 import java.awt.Dimension;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,11 +14,21 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
-import com.zhongda.quote.action.CreatrInspectionLotAction;
+import com.zhongda.quote.action.CreateInspectionBatchAction;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 
-public class CreateInspectionLot {
+/**
+*
+* <p>
+* 创建检验批窗口
+* <p>
+*
+* @author 研发中心-Mikepolite<1011592269@qq.com>
+* @sine 2017年8月12日
+*/
+
+public class CreateInspectionBatchFrame {
 
 	private JDialog jDialog;
 	private JPanel panel_subject;
@@ -31,14 +42,14 @@ public class CreateInspectionLot {
 	private JScrollPane jsp;
 
 	public static void main(String[] args) {
-		CreateInspectionLot CreateInspectionLot = new CreateInspectionLot();
+		CreateInspectionBatchFrame CreateInspectionLot = new CreateInspectionBatchFrame();
 		CreateInspectionLot.jDialog.setVisible(true);
 	}
 
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public CreateInspectionLot() {
+	public CreateInspectionBatchFrame() {
 		initialize();
 	}
 
@@ -159,11 +170,11 @@ public class CreateInspectionLot {
 		panel_subject.add(jsp);
 
 		Button_search.setActionCommand("search");
-		Button_search.addActionListener(new CreatrInspectionLotAction());
+		Button_search.addActionListener(new CreateInspectionBatchAction());
 		Button_no.setActionCommand("no");
-		Button_no.addActionListener(new CreatrInspectionLotAction(jDialog));
+		Button_no.addActionListener(new CreateInspectionBatchAction(jDialog));
 		Button_yes.setActionCommand("yes");
-		Button_yes.addActionListener(new CreatrInspectionLotAction(
+		Button_yes.addActionListener(new CreateInspectionBatchAction(
 				textField_belong, textField_name, textField_search,
 				textField_offer, jDialog));
 

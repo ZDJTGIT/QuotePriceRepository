@@ -5,7 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JTable;
 
 import com.zhongda.quote.view.CreateProjectFrame;
-import com.zhongda.quote.view.CreateTaskDialog;
+import com.zhongda.quote.view.CreateTaskFrame;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class FrameGoUtils {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateTaskDialog window = new CreateTaskDialog(jt_quoteTask);
+					CreateTaskFrame window = new CreateTaskFrame(jt_quoteTask);
 					window.jDialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

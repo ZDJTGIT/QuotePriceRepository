@@ -28,7 +28,7 @@ import javax.swing.SwingWorker;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
-import com.zhongda.quote.action.CreateTaskDialogAction;
+import com.zhongda.quote.action.CreateTaskFrameAction;
 import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.service.impl.IndustryServiceImpl;
 import com.zhongda.quote.utils.SkinUtil;
@@ -44,7 +44,7 @@ import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
  * @author 研发中心-Mikepolite<1011592269@qq.com>
  * @sine 2017年8月9日
  */
-public class CreateTaskDialog {
+public class CreateTaskFrame {
 
 	public JDialog jDialog;
 
@@ -71,12 +71,12 @@ public class CreateTaskDialog {
 	private JSeparator separator_1;
 	private JTextField jtf_date;
 
-	public CreateTaskDialog() {
+	public CreateTaskFrame() {
 		init();
 
 	}
 
-	public CreateTaskDialog(JTable jt_quoteTask) {
+	public CreateTaskFrame(JTable jt_quoteTask) {
 		this.jt_quoteTask = jt_quoteTask;
 		init();
 	}
@@ -245,13 +245,13 @@ public class CreateTaskDialog {
 		}.execute();
 
 		// 添加关闭窗口事件
-		jDialog.addWindowListener(new CreateTaskDialogAction(jDialog));
+		jDialog.addWindowListener(new CreateTaskFrameAction(jDialog));
 		// 添加取消按钮事件
 		bt_cancel.setActionCommand("cancelCreateTask");
-		bt_cancel.addActionListener(new CreateTaskDialogAction(jDialog));
+		bt_cancel.addActionListener(new CreateTaskFrameAction(jDialog));
 		// 添加确认按钮事件
 		bt_confirm.setActionCommand("confirmCreateTask");
-		bt_confirm.addActionListener(new CreateTaskDialogAction(jtf_taskName,
+		bt_confirm.addActionListener(new CreateTaskFrameAction(jtf_taskName,
 
 				jtf_createUser, jtf_date, jcb_industry, textArea, jt_quoteTask,
 						jDialog));
