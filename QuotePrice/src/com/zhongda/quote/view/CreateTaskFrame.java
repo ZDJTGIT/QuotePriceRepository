@@ -1,37 +1,23 @@
 package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Vector;
-import java.util.concurrent.ExecutionException;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingWorker;
-
-import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.zhongda.quote.action.CreateTaskFrameAction;
-import com.zhongda.quote.model.Industry;
-import com.zhongda.quote.service.impl.IndustryServiceImpl;
-import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.Chooser;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 
@@ -51,11 +37,10 @@ public class CreateTaskFrame {
 	private JLabel ble_1;
 	private JLabel ble_2;
 	private JLabel ble_3;
-	private JLabel ble_4;
+
 	private JLabel ble_5;
 	private JTextField jtf_taskName;
 	private JTextField jtf_createUser;
-	private JComboBox<Industry> jcb_industry;
 	private JButton bt_confirm;
 	private JButton bt_cancel;
 	// 主界面报价任务的引用
@@ -83,23 +68,17 @@ public class CreateTaskFrame {
 
 	public void init() {
 
-		SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
+		// SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		jDialog = new JDialog();
 		jDialog.setBounds(0, 0, 500, 442);
 		jDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		ImageIcon icon = new ImageIcon("images\\zdLogo1.png");
 		jDialog.setTitle("中大检测");
 		jDialog.setResizable(false);
-		jDialog.setLocationRelativeTo(null);//设置界面居中
+		jDialog.setLocationRelativeTo(null);// 设置界面居中
 		jDialog.setIconImage(icon.getImage());
 		jDialog.setModal(true);
 		jDialog.getContentPane().setLayout(new BorderLayout(0, 0));
-
-//		ble_6 = new JLabel();
-//		ble_6.setText("当前任务的总报价为：");
-//		ble_6.setFont(new Font("新宋体", 1, 18));
-//		ble_6.setForeground(Color.BLACK);
-//		jDialog.getContentPane().add(ble_6);
 
 		panel = new JPanel();
 		jDialog.getContentPane().add(panel, BorderLayout.CENTER);
@@ -124,7 +103,7 @@ public class CreateTaskFrame {
 		jtf_date.setText(getTodayDate());
 		jtf_date.setFont(new Font("宋体", 1, 15));
 		ser.register(jtf_date);
-		jtf_date.setBounds(260, 163, 107, 20);
+		jtf_date.setBounds(26, 193, 107, 20);
 		panel.add(jtf_date);
 
 		bt_confirm = new JButton();
@@ -162,12 +141,8 @@ public class CreateTaskFrame {
 		ble_5.setBounds(26, 220, 260, 20);
 		panel.add(ble_5);
 
-		ble_4 = new JLabel("所属行业（请选择您新建任务涉及行业）");
-		ble_4.setBounds(26, 192, 216, 20);
-		panel.add(ble_4);
-
 		ble_3 = new JLabel("创建时间（当前显示系统默认时间）");
-		ble_3.setBounds(26, 163, 207, 20);
+		ble_3.setBounds(26, 163, 260, 20);
 		panel.add(ble_3);
 
 		jtf_createUser = new JTextField();
@@ -187,65 +162,10 @@ public class CreateTaskFrame {
 		ble_1.setText("任务名称（请输入完整任务名称）");
 		panel.add(ble_1);
 
-		jcb_industry = new JComboBox<Industry>();
-		jcb_industry.setFont(new Font("新宋体", 0, 15));
-		jcb_industry.setBounds(260, 192, 207, 25);
-		panel.add(jcb_industry);
-
 		lblNewLabel_2 = new JLabel("中大检测");
 		lblNewLabel_2.setBounds(4, 347, 54, 23);
 		panel.add(lblNewLabel_2);
 
-		// 生成该窗口时启动任务线程从数据库加载初始化数据(所有行业的数据)
-		new SwingWorker<List<Industry>, Industry>() {
-
-			@Override
-			protected List<Industry> doInBackground() throws Exception {
-				// 从数据库获取行业数据
-				return new IndustryServiceImpl().queryAllIndustry();
-			}
-
-			@Override
-			protected void done() {
-				List<Industry> industryList;
-				try {
-					industryList = get();
-					Vector<Industry> model = new Vector<Industry>();
-					// 将数据添加到comboBox
-					for (Industry industry : industryList) {
-						model.addElement(industry);
-					}
-					ComboBoxModel<Industry> comboBoxModel = new DefaultComboBoxModel<Industry>(
-							model);
-					jcb_industry.setModel(comboBoxModel);
-					// 提供自定义渲染类，实现键值绑定
-					jcb_industry.setRenderer(new DefaultListCellRenderer() {
-
-						private static final long serialVersionUID = 1L;
-
-						public Component getListCellRendererComponent(
-								JList<?> list, Object value, int index,
-								boolean isSelected, boolean cellHasFocus) {
-							super.getListCellRendererComponent(list, value,
-									index, isSelected, cellHasFocus);
-							if (value != null) {
-								Industry industry = (Industry) value;
-								// 将行业名称填入显示列表
-								setText(industry.getIndustryName());
-							}
-							return this;
-						};
-					});
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-			}
-		}.execute();
-
-		// 添加关闭窗口事件
-		jDialog.addWindowListener(new CreateTaskFrameAction(jDialog));
 		// 添加取消按钮事件
 		bt_cancel.setActionCommand("cancelCreateTask");
 		bt_cancel.addActionListener(new CreateTaskFrameAction(jDialog));
@@ -253,8 +173,7 @@ public class CreateTaskFrame {
 		bt_confirm.setActionCommand("confirmCreateTask");
 		bt_confirm.addActionListener(new CreateTaskFrameAction(jtf_taskName,
 
-				jtf_createUser, jtf_date, jcb_industry, textArea, jt_quoteTask,
-						jDialog));
+		jtf_createUser, jtf_date, textArea, jt_quoteTask, jDialog));
 	}
 
 	public String getTodayDate() {
@@ -264,6 +183,19 @@ public class CreateTaskFrame {
 		String date = dateFormat.format(now);
 		return date;
 
+	}
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreateTaskFrame window = new CreateTaskFrame();
+					window.jDialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

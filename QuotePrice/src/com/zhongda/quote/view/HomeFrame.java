@@ -597,6 +597,7 @@ public class HomeFrame {
 				return true;// 可编辑
 			}
 		};
+
 		jsp_jsrw.setViewportView(jt_quoteTask);
 		jpanel_left.add(jsp_jsrw, BorderLayout.CENTER);
 
@@ -660,6 +661,8 @@ public class HomeFrame {
 						jt_quoteTask
 								.addMouseMotionListener(new HomeFrameAction(
 										jt_quoteTask));
+
+						jt_quoteTask.setRowSelectionInterval(0, 0);// 选中第一行
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();

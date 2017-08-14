@@ -27,7 +27,9 @@ import javax.swing.border.TitledBorder;
 
 import com.zhongda.quote.action.CreateProjectFrameAction;
 import com.zhongda.quote.model.Address;
+import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.service.impl.AddressServiceImpl;
+import com.zhongda.quote.service.impl.IndustryServiceImpl;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 
 /**
@@ -71,7 +73,8 @@ public class CreateProjectFrame {
 	private JCheckBox chckbxNewCheckBox_3;
 	private JCheckBox chckbxNewCheckBox_4;
 	private JCheckBox chckbxNewCheckBox_5;
-
+	private JLabel ble_4;
+	private JComboBox<Industry> jcb_industry;
 
 	/**
 	 * Create the frame.
@@ -86,7 +89,7 @@ public class CreateProjectFrame {
 		// SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		dialog = new JDialog();
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.setBounds(0, 0, 500, 500);
+		dialog.setBounds(0, 0, 500, 550);
 		dialog.setModal(true);// 此窗口至于前端
 		dialog.setLocationRelativeTo(null);
 		dialog.setResizable(false);
@@ -118,6 +121,7 @@ public class CreateProjectFrame {
 
 		jtf_task = new JTextField();
 		jtf_task.setBounds(26, 80, 445, 25);
+		jtf_task.setEnabled(false);
 		jPanel.add(jtf_task);
 		jtf_task.setColumns(10);
 
@@ -130,20 +134,77 @@ public class CreateProjectFrame {
 		jPanel.add(jtf_pname);
 		jtf_pname.setColumns(10);
 
+		ble_4 = new JLabel("所属行业（请选择您新建任务涉及行业）");
+		ble_4.setBounds(26, 155, 216, 20);
+		jPanel.add(ble_4);
+
+		jcb_industry = new JComboBox<Industry>();
+		jcb_industry.setFont(new Font("新宋体", 0, 15));
+		jcb_industry.setBounds(26, 180, 207, 25);
+		jPanel.add(jcb_industry);
+
+		// 生成该窗口时启动任务线程从数据库加载初始化数据(所有行业的数据)
+		new SwingWorker<List<Industry>, Industry>() {
+
+			@Override
+			protected List<Industry> doInBackground() throws Exception {
+				// 从数据库获取行业数据
+				return new IndustryServiceImpl().queryAllIndustry();
+			}
+
+			@Override
+			protected void done() {
+				List<Industry> industryList;
+				try {
+					industryList = get();
+					Vector<Industry> model = new Vector<Industry>();
+					// 将数据添加到comboBox
+					for (Industry industry : industryList) {
+						model.addElement(industry);
+					}
+					ComboBoxModel<Industry> comboBoxModel = new DefaultComboBoxModel<Industry>(
+							model);
+					jcb_industry.setModel(comboBoxModel);
+					// 提供自定义渲染类，实现键值绑定
+					jcb_industry.setRenderer(new DefaultListCellRenderer() {
+
+						private static final long serialVersionUID = 1L;
+
+						public Component getListCellRendererComponent(
+								JList<?> list, Object value, int index,
+								boolean isSelected, boolean cellHasFocus) {
+							super.getListCellRendererComponent(list, value,
+									index, isSelected, cellHasFocus);
+							if (value != null) {
+								Industry industry = (Industry) value;
+								// 将行业名称填入显示列表
+								setText(industry.getIndustryName());
+							}
+							return this;
+						};
+					});
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			}
+		}.execute();
+
 		lblNewLabel_1 = new JLabel("项目所属地点");
-		lblNewLabel_1.setBounds(26, 163, 89, 15);
+		lblNewLabel_1.setBounds(26, 210, 89, 20);
 		jPanel.add(lblNewLabel_1);
 
 		jcb_province = new JComboBox<Address>();
-		jcb_province.setBounds(26, 184, 145, 21);
+		jcb_province.setBounds(26, 234, 145, 21);
 		jPanel.add(jcb_province);
 
 		jcb_city = new JComboBox<Address>();
-		jcb_city.setBounds(177, 184, 145, 21);
+		jcb_city.setBounds(177, 234, 145, 21);
 		jPanel.add(jcb_city);
 
 		jcb_county = new JComboBox<Address>();
-		jcb_county.setBounds(326, 184, 145, 21);
+		jcb_county.setBounds(326, 234, 145, 21);
 		jPanel.add(jcb_county);
 
 		// lblNewLabel_2 = new JLabel("报价方法");
@@ -155,55 +216,55 @@ public class CreateProjectFrame {
 		// jPanel.add(comboBox);
 
 		label_1 = new JLabel("项目报价");
-		label_1.setBounds(26, 326, 54, 15);
+		label_1.setBounds(26, 376, 54, 15);
 		jPanel.add(label_1);
 
 		jtf_pp = new JTextField();
-		jtf_pp.setBounds(26, 345, 445, 25);
+		jtf_pp.setBounds(26, 395, 445, 25);
 		jPanel.add(jtf_pp);
 		jtf_pp.setColumns(10);
 
 		label_2 = new JLabel("其他费用报价");
-		label_2.setBounds(26, 372, 101, 15);
+		label_2.setBounds(26, 422, 101, 15);
 		jPanel.add(label_2);
 
 		jtf_po = new JTextField();
-		jtf_po.setBounds(26, 390, 445, 25);
+		jtf_po.setBounds(26, 440, 445, 25);
 		jPanel.add(jtf_po);
 		jtf_po.setColumns(10);
 
 		label_3 = new JLabel("中大检测");
-		label_3.setBounds(4, 418, 54, 23);
+		label_3.setBounds(4, 468, 54, 23);
 		jPanel.add(label_3);
 
 		separator = new JSeparator();
-		separator.setBounds(55, 430, 435, 2);
+		separator.setBounds(55, 480, 435, 2);
 		jPanel.add(separator);
 
 		jbt_yes = new JButton("确认");
 		jbt_yes.setFocusPainted(false);
 		jbt_yes.setActionCommand("commit");
 		jbt_yes.addActionListener(new CreateProjectFrameAction(dialog));
-		jbt_yes.setBounds(282, 440, 93, 23);
+		jbt_yes.setBounds(282, 490, 93, 23);
 		jPanel.add(jbt_yes);
 
 		jbt_no = new JButton("取消");
 		jbt_no.setFocusPainted(false);
 		jbt_no.setActionCommand("calloff");
 		jbt_no.addActionListener(new CreateProjectFrameAction(dialog));
-		jbt_no.setBounds(378, 440, 93, 23);
+		jbt_no.setBounds(378, 490, 93, 23);
 		jPanel.add(jbt_no);
 
 		lblNewLabel_3 = new JLabel("创建检测批");
-		lblNewLabel_3.setBounds(26, 215, 74, 21);
+		lblNewLabel_3.setBounds(26, 265, 74, 21);
 		jPanel.add(lblNewLabel_3);
 
 		jcb_jyp = new JComboBox();
-		jcb_jyp.setBounds(110, 215, 361, 21);
+		jcb_jyp.setBounds(110, 265, 361, 21);
 		jPanel.add(jcb_jyp);
 
 		jp_jyp = new JPanel();
-		jp_jyp.setBounds(26, 245, 445, 75);
+		jp_jyp.setBounds(26, 295, 445, 75);
 		jp_jyp.setBorder(BorderFactory.createTitledBorder(null, "检测批",
 				TitledBorder.LEFT, TitledBorder.TOP, new Font("宋体", 0, 14)));// 设置边框字体
 		jPanel.add(jp_jyp);
@@ -310,5 +371,6 @@ public class CreateProjectFrame {
 		jcb_province.addItemListener(createProjectFrameAction);
 		// 市的下拉列表选项选中后触发事件
 		jcb_city.addItemListener(createProjectFrameAction);
+
 	}
 }

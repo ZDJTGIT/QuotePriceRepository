@@ -86,7 +86,7 @@ public class CreatInspectionFrame {
 		SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		dialog = new JDialog();
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.setBounds(0, 0, 550, 500);
+		dialog.setBounds(0, 0, 700, 500);
 		dialog.setModal(true);// 此窗口至于前端
 		dialog.setLocationRelativeTo(null);
 		dialog.setResizable(false);
@@ -98,8 +98,8 @@ public class CreatInspectionFrame {
 		dialog.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		jpanel_up = new JpaneColorAndPhoto("images/bookpen.png", 480, 2, 48, 48);
-		jpanel_up.setBounds(0, 0, 544, 52);
+		jpanel_up = new JpaneColorAndPhoto("images/bookpen.png", 630, 2, 48, 48);
+		jpanel_up.setBounds(0, 0, 694, 52);
 		panel.add(jpanel_up);
 		jpanel_up.setLayout(null);
 
@@ -112,21 +112,21 @@ public class CreatInspectionFrame {
 		jlb_jpup_2.setBounds(33, 25, 186, 15);
 		jpanel_up.add(jlb_jpup_2);
 
-		label = new JLabel("所属任务");
+		label = new JLabel("所属项目");
 		label.setBounds(26, 62, 54, 15);
 		panel.add(label);
 
 		jtf_task = new JTextField();
-		jtf_task.setBounds(26, 80, 495, 25);
+		jtf_task.setBounds(26, 80, 645, 25);
 		panel.add(jtf_task);
 		jtf_task.setColumns(10);
 
-		lblNewLabel = new JLabel("项目名称");
-		lblNewLabel.setBounds(26, 110, 54, 15);
+		lblNewLabel = new JLabel("检验批名称");
+		lblNewLabel.setBounds(26, 110, 82, 15);
 		panel.add(lblNewLabel);
 
 		jtf_pname = new JTextField();
-		jtf_pname.setBounds(26, 128, 495, 25);
+		jtf_pname.setBounds(26, 128, 645, 25);
 		panel.add(jtf_pname);
 		jtf_pname.setColumns(10);
 
@@ -135,7 +135,7 @@ public class CreatInspectionFrame {
 		panel.add(lblNewLabel_1);
 
 		textField = new JTextField("请输入检测内容");
-		textField.setBounds(84, 163, 404, 23);
+		textField.setBounds(84, 163, 554, 23);
 		textField.setForeground(new Color(155, 174, 202));
 		textField.addFocusListener((new CreatInspectionAction(textField,
 				"printInspec")));
@@ -144,7 +144,7 @@ public class CreatInspectionFrame {
 
 		// 检测内容面板》》》》》》》
 		jp_search = new JPanel();
-		jp_search.setBounds(332, 186, 189, 164);
+		jp_search.setBounds(84, 186, 554, 224);
 		jp_search.setVisible(false);
 		panel.add(jp_search);
 		// 检测内容面板结束《《《《《《《《《
@@ -152,7 +152,7 @@ public class CreatInspectionFrame {
 		jbt_search = new JButton();
 		jbt_search.setIcon(new ImageIcon("images/find.png"));
 		jbt_search.setFocusPainted(false);
-		jbt_search.setBounds(498, 163, 23, 23);
+		jbt_search.setBounds(648, 163, 23, 23);
 		jbt_search.setActionCommand("search");
 		jp_search.setLayout(new BorderLayout(0, 0));
 
@@ -160,7 +160,7 @@ public class CreatInspectionFrame {
 		scrollPane_1.addFocusListener(new CreatInspectionAction());
 		jp_search.add(scrollPane_1, BorderLayout.CENTER);
 
-		String[] serchContentName = { "名称", "数量" };
+		String[] serchContentName = { "名称", "单个检测实施数量范围", "单个检测实施数量" };
 		Object[][] testObjects = { { "\u7F57\u6770", "1" }, { "Rojay", "2" },
 				{ "\u7F57\u6770\u5973", "3" }, { "\u6770\u7F57", "4" },
 				{ "Yajor", "5" }, { "dsff", "6" }, { "htjj", "7" },
@@ -168,6 +168,7 @@ public class CreatInspectionFrame {
 		table_1 = new JTable();
 		dtmSearch = new DefaultTableModel(testObjects, serchContentName);
 		table_1.setModel(dtmSearch);
+		table_1.getColumnModel().getColumn(1).setPreferredWidth(110);
 		scrollPane_1.setViewportView(table_1);
 		panel.add(jbt_search);
 		jbt_search.addActionListener(new CreatInspectionAction(textField,
@@ -177,7 +178,7 @@ public class CreatInspectionFrame {
 		// 结束<<<<<<<<<<<<<<<<<<<<<<
 
 		panel_1 = new JPanel();
-		panel_1.setBounds(26, 194, 495, 156);
+		panel_1.setBounds(26, 194, 645, 156);
 		panel.add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 
@@ -186,8 +187,8 @@ public class CreatInspectionFrame {
 
 		table = new JTable();
 
-		String[] tHead = { "序号", "检测内容名称", "抽样依据", "报价方法", "单个检测实施数量的范围",
-				"抽样数量" };
+		String[] tHead = { "序号", "检测内容名称", "抽样依据", "检测方法", "单个检测实施数量的范围",
+				"单个检测实施对象的数量", "抽样数量" };
 		// <<<<测试数据
 		Object[][] obj = {
 				{ "1", "是的撒发郭德纲节节高我偶尔经过hire讲话稿我偶然间hi软件hi然后就hi女女 ", "sdsd",
@@ -215,6 +216,7 @@ public class CreatInspectionFrame {
 		table.getColumnModel().getColumn(2).setPreferredWidth(40);
 		table.getColumnModel().getColumn(3).setPreferredWidth(40);
 		table.getColumnModel().getColumn(4).setPreferredWidth(130);
+		table.getColumnModel().getColumn(5).setPreferredWidth(130);
 
 		scrollPane.setViewportView(table);
 
@@ -224,7 +226,7 @@ public class CreatInspectionFrame {
 
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(26, 374, 495, 25);
+		textField_1.setBounds(26, 374, 645, 25);
 		panel.add(textField_1);
 
 		label_3 = new JLabel("中大检测");
@@ -232,21 +234,21 @@ public class CreatInspectionFrame {
 		panel.add(label_3);
 
 		separator = new JSeparator();
-		separator.setBounds(54, 420, 485, 2);
+		separator.setBounds(54, 420, 635, 2);
 		panel.add(separator);
 
 		jbt_yes = new JButton("确认");
 		jbt_yes.setFocusPainted(false);
 		jbt_yes.setActionCommand("commit");
 		jbt_yes.addActionListener(new CreatInspectionAction(dialog));
-		jbt_yes.setBounds(313, 436, 93, 23);
+		jbt_yes.setBounds(463, 436, 93, 23);
 		panel.add(jbt_yes);
 
 		jbt_no = new JButton("取消");
 		jbt_no.setFocusPainted(false);
 		jbt_no.setActionCommand("calloff");
 		jbt_no.addActionListener(new CreatInspectionAction(dialog));
-		jbt_no.setBounds(428, 436, 93, 23);
+		jbt_no.setBounds(578, 436, 93, 23);
 		panel.add(jbt_no);
 
 		jtf_task.addFocusListener(new CreatInspectionAction(jp_search));
