@@ -5,11 +5,15 @@ public class QuoteProject {
 
     private String projectName;
 
+    private Integer industryId;
+
     private String projectAddress;
 
     private Integer taskId;
 
     private Double projectAmount;
+
+    private Industry industry;
 
     public Integer getId() {
         return id;
@@ -26,6 +30,14 @@ public class QuoteProject {
     public void setProjectName(String projectName) {
         this.projectName = projectName == null ? null : projectName.trim();
     }
+
+    public Integer getIndustryId() {
+		return industryId;
+	}
+
+	public void setIndustryId(Integer industryId) {
+		this.industryId = industryId;
+	}
 
     public String getProjectAddress() {
         return projectAddress;
@@ -50,4 +62,12 @@ public class QuoteProject {
     public void setProjectAmount(Double projectAmount) {
         this.projectAmount = projectAmount;
     }
+
+    public void setIndustry(Industry industry) {
+		this.industry = industry;
+	}
+
+	public Industry getIndustry() {
+		return industry;
+	}
 }

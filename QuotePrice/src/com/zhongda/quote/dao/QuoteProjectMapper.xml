@@ -4,27 +4,32 @@
   <resultMap id="BaseResultMap" type="com.zhongda.quote.model.QuoteProject">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="industry_id" jdbcType="INTEGER" property="industryId" />
     <result column="project_address" jdbcType="VARCHAR" property="projectAddress" />
     <result column="task_id" jdbcType="INTEGER" property="taskId" />
     <result column="project_amount" jdbcType="FLOAT" property="projectAmount" />
+    <association property="industry" javaType="Industry">
+       <id column="id" jdbcType="INTEGER" property="id" />
+       <result column="industry_name" jdbcType="VARCHAR" property="industryName" />
+   </association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, project_name, project_address, task_id, project_amount
+    id, project_name, industry_id, project_address, task_id, project_amount
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from QuoteProject
-    where id = #{id,jdbcType=INTEGER}
+  	select
+	qp.*, i.*
+	from QuoteProject qp, Industry i
+	where qp.industry_id = i.id and qp.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from QuoteProject
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zhongda.quote.model.QuoteProject">
-    insert into QuoteProject (id, project_name, project_address, 
+    insert into QuoteProject (id, project_name, industry_id, project_address,
       task_id, project_amount)
-    values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{projectAddress,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{industry_id,jdbcType=INTEGER}, #{projectAddress,jdbcType=VARCHAR},
       #{taskId,jdbcType=INTEGER}, #{projectAmount,jdbcType=FLOAT})
   </insert>
   <insert id="insertSelective" parameterType="com.zhongda.quote.model.QuoteProject">
@@ -35,6 +40,9 @@
       </if>
       <if test="projectName != null">
         project_name,
+      </if>
+      <if test="industryId != null">
+        industry_id,
       </if>
       <if test="projectAddress != null">
         project_address,
@@ -53,6 +61,9 @@
       <if test="projectName != null">
         #{projectName,jdbcType=VARCHAR},
       </if>
+      <if test="industryId != null">
+        #{industryId,jdbcType=INTEGER},
+      </if>
       <if test="projectAddress != null">
         #{projectAddress,jdbcType=VARCHAR},
       </if>
@@ -70,6 +81,9 @@
       <if test="projectName != null">
         project_name = #{projectName,jdbcType=VARCHAR},
       </if>
+      <if test="industryId != null">
+        industry_id = #{industryId,jdbcType=INTEGER},
+      </if>
       <if test="projectAddress != null">
         project_address = #{projectAddress,jdbcType=VARCHAR},
       </if>
@@ -85,6 +99,7 @@
   <update id="updateByPrimaryKey" parameterType="com.zhongda.quote.model.QuoteProject">
     update QuoteProject
     set project_name = #{projectName,jdbcType=VARCHAR},
+      industry_id = #{industryId,jdbcType=INTEGER},
       project_address = #{projectAddress,jdbcType=VARCHAR},
       task_id = #{taskId,jdbcType=INTEGER},
       project_amount = #{projectAmount,jdbcType=FLOAT}

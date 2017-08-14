@@ -587,7 +587,7 @@ public class HomeFrame {
 				"创建人", "创建时间", "最后修改时间", "任务总金额" };
 		jt_quoteTask = new JTable() {
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -625,12 +625,10 @@ public class HomeFrame {
 							rowData[index][1] = quoteTask.getTaskNumber();
 							rowData[index][2] = quoteTask.getTaskName();
 							rowData[index][3] = quoteTask.getTaskDescription();
-							rowData[index][4] = quoteTask.getIndustry()
-									.getIndustryName();
-							rowData[index][5] = quoteTask.getCreateUser();
-							rowData[index][6] = quoteTask.getCreateDate();
-							rowData[index][7] = quoteTask.getLastUpdateDate();
-							rowData[index][8] = quoteTask.getTaskAmount();
+							rowData[index][4] = quoteTask.getCreateUser();
+							rowData[index][5] = quoteTask.getCreateDate();
+							rowData[index][6] = quoteTask.getLastUpdateDate();
+							rowData[index][7] = quoteTask.getTaskAmount();
 							index++;
 						}
 						dtm = new DefaultTableModel(rowData, columnsName);

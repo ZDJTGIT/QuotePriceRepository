@@ -1,7 +1,6 @@
 package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,7 +51,7 @@ public class CreateTaskFrame {
 	private JLabel lblNewLabel_2;
 	private JPanel panel_2;
 	private JScrollPane scrollPane_1;
-	private JTextArea textArea;
+	private JTextArea jta_taskDescription;
 	private JSeparator separator_1;
 	private JTextField jtf_date;
 
@@ -68,7 +67,7 @@ public class CreateTaskFrame {
 
 	public void init() {
 
-		// SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
+		//SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		jDialog = new JDialog();
 		jDialog.setBounds(0, 0, 500, 442);
 		jDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -127,11 +126,11 @@ public class CreateTaskFrame {
 		scrollPane_1 = new JScrollPane();
 		panel_2.add(scrollPane_1, BorderLayout.CENTER);
 
-		textArea = new JTextArea();
-		textArea.setFont(new Font("宋体", 0, 12));
-		textArea.setLineWrap(true);// 换行
-		textArea.setWrapStyleWord(true);// 断行不断字
-		scrollPane_1.setViewportView(textArea);
+		jta_taskDescription = new JTextArea();
+		jta_taskDescription.setFont(new Font("宋体", 0, 12));
+		jta_taskDescription.setLineWrap(true);// 换行
+		jta_taskDescription.setWrapStyleWord(true);// 断行不断字
+		scrollPane_1.setViewportView(jta_taskDescription);
 
 		separator_1 = new JSeparator();
 		separator_1.setBounds(55, 360, 435, 2);
@@ -173,7 +172,7 @@ public class CreateTaskFrame {
 		bt_confirm.setActionCommand("confirmCreateTask");
 		bt_confirm.addActionListener(new CreateTaskFrameAction(jtf_taskName,
 
-		jtf_createUser, jtf_date, textArea, jt_quoteTask, jDialog));
+		jtf_createUser, jtf_date, jta_taskDescription, jt_quoteTask, jDialog));
 	}
 
 	public String getTodayDate() {
@@ -183,19 +182,6 @@ public class CreateTaskFrame {
 		String date = dateFormat.format(now);
 		return date;
 
-	}
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateTaskFrame window = new CreateTaskFrame();
-					window.jDialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 	}
 
 }

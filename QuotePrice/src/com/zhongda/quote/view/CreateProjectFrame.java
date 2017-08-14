@@ -2,7 +2,6 @@ package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.List;
 import java.util.Map;
@@ -143,54 +142,6 @@ public class CreateProjectFrame {
 		jcb_industry.setBounds(26, 180, 207, 25);
 		jPanel.add(jcb_industry);
 
-		// 生成该窗口时启动任务线程从数据库加载初始化数据(所有行业的数据)
-		new SwingWorker<List<Industry>, Industry>() {
-
-			@Override
-			protected List<Industry> doInBackground() throws Exception {
-				// 从数据库获取行业数据
-				return new IndustryServiceImpl().queryAllIndustry();
-			}
-
-			@Override
-			protected void done() {
-				List<Industry> industryList;
-				try {
-					industryList = get();
-					Vector<Industry> model = new Vector<Industry>();
-					// 将数据添加到comboBox
-					for (Industry industry : industryList) {
-						model.addElement(industry);
-					}
-					ComboBoxModel<Industry> comboBoxModel = new DefaultComboBoxModel<Industry>(
-							model);
-					jcb_industry.setModel(comboBoxModel);
-					// 提供自定义渲染类，实现键值绑定
-					jcb_industry.setRenderer(new DefaultListCellRenderer() {
-
-						private static final long serialVersionUID = 1L;
-
-						public Component getListCellRendererComponent(
-								JList<?> list, Object value, int index,
-								boolean isSelected, boolean cellHasFocus) {
-							super.getListCellRendererComponent(list, value,
-									index, isSelected, cellHasFocus);
-							if (value != null) {
-								Industry industry = (Industry) value;
-								// 将行业名称填入显示列表
-								setText(industry.getIndustryName());
-							}
-							return this;
-						};
-					});
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-			}
-		}.execute();
-
 		lblNewLabel_1 = new JLabel("项目所属地点");
 		lblNewLabel_1.setBounds(26, 210, 89, 20);
 		jPanel.add(lblNewLabel_1);
@@ -294,6 +245,54 @@ public class CreateProjectFrame {
 		chckbxNewCheckBox_5.setBounds(306, 46, 103, 23);
 		jp_jyp.add(chckbxNewCheckBox_5);
 
+		// 生成该窗口时启动任务线程从数据库加载初始化数据(所有行业的数据)
+		new SwingWorker<List<Industry>, Industry>() {
+
+			@Override
+			protected List<Industry> doInBackground() throws Exception {
+				// 从数据库获取行业数据
+				return new IndustryServiceImpl().queryAllIndustry();
+			}
+
+			@Override
+			protected void done() {
+				List<Industry> industryList;
+				try {
+					industryList = get();
+					Vector<Industry> model = new Vector<Industry>();
+					// 将数据添加到comboBox
+					for (Industry industry : industryList) {
+						model.addElement(industry);
+					}
+					ComboBoxModel<Industry> comboBoxModel = new DefaultComboBoxModel<Industry>(
+							model);
+					jcb_industry.setModel(comboBoxModel);
+					// 提供自定义渲染类，实现键值绑定
+					jcb_industry.setRenderer(new DefaultListCellRenderer() {
+
+						private static final long serialVersionUID = 1L;
+
+						public Component getListCellRendererComponent(
+								JList<?> list, Object value, int index,
+								boolean isSelected, boolean cellHasFocus) {
+							super.getListCellRendererComponent(list, value,
+									index, isSelected, cellHasFocus);
+							if (value != null) {
+								Industry industry = (Industry) value;
+								// 将行业名称填入显示列表
+								setText(industry.getIndustryName());
+							}
+							return this;
+						};
+					});
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			}
+		}.execute();
+
 		// 生成该窗口时启动任务线程从数据库加载初始化数据(所有省的数据,以及默认选中省后的所有市的数据和默认选中市后所有区的数据)
 		new SwingWorker<Map<String, List<Address>>, Void>() {
 
@@ -328,7 +327,7 @@ public class CreateProjectFrame {
 
 			/**
 			 * 填充地址数据到地址的ComboBox
-			 * 
+			 *
 			 * @param jcb_address
 			 *            地址ComboBox
 			 * @param addressList

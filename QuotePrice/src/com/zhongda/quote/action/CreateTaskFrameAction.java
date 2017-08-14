@@ -65,7 +65,6 @@ public class CreateTaskFrameAction implements ActionListener {
 			String taskName = jtf_taskName.getText();
 			String createUser = jtf_createUser.getText();
 			String createDate = df_createDate.getText();
-			// Industry industry = (Industry) jcb_industry.getSelectedItem();
 			String taskDescription = jta_taskDescription.getText();
 			// 判断用户填写的任务信息是否完整
 			if (null != taskName && !"".equals(taskName) && null != createUser
@@ -74,7 +73,7 @@ public class CreateTaskFrameAction implements ActionListener {
 					&& !"".equals(taskDescription)) {
 
 				// 把获取的任务信息转换为model对象
-				quoteTask = new QuoteTask(taskName, taskDescription, 1,
+				quoteTask = new QuoteTask(taskName, taskDescription,
 						createUser, createDate, createDate);
 				// 启动任务线程往数据库插入数据
 				new SwingWorker<QuoteTask, Void>() {
@@ -97,8 +96,6 @@ public class CreateTaskFrameAction implements ActionListener {
 								rowData.add(quoteTask.getTaskNumber());
 								rowData.add(quoteTask.getTaskName());
 								rowData.add(quoteTask.getTaskDescription());
-								rowData.add(quoteTask.getIndustry()
-										.getIndustryName());
 								rowData.add(quoteTask.getCreateUser());
 								rowData.add(quoteTask.getCreateDate());
 								rowData.add(quoteTask.getLastUpdateDate());
