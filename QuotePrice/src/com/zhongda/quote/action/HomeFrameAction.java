@@ -41,13 +41,15 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener {
 		if ("createTask".equals(command)) {
 			FrameGoUtils.creatTask(jt_quoteTask);
 		} else if ("deleteTask".equals(command)) {
-			//获取Table中被选中的行序号
+			// 获取Table中被选中的行序号
 			final int row = jt_quoteTask.getSelectedRow();
-			if(row<0){
-				JOptionPane.showMessageDialog(null, "没有选中需要删除的报价任务,请选中后再进行删除操作！",
-						"提示信息", JOptionPane.WARNING_MESSAGE);
-			}else{
-				int flag = JOptionPane.showConfirmDialog(null, "点击确认按钮，将会删除所选中的报价任务，包括报价任务下的所有项目以及检验批，是否确认删除？",
+			if (row < 0) {
+				JOptionPane.showMessageDialog(null,
+						"没有选中需要删除的报价任务,请选中后再进行删除操作！", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			} else {
+				int flag = JOptionPane.showConfirmDialog(null,
+						"点击确认按钮，将会删除所选中的报价任务，包括报价任务下的所有项目以及检验批，是否确认删除？",
 						"删除报价任务", JOptionPane.OK_OPTION);
 				if (flag == JOptionPane.OK_OPTION) {
 					Object value = jt_quoteTask.getValueAt(row, 0);
@@ -84,6 +86,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener {
 			}
 		} else if ("creatProject".equals(command)) {
 			FrameGoUtils.creatProject();
+		} else if ("addInspection".equals(command)) {
+			FrameGoUtils.creatInspection();
 		}
 	}
 

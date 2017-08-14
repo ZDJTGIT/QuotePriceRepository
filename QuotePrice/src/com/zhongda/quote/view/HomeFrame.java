@@ -389,6 +389,8 @@ public class HomeFrame {
 		jtb_center_down_1 = new JButton();
 		jtb_center_down_1.setIcon(new ImageIcon("images/add.png"));
 		jtb_center_down_1.setToolTipText("新增");
+		jtb_center_down_1.setActionCommand("addInspection");
+		jtb_center_down_1.addActionListener(new HomeFrameAction());
 		jtb_center_down_1.setFocusPainted(false);// 去除按钮边线
 		jtb_center_down.add(jtb_center_down_1);
 
@@ -582,8 +584,8 @@ public class HomeFrame {
 		jsp_jsrw = new JScrollPane();
 
 		// 初始化列名
-		final Object[] columnsName = { "序号", "任务编号", "任务名称", "任务描述", "行业", "创建人",
-				"创建时间", "最后修改时间", "任务总金额" };
+		final Object[] columnsName = { "序号", "任务编号", "任务名称", "任务描述", "行业",
+				"创建人", "创建时间", "最后修改时间", "任务总金额" };
 		jt_quoteTask = new JTable() {
 			/**
 			 * 

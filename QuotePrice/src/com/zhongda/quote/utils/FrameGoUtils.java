@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JTable;
 
+import com.zhongda.quote.view.CreatInspectionFrame;
 import com.zhongda.quote.view.CreateProjectFrame;
 import com.zhongda.quote.view.CreateTaskFrame;
 
@@ -53,4 +54,19 @@ public class FrameGoUtils {
 		});
 	}
 
+	/**
+	 * 创建检验批窗口
+	 */
+	public static void creatInspection() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreatInspectionFrame cif = new CreatInspectionFrame();
+					cif.dialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 }

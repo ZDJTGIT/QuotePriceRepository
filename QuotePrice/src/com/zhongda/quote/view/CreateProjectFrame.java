@@ -1,7 +1,6 @@
 package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
-import java.awt.Choice;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -26,12 +25,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
-import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
-
 import com.zhongda.quote.action.CreateProjectFrameAction;
 import com.zhongda.quote.model.Address;
 import com.zhongda.quote.service.impl.AddressServiceImpl;
-import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 
 /**
@@ -61,7 +57,6 @@ public class CreateProjectFrame {
 	private JTextField jtf_po;
 	private JLabel label_3;
 	private JLabel lblNewLabel_2;
-	private Choice jc_pm;
 	private JSeparator separator;
 	private JButton jbt_yes;
 	private JButton jbt_no;
@@ -105,7 +100,7 @@ public class CreateProjectFrame {
 	}
 
 	public void init() {
-		SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
+		// SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		dialog = new JDialog();
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setBounds(0, 0, 500, 550);
@@ -204,11 +199,15 @@ public class CreateProjectFrame {
 
 		jbt_yes = new JButton("确认");
 		jbt_yes.setFocusPainted(false);
+		jbt_yes.setActionCommand("commit");
+		jbt_yes.addActionListener(new CreateProjectFrameAction(dialog));
 		jbt_yes.setBounds(282, 490, 93, 23);
 		jPanel.add(jbt_yes);
 
 		jbt_no = new JButton("取消");
 		jbt_no.setFocusPainted(false);
+		jbt_no.setActionCommand("calloff");
+		jbt_no.addActionListener(new CreateProjectFrameAction(dialog));
 		jbt_no.setBounds(378, 490, 93, 23);
 		jPanel.add(jbt_no);
 
@@ -255,9 +254,11 @@ public class CreateProjectFrame {
 		new SwingWorker<Map<String, List<Address>>, Void>() {
 
 			@Override
-			protected Map<String, List<Address>> doInBackground() throws Exception {
+			protected Map<String, List<Address>> doInBackground()
+					throws Exception {
 				// 从数据库获取所有省的数据,以及默认选中省后的所有市的数据和默认选中市后所有区的数据
-				return new AddressServiceImpl().queryAllProvinceAndCityCountyByParent();
+				return new AddressServiceImpl()
+						.queryAllProvinceAndCityCountyByParent();
 			}
 
 			@Override
@@ -266,13 +267,13 @@ public class CreateProjectFrame {
 				try {
 					addressMap = get();
 					List<Address> provinceList = addressMap.get("provinceList");
-					//填充省数据到省的ComboBox
+					// 填充省数据到省的ComboBox
 					initAddressComboBoxDataDisplay(jcb_province, provinceList);
 					List<Address> cityList = addressMap.get("cityList");
-					//填充市数据到市的ComboBox
+					// 填充市数据到市的ComboBox
 					initAddressComboBoxDataDisplay(jcb_city, cityList);
 					List<Address> countyList = addressMap.get("countyList");
-					//填充区数据到区的ComboBox
+					// 填充区数据到区的ComboBox
 					initAddressComboBoxDataDisplay(jcb_county, countyList);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -283,11 +284,14 @@ public class CreateProjectFrame {
 
 			/**
 			 * 填充地址数据到地址的ComboBox
-			 * @param jcb_address 地址ComboBox
-			 * @param addressList 地址数据
+			 * 
+			 * @param jcb_address
+			 *            地址ComboBox
+			 * @param addressList
+			 *            地址数据
 			 */
-			private void initAddressComboBoxDataDisplay(JComboBox<Address> jcb_address,
-					List<Address> addressList) {
+			private void initAddressComboBoxDataDisplay(
+					JComboBox<Address> jcb_address, List<Address> addressList) {
 				Vector<Address> model = new Vector<Address>();
 				// 将数据添加到comboBox
 				for (Address address : addressList) {
@@ -304,8 +308,8 @@ public class CreateProjectFrame {
 					public Component getListCellRendererComponent(
 							JList<?> list, Object value, int index,
 							boolean isSelected, boolean cellHasFocus) {
-						super.getListCellRendererComponent(list, value,
-								index, isSelected, cellHasFocus);
+						super.getListCellRendererComponent(list, value, index,
+								isSelected, cellHasFocus);
 						if (value != null) {
 							Address address = (Address) value;
 							// 将省名称填入显示列表
@@ -317,10 +321,11 @@ public class CreateProjectFrame {
 			}
 		}.execute();
 
-		CreateProjectFrameAction createProjectFrameAction = new CreateProjectFrameAction(jcb_province,jcb_city,jcb_county);
-		//省的下拉列表选项选中后触发事件
+		CreateProjectFrameAction createProjectFrameAction = new CreateProjectFrameAction(
+				jcb_province, jcb_city, jcb_county);
+		// 省的下拉列表选项选中后触发事件
 		jcb_province.addItemListener(createProjectFrameAction);
-		//市的下拉列表选项选中后触发事件
+		// 市的下拉列表选项选中后触发事件
 		jcb_city.addItemListener(createProjectFrameAction);
 	}
 }
