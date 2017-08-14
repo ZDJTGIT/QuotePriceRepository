@@ -160,7 +160,6 @@ public class HomeFrame {
 
 	public void init() {
 
-		// SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// 获取当前电脑屏幕宽高
@@ -644,6 +643,20 @@ public class HomeFrame {
 								.setMinWidth(0);
 						jt_quoteTask.getColumnModel().getColumn(0)
 								.setMaxWidth(0);
+						jt_quoteTask.getColumnModel().getColumn(1)
+								.setPreferredWidth(110);
+						jt_quoteTask.getColumnModel().getColumn(2)
+								.setPreferredWidth(76);
+						jt_quoteTask.getColumnModel().getColumn(3)
+								.setPreferredWidth(137);
+						jt_quoteTask.getColumnModel().getColumn(4)
+								.setPreferredWidth(44);
+						jt_quoteTask.getColumnModel().getColumn(5)
+								.setPreferredWidth(55);
+						jt_quoteTask.getColumnModel().getColumn(6)
+								.setPreferredWidth(70);
+						jt_quoteTask.getColumnModel().getColumn(7)
+								.setPreferredWidth(85);
 						jt_quoteTask
 								.addMouseMotionListener(new HomeFrameAction(
 										jt_quoteTask));

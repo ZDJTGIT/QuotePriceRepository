@@ -56,7 +56,6 @@ public class CreateProjectFrame {
 	private JLabel label_2;
 	private JTextField jtf_po;
 	private JLabel label_3;
-	private JLabel lblNewLabel_2;
 	private JSeparator separator;
 	private JButton jbt_yes;
 	private JButton jbt_no;
@@ -66,7 +65,6 @@ public class CreateProjectFrame {
 	private JComboBox<Address> jcb_province;
 	private JComboBox<Address> jcb_city;
 	private JComboBox<Address> jcb_county;
-	private JComboBox comboBox;
 	private JCheckBox chckbxNewCheckBox;
 	private JCheckBox chckbxNewCheckBox_1;
 	private JCheckBox chckbxNewCheckBox_2;
@@ -74,21 +72,6 @@ public class CreateProjectFrame {
 	private JCheckBox chckbxNewCheckBox_4;
 	private JCheckBox chckbxNewCheckBox_5;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateProjectFrame windows = new CreateProjectFrame();
-					windows.dialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -103,7 +86,7 @@ public class CreateProjectFrame {
 		// SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		dialog = new JDialog();
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		dialog.setBounds(0, 0, 500, 550);
+		dialog.setBounds(0, 0, 500, 500);
 		dialog.setModal(true);// 此窗口至于前端
 		dialog.setLocationRelativeTo(null);
 		dialog.setResizable(false);
@@ -163,64 +146,64 @@ public class CreateProjectFrame {
 		jcb_county.setBounds(326, 184, 145, 21);
 		jPanel.add(jcb_county);
 
-		lblNewLabel_2 = new JLabel("报价方法");
-		lblNewLabel_2.setBounds(26, 211, 54, 15);
-		jPanel.add(lblNewLabel_2);
-
-		comboBox = new JComboBox();
-		comboBox.setBounds(26, 231, 445, 25);
-		jPanel.add(comboBox);
+		// lblNewLabel_2 = new JLabel("报价方法");
+		// lblNewLabel_2.setBounds(26, 211, 54, 15);
+		// jPanel.add(lblNewLabel_2);
+		//
+		// comboBox = new JComboBox();
+		// comboBox.setBounds(26, 231, 445, 25);
+		// jPanel.add(comboBox);
 
 		label_1 = new JLabel("项目报价");
-		label_1.setBounds(26, 376, 54, 15);
+		label_1.setBounds(26, 326, 54, 15);
 		jPanel.add(label_1);
 
 		jtf_pp = new JTextField();
-		jtf_pp.setBounds(26, 395, 445, 25);
+		jtf_pp.setBounds(26, 345, 445, 25);
 		jPanel.add(jtf_pp);
 		jtf_pp.setColumns(10);
 
 		label_2 = new JLabel("其他费用报价");
-		label_2.setBounds(26, 422, 101, 15);
+		label_2.setBounds(26, 372, 101, 15);
 		jPanel.add(label_2);
 
 		jtf_po = new JTextField();
-		jtf_po.setBounds(26, 440, 445, 25);
+		jtf_po.setBounds(26, 390, 445, 25);
 		jPanel.add(jtf_po);
 		jtf_po.setColumns(10);
 
 		label_3 = new JLabel("中大检测");
-		label_3.setBounds(4, 468, 54, 23);
+		label_3.setBounds(4, 418, 54, 23);
 		jPanel.add(label_3);
 
 		separator = new JSeparator();
-		separator.setBounds(55, 480, 435, 2);
+		separator.setBounds(55, 430, 435, 2);
 		jPanel.add(separator);
 
 		jbt_yes = new JButton("确认");
 		jbt_yes.setFocusPainted(false);
 		jbt_yes.setActionCommand("commit");
 		jbt_yes.addActionListener(new CreateProjectFrameAction(dialog));
-		jbt_yes.setBounds(282, 490, 93, 23);
+		jbt_yes.setBounds(282, 440, 93, 23);
 		jPanel.add(jbt_yes);
 
 		jbt_no = new JButton("取消");
 		jbt_no.setFocusPainted(false);
 		jbt_no.setActionCommand("calloff");
 		jbt_no.addActionListener(new CreateProjectFrameAction(dialog));
-		jbt_no.setBounds(378, 490, 93, 23);
+		jbt_no.setBounds(378, 440, 93, 23);
 		jPanel.add(jbt_no);
 
 		lblNewLabel_3 = new JLabel("创建检测批");
-		lblNewLabel_3.setBounds(26, 265, 74, 21);
+		lblNewLabel_3.setBounds(26, 215, 74, 21);
 		jPanel.add(lblNewLabel_3);
 
 		jcb_jyp = new JComboBox();
-		jcb_jyp.setBounds(110, 265, 361, 21);
+		jcb_jyp.setBounds(110, 215, 361, 21);
 		jPanel.add(jcb_jyp);
 
 		jp_jyp = new JPanel();
-		jp_jyp.setBounds(26, 295, 445, 75);
+		jp_jyp.setBounds(26, 245, 445, 75);
 		jp_jyp.setBorder(BorderFactory.createTitledBorder(null, "检测批",
 				TitledBorder.LEFT, TitledBorder.TOP, new Font("宋体", 0, 14)));// 设置边框字体
 		jPanel.add(jp_jyp);
