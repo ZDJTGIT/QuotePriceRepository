@@ -28,7 +28,7 @@
 		select
 		<include refid="Base_Column_List"/>
 		from QuoteTask
-		where task_name = "%"#{taskName,jdbcType=VARCHAR}"%"
+		where task_name like '%${_parameter}%'
 	</select>
 	<select id="selectByNumber" parameterType="java.lang.String"
 		resultMap="BaseResultMap">

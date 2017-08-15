@@ -7,13 +7,19 @@ public class QuoteProject {
 
     private Integer industryId;
 
-    private String projectAddress;
+    private Integer addressId;
+
+    private Integer addressPid;
 
     private Integer taskId;
 
     private Double projectAmount;
 
+    private Double otherAmout;
+
     private Industry industry;
+
+    private Address address;
 
     public Integer getId() {
         return id;
@@ -32,19 +38,27 @@ public class QuoteProject {
     }
 
     public Integer getIndustryId() {
-		return industryId;
-	}
-
-	public void setIndustryId(Integer industryId) {
-		this.industryId = industryId;
-	}
-
-    public String getProjectAddress() {
-        return projectAddress;
+        return industryId;
     }
 
-    public void setProjectAddress(String projectAddress) {
-        this.projectAddress = projectAddress == null ? null : projectAddress.trim();
+    public void setIndustryId(Integer industryId) {
+        this.industryId = industryId;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
+    public Integer getAddressPid() {
+        return addressPid;
+    }
+
+    public void setAddressPid(Integer addressPid) {
+        this.addressPid = addressPid;
     }
 
     public Integer getTaskId() {
@@ -63,11 +77,27 @@ public class QuoteProject {
         this.projectAmount = projectAmount;
     }
 
-    public void setIndustry(Industry industry) {
-		this.industry = industry;
-	}
+    public Double getOtherAmout() {
+        return otherAmout;
+    }
+
+    public void setOtherAmout(Double otherAmout) {
+        this.otherAmout = otherAmout;
+    }
 
 	public Industry getIndustry() {
 		return industry;
+	}
+
+	public void setIndustry(Industry industry) {
+		this.industry = industry;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }

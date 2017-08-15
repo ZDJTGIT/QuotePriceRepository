@@ -5,32 +5,45 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
     <result column="industry_id" jdbcType="INTEGER" property="industryId" />
-    <result column="project_address" jdbcType="VARCHAR" property="projectAddress" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="address_pid" jdbcType="INTEGER" property="addressPid" />
     <result column="task_id" jdbcType="INTEGER" property="taskId" />
     <result column="project_amount" jdbcType="FLOAT" property="projectAmount" />
+    <result column="other_amout" jdbcType="FLOAT" property="otherAmout" />
     <association property="industry" javaType="Industry">
        <id column="id" jdbcType="INTEGER" property="id" />
        <result column="industry_name" jdbcType="VARCHAR" property="industryName" />
-   </association>
+   	</association>
+   	<association property="address" javaType="Address">
+       <id column="id" jdbcType="INTEGER" property="id" />
+       <result column="pid" jdbcType="INTEGER" property="pid" />
+       <result column="level" jdbcType="INTEGER" property="level" />
+       <result column="name" jdbcType="VARCHAR" property="name" />
+       <result column="merger_name" jdbcType="VARCHAR" property="mergerName" />
+       <result column="short_name" jdbcType="VARCHAR" property="shortName" />
+   	</association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, project_name, industry_id, project_address, task_id, project_amount
+    id, project_name, industry_id, address_id, address_pid, task_id, project_amount,
+    other_amout
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  	select
-	qp.*, i.*
-	from QuoteProject qp, Industry i
-	where qp.industry_id = i.id and qp.id = #{id,jdbcType=INTEGER}
+    select
+	qp.*, i.*, a.*
+	from QuoteProject qp, Industry i, Address a
+	where qp.industry_id = i.id and qb.address_id = a.id and qp.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from QuoteProject
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zhongda.quote.model.QuoteProject">
-    insert into QuoteProject (id, project_name, industry_id, project_address,
-      task_id, project_amount)
-    values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{industry_id,jdbcType=INTEGER}, #{projectAddress,jdbcType=VARCHAR},
-      #{taskId,jdbcType=INTEGER}, #{projectAmount,jdbcType=FLOAT})
+    insert into QuoteProject (id, project_name, industry_id,
+      address_id, address_pid, task_id,
+      project_amount, other_amout)
+    values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{industryId,jdbcType=INTEGER},
+      #{addressId,jdbcType=INTEGER}, #{addressPid,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER},
+      #{projectAmount,jdbcType=FLOAT}, #{otherAmout,jdbcType=FLOAT})
   </insert>
   <insert id="insertSelective" parameterType="com.zhongda.quote.model.QuoteProject">
     insert into QuoteProject
@@ -44,14 +57,20 @@
       <if test="industryId != null">
         industry_id,
       </if>
-      <if test="projectAddress != null">
-        project_address,
+      <if test="addressId != null">
+        address_id,
+      </if>
+      <if test="addressPid != null">
+        address_pid,
       </if>
       <if test="taskId != null">
         task_id,
       </if>
       <if test="projectAmount != null">
         project_amount,
+      </if>
+      <if test="otherAmout != null">
+        other_amout,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -64,14 +83,20 @@
       <if test="industryId != null">
         #{industryId,jdbcType=INTEGER},
       </if>
-      <if test="projectAddress != null">
-        #{projectAddress,jdbcType=VARCHAR},
+      <if test="addressId != null">
+        #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="addressPid != null">
+        #{addressPid,jdbcType=INTEGER},
       </if>
       <if test="taskId != null">
         #{taskId,jdbcType=INTEGER},
       </if>
       <if test="projectAmount != null">
         #{projectAmount,jdbcType=FLOAT},
+      </if>
+      <if test="otherAmout != null">
+        #{otherAmout,jdbcType=FLOAT},
       </if>
     </trim>
   </insert>
@@ -84,14 +109,20 @@
       <if test="industryId != null">
         industry_id = #{industryId,jdbcType=INTEGER},
       </if>
-      <if test="projectAddress != null">
-        project_address = #{projectAddress,jdbcType=VARCHAR},
+      <if test="addressId != null">
+        address_id = #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="addressPid != null">
+        address_pid = #{addressPid,jdbcType=INTEGER},
       </if>
       <if test="taskId != null">
         task_id = #{taskId,jdbcType=INTEGER},
       </if>
       <if test="projectAmount != null">
         project_amount = #{projectAmount,jdbcType=FLOAT},
+      </if>
+      <if test="otherAmout != null">
+        other_amout = #{otherAmout,jdbcType=FLOAT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -100,9 +131,11 @@
     update QuoteProject
     set project_name = #{projectName,jdbcType=VARCHAR},
       industry_id = #{industryId,jdbcType=INTEGER},
-      project_address = #{projectAddress,jdbcType=VARCHAR},
+      address_id = #{addressId,jdbcType=INTEGER},
+      address_pid = #{addressPid,jdbcType=INTEGER},
       task_id = #{taskId,jdbcType=INTEGER},
-      project_amount = #{projectAmount,jdbcType=FLOAT}
+      project_amount = #{projectAmount,jdbcType=FLOAT},
+      other_amout = #{otherAmout,jdbcType=FLOAT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

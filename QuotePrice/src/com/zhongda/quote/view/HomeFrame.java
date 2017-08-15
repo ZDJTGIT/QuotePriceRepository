@@ -111,7 +111,7 @@ public class HomeFrame {
 	private JButton bt_updateTask;
 	private JButton bt_deleteTask;
 	private JLabel jlb_jsrw;
-	private JTextField jtf_jsrw;
+	private JTextField jtf_queryTaskName;
 	private JButton bt_queryTask;
 	private JPanel jf_jpanel;
 	private JButton jb_center_up_3;
@@ -557,9 +557,9 @@ public class HomeFrame {
 		jlb_jsrw = new JLabel(" 查找 ");
 		jtb_jsrw.add(jlb_jsrw);
 
-		jtf_jsrw = new JTextField();
-		jtb_jsrw.add(jtf_jsrw);
-		jtf_jsrw.setColumns(10);
+		jtf_queryTaskName = new JTextField();
+		jtb_jsrw.add(jtf_queryTaskName);
+		jtf_queryTaskName.setColumns(10);
 
 		lblNewLabel_7 = new JLabel(" ");
 		jtb_jsrw.add(lblNewLabel_7);
@@ -695,6 +695,9 @@ public class HomeFrame {
 		// 添加删除任务事件
 		bt_deleteTask.setActionCommand("deleteTask");
 		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask));
+		// 添加查询任务事件
+		bt_queryTask.setActionCommand("queryTask");
+		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask, jtf_queryTaskName));
 
 	}
 
