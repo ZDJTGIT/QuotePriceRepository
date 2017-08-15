@@ -583,8 +583,8 @@ public class HomeFrame {
 		jsp_jsrw = new JScrollPane();
 
 		// 初始化列名
-		final Object[] columnsName = { "序号", "任务编号", "任务名称", "任务描述", "行业",
-				"创建人", "创建时间", "最后修改时间", "任务总金额" };
+		final Object[] columnsName = { "序号", "任务编号", "任务名称", "任务描述", "创建人",
+				"创建时间", "最后修改时间", "任务总金额" };
 		jt_quoteTask = new JTable() {
 			/**
 			 *
@@ -654,8 +654,6 @@ public class HomeFrame {
 								.setPreferredWidth(55);
 						jt_quoteTask.getColumnModel().getColumn(6)
 								.setPreferredWidth(70);
-						jt_quoteTask.getColumnModel().getColumn(7)
-								.setPreferredWidth(85);
 						jt_quoteTask
 								.addMouseMotionListener(new HomeFrameAction(
 										jt_quoteTask));
