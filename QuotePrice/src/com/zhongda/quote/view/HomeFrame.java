@@ -657,8 +657,15 @@ public class HomeFrame {
 						jt_quoteTask
 								.addMouseMotionListener(new HomeFrameAction(
 										jt_quoteTask));
-
 						jt_quoteTask.setRowSelectionInterval(0, 0);// 选中第一行
+
+						//Table表中添加日期组件
+//						Chooser ser = Chooser.getInstance();
+//						JTextField jtf_date = new JTextField();
+//						jtf_date.setEditable(false);
+//						ser.register(jtf_date);
+//						jt_quoteTask.getColumnModel().getColumn(5)
+//		                .setCellEditor(new DefaultCellEditor(jtf_date));
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -698,6 +705,9 @@ public class HomeFrame {
 		// 添加查询任务事件
 		bt_queryTask.setActionCommand("queryTask");
 		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask, jtf_queryTaskName));
+		// 添加查询任务事件
+		bt_updateTask.setActionCommand("updateTask");
+		bt_updateTask.addActionListener(new HomeFrameAction(jt_quoteTask));
 
 	}
 

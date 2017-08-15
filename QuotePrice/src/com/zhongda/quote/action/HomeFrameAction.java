@@ -45,16 +45,30 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener {
 		this.jtf_queryTaskName = jtf_queryTaskName;
 	}
 
+	public HomeFrameAction(JTable jt_quoteTask, boolean isCreate) {
+
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 		// 如果command为创建任务，则打开创建任务窗口
 		if ("createTask".equals(command)) {
-			FrameGoUtils.creatTask(jt_quoteTask);
+			FrameGoUtils.creatTask(jt_quoteTask, true);
 		} else if ("deleteTask".equals(command)) {
 			deleteQuoteTask(jt_quoteTask);
-		}  else if ("queryTask".equals(command)) {
+		} else if ("queryTask".equals(command)) {
 			queryQuotePrice(jt_quoteTask, jtf_queryTaskName);
+		} else if ("updateTask".equals(command)) {
+			// 获取Table中被选中的行序号
+			int row = jt_quoteTask.getSelectedRow();
+			if (row < 0) {
+				JOptionPane.showMessageDialog(null,
+						"没有选中需要修改的报价任务,请选中后再进行修改操作！", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			} else {
+				FrameGoUtils.creatTask(jt_quoteTask, false);
+			}
 		} else if ("creatProject".equals(command)) {
 			FrameGoUtils.creatProject();
 		} else if ("addInspection".equals(command)) {
@@ -186,5 +200,4 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener {
 		}
 
 	}
-
 }

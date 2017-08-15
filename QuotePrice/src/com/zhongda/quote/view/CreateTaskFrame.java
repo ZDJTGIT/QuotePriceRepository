@@ -54,14 +54,16 @@ public class CreateTaskFrame {
 	private JTextArea jta_taskDescription;
 	private JSeparator separator_1;
 	private JTextField jtf_date;
+	private boolean isCreate;
 
 	public CreateTaskFrame() {
 		init();
 
 	}
 
-	public CreateTaskFrame(JTable jt_quoteTask) {
+	public CreateTaskFrame(JTable jt_quoteTask, boolean isCreate) {
 		this.jt_quoteTask = jt_quoteTask;
+		this.isCreate = isCreate;
 		init();
 	}
 
@@ -101,6 +103,7 @@ public class CreateTaskFrame {
 		jtf_date = new JTextField();
 		jtf_date.setText(getTodayDate());
 		jtf_date.setFont(new Font("宋体", 1, 15));
+		jtf_date.setEditable(false);
 		ser.register(jtf_date);
 		jtf_date.setBounds(26, 193, 107, 20);
 		panel.add(jtf_date);
@@ -171,8 +174,16 @@ public class CreateTaskFrame {
 		// 添加确认按钮事件
 		bt_confirm.setActionCommand("confirmCreateTask");
 		bt_confirm.addActionListener(new CreateTaskFrameAction(jtf_taskName,
+				jtf_createUser, jtf_date, jta_taskDescription, jt_quoteTask, jDialog, isCreate));
+		//如果是修改报价任务，则填充需修改的值
+		if(!isCreate){
+			int row = jt_quoteTask.getSelectedRow();
+			jtf_taskName.setText(String.valueOf(jt_quoteTask.getValueAt(row, 2)));
+			jtf_createUser.setText(String.valueOf(jt_quoteTask.getValueAt(row, 4)));
+			jtf_date.setText(String.valueOf(jt_quoteTask.getValueAt(row, 5)));
+			jta_taskDescription.setText(String.valueOf(jt_quoteTask.getValueAt(row, 3)));
+		}
 
-		jtf_createUser, jtf_date, jta_taskDescription, jt_quoteTask, jDialog));
 	}
 
 	public String getTodayDate() {

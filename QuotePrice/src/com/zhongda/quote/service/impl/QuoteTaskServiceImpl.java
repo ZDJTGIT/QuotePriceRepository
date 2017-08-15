@@ -75,10 +75,16 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 	}
 
 	@Override
-	public boolean updateQuoteTask(QuoteTask quoteTask) {
+	public QuoteTask updateQuoteTask(QuoteTask quoteTask) {
 		int index = 0;
 		try {
 			index = quoteTaskMapper.updateByPrimaryKeySelective(quoteTask);
+			if(index>0){
+				//再查出该条数据
+				quoteTask = quoteTaskMapper.selectByPrimaryKey(quoteTask.getId());
+			}else{
+				quoteTask = null;
+			}
 			sqlSession.commit();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -86,11 +92,7 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 		}finally{
 			MyBatisUtil.closeSqlSession();
 		}
-		if(index<1){
-			return false;
-		}else{
-			return true;
-		}
+		return quoteTask;
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public interface QuoteTaskService {
 	 * @param quoteTask
 	 * @return 返回成功或失败的提示信息
 	 */
-	boolean updateQuoteTask(QuoteTask quoteTask);
+	QuoteTask updateQuoteTask(QuoteTask quoteTask);
 
 	/**
 	 * 查询报价任务根据任务名称
