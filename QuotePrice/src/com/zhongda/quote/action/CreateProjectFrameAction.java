@@ -13,10 +13,15 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
 import com.zhongda.quote.model.Address;
+import com.zhongda.quote.model.Industry;
+import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.service.impl.AddressServiceImpl;
+import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
+import com.zhongda.quote.utils.FrameGoUtils;
 
 public class CreateProjectFrameAction implements ItemListener, ActionListener {
 
@@ -24,6 +29,10 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 	private JComboBox<Address> jcb_city;
 	private JComboBox<Address> jcb_county;
 	private JDialog dialog;
+	private JComboBox<Object> jcb_jyp;
+	private JTextField projectName;
+	private JComboBox<Industry> jcb_industry;
+	private JTextField jtf_task;
 
 	public CreateProjectFrameAction() {
 	}
@@ -39,6 +48,20 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 		this.jcb_county = jcb_county;
 	}
 
+	public CreateProjectFrameAction(JTextField jtf_task,
+			JComboBox<Object> jcb_jyp, JTextField projectName,
+			JComboBox<Industry> jcb_industry, JComboBox<Address> jcb_province,
+			JComboBox<Address> jcb_city, JComboBox<Address> jcb_county) {
+		this.jtf_task = jtf_task;
+		this.jcb_jyp = jcb_jyp;
+		this.projectName = projectName;
+		this.jcb_industry = jcb_industry;
+		this.jcb_province = jcb_province;
+		this.jcb_city = jcb_city;
+		this.jcb_county = jcb_county;
+
+	}
+
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		// 只对监听到的选中动作进行处理
@@ -49,6 +72,8 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 				provinceCityCountyLinkage(e, jcb_city);
 			} else if (jcb_city == source) { // 如果是市的ComboBox产生事件
 				provinceCityCountyLinkage(e, jcb_county);
+			} else if (jcb_jyp == source) {
+				creatInspection();
 			}
 
 		}
@@ -121,4 +146,68 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 		}.execute();
 	}
 
+	/**
+	 * 创建检验批
+	 */
+	private void creatInspection() {
+		if ("新建检验批".equals((String) jcb_jyp.getSelectedItem())) {
+			String content = projectName.getText();
+			content = content.replace(" ", "");
+			if (null == content || "".equals(content)) {
+				JOptionPane.showMessageDialog(null, "请先填写项目名称", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			} else {
+				int flag = JOptionPane.showConfirmDialog(null,
+						"确认后将无法修改以上所有信息！", "删除报价任务", JOptionPane.OK_OPTION);
+				if (flag == JOptionPane.OK_OPTION) {
+					projectName.setEnabled(false);
+					jcb_industry.setEnabled(false);
+					jcb_province.setEnabled(false);
+					jcb_city.setEnabled(false);
+					jcb_county.setEnabled(false);
+					int taskId = Integer.valueOf(jtf_task.getName());
+					String projectName = this.projectName.getText();
+					int industryId = ((Industry) jcb_industry.getSelectedItem())
+							.getId();
+					int addressPid = ((Address) jcb_province.getSelectedItem())
+							.getId();
+					int addressId = ((Address) jcb_county.getSelectedItem())
+							.getId();
+					QuoteProject quoteProject = new QuoteProject(projectName,
+							taskId, industryId, addressPid, addressId);
+					new SwingWorker<QuoteProject, Void>() {
+
+						@Override
+						protected QuoteProject doInBackground()
+								throws Exception {
+							return new QuoteProjectServiceImpl()
+									.createProject(quoteProject);
+						}
+
+						protected void done() {
+							QuoteProject quoteProject = null;
+							try {
+								quoteProject = get();
+								if (quoteProject != null) {
+									FrameGoUtils.creatInspection(quoteProject);
+								} else {
+									JOptionPane.showMessageDialog(null,
+											"创建失败，请重新尝试", "提示信息",
+											JOptionPane.WARNING_MESSAGE);
+								}
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (ExecutionException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						};
+
+					}.execute();
+
+				}
+			}
+		}
+	}
 }

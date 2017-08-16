@@ -26,12 +26,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
+import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+
 import com.zhongda.quote.action.CreateProjectFrameAction;
 import com.zhongda.quote.model.Address;
 import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.service.impl.AddressServiceImpl;
 import com.zhongda.quote.service.impl.IndustryServiceImpl;
-import com.zhongda.quote.utils.FrameGoUtils;
+import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 
 /**
@@ -64,7 +66,7 @@ public class CreateProjectFrame {
 	private JButton jbt_yes;
 	private JButton jbt_no;
 	private JLabel lblNewLabel_3;
-	private JComboBox jcb_jyp;
+	private JComboBox<Object> jcb_jyp;
 	private JPanel jp_jyp;
 	private JComboBox<Address> jcb_province;
 	private JComboBox<Address> jcb_city;
@@ -108,7 +110,7 @@ public class CreateProjectFrame {
 	}
 
 	public void init() {
-		// SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
+		SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		dialog = new JDialog();
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setBounds(0, 0, 500, 550);
@@ -147,7 +149,7 @@ public class CreateProjectFrame {
 		int row = jtb_task.getSelectedRow();
 		String string = (String) jtb_task.getValueAt(row, 2);
 		jtf_task.setText(string);
-		jtf_task.setName((String) jtb_task.getValueAt(row, 1));
+		jtf_task.setName(String.valueOf((int) jtb_task.getValueAt(row, 0)));
 		jPanel.add(jtf_task);
 		jtf_task.setColumns(10);
 
@@ -237,7 +239,8 @@ public class CreateProjectFrame {
 		lblNewLabel_3.setBounds(26, 265, 74, 21);
 		jPanel.add(lblNewLabel_3);
 
-		jcb_jyp = new JComboBox();
+		String[] strings = { "请选择检验批或者新建检验批", "新建检验批" };
+		jcb_jyp = new JComboBox<Object>(strings);
 		jcb_jyp.setBounds(110, 265, 361, 21);
 		jPanel.add(jcb_jyp);
 
@@ -397,6 +400,9 @@ public class CreateProjectFrame {
 		jcb_province.addItemListener(createProjectFrameAction);
 		// 市的下拉列表选项选中后触发事件
 		jcb_city.addItemListener(createProjectFrameAction);
+		// 创建检验批组件
+		jcb_jyp.addItemListener(new CreateProjectFrameAction(jtf_task, jcb_jyp,
+				jtf_pname, jcb_industry, jcb_province, jcb_city, jcb_county));
 
 	}
 }

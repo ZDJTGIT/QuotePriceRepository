@@ -20,6 +20,7 @@ import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 import sun.swing.table.DefaultTableCellHeaderRenderer;
 
 import com.zhongda.quote.action.CreatInspectionAction;
+import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.utils.FrameGoUtils;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
@@ -61,7 +62,8 @@ public class CreatInspectionFrame {
 	private JScrollPane scrollPane_1;
 	private JTable table_1;
 	private DefaultTableModel dtmSearch;
-	private String text;
+	private String project;
+	private int projectName;
 
 	/**
 	 * Launch the application.
@@ -82,8 +84,15 @@ public class CreatInspectionFrame {
 		init();
 	}
 
-	public CreatInspectionFrame(String text) {
-		this.text = text;
+	public CreatInspectionFrame(QuoteProject quoteProject) {
+		this.project = quoteProject.getProjectName();
+		this.projectName = quoteProject.getId();
+		init();
+	}
+
+	public CreatInspectionFrame(JTable table) {
+		this.project = (String) table.getValueAt(table.getSelectedRow(), 1);
+		this.projectName = (int) table.getValueAt(table.getSelectedRow(), 0);
 		init();
 	}
 
@@ -125,8 +134,9 @@ public class CreatInspectionFrame {
 		jtf_task = new JTextField();
 		jtf_task.setBounds(26, 80, 845, 25);
 		jtf_task.setEnabled(false);
-		jtf_task.setText(text);
-		panel.add(jtf_task);
+		jtf_task.setText(project);
+		jtf_task.setName(String.valueOf(projectName));
+		panel.add(jtf_task);// 存入所选项目的id，取出时需要强转为int类型
 		jtf_task.setColumns(10);
 
 		lblNewLabel = new JLabel("检验批名称");

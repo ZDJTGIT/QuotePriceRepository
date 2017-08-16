@@ -12,4 +12,13 @@ public interface QuoteProjectService {
 	 * @return
 	 */
 	List<QuoteProject> queryAllQuoteProjectsByTaskNmber(int taskId);
+
+	/**
+	 * 插入数据到项目表返回刚插入的数据
+	 * 
+	 * @param quoteProject
+	 * 
+	 * @return
+	 */
+	QuoteProject createProject(QuoteProject quoteProject);
 }

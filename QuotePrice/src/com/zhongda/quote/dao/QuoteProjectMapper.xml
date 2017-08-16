@@ -39,6 +39,12 @@
   	from QuoteProject qp, Industry i, Address a
   	where qp.industry_id = i.id and qp.address_id = a.id and task_id = #{taskId,jdbcType=INTEGER}
   </select>
+  <select id="selectMaxProjectId" resultMap="BaseResultMap">
+  	select
+    <include refid="Base_Column_List" />
+    from QuoteProject 
+    where id = (select max(id) from QuoteProject)
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from QuoteProject
     where id = #{id,jdbcType=INTEGER}

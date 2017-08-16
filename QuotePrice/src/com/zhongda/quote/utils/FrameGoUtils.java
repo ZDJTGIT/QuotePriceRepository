@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JTable;
 
+import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.view.CreatInspectionFrame;
 import com.zhongda.quote.view.CreateProjectFrame;
 import com.zhongda.quote.view.CreateTaskFrame;
@@ -25,11 +26,13 @@ public class FrameGoUtils {
 	 * @param jt_quoteTask
 	 *            任务面板JTable对象
 	 */
-	public static void creatTask(final JTable jt_quoteTask,final boolean isCreate) {
+	public static void creatTask(final JTable jt_quoteTask,
+			final boolean isCreate) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateTaskFrame window = new CreateTaskFrame(jt_quoteTask, isCreate);
+					CreateTaskFrame window = new CreateTaskFrame(jt_quoteTask,
+							isCreate);
 					window.jDialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -73,11 +76,28 @@ public class FrameGoUtils {
 	/**
 	 * 创建检验批窗口
 	 */
-	public static void creatInspection(String text) {
+	public static void creatInspection(QuoteProject quoteProject) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreatInspectionFrame cif = new CreatInspectionFrame(text);
+					CreatInspectionFrame cif = new CreatInspectionFrame(
+							quoteProject);
+					cif.dialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * 创建检验批窗口
+	 */
+	public static void creatInspection(JTable jt) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreatInspectionFrame cif = new CreatInspectionFrame(jt);
 					cif.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

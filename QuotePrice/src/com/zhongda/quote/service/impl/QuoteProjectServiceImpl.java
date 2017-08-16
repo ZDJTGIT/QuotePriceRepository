@@ -2,6 +2,7 @@ package com.zhongda.quote.service.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
 import com.zhongda.quote.dao.QuoteProjectMapper;
@@ -23,7 +24,9 @@ public class QuoteProjectServiceImpl implements QuoteProjectService {
 	private static Logger logger = Logger
 			.getLogger(QuoteProjectServiceImpl.class);
 
-	private QuoteProjectMapper quoteProjectMapper = MyBatisUtil.getSqlSession()
+	private SqlSession sqlSession = MyBatisUtil.getSqlSession();
+
+	private QuoteProjectMapper quoteProjectMapper = sqlSession
 			.getMapper(QuoteProjectMapper.class);
 
 	@Override
@@ -38,6 +41,26 @@ public class QuoteProjectServiceImpl implements QuoteProjectService {
 		}
 
 		return projectList;
+	}
+
+	@Override
+	public QuoteProject createProject(QuoteProject quoteProject) {
+		QuoteProject quoteProjectNew = null;
+		int index = 0;
+		try {
+			index = quoteProjectMapper.insertSelective(quoteProject);
+			sqlSession.commit();
+			if (index > 0) {
+				quoteProjectNew = quoteProjectMapper.selectMaxProjectId();
+			}
+
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			sqlSession.rollback();
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return quoteProjectNew;
 	}
 
 }

@@ -98,16 +98,21 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				FrameGoUtils.creatTask(jt_quoteTask, false);
 			}
 		} else if ("creatProject".equals(command)) {
-			FrameGoUtils.creatProject(jt_quoteTask);
+			haveTask(jt_quoteTask);
 		} else if ("addInspection".equals(command)) {
-			haveProject();
+			haveProject(jt_quoteTask);
 		}
 	}
 
-	private void haveProject() {
+	/**
+	 * 创建检验批的时候判断是否有项目
+	 * 
+	 * @param table
+	 */
+	private void haveProject(JTable table) {
 		String name = null;
 		int row = -1;
-		row = jt_quoteTask.getSelectedRow();
+		row = table.getSelectedRow();
 		if (row <= -1) {
 			JOptionPane.showMessageDialog(null, "请选中项目", "提示信息",
 					JOptionPane.WARNING_MESSAGE);
@@ -117,7 +122,31 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				JOptionPane.showMessageDialog(null, "请先创建项目", "提示信息",
 						JOptionPane.WARNING_MESSAGE);
 			} else {
-				FrameGoUtils.creatInspection(name);
+				FrameGoUtils.creatInspection(table);
+			}
+		}
+
+	}
+
+	/**
+	 * 创建项目时判断是否有任务
+	 * 
+	 * @param table
+	 */
+	private void haveTask(JTable table) {
+		String name = null;
+		int row = -1;
+		row = table.getSelectedRow();
+		if (row <= -1) {
+			JOptionPane.showMessageDialog(null, "请选中项目", "提示信息",
+					JOptionPane.WARNING_MESSAGE);
+		} else if (row > -1) {
+			name = (String) jt_quoteTask.getValueAt(row, 1);
+			if ("请新建项目".equals(name) || name == null) {
+				JOptionPane.showMessageDialog(null, "请先创建项目", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			} else {
+				FrameGoUtils.creatProject(table);
 			}
 		}
 

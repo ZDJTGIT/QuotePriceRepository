@@ -1,89 +1,103 @@
 package com.zhongda.quote.model;
 
 public class QuoteProject {
-    private Integer id;
+	private Integer id;
 
-    private String projectName;
+	private String projectName;
 
-    private Integer industryId;
+	private Integer industryId;
 
-    private Integer addressId;
+	private Integer addressId;
 
-    private Integer addressPid;
+	private Integer addressPid;
 
-    private Integer taskId;
+	private Integer taskId;
 
-    private Double projectAmount;
+	private Double projectAmount;
 
-    private Double otherAmout;
+	private Double otherAmout;
 
-    private Industry industry;
+	private Industry industry;
 
-    private Address address;
+	private Address address;
 
-    public Integer getId() {
-        return id;
-    }
+	public QuoteProject() {
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	}
 
-    public String getProjectName() {
-        return projectName;
-    }
+	public QuoteProject(String projectName, Integer taskId, Integer industryId,
+			Integer addressPid, Integer addressId) {
+		this.projectName = projectName;
+		this.taskId = taskId;
+		this.industryId = industryId;
+		this.addressPid = addressPid;
+		this.addressId = addressId;
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName == null ? null : projectName.trim();
-    }
+	}
 
-    public Integer getIndustryId() {
-        return industryId;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setIndustryId(Integer industryId) {
-        this.industryId = industryId;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getAddressId() {
-        return addressId;
-    }
+	public String getProjectName() {
+		return projectName;
+	}
 
-    public void setAddressId(Integer addressId) {
-        this.addressId = addressId;
-    }
+	public void setProjectName(String projectName) {
+		this.projectName = projectName == null ? null : projectName.trim();
+	}
 
-    public Integer getAddressPid() {
-        return addressPid;
-    }
+	public Integer getIndustryId() {
+		return industryId;
+	}
 
-    public void setAddressPid(Integer addressPid) {
-        this.addressPid = addressPid;
-    }
+	public void setIndustryId(Integer industryId) {
+		this.industryId = industryId;
+	}
 
-    public Integer getTaskId() {
-        return taskId;
-    }
+	public Integer getAddressId() {
+		return addressId;
+	}
 
-    public void setTaskId(Integer taskId) {
-        this.taskId = taskId;
-    }
+	public void setAddressId(Integer addressId) {
+		this.addressId = addressId;
+	}
 
-    public Double getProjectAmount() {
-        return projectAmount;
-    }
+	public Integer getAddressPid() {
+		return addressPid;
+	}
 
-    public void setProjectAmount(Double projectAmount) {
-        this.projectAmount = projectAmount;
-    }
+	public void setAddressPid(Integer addressPid) {
+		this.addressPid = addressPid;
+	}
 
-    public Double getOtherAmout() {
-        return otherAmout;
-    }
+	public Integer getTaskId() {
+		return taskId;
+	}
 
-    public void setOtherAmout(Double otherAmout) {
-        this.otherAmout = otherAmout;
-    }
+	public void setTaskId(Integer taskId) {
+		this.taskId = taskId;
+	}
+
+	public Double getProjectAmount() {
+		return projectAmount;
+	}
+
+	public void setProjectAmount(Double projectAmount) {
+		this.projectAmount = projectAmount;
+	}
+
+	public Double getOtherAmout() {
+		return otherAmout;
+	}
+
+	public void setOtherAmout(Double otherAmout) {
+		this.otherAmout = otherAmout;
+	}
 
 	public Industry getIndustry() {
 		return industry;

@@ -23,4 +23,12 @@ public interface QuoteProjectMapper {
 	 * @return
 	 */
 	List<QuoteProject> selectByTaskNumber(int taskId);
+
+	/**
+	 * 查询id最大一行项目数据
+	 * 
+	 * @return
+	 */
+	QuoteProject selectMaxProjectId();
+
 }
