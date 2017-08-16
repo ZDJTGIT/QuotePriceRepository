@@ -69,7 +69,7 @@ public class CreateTaskFrame {
 
 	public void init() {
 
-		//SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
+		// SkinUtil.setSkin(BeautyEyeLNFHelper.FrameBorderStyle.osLookAndFeelDecorated);
 		jDialog = new JDialog();
 		jDialog.setBounds(0, 0, 500, 442);
 		jDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

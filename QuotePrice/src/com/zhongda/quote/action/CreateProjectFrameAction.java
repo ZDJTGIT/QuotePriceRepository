@@ -17,7 +17,6 @@ import javax.swing.SwingWorker;
 
 import com.zhongda.quote.model.Address;
 import com.zhongda.quote.service.impl.AddressServiceImpl;
-import com.zhongda.quote.utils.FrameGoUtils;
 
 public class CreateProjectFrameAction implements ItemListener, ActionListener {
 
@@ -63,7 +62,6 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 					JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
 				dialog.dispose();
-				FrameGoUtils.creatInspection();
 			}
 		} else if ("calloff".equals(name)) {
 			int flag = JOptionPane.showConfirmDialog(null, "取消项目？", "取消项目",

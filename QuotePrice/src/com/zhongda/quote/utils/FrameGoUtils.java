@@ -41,11 +41,11 @@ public class FrameGoUtils {
 	/**
 	 * 创建项目启动窗口
 	 */
-	public static void creatProject() {
+	public static void creatProject(JTable jt) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateProjectFrame createP = new CreateProjectFrame();
+					CreateProjectFrame createP = new CreateProjectFrame(jt);
 					createP.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,6 +62,22 @@ public class FrameGoUtils {
 			public void run() {
 				try {
 					CreatInspectionFrame cif = new CreatInspectionFrame();
+					cif.dialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * 创建检验批窗口
+	 */
+	public static void creatInspection(String text) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreatInspectionFrame cif = new CreatInspectionFrame(text);
 					cif.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

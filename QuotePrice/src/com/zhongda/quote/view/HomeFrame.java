@@ -8,7 +8,9 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.imageio.ImageIO;
@@ -32,9 +34,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.zhongda.quote.action.HomeFrameAction;
+import com.zhongda.quote.model.InspectionBatch;
+import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.model.QuoteTask;
+import com.zhongda.quote.service.impl.InspectionBatchServiceImpl;
+import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
 import com.zhongda.quote.view.uiutils.JMenBarColor;
+import com.zhongda.quote.view.uiutils.MyTable;
 
 /**
  * <p>
@@ -148,6 +155,12 @@ public class HomeFrame {
 	private JScrollPane jsp_jsrw;
 	private DefaultTableModel dtm;
 	private JTable jt_quoteTask;
+	private JPanel jp_center_up;
+	private JScrollPane jsp_center_up;
+	private MyTable jtb_center_up_xm;
+	private DefaultTableModel dtmPJ;
+	private JScrollPane scrollPane;
+	private MyTable jt_inspection;
 
 	/**
 	 * Create the frame.
@@ -320,7 +333,6 @@ public class HomeFrame {
 		jb_center_up_1 = new JButton();
 		jb_center_up_1.setIcon(new ImageIcon("images/add.png"));
 		jb_center_up_1.setToolTipText("新增任务");
-		jb_center_up_1.addActionListener(new HomeFrameAction());
 		jb_center_up_1.setActionCommand("creatProject");
 		jb_center_up_1.setFocusPainted(false);// 去除按钮边线
 		jtb_center_up.add(jb_center_up_1);
@@ -363,6 +375,18 @@ public class HomeFrame {
 		lblNewLabel_1 = new JLabel("  ");
 		jtb_center_up.add(lblNewLabel_1);
 
+		jp_center_up = new JPanel();
+		jpanel_center_up.add(jp_center_up, BorderLayout.CENTER);
+		jp_center_up.setLayout(new BorderLayout(0, 0));
+
+		jsp_center_up = new JScrollPane();
+		jp_center_up.add(jsp_center_up, BorderLayout.CENTER);
+
+		// 项目表
+		String[] projectHeadSt = { "序号", "项目名称", "行业", "项目地址", "其他费用", "项目总金额" };
+		jtb_center_up_xm = new MyTable(new int[] { 1, 2, 3, 4, 5 });
+		jsp_center_up.setViewportView(jtb_center_up_xm);
+
 		jp_down = new JPanel();
 		sp_right.setRightComponent(jp_down);
 		jp_down.setLayout(new BorderLayout(0, 0));
@@ -389,7 +413,8 @@ public class HomeFrame {
 		jtb_center_down_1.setIcon(new ImageIcon("images/add.png"));
 		jtb_center_down_1.setToolTipText("新增");
 		jtb_center_down_1.setActionCommand("addInspection");
-		jtb_center_down_1.addActionListener(new HomeFrameAction());
+		jtb_center_down_1.addActionListener(new HomeFrameAction(
+				jtb_center_up_xm));
 		jtb_center_down_1.setFocusPainted(false);// 去除按钮边线
 		jtb_center_down.add(jtb_center_down_1);
 
@@ -430,6 +455,14 @@ public class HomeFrame {
 
 		lblNewLabel_3 = new JLabel("  ");
 		jtb_center_down.add(lblNewLabel_3);
+
+		scrollPane = new JScrollPane();
+		jpanel_center_down.add(scrollPane, BorderLayout.CENTER);
+
+		String[] inspectionHeadName = { "序号", "检验批名称", "检验批总金额" };
+		int[] inspectionNumber = { 1, 2 };
+		jt_inspection = new MyTable(inspectionNumber);
+		scrollPane.setViewportView(jt_inspection);
 
 		jp_right = new JPanel();
 		sp_center.setRightComponent(jp_right);
@@ -592,7 +625,7 @@ public class HomeFrame {
 			private static final long serialVersionUID = 1L;
 
 			public boolean isCellEditable(int row, int column) {
-				if (column == 1 || column == 8 || column == 6 || column == 7)
+				if (column == 1 || column == 4 || column == 6 || column == 5)
 					return false;// 不可编辑
 				return true;// 可编辑
 			}
@@ -602,19 +635,43 @@ public class HomeFrame {
 		jpanel_left.add(jsp_jsrw, BorderLayout.CENTER);
 
 		// 生成该窗口时启动任务线程从数据库加载初始化数据
-		new SwingWorker<List<QuoteTask>, QuoteTask>() {
+		new SwingWorker<Map<String, Object>, Void>() {
 
 			@Override
-			protected List<QuoteTask> doInBackground() throws Exception {
+			protected Map<String, Object> doInBackground() throws Exception {
+				Map<String, Object> map = new HashMap<String, Object>();
 				// 从数据库获取报价任务数据
-				return new QuoteTaskServiceImpl().queryAllQuoteTask();
+				List<QuoteTask> taskList = new QuoteTaskServiceImpl()
+						.queryAllQuoteTask();
+				map.put("quoteTask", taskList);
+				// 从数据库获取项目数据
+				List<QuoteProject> projectList = null;
+				if (null != taskList && taskList.size() > 0) {
+					QuoteTask quoteTask = taskList.get(0);
+					projectList = new QuoteProjectServiceImpl()
+							.queryAllQuoteProjectsByTaskNmber(quoteTask.getId());
+					map.put("quoteProject", projectList);
+				}
+				// 从数据库获取检验批数据
+				List<InspectionBatch> batchList = null;
+				if (null != projectList && projectList.size() > 0) {
+					QuoteProject quoteProject = projectList.get(0);
+					batchList = new InspectionBatchServiceImpl()
+							.queryAllInspectionBatchByProjectID(quoteProject
+									.getId());
+					map.put("inspectionBatch", batchList);
+				}
+				return map;
 			}
 
 			@Override
 			protected void done() {
-				List<QuoteTask> taskList;
+				Map<String, Object> map;
 				try {
-					taskList = get();
+					map = get();
+					@SuppressWarnings("unchecked")
+					List<QuoteTask> taskList = (List<QuoteTask>) map
+							.get("quoteTask");
 					// 将数据添加到table
 					int length = 0;
 					if (null != taskList && (length = taskList.size()) > 0) {
@@ -633,9 +690,9 @@ public class HomeFrame {
 						}
 						dtm = new DefaultTableModel(rowData, columnsName);
 						jt_quoteTask.isCellEditable(2, 1);// 1列不可编辑
-						jt_quoteTask.isCellEditable(2, 8);// 8列不可编辑
+						jt_quoteTask.isCellEditable(2, 4);// 8列不可编辑
 						jt_quoteTask.isCellEditable(2, 6);// 6列不可编辑
-						jt_quoteTask.isCellEditable(2, 7);// 7列不可编辑
+						jt_quoteTask.isCellEditable(2, 5);// 7列不可编辑
 
 						jt_quoteTask.setModel(dtm);
 						jt_quoteTask.getColumnModel().getColumn(0)
@@ -659,20 +716,93 @@ public class HomeFrame {
 										jt_quoteTask));
 						jt_quoteTask.setRowSelectionInterval(0, 0);// 选中第一行
 
-						//Table表中添加日期组件
-//						Chooser ser = Chooser.getInstance();
-//						JTextField jtf_date = new JTextField();
-//						jtf_date.setEditable(false);
-//						ser.register(jtf_date);
-//						jt_quoteTask.getColumnModel().getColumn(5)
-//		                .setCellEditor(new DefaultCellEditor(jtf_date));
+						// Table表中添加日期组件
+						// Chooser ser = Chooser.getInstance();
+						// JTextField jtf_date = new JTextField();
+						// jtf_date.setEditable(false);
+						// ser.register(jtf_date);
+						// jt_quoteTask.getColumnModel().getColumn(5)
+						// .setCellEditor(new DefaultCellEditor(jtf_date));
+
+						// // 项目模块代码
+						@SuppressWarnings("unchecked")
+						List<QuoteProject> projectList = (List<QuoteProject>) map
+								.get("quoteProject");
+						int lengthProject = 0;
+						if (null != projectList
+								&& (lengthProject = projectList.size()) > 0) {
+							index = 0;
+							Object[][] objProject = new Object[lengthProject][projectHeadSt.length];
+							for (QuoteProject quoteProject : projectList) {
+								objProject[index][0] = quoteProject.getId();
+								objProject[index][1] = quoteProject
+										.getProjectName();
+								objProject[index][2] = quoteProject
+										.getIndustry().getIndustryName();
+								objProject[index][3] = quoteProject
+										.getAddress().getMergerName();
+								objProject[index][4] = quoteProject
+										.getOtherAmout();
+								objProject[index][5] = quoteProject
+										.getProjectAmount();
+								index++;
+
+							}
+							dtmPJ = new DefaultTableModel(objProject,
+									projectHeadSt);
+							jtb_center_up_xm.setModel(dtmPJ);
+							jtb_center_up_xm.getColumnModel().getColumn(0)
+									.setMinWidth(0);
+							jtb_center_up_xm.getColumnModel().getColumn(0)
+									.setMaxWidth(0);
+							jtb_center_up_xm.getColumnModel().getColumn(1)
+									.setPreferredWidth(100);
+							jtb_center_up_xm.getColumnModel().getColumn(2)
+									.setPreferredWidth(30);
+							jtb_center_up_xm.getColumnModel().getColumn(3)
+									.setPreferredWidth(120);
+							jtb_center_up_xm.setRowSelectionInterval(0, 0);// 选中第一行
+
+							// 检验批模块代码
+							@SuppressWarnings("unchecked")
+							List<InspectionBatch> batchList = (List<InspectionBatch>) map
+									.get("inspectionBatch");
+							length = 0;
+							if (null != batchList
+									&& (length = batchList.size()) > 0) {
+								index = 0;
+								Object[][] objBatch = new Object[length][inspectionHeadName.length];
+								for (InspectionBatch inspectionBatch : batchList) {
+									objBatch[index][0] = inspectionBatch
+											.getId();
+									objBatch[index][1] = inspectionBatch
+											.getInspectionBatchName();
+									objBatch[index][2] = inspectionBatch
+											.getInspectionBatchAmount();
+									index++;
+								}
+								DefaultTableModel dtmInspection = new DefaultTableModel(
+										objBatch, inspectionHeadName);
+								jt_inspection.setModel(dtmInspection);
+								jt_inspection.getColumnModel().getColumn(0)
+										.setMinWidth(0);
+								jt_inspection.getColumnModel().getColumn(0)
+										.setMaxWidth(0);
+								jt_inspection.setRowSelectionInterval(0, 0);
+
+							}
+
+						}
+
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (ExecutionException e) {
 					e.printStackTrace();
 				}
+
 			}
+
 		}.execute();
 
 		// JToolBar工具栏及其下按钮
@@ -704,10 +834,20 @@ public class HomeFrame {
 		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask));
 		// 添加查询任务事件
 		bt_queryTask.setActionCommand("queryTask");
-		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask, jtf_queryTaskName));
+
+		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jtf_queryTaskName));
 		// 添加查询任务事件
 		bt_updateTask.setActionCommand("updateTask");
 		bt_updateTask.addActionListener(new HomeFrameAction(jt_quoteTask));
+		// 创建项目
+		jb_center_up_1.addActionListener(new HomeFrameAction(jt_quoteTask));
+		// 创建任务面板Jtable事件
+		jt_quoteTask.addMouseListener(new HomeFrameAction("task_jtabel",
+				jt_quoteTask, jtb_center_up_xm, jt_inspection));
+		// 项目JTabel鼠标点击事件
+		jtb_center_up_xm.addMouseListener(new HomeFrameAction("project_jtabel",
+				jtb_center_up_xm, jt_inspection));
 
 	}
 

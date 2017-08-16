@@ -16,6 +16,12 @@
     from InspectionBatch
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByProjectNumber" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select
+    <include refid="Base_Column_List" />
+    from InspectionBatch
+    where project_id = #{id,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from InspectionBatch
     where id = #{id,jdbcType=INTEGER}

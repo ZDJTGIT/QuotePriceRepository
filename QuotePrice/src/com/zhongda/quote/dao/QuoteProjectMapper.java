@@ -1,17 +1,26 @@
 package com.zhongda.quote.dao;
 
+import java.util.List;
+
 import com.zhongda.quote.model.QuoteProject;
 
 public interface QuoteProjectMapper {
-    int deleteByPrimaryKey(Integer id);
+	int deleteByPrimaryKey(Integer id);
 
-    int insert(QuoteProject record);
+	int insert(QuoteProject record);
 
-    int insertSelective(QuoteProject record);
+	int insertSelective(QuoteProject record);
 
-    QuoteProject selectByPrimaryKey(Integer id);
+	QuoteProject selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(QuoteProject record);
+	int updateByPrimaryKeySelective(QuoteProject record);
 
-    int updateByPrimaryKey(QuoteProject record);
+	int updateByPrimaryKey(QuoteProject record);
+
+	/**
+	 * 查询项目根据任务ID
+	 * 
+	 * @return
+	 */
+	List<QuoteProject> selectByTaskNumber(int taskId);
 }

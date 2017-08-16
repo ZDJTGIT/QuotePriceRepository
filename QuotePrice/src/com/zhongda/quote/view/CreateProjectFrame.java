@@ -2,6 +2,7 @@ package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
@@ -29,6 +31,7 @@ import com.zhongda.quote.model.Address;
 import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.service.impl.AddressServiceImpl;
 import com.zhongda.quote.service.impl.IndustryServiceImpl;
+import com.zhongda.quote.utils.FrameGoUtils;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 
 /**
@@ -74,12 +77,32 @@ public class CreateProjectFrame {
 	private JCheckBox chckbxNewCheckBox_5;
 	private JLabel ble_4;
 	private JComboBox<Industry> jcb_industry;
+	private JTable jtb_task;
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreateProjectFrame createP = new CreateProjectFrame();
+					createP.dialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public CreateProjectFrame() {
 
+		init();
+
+	}
+
+	public CreateProjectFrame(JTable jt) {
+		this.jtb_task = jt;
 		init();
 
 	}
@@ -121,6 +144,10 @@ public class CreateProjectFrame {
 		jtf_task = new JTextField();
 		jtf_task.setBounds(26, 80, 445, 25);
 		jtf_task.setEnabled(false);
+		int row = jtb_task.getSelectedRow();
+		String string = (String) jtb_task.getValueAt(row, 2);
+		jtf_task.setText(string);
+		jtf_task.setName((String) jtb_task.getValueAt(row, 1));
 		jPanel.add(jtf_task);
 		jtf_task.setColumns(10);
 
