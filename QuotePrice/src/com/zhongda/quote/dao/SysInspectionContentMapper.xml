@@ -17,34 +17,51 @@
     <result column="charge_standard" jdbcType="INTEGER" property="chargeStandard" />
     <result column="charge_standard_unit" jdbcType="VARCHAR" property="chargeStandardUnit" />
     <result column="quote_basis_id" jdbcType="INTEGER" property="quoteBasisId" />
+   	<association property="quoteBasis" javaType="QuoteBasis">
+       <id column="id" jdbcType="INTEGER" property="id" />
+	   <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
+	   <result column="inspection_method_name" jdbcType="VARCHAR" property="inspectionMethodName" />
+	   <result column="basis_file_number" jdbcType="VARCHAR" property="basisFileNumber" />
+	   <result column="basis_file_name" jdbcType="VARCHAR" property="basisFileName" />
+	   <result column="basis_file_index" jdbcType="VARCHAR" property="basisFileIndex" />
+   	</association>
+   	<association property="sampleBasis" javaType="SampleBasis">
+       <id column="id" jdbcType="INTEGER" property="id" />
+	   <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
+	   <result column="inspection_method_name" jdbcType="VARCHAR" property="inspectionMethodName" />
+	   <result column="basis_file_number" jdbcType="VARCHAR" property="basisFileNumber" />
+	   <result column="basis_file_name" jdbcType="VARCHAR" property="basisFileName" />
+	   <result column="basis_file_index" jdbcType="VARCHAR" property="basisFileIndex" />
+	   <result column="basis_image" jdbcType="VARCHAR" property="basisImage" />
+   	</association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, inspection_content_name, inspection_method_name, inspection_content_flag, industry_flag, 
-    address_flag, sample_quantity, sample_quantity_range, sample_basic_id, single_object_quantity, 
+    id, inspection_content_name, inspection_method_name, inspection_content_flag, industry_flag,
+    address_flag, sample_quantity, sample_quantity_range, sample_basic_id, single_object_quantity,
     single_quantity_range, charge_unit, charge_standard, charge_standard_unit, quote_basis_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from SysInspectionContent
-    where id = #{id,jdbcType=INTEGER}
+    select
+	sc.*, qb.*, sb.*
+	from SysInspectionContent sc, QuoteBasis qb, SampleBasis sb
+	where sc.quote_basis_id = qb.id and sc.sample_basic_id = sb.id and sc.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from SysInspectionContent
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zhongda.quote.model.SysInspectionContent">
-    insert into SysInspectionContent (id, inspection_content_name, inspection_method_name, 
-      inspection_content_flag, industry_flag, address_flag, 
-      sample_quantity, sample_quantity_range, sample_basic_id, 
-      single_object_quantity, single_quantity_range, 
-      charge_unit, charge_standard, charge_standard_unit, 
+    insert into SysInspectionContent (id, inspection_content_name, inspection_method_name,
+      inspection_content_flag, industry_flag, address_flag,
+      sample_quantity, sample_quantity_range, sample_basic_id,
+      single_object_quantity, single_quantity_range,
+      charge_unit, charge_standard, charge_standard_unit,
       quote_basis_id)
-    values (#{id,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR}, #{inspectionMethodName,jdbcType=VARCHAR}, 
-      #{inspectionContentFlag,jdbcType=INTEGER}, #{industryFlag,jdbcType=INTEGER}, #{addressFlag,jdbcType=INTEGER}, 
-      #{sampleQuantity,jdbcType=INTEGER}, #{sampleQuantityRange,jdbcType=VARCHAR}, #{sampleBasicId,jdbcType=INTEGER}, 
-      #{singleObjectQuantity,jdbcType=INTEGER}, #{singleQuantityRange,jdbcType=VARCHAR}, 
-      #{chargeUnit,jdbcType=VARCHAR}, #{chargeStandard,jdbcType=INTEGER}, #{chargeStandardUnit,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR}, #{inspectionMethodName,jdbcType=VARCHAR},
+      #{inspectionContentFlag,jdbcType=INTEGER}, #{industryFlag,jdbcType=INTEGER}, #{addressFlag,jdbcType=INTEGER},
+      #{sampleQuantity,jdbcType=INTEGER}, #{sampleQuantityRange,jdbcType=VARCHAR}, #{sampleBasicId,jdbcType=INTEGER},
+      #{singleObjectQuantity,jdbcType=INTEGER}, #{singleQuantityRange,jdbcType=VARCHAR},
+      #{chargeUnit,jdbcType=VARCHAR}, #{chargeStandard,jdbcType=INTEGER}, #{chargeStandardUnit,jdbcType=VARCHAR},
       #{quoteBasisId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.zhongda.quote.model.SysInspectionContent">

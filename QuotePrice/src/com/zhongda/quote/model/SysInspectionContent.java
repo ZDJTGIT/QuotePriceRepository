@@ -31,6 +31,10 @@ public class SysInspectionContent {
 
     private Integer quoteBasisId;
 
+    private QuoteBasis quoteBasis;
+
+    private SampleBasis sampleBbasis;
+
     public Integer getId() {
         return id;
     }
@@ -150,4 +154,20 @@ public class SysInspectionContent {
     public void setQuoteBasisId(Integer quoteBasisId) {
         this.quoteBasisId = quoteBasisId;
     }
+
+	public QuoteBasis getQuoteBasis() {
+		return quoteBasis;
+	}
+
+	public void setQuoteBasis(QuoteBasis quoteBasis) {
+		this.quoteBasis = quoteBasis;
+	}
+
+	public SampleBasis getSampleBbasis() {
+		return sampleBbasis;
+	}
+
+	public void setSampleBbasis(SampleBasis sampleBbasis) {
+		this.sampleBbasis = sampleBbasis;
+	}
 }
