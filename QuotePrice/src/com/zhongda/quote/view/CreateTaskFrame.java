@@ -177,6 +177,7 @@ public class CreateTaskFrame {
 				jtf_createUser, jtf_date, jta_taskDescription, jt_quoteTask, jDialog, isCreate));
 		//如果是修改报价任务，则填充需修改的值
 		if(!isCreate){
+			lblNewLabel.setText("修改任务");
 			int row = jt_quoteTask.getSelectedRow();
 			jtf_taskName.setText(String.valueOf(jt_quoteTask.getValueAt(row, 2)));
 			jtf_createUser.setText(String.valueOf(jt_quoteTask.getValueAt(row, 4)));

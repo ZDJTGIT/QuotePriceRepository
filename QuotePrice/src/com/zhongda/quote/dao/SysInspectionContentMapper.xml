@@ -4,10 +4,8 @@
   <resultMap id="BaseResultMap" type="com.zhongda.quote.model.SysInspectionContent">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
-    <result column="inspection_method_name" jdbcType="VARCHAR" property="inspectionMethodName" />
-    <result column="inspection_content_flag" jdbcType="INTEGER" property="inspectionContentFlag" />
-    <result column="industry_flag" jdbcType="INTEGER" property="industryFlag" />
-    <result column="address_flag" jdbcType="INTEGER" property="addressFlag" />
+    <result column="industry_id" jdbcType="INTEGER" property="industryId" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
     <result column="sample_quantity" jdbcType="INTEGER" property="sampleQuantity" />
     <result column="sample_quantity_range" jdbcType="VARCHAR" property="sampleQuantityRange" />
     <result column="sample_basic_id" jdbcType="INTEGER" property="sampleBasicId" />
@@ -20,7 +18,8 @@
    	<association property="quoteBasis" javaType="QuoteBasis">
        <id column="id" jdbcType="INTEGER" property="id" />
 	   <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
-	   <result column="inspection_method_name" jdbcType="VARCHAR" property="inspectionMethodName" />
+	   <result column="industry_id" jdbcType="INTEGER" property="industryId" />
+	   <result column="address_id" jdbcType="INTEGER" property="addressId" />
 	   <result column="basis_file_number" jdbcType="VARCHAR" property="basisFileNumber" />
 	   <result column="basis_file_name" jdbcType="VARCHAR" property="basisFileName" />
 	   <result column="basis_file_index" jdbcType="VARCHAR" property="basisFileIndex" />
@@ -28,16 +27,16 @@
    	<association property="sampleBasis" javaType="SampleBasis">
        <id column="id" jdbcType="INTEGER" property="id" />
 	   <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
-	   <result column="inspection_method_name" jdbcType="VARCHAR" property="inspectionMethodName" />
+	   <result column="industry_id" jdbcType="INTEGER" property="industryId" />
+	   <result column="address_id" jdbcType="INTEGER" property="addressId" />
 	   <result column="basis_file_number" jdbcType="VARCHAR" property="basisFileNumber" />
 	   <result column="basis_file_name" jdbcType="VARCHAR" property="basisFileName" />
 	   <result column="basis_file_index" jdbcType="VARCHAR" property="basisFileIndex" />
-	   <result column="basis_image" jdbcType="VARCHAR" property="basisImage" />
    	</association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, inspection_content_name, inspection_method_name, inspection_content_flag, industry_flag,
-    address_flag, sample_quantity, sample_quantity_range, sample_basic_id, single_object_quantity,
+    id, inspection_content_name, industry_id, address_id, sample_quantity,
+    sample_quantity_range, sample_basic_id, single_object_quantity,
     single_quantity_range, charge_unit, charge_standard, charge_standard_unit, quote_basis_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -51,14 +50,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zhongda.quote.model.SysInspectionContent">
-    insert into SysInspectionContent (id, inspection_content_name, inspection_method_name,
-      inspection_content_flag, industry_flag, address_flag,
+    insert into SysInspectionContent (id, inspection_content_name,
+      industry_id, address_id,
       sample_quantity, sample_quantity_range, sample_basic_id,
       single_object_quantity, single_quantity_range,
       charge_unit, charge_standard, charge_standard_unit,
       quote_basis_id)
-    values (#{id,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR}, #{inspectionMethodName,jdbcType=VARCHAR},
-      #{inspectionContentFlag,jdbcType=INTEGER}, #{industryFlag,jdbcType=INTEGER}, #{addressFlag,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR},
+      #{industryId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER},
       #{sampleQuantity,jdbcType=INTEGER}, #{sampleQuantityRange,jdbcType=VARCHAR}, #{sampleBasicId,jdbcType=INTEGER},
       #{singleObjectQuantity,jdbcType=INTEGER}, #{singleQuantityRange,jdbcType=VARCHAR},
       #{chargeUnit,jdbcType=VARCHAR}, #{chargeStandard,jdbcType=INTEGER}, #{chargeStandardUnit,jdbcType=VARCHAR},
@@ -73,17 +72,11 @@
       <if test="inspectionContentName != null">
         inspection_content_name,
       </if>
-      <if test="inspectionMethodName != null">
-        inspection_method_name,
+      <if test="industryId != null">
+        industry_id,
       </if>
-      <if test="inspectionContentFlag != null">
-        inspection_content_flag,
-      </if>
-      <if test="industryFlag != null">
-        industry_flag,
-      </if>
-      <if test="addressFlag != null">
-        address_flag,
+      <if test="addressId != null">
+        address_id,
       </if>
       <if test="sampleQuantity != null">
         sample_quantity,
@@ -120,17 +113,11 @@
       <if test="inspectionContentName != null">
         #{inspectionContentName,jdbcType=VARCHAR},
       </if>
-      <if test="inspectionMethodName != null">
-        #{inspectionMethodName,jdbcType=VARCHAR},
+      <if test="industryId != null">
+        #{industryId,jdbcType=INTEGER},
       </if>
-      <if test="inspectionContentFlag != null">
-        #{inspectionContentFlag,jdbcType=INTEGER},
-      </if>
-      <if test="industryFlag != null">
-        #{industryFlag,jdbcType=INTEGER},
-      </if>
-      <if test="addressFlag != null">
-        #{addressFlag,jdbcType=INTEGER},
+      <if test="addressId != null">
+        #{addressId,jdbcType=INTEGER},
       </if>
       <if test="sampleQuantity != null">
         #{sampleQuantity,jdbcType=INTEGER},
@@ -167,17 +154,11 @@
       <if test="inspectionContentName != null">
         inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
       </if>
-      <if test="inspectionMethodName != null">
-        inspection_method_name = #{inspectionMethodName,jdbcType=VARCHAR},
+      <if test="industryId != null">
+        industry_id = #{industryId,jdbcType=INTEGER},
       </if>
-      <if test="inspectionContentFlag != null">
-        inspection_content_flag = #{inspectionContentFlag,jdbcType=INTEGER},
-      </if>
-      <if test="industryFlag != null">
-        industry_flag = #{industryFlag,jdbcType=INTEGER},
-      </if>
-      <if test="addressFlag != null">
-        address_flag = #{addressFlag,jdbcType=INTEGER},
+      <if test="addressId != null">
+        address_id = #{addressId,jdbcType=INTEGER},
       </if>
       <if test="sampleQuantity != null">
         sample_quantity = #{sampleQuantity,jdbcType=INTEGER},
@@ -212,10 +193,8 @@
   <update id="updateByPrimaryKey" parameterType="com.zhongda.quote.model.SysInspectionContent">
     update SysInspectionContent
     set inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
-      inspection_method_name = #{inspectionMethodName,jdbcType=VARCHAR},
-      inspection_content_flag = #{inspectionContentFlag,jdbcType=INTEGER},
-      industry_flag = #{industryFlag,jdbcType=INTEGER},
-      address_flag = #{addressFlag,jdbcType=INTEGER},
+      industry_id = #{industryId,jdbcType=INTEGER},
+      address_id = #{addressId,jdbcType=INTEGER},
       sample_quantity = #{sampleQuantity,jdbcType=INTEGER},
       sample_quantity_range = #{sampleQuantityRange,jdbcType=VARCHAR},
       sample_basic_id = #{sampleBasicId,jdbcType=INTEGER},

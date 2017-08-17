@@ -5,13 +5,9 @@ public class SysInspectionContent {
 
     private String inspectionContentName;
 
-    private String inspectionMethodName;
+    private Integer industryId;
 
-    private Integer inspectionContentFlag;
-
-    private Integer industryFlag;
-
-    private Integer addressFlag;
+    private Integer addressId;
 
     private Integer sampleQuantity;
 
@@ -33,7 +29,7 @@ public class SysInspectionContent {
 
     private QuoteBasis quoteBasis;
 
-    private SampleBasis sampleBbasis;
+    private SampleBasis sampleBasis;
 
     public Integer getId() {
         return id;
@@ -51,36 +47,20 @@ public class SysInspectionContent {
         this.inspectionContentName = inspectionContentName == null ? null : inspectionContentName.trim();
     }
 
-    public String getInspectionMethodName() {
-        return inspectionMethodName;
+    public Integer getIndustryId() {
+        return industryId;
     }
 
-    public void setInspectionMethodName(String inspectionMethodName) {
-        this.inspectionMethodName = inspectionMethodName == null ? null : inspectionMethodName.trim();
+    public void setIndustryId(Integer industryId) {
+        this.industryId = industryId;
     }
 
-    public Integer getInspectionContentFlag() {
-        return inspectionContentFlag;
+    public Integer getAddressId() {
+        return addressId;
     }
 
-    public void setInspectionContentFlag(Integer inspectionContentFlag) {
-        this.inspectionContentFlag = inspectionContentFlag;
-    }
-
-    public Integer getIndustryFlag() {
-        return industryFlag;
-    }
-
-    public void setIndustryFlag(Integer industryFlag) {
-        this.industryFlag = industryFlag;
-    }
-
-    public Integer getAddressFlag() {
-        return addressFlag;
-    }
-
-    public void setAddressFlag(Integer addressFlag) {
-        this.addressFlag = addressFlag;
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
     }
 
     public Integer getSampleQuantity() {
@@ -163,11 +143,11 @@ public class SysInspectionContent {
 		this.quoteBasis = quoteBasis;
 	}
 
-	public SampleBasis getSampleBbasis() {
-		return sampleBbasis;
+	public SampleBasis getSampleBasis() {
+		return sampleBasis;
 	}
 
-	public void setSampleBbasis(SampleBasis sampleBbasis) {
-		this.sampleBbasis = sampleBbasis;
+	public void setSampleBasis(SampleBasis sampleBasis) {
+		this.sampleBasis = sampleBasis;
 	}
 }
