@@ -58,6 +58,10 @@ public class CreateTaskFrameAction implements ActionListener {
 
 		this.jDialog = jDialog;
 	}
+	
+	public CreateTaskFrameAction(){
+		
+	}
 
 	/**
 	 * 确定提交和退出按钮监听事件

@@ -17,11 +17,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
+
+
 import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.model.QuoteTask;
 import com.zhongda.quote.service.impl.InspectionBatchServiceImpl;
 import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
+import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
 import com.zhongda.quote.utils.FrameGoUtils;
 
@@ -34,8 +37,9 @@ import com.zhongda.quote.utils.FrameGoUtils;
  * @author 研发中心-LiVerson<1061734892@qq.com>
  * @sine 2017年8月10日
  */
-public class HomeFrameAction implements ActionListener, MouseMotionListener,
-		MouseListener {
+
+public class HomeFrameAction implements ActionListener, MouseMotionListener ,MouseListener{
+
 
 	// 主界面报价任务JTable
 	private JTable jt_quoteTask;
@@ -80,7 +84,6 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		this.jtf_queryName = jtf_queryName;
 	}
 
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
@@ -105,6 +108,80 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			haveTask(jt_quoteTask);
 		} else if ("addInspection".equals(command)) {
 			haveProject(jt_quoteTask);
+		} else if("createContent".equals(command)){
+			int row = jt_inspectionBatch.getSelectedRow();
+			if(row < 0){
+				JOptionPane.showMessageDialog(null,
+						"请选择一个检验批创建检验内容！", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			}else{
+				//获取当前检验批ID，新建时传入检验批ID作为打开的“钥匙”
+				Integer inspectionid = (Integer)jt_inspectionBatch.getValueAt(row, 0);
+				FrameGoUtils.createContent(inspectionid,jt_inspectionContent, true);
+			}
+		} else if("deleteContent".equals(command)){
+			deleteInspectionContent(jt_inspectionContent);
+		}else if("updateContent".equals(command)){
+			int row = jt_inspectionContent.getSelectedRow();
+			if(row < 0){
+				JOptionPane.showMessageDialog(null,
+						"请选择需要修改的检验内容！", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			}else{
+				FrameGoUtils.createContent(null,jt_inspectionContent, false);
+			}
+		}
+	}
+
+	/**
+	 * 删除检验内容
+	 */
+	private void deleteInspectionContent(JTable jt_shareTable) {
+		int row = jt_shareTable.getSelectedRow();
+		if (row < 0) {
+			JOptionPane.showMessageDialog(null,
+					"没有选中需要删除的检验内容,请选中后再进行删除操作！", "提示信息",
+					JOptionPane.WARNING_MESSAGE);
+		} else {
+			int flag = JOptionPane.showConfirmDialog(null,
+					"确定删除该条检验内容？",
+					"删除检验内容", JOptionPane.OK_OPTION);
+			if (flag == JOptionPane.OK_OPTION) {
+				Integer contentId = (Integer) jt_shareTable.getValueAt(row, 0);
+				//通过线程从数据库中获取该检验内容的ID
+				new SwingWorker<Integer, Void>(){
+					
+					@Override
+					protected Integer doInBackground() throws Exception {
+						return new InspectionContentServiceImpl().deleteInspectionByID(contentId);
+					}
+					
+					@Override
+					protected void done() {
+						int flag = 0;
+						try {
+							flag = get();
+							if (flag > 0) {
+								JOptionPane.showMessageDialog(null,
+										"检验内容删除成功！", "提示信息",
+										JOptionPane.PLAIN_MESSAGE);
+
+								DefaultTableModel model = (DefaultTableModel) jt_shareTable
+										.getModel();
+								model.removeRow(row);
+							} else {
+								JOptionPane.showMessageDialog(null,
+										"检验内容删除失败！", "提示信息",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						} catch (ExecutionException e) {
+							e.printStackTrace();
+						}
+					}
+				}.execute();
+			}	
 		}
 	}
 
@@ -158,8 +235,13 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 查询报价任务
+<<<<<<< Updated upstream
 	 *
 	 * @param jt_quoteTask
+=======
+	 * 
+	 * @param jt_shareTable
+>>>>>>> Stashed changes
 	 *            显示任务的列表
 	 * @param jtf_queryName
 	 *            存放查询条件的任务名称
@@ -179,7 +261,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					List<QuoteTask> taskList;
 					try {
 						taskList = get();
-						// jt_quoteTask.updateUI();
+						// jt_shareTable.updateUI();
 						DefaultTableModel model = (DefaultTableModel) jt_quoteTask
 								.getModel();
 						// 清除原有数据
@@ -216,13 +298,12 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 删除报价任务
-	 *
 	 * @param jt_quoteTask
 	 *            显示任务的列表
 	 */
-	private void deleteQuoteTask(JTable jt_quoteTask) {
+	private void deleteQuoteTask(JTable jt_shareTable) {
 		// 获取Table中被选中的行序号
-		final int row = jt_quoteTask.getSelectedRow();
+		final int row = jt_shareTable.getSelectedRow();
 		if (row < 0) {
 			JOptionPane.showMessageDialog(null, "没有选中需要删除的报价任务,请选中后再进行删除操作！",
 					"提示信息", JOptionPane.WARNING_MESSAGE);
@@ -231,7 +312,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					"点击确认按钮，将会删除所选中的报价任务，包括报价任务下的所有项目以及检验批，是否确认删除？", "删除报价任务",
 					JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
-				Object value = jt_quoteTask.getValueAt(row, 0);
+				Object value = jt_shareTable.getValueAt(row, 0);
 				final Integer id = Integer.valueOf(String.valueOf(value));
 				// 启动任务线程删除选中报价任务
 				new SwingWorker<Boolean, Void>() {
@@ -247,7 +328,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 										"报价任务删除成功！", "提示信息",
 										JOptionPane.PLAIN_MESSAGE);
 
-								DefaultTableModel model = (DefaultTableModel) jt_quoteTask
+								DefaultTableModel model = (DefaultTableModel) jt_shareTable
 										.getModel();
 								model.removeRow(row);
 							} else {
@@ -280,6 +361,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			else
 				jt_quoteTask.setToolTipText(null);// 关闭提示
 		}
+		
 
 	}
 
@@ -290,7 +372,6 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		} else if ("project_jtabel".equals(clickName)) {
 			ProjectAndInspection();
 		}
-
 	}
 
 	@Override

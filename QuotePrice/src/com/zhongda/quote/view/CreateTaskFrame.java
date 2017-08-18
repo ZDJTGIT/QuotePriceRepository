@@ -32,11 +32,9 @@ import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 public class CreateTaskFrame {
 
 	public JDialog jDialog;
-
 	private JLabel ble_1;
 	private JLabel ble_2;
 	private JLabel ble_3;
-
 	private JLabel ble_5;
 	private JTextField jtf_taskName;
 	private JTextField jtf_createUser;
@@ -56,6 +54,9 @@ public class CreateTaskFrame {
 	private JTextField jtf_date;
 	private boolean isCreate;
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public CreateTaskFrame() {
 		init();
 
@@ -184,7 +185,6 @@ public class CreateTaskFrame {
 			jtf_date.setText(String.valueOf(jt_quoteTask.getValueAt(row, 5)));
 			jta_taskDescription.setText(String.valueOf(jt_quoteTask.getValueAt(row, 3)));
 		}
-
 	}
 
 	public String getTodayDate() {

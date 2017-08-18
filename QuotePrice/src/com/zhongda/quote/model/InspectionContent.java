@@ -28,8 +28,20 @@ public class InspectionContent {
     private Integer batchId;
 
     private Double inspectionContentAmount;
+    
+    public InspectionContent(){
+    	
+    }
 
-    public Integer getId() {
+    public InspectionContent(String inspectionContentName, Integer sampleQuantity,
+			Integer singleObjectQuantity, Integer chargeStandard) {
+		this.inspectionContentName = inspectionContentName;
+		this.sampleQuantity = sampleQuantity;
+		this.singleObjectQuantity = singleObjectQuantity;
+		this.chargeStandard = chargeStandard;
+	}
+
+	public Integer getId() {
         return id;
     }
 

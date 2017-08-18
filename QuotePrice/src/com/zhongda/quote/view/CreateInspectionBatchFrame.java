@@ -163,7 +163,7 @@ public class CreateInspectionBatchFrame {
 		table = new JTable(hangStr, lieStr);
 		table.setEnabled(false); //设置不可编辑
 		table.setRowHeight(20);//设置单元表格高度
-		table .getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setReorderingAllowed(false);
 		table.getTableHeader().setPreferredSize(new Dimension(1, 24)); //设置表头高度
 		jsp = new JScrollPane(table);
 		jsp.setBounds(24, 149, 454, 114);

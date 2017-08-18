@@ -6,6 +6,7 @@ import javax.swing.JTable;
 
 import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.view.CreatInspectionFrame;
+import com.zhongda.quote.view.CreateContentFrame;
 import com.zhongda.quote.view.CreateProjectFrame;
 import com.zhongda.quote.view.CreateTaskFrame;
 
@@ -34,6 +35,23 @@ public class FrameGoUtils {
 					CreateTaskFrame window = new CreateTaskFrame(jt_quoteTask,
 							isCreate);
 					window.jDialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	/**
+	 * 创建新增检验内容窗口
+	 * @param jTable
+	 */
+	public static void createContent(Integer inspectionid,final JTable jt_inspectionContent, boolean isCreate){
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					//传入一个检验批ID作为显示的内容的依据
+					CreateContentFrame window = new CreateContentFrame(inspectionid,jt_inspectionContent, isCreate);
+					window.jaDialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -73,6 +91,7 @@ public class FrameGoUtils {
 		});
 	}
 
+
 	/**
 	 * 创建检验批窗口
 	 */
@@ -99,6 +118,20 @@ public class FrameGoUtils {
 				try {
 					CreatInspectionFrame cif = new CreatInspectionFrame(jt);
 					cif.dialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	
+	public static void updateContent(){
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreateContentFrame window = new CreateContentFrame();
+					window.jaDialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -28,6 +28,30 @@
     from InspectionContent
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAllInspectionContent" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from InspectionContent
+  </select>
+  <select id="selectInspectionContentByMaxId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from InspectionContent
+    where id = (select max(id) from InspectionContent)
+  </select>
+  
+  <select id="selectAllInspectionContentByBatchId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from InspectionContent
+    where batch_id = #{batchId,jdbcType=INTEGER}
+  </select>
+ 
+  <delete id="deleteInspectionByID" parameterType="java.lang.Integer">
+    delete from InspectionContent
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from InspectionContent
     where id = #{id,jdbcType=INTEGER}
