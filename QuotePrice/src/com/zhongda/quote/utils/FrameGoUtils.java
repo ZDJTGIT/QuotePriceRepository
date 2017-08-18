@@ -2,6 +2,7 @@ package com.zhongda.quote.utils;
 
 import java.awt.EventQueue;
 
+import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import com.zhongda.quote.model.QuoteProject;
@@ -95,12 +96,13 @@ public class FrameGoUtils {
 	/**
 	 * 创建检验批窗口
 	 */
-	public static void creatInspection(QuoteProject quoteProject) {
+	public static void creatInspection(QuoteProject quoteProject,
+			JPanel jp_inspection) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					CreatInspectionFrame cif = new CreatInspectionFrame(
-							quoteProject);
+							quoteProject, jp_inspection);
 					cif.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -112,11 +114,11 @@ public class FrameGoUtils {
 	/**
 	 * 创建检验批窗口
 	 */
-	public static void creatInspection(JTable jt) {
+	public static void creatInspection(JTable jt, JTable jt2) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreatInspectionFrame cif = new CreatInspectionFrame(jt);
+					CreatInspectionFrame cif = new CreatInspectionFrame(jt, jt2);
 					cif.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

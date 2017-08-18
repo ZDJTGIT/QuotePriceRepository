@@ -5,39 +5,55 @@ import java.util.List;
 import com.zhongda.quote.model.InspectionContent;
 
 public interface InspectionContentService {
-	
+
 	/**
 	 * 获取所有的检验内容
+	 * 
 	 * @return
 	 */
 	List<InspectionContent> queryAllInspectionContent();
-	
+
 	/**
 	 * 创建一个检验内容
+	 * 
 	 * @param inspectionContent
 	 * @return 返回当前插入检验内容，可通过返回的任务是否为null来判断创建是否成功
 	 */
 	InspectionContent createInspectionContent(
 			InspectionContent inspectionContent);
-	
+
 	/**
 	 * 获取当前检验批下所有的检验内容
-	 * @param batchId 当前检验批的id
+	 * 
+	 * @param batchId
+	 *            当前检验批的id
 	 * @return 当前检验批下所有的检验内容
 	 */
 	List<InspectionContent> queryAllInspectionContentByBatchId(Integer batchId);
-	
+
 	/**
 	 * 
 	 * @param id
 	 * @return 按ID删除检验内容
 	 */
 	Integer deleteInspectionByID(Integer id);
-	
+
 	/**
 	 * 修改检验内容
-	 * @param inspectionContent 被修改的检验内容
+	 * 
+	 * @param inspectionContent
+	 *            被修改的检验内容
 	 * @return 修改后的检验内容
 	 */
-	InspectionContent updateInspectionContent(InspectionContent inspectionContent);
+	InspectionContent updateInspectionContent(
+			InspectionContent inspectionContent);
+
+	/**
+	 * 插入用户自定义检验内容
+	 * 
+	 * @param inspectionContent
+	 * @return
+	 */
+	boolean insertMultipleInspectionContent(
+			List<InspectionContent> inspectionContent);
 }

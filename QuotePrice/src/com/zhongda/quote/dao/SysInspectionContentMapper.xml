@@ -45,6 +45,13 @@
 	from SysInspectionContent sc, QuoteBasis qb, SampleBasis sb
 	where sc.quote_basis_id = qb.id and sc.sample_basic_id = sb.id and sc.id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+	select
+	sc.*, qb.*, sb.*
+	from SysInspectionContent sc, QuoteBasis qb, SampleBasis sb
+	where sc.quote_basis_id = qb.id and sc.sample_basic_id = sb.id and sc.inspection_content_name like '%${_parameter}%'
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from SysInspectionContent
     where id = #{id,jdbcType=INTEGER}

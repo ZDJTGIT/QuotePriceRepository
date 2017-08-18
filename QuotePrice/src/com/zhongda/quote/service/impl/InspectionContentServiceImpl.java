@@ -37,7 +37,8 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 	public InspectionContent createInspectionContent(
 			InspectionContent inspectionContent) {
 		try {
-			int index = inspectionContentMapper.insertSelective(inspectionContent);
+			int index = inspectionContentMapper
+					.insertSelective(inspectionContent);
 			sqlSession.commit();
 			if (index > 0) {
 				inspectionContent = inspectionContentMapper
@@ -67,10 +68,12 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 		return index;
 	}
 
-	public List<InspectionContent> queryAllInspectionContentByBatchId(Integer batchId) {
+	public List<InspectionContent> queryAllInspectionContentByBatchId(
+			Integer batchId) {
 		List<InspectionContent> inspectionContentList = null;
 		try {
-			inspectionContentList = inspectionContentMapper.selectAllInspectionContentByBatchId(batchId);
+			inspectionContentList = inspectionContentMapper
+					.selectAllInspectionContentByBatchId(batchId);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {
@@ -83,11 +86,13 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 			InspectionContent inspectionContent) {
 		int index = 0;
 		try {
-			index = inspectionContentMapper.updateByPrimaryKeySelective(inspectionContent);
+			index = inspectionContentMapper
+					.updateByPrimaryKeySelective(inspectionContent);
 			sqlSession.commit();
-			if(index > 0){
-				inspectionContent = inspectionContentMapper.selectByPrimaryKey(inspectionContent.getId());
-			}else{
+			if (index > 0) {
+				inspectionContent = inspectionContentMapper
+						.selectByPrimaryKey(inspectionContent.getId());
+			} else {
 				inspectionContent = null;
 			}
 		} catch (Exception e) {
@@ -99,5 +104,28 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 		return inspectionContent;
 	}
 
+	@Override
+	public boolean insertMultipleInspectionContent(
+			List<InspectionContent> inspectionContent) {
+		boolean isTrue = true;
+		int index = 0;
+		try {
+			for (InspectionContent inspectionContent2 : inspectionContent) {
+				index = inspectionContentMapper
+						.insertSelective(inspectionContent2);
+				if (index < 0) {
+					isTrue = false;
+					break;
+				}
+				sqlSession.commit();
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			sqlSession.rollback();
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return isTrue;
+	}
 
 }

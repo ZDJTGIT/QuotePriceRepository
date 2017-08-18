@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -14,7 +15,6 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -31,6 +31,7 @@ import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 import com.zhongda.quote.action.CreateProjectFrameAction;
 import com.zhongda.quote.model.Address;
 import com.zhongda.quote.model.Industry;
+import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.service.impl.AddressServiceImpl;
 import com.zhongda.quote.service.impl.IndustryServiceImpl;
 import com.zhongda.quote.utils.SkinUtil;
@@ -71,15 +72,12 @@ public class CreateProjectFrame {
 	private JComboBox<Address> jcb_province;
 	private JComboBox<Address> jcb_city;
 	private JComboBox<Address> jcb_county;
-	private JCheckBox chckbxNewCheckBox;
-	private JCheckBox chckbxNewCheckBox_1;
-	private JCheckBox chckbxNewCheckBox_2;
-	private JCheckBox chckbxNewCheckBox_3;
-	private JCheckBox chckbxNewCheckBox_4;
-	private JCheckBox chckbxNewCheckBox_5;
+
 	private JLabel ble_4;
 	private JComboBox<Industry> jcb_industry;
 	private JTable jtb_task;
+	private static QuoteProject quoteProject = null;
+	private static Object[] objects = { true, quoteProject };
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -168,23 +166,23 @@ public class CreateProjectFrame {
 
 		jcb_industry = new JComboBox<Industry>();
 		jcb_industry.setFont(new Font("新宋体", 0, 15));
-		jcb_industry.setBounds(26, 180, 207, 25);
+		jcb_industry.setBounds(26, 175, 207, 25);
 		jPanel.add(jcb_industry);
 
 		lblNewLabel_1 = new JLabel("项目所属地点");
-		lblNewLabel_1.setBounds(26, 210, 89, 20);
+		lblNewLabel_1.setBounds(26, 200, 89, 20);
 		jPanel.add(lblNewLabel_1);
 
 		jcb_province = new JComboBox<Address>();
-		jcb_province.setBounds(26, 234, 145, 21);
+		jcb_province.setBounds(26, 220, 145, 21);
 		jPanel.add(jcb_province);
 
 		jcb_city = new JComboBox<Address>();
-		jcb_city.setBounds(177, 234, 145, 21);
+		jcb_city.setBounds(177, 220, 145, 21);
 		jPanel.add(jcb_city);
 
 		jcb_county = new JComboBox<Address>();
-		jcb_county.setBounds(326, 234, 145, 21);
+		jcb_county.setBounds(326, 220, 145, 21);
 		jPanel.add(jcb_county);
 
 		// lblNewLabel_2 = new JLabel("报价方法");
@@ -201,6 +199,7 @@ public class CreateProjectFrame {
 
 		jtf_pp = new JTextField();
 		jtf_pp.setBounds(26, 395, 445, 25);
+		jtf_pp.setEnabled(false);
 		jPanel.add(jtf_pp);
 		jtf_pp.setColumns(10);
 
@@ -210,6 +209,7 @@ public class CreateProjectFrame {
 
 		jtf_po = new JTextField();
 		jtf_po.setBounds(26, 440, 445, 25);
+		jtf_po.setEnabled(false);
 		jPanel.add(jtf_po);
 		jtf_po.setColumns(10);
 
@@ -224,7 +224,6 @@ public class CreateProjectFrame {
 		jbt_yes = new JButton("确认");
 		jbt_yes.setFocusPainted(false);
 		jbt_yes.setActionCommand("commit");
-		jbt_yes.addActionListener(new CreateProjectFrameAction(dialog));
 		jbt_yes.setBounds(282, 490, 93, 23);
 		jPanel.add(jbt_yes);
 
@@ -236,44 +235,20 @@ public class CreateProjectFrame {
 		jPanel.add(jbt_no);
 
 		lblNewLabel_3 = new JLabel("创建检测批");
-		lblNewLabel_3.setBounds(26, 265, 74, 21);
+		lblNewLabel_3.setBounds(26, 250, 74, 21);
 		jPanel.add(lblNewLabel_3);
 
 		String[] strings = { "请选择检验批或者新建检验批", "新建检验批" };
 		jcb_jyp = new JComboBox<Object>(strings);
-		jcb_jyp.setBounds(110, 265, 361, 21);
+		jcb_jyp.setBounds(110, 250, 361, 21);
 		jPanel.add(jcb_jyp);
 
 		jp_jyp = new JPanel();
-		jp_jyp.setBounds(26, 295, 445, 75);
+		jp_jyp.setBounds(26, 275, 445, 95);
 		jp_jyp.setBorder(BorderFactory.createTitledBorder(null, "检测批",
 				TitledBorder.LEFT, TitledBorder.TOP, new Font("宋体", 0, 14)));// 设置边框字体
 		jPanel.add(jp_jyp);
-		jp_jyp.setLayout(null);
-
-		chckbxNewCheckBox = new JCheckBox("社会");
-		chckbxNewCheckBox.setBounds(6, 17, 103, 23);
-		jp_jyp.add(chckbxNewCheckBox);
-
-		chckbxNewCheckBox_1 = new JCheckBox("我");
-		chckbxNewCheckBox_1.setBounds(174, 17, 103, 23);
-		jp_jyp.add(chckbxNewCheckBox_1);
-
-		chckbxNewCheckBox_2 = new JCheckBox("鑫哥");
-		chckbxNewCheckBox_2.setBounds(306, 17, 103, 23);
-		jp_jyp.add(chckbxNewCheckBox_2);
-
-		chckbxNewCheckBox_3 = new JCheckBox("人");
-		chckbxNewCheckBox_3.setBounds(6, 46, 103, 23);
-		jp_jyp.add(chckbxNewCheckBox_3);
-
-		chckbxNewCheckBox_4 = new JCheckBox("狠");
-		chckbxNewCheckBox_4.setBounds(174, 46, 103, 23);
-		jp_jyp.add(chckbxNewCheckBox_4);
-
-		chckbxNewCheckBox_5 = new JCheckBox("话不多");
-		chckbxNewCheckBox_5.setBounds(306, 46, 103, 23);
-		jp_jyp.add(chckbxNewCheckBox_5);
+		jp_jyp.setLayout(new GridLayout(3, 3));
 
 		// 生成该窗口时启动任务线程从数据库加载初始化数据(所有行业的数据)
 		new SwingWorker<List<Industry>, Industry>() {
@@ -402,7 +377,11 @@ public class CreateProjectFrame {
 		jcb_city.addItemListener(createProjectFrameAction);
 		// 创建检验批组件
 		jcb_jyp.addItemListener(new CreateProjectFrameAction(jtf_task, jcb_jyp,
-				jtf_pname, jcb_industry, jcb_province, jcb_city, jcb_county));
+				jtf_pname, jcb_industry, jcb_province, jcb_city, jcb_county,
+				objects, jp_jyp));
+		// 提交按钮
+		jbt_yes.addActionListener(new CreateProjectFrameAction(dialog, jp_jyp,
+				jtf_pp, jtf_po));
 
 	}
 }

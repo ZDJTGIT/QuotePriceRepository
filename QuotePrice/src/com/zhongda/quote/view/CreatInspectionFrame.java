@@ -3,6 +3,7 @@ package com.zhongda.quote.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
@@ -20,10 +22,13 @@ import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 import sun.swing.table.DefaultTableCellHeaderRenderer;
 
 import com.zhongda.quote.action.CreatInspectionAction;
+import com.zhongda.quote.model.InspectionBatch;
+import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.utils.FrameGoUtils;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
+import com.zhongda.quote.view.uiutils.MyTable;
 
 /**
  * 
@@ -42,12 +47,12 @@ public class CreatInspectionFrame {
 	private JLabel jlb_jpup_1;
 	private JLabel jlb_jpup_2;
 	private JLabel label;
-	private JTextField jtf_task;
+	private JTextField jtf_project;
 	private JLabel lblNewLabel;
 	private JTextField jtf_pname;
 	private JLabel lblNewLabel_1;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField jtf_money;
 	private JButton jbt_search;
 	private JPanel panel_1;
 	private JLabel lblNewLabel_2;
@@ -56,14 +61,19 @@ public class CreatInspectionFrame {
 	private JButton jbt_yes;
 	private JButton jbt_no;
 	private JScrollPane scrollPane;
-	private JTable table;
+	private JTable jt_creatIns;
 	private DefaultTableModel dtm;
 	private JPanel jp_search;
 	private JScrollPane scrollPane_1;
-	private JTable table_1;
+	private MyTable jt_content;
 	private DefaultTableModel dtmSearch;
 	private String project;
 	private int projectName;
+	private JTable jt_inspection;
+	private static InspectionBatch inspectionBatch;
+	private static Vector<InspectionContent> creatInspectionNumber = new Vector<InspectionContent>();
+	private static Object[] objects = { true, inspectionBatch };
+	private JPanel jp_inspection;
 
 	/**
 	 * Launch the application.
@@ -84,15 +94,17 @@ public class CreatInspectionFrame {
 		init();
 	}
 
-	public CreatInspectionFrame(QuoteProject quoteProject) {
+	public CreatInspectionFrame(QuoteProject quoteProject, JPanel jp_inspection) {
 		this.project = quoteProject.getProjectName();
 		this.projectName = quoteProject.getId();
+		this.jp_inspection = jp_inspection;
 		init();
 	}
 
-	public CreatInspectionFrame(JTable table) {
+	public CreatInspectionFrame(JTable table, JTable jt_inspection) {
 		this.project = (String) table.getValueAt(table.getSelectedRow(), 1);
 		this.projectName = (int) table.getValueAt(table.getSelectedRow(), 0);
+		this.jt_inspection = jt_inspection;
 		init();
 	}
 
@@ -131,13 +143,13 @@ public class CreatInspectionFrame {
 		label.setBounds(26, 62, 54, 15);
 		panel.add(label);
 
-		jtf_task = new JTextField();
-		jtf_task.setBounds(26, 80, 845, 25);
-		jtf_task.setEnabled(false);
-		jtf_task.setText(project);
-		jtf_task.setName(String.valueOf(projectName));
-		panel.add(jtf_task);// 存入所选项目的id，取出时需要强转为int类型
-		jtf_task.setColumns(10);
+		jtf_project = new JTextField();
+		jtf_project.setBounds(26, 80, 845, 25);
+		jtf_project.setEnabled(false);
+		jtf_project.setText(project);
+		jtf_project.setName(String.valueOf(projectName));
+		panel.add(jtf_project);// 存入所选项目的id，取出时需要强转为int类型
+		jtf_project.setColumns(10);
 
 		lblNewLabel = new JLabel("检验批名称");
 		lblNewLabel.setBounds(26, 110, 82, 15);
@@ -178,28 +190,40 @@ public class CreatInspectionFrame {
 		scrollPane_1.addFocusListener(new CreatInspectionAction());
 		jp_search.add(scrollPane_1, BorderLayout.CENTER);
 
-		String[] serchContentName = { "检测内容", "检测方法", "抽样依据", "抽样数量方位", "抽样数量",
-				"报价依据", "单个检测数量范围", "单个检测对象数量", "计费单位", "收费标准" };
-		Object[][] testObjects = { { "\u7F57\u6770", "1" }, { "Rojay", "2" },
-				{ "\u7F57\u6770\u5973", "3" }, { "\u6770\u7F57", "4" },
-				{ "Yajor", "5" }, { "dsff", "6" }, { "htjj", "7" },
-				{ null, "8" }, { "jyukj", "2" }, };
-		table_1 = new JTable();
+		String[] serchContentName = { "序号", "检测内容", "抽样依据", "抽样数量范围", "抽样数量",
+				"报价依据", "单个检测数量范围", "单个检测对象数量", "计费单位", "收费标准", "抽样依据id",
+				"报价依据id", "收费标准单位" };
+		Object[][] testObjects = {};
+		int[] number = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+		jt_content = new MyTable(number);
 		dtmSearch = new DefaultTableModel(testObjects, serchContentName);
-		table_1.setModel(dtmSearch);
-		table_1.getColumnModel().getColumn(1).setPreferredWidth(110);
-		table_1.getTableHeader().setFont(new Font("宋体", 0, 12));
-		table_1.getColumnModel().getColumn(1).setPreferredWidth(50);
-		table_1.getColumnModel().getColumn(6).setPreferredWidth(100);
-		table_1.getColumnModel().getColumn(7).setPreferredWidth(100);
-		table_1.getColumnModel().getColumn(8).setPreferredWidth(50);
-		table_1.getColumnModel().getColumn(9).setPreferredWidth(50);
-		scrollPane_1.setViewportView(table_1);
+		jt_content.setModel(dtmSearch);
+		jt_content.getColumnModel().getColumn(0).setMinWidth(0);
+		jt_content.getColumnModel().getColumn(0).setMaxWidth(0);
+		jt_content.getTableHeader().setFont(new Font("宋体", 0, 12));
+		jt_content.getColumnModel().getColumn(1).setPreferredWidth(50);
+		jt_content.getColumnModel().getColumn(5).setPreferredWidth(50);
+		jt_content.getColumnModel().getColumn(6).setPreferredWidth(100);
+		jt_content.getColumnModel().getColumn(7).setPreferredWidth(100);
+		jt_content.getColumnModel().getColumn(8).setPreferredWidth(100);
+		jt_content.getColumnModel().getColumn(10).setMinWidth(0);
+		jt_content.getColumnModel().getColumn(10).setMaxWidth(0);
+		jt_content.getColumnModel().getColumn(11).setMinWidth(0);
+		jt_content.getColumnModel().getColumn(11).setMaxWidth(0);
+		jt_content.getColumnModel().getColumn(12).setMinWidth(0);
+		jt_content.getColumnModel().getColumn(12).setMaxWidth(0);
+		scrollPane_1.setViewportView(jt_content);
 		panel.add(jbt_search);
 		jbt_search.addActionListener(new CreatInspectionAction(textField,
-				jp_search, table_1));
-		table_1.addFocusListener(new CreatInspectionAction(jp_search,
-				"searchPanel"));
+				jp_search, jt_content));
+		// jt_content.addFocusListener(new CreatInspectionAction(jp_search,
+		// "searchPanel"));
+		DefaultTableCellHeaderRenderer dtc = new DefaultTableCellHeaderRenderer();
+		dtc.setHorizontalAlignment(JLabel.CENTER);
+		jt_content.getTableHeader().setDefaultRenderer(dtc);
+		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+		renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		jt_content.setDefaultRenderer(Object.class, renderer);
 		// 结束<<<<<<<<<<<<<<<<<<<<<<
 
 		panel_1 = new JPanel();
@@ -210,49 +234,46 @@ public class CreatInspectionFrame {
 		scrollPane = new JScrollPane();
 		panel_1.add(scrollPane, BorderLayout.CENTER);
 
-		table = new JTable();
+		jt_creatIns = new JTable();
 
-		String[] tHead = { "序号", "检测内容名称", "抽样依据", "检测方法", "单个检测实施数量的范围",
-				"单个检测实施对象的数量", "抽样数量" };
+		String[] tHead = { "id", "序号", "检测内容名称", "抽样依据", "单个检测实施数量的范围",
+				"单个检测实施对象的数量", "抽样数量", "自定义检测内容Id" };
 		// <<<<测试数据
-		Object[][] obj = {
-				{ "1", "是的撒发郭德纲节节高我偶尔经过hire讲话稿我偶然间hi软件hi然后就hi女女 ", "sdsd",
-						"sdsd", "sdsd", "sdsd" },
-				{ "2", "sdsd", "sdsd", "sdsd", "sdsd", "sdsd" },
-				{ "3", "sdsd", "sdsd", "sdsd", "sdsd", "sdsd" },
-				{ "4", "sdsd", "sdsd", "sdsd", "sdsd", "sdsd" },
-				{ "5", "sdsd", "sdsd", "sdsd", "sdsd", "sdsd" },
-				{ "6", "sdsd", "sdsd", "sdsd", "sdsd", "sdsd" },
-				{ "7", "sdsd", "sdsd", "sdsd", "sdsd", "sdsd" },
-				{ "8", "sdsd", "sdsd", "sdsd", "sdsd", "sdsd" },
-				{ "9", "sdsd", "sdsd", "sdsd", "sdsd", "sdsd" },
-				{ "10", "sdsd", "sdsd", "sdsd", "sdsd", "sdsd" } };
+		Object[][] obj = {};
 		// >>>>>测试数据
 		dtm = new DefaultTableModel(obj, tHead);
 		// 表头字体居中
 		DefaultTableCellHeaderRenderer hr = new DefaultTableCellHeaderRenderer();
 		hr.setHorizontalAlignment(JLabel.CENTER);
-		table.getTableHeader().setDefaultRenderer(hr);
-		table.setModel(dtm);
-		table.addMouseMotionListener(new CreatInspectionAction(table));
+		jt_creatIns.getTableHeader().setDefaultRenderer(hr);
+		DefaultTableCellRenderer re = new DefaultTableCellRenderer();
+		re.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		jt_creatIns.setDefaultRenderer(Object.class, re);
+		jt_creatIns.setModel(dtm);
+		jt_creatIns.addMouseMotionListener(new CreatInspectionAction(
+				jt_creatIns));
 		// 设置列宽度
-		table.getColumnModel().getColumn(0).setPreferredWidth(15);
-		table.getColumnModel().getColumn(1).setPreferredWidth(70);
-		table.getColumnModel().getColumn(2).setPreferredWidth(40);
-		table.getColumnModel().getColumn(3).setPreferredWidth(40);
-		table.getColumnModel().getColumn(4).setPreferredWidth(130);
-		table.getColumnModel().getColumn(5).setPreferredWidth(130);
+		jt_creatIns.getColumnModel().getColumn(0).setMinWidth(0);
+		jt_creatIns.getColumnModel().getColumn(0).setMaxWidth(0);
+		jt_creatIns.getColumnModel().getColumn(1).setPreferredWidth(15);
+		jt_creatIns.getColumnModel().getColumn(2).setPreferredWidth(70);
+		jt_creatIns.getColumnModel().getColumn(3).setPreferredWidth(40);
+		jt_creatIns.getColumnModel().getColumn(4).setPreferredWidth(100);
+		jt_creatIns.getColumnModel().getColumn(5).setPreferredWidth(130);
+		jt_creatIns.getColumnModel().getColumn(7).setMinWidth(0);
+		jt_creatIns.getColumnModel().getColumn(7).setMaxWidth(0);
 
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(jt_creatIns);
 
 		lblNewLabel_2 = new JLabel("检验批报价");
 		lblNewLabel_2.setBounds(26, 355, 116, 15);
 		panel.add(lblNewLabel_2);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(26, 374, 845, 25);
-		panel.add(textField_1);
+		jtf_money = new JTextField();
+		jtf_money.setColumns(10);
+		jtf_money.setEnabled(false);
+		jtf_money.setBounds(26, 374, 845, 25);
+		panel.add(jtf_money);
 
 		label_3 = new JLabel("中大检测");
 		label_3.setBounds(5, 407, 54, 23);
@@ -265,7 +286,6 @@ public class CreatInspectionFrame {
 		jbt_yes = new JButton("确认");
 		jbt_yes.setFocusPainted(false);
 		jbt_yes.setActionCommand("commit");
-		jbt_yes.addActionListener(new CreatInspectionAction(dialog));
 		jbt_yes.setBounds(663, 436, 93, 23);
 		panel.add(jbt_yes);
 
@@ -276,19 +296,25 @@ public class CreatInspectionFrame {
 		jbt_no.setBounds(778, 436, 93, 23);
 		panel.add(jbt_no);
 
-		jtf_task.addFocusListener(new CreatInspectionAction(jp_search));
+		jtf_project.addFocusListener(new CreatInspectionAction(jp_search));
 		jtf_pname.addFocusListener(new CreatInspectionAction(jp_search));
 		textField.addFocusListener(new CreatInspectionAction(jp_search));
-		table.addFocusListener(new CreatInspectionAction(jp_search));
+		jt_creatIns.addFocusListener(new CreatInspectionAction(jp_search));
 		scrollPane.addFocusListener(new CreatInspectionAction(jp_search));
-		textField_1.addFocusListener(new CreatInspectionAction(jp_search));
+		jtf_money.addFocusListener(new CreatInspectionAction(jp_search));
 		jbt_yes.addFocusListener(new CreatInspectionAction(jp_search));
 		jbt_no.addFocusListener(new CreatInspectionAction(jp_search));
 		panel_1.addFocusListener(new CreatInspectionAction(jp_search));
 
 		// jp_search置于窗口最前端
 		dialog.getLayeredPane().add(jp_search, new Integer(Integer.MAX_VALUE));
+		// 搜索结果面板鼠标事件
+		jt_content.addMouseListener(new CreatInspectionAction(jp_search,
+				jt_creatIns, jt_content, creatInspectionNumber));
 
+		jbt_yes.addActionListener(new CreatInspectionAction(jtf_project,
+				jtf_pname, jt_creatIns, jtf_money, creatInspectionNumber,
+				dialog, objects, jt_inspection, jp_inspection));
 	}
 
 	// private String projectName() {

@@ -2,6 +2,7 @@ package com.zhongda.quote.service.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
 import com.zhongda.quote.dao.InspectionBatchMapper;
@@ -23,8 +24,10 @@ public class InspectionBatchServiceImpl implements InspectionBatchService {
 	private static Logger logger = Logger
 			.getLogger(InspectionBatchServiceImpl.class);
 
-	private InspectionBatchMapper inspectionBatchMapper = MyBatisUtil
-			.getSqlSession().getMapper(InspectionBatchMapper.class);
+	private SqlSession sqlSession = MyBatisUtil.getSqlSession();
+
+	private InspectionBatchMapper inspectionBatchMapper = sqlSession
+			.getMapper(InspectionBatchMapper.class);
 
 	@Override
 	public List<InspectionBatch> queryAllInspectionBatchByProjectID(int id) {
@@ -38,6 +41,28 @@ public class InspectionBatchServiceImpl implements InspectionBatchService {
 		}
 
 		return batchList;
+	}
+
+	@Override
+	public InspectionBatch queryInspectionBatchByMaxId(
+			InspectionBatch inspectionBatch) {
+		InspectionBatch insBatch = null;
+		int index = 0;
+		try {
+			index = inspectionBatchMapper.insertSelective(inspectionBatch);
+			sqlSession.commit();
+			if (index > 0) {
+				insBatch = inspectionBatchMapper.selectInspectionBatchByMaxId();
+			} else {
+				insBatch = null;
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			sqlSession.rollback();
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return insBatch;
 	}
 
 }

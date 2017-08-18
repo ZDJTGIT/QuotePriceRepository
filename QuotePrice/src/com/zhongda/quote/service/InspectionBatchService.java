@@ -14,4 +14,12 @@ public interface InspectionBatchService {
 	 * @return
 	 */
 	List<InspectionBatch> queryAllInspectionBatchByProjectID(int id);
+
+	/**
+	 * 查询Id最大的检验批
+	 * 
+	 * @param inspectionBatch
+	 * @return
+	 */
+	InspectionBatch queryInspectionBatchByMaxId(InspectionBatch inspectionBatch);
 }

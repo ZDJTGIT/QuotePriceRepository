@@ -1,17 +1,27 @@
 package com.zhongda.quote.dao;
 
+import java.util.List;
+
 import com.zhongda.quote.model.SysInspectionContent;
 
 public interface SysInspectionContentMapper {
-    int deleteByPrimaryKey(Integer id);
+	int deleteByPrimaryKey(Integer id);
 
-    int insert(SysInspectionContent record);
+	int insert(SysInspectionContent record);
 
-    int insertSelective(SysInspectionContent record);
+	int insertSelective(SysInspectionContent record);
 
-    SysInspectionContent selectByPrimaryKey(Integer id);
+	SysInspectionContent selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(SysInspectionContent record);
+	int updateByPrimaryKeySelective(SysInspectionContent record);
 
-    int updateByPrimaryKey(SysInspectionContent record);
+	int updateByPrimaryKey(SysInspectionContent record);
+
+	/**
+	 * 根据检验内容名称模糊查询
+	 * 
+	 * @param name
+	 * @return
+	 */
+	List<SysInspectionContent> selectByName(String name);
 }

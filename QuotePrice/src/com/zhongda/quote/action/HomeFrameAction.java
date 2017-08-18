@@ -17,8 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
-
-
 import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.model.QuoteTask;
@@ -38,8 +36,8 @@ import com.zhongda.quote.utils.FrameGoUtils;
  * @sine 2017年8月10日
  */
 
-public class HomeFrameAction implements ActionListener, MouseMotionListener ,MouseListener{
-
+public class HomeFrameAction implements ActionListener, MouseMotionListener,
+		MouseListener {
 
 	// 主界面报价任务JTable
 	private JTable jt_quoteTask;
@@ -65,8 +63,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 		this.jt_inspectionContent = jt_inspectionContent;
 	}
 
-	public HomeFrameAction(JTable jt_quoteTask,
-			JTable jt_quoteProjec, JTable jt_inspectionBatch, JTable jt_inspectionContent, String name) {
+	public HomeFrameAction(JTable jt_quoteTask, JTable jt_quoteProjec,
+			JTable jt_inspectionBatch, JTable jt_inspectionContent, String name) {
 		this.jt_quoteTask = jt_quoteTask;
 		this.jt_quoteProjec = jt_quoteProjec;
 		this.jt_inspectionBatch = jt_inspectionBatch;
@@ -107,28 +105,28 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 		} else if ("creatProject".equals(command)) {
 			haveTask(jt_quoteTask);
 		} else if ("addInspection".equals(command)) {
-			haveProject(jt_quoteTask);
-		} else if("createContent".equals(command)){
+			haveProject(jt_quoteProjec, jt_inspectionBatch);
+		} else if ("createContent".equals(command)) {
 			int row = jt_inspectionBatch.getSelectedRow();
-			if(row < 0){
-				JOptionPane.showMessageDialog(null,
-						"请选择一个检验批创建检验内容！", "提示信息",
+			if (row < 0) {
+				JOptionPane.showMessageDialog(null, "请选择一个检验批创建检验内容！", "提示信息",
 						JOptionPane.WARNING_MESSAGE);
-			}else{
-				//获取当前检验批ID，新建时传入检验批ID作为打开的“钥匙”
-				Integer inspectionid = (Integer)jt_inspectionBatch.getValueAt(row, 0);
-				FrameGoUtils.createContent(inspectionid,jt_inspectionContent, true);
+			} else {
+				// 获取当前检验批ID，新建时传入检验批ID作为打开的“钥匙”
+				Integer inspectionid = (Integer) jt_inspectionBatch.getValueAt(
+						row, 0);
+				FrameGoUtils.createContent(inspectionid, jt_inspectionContent,
+						true);
 			}
-		} else if("deleteContent".equals(command)){
+		} else if ("deleteContent".equals(command)) {
 			deleteInspectionContent(jt_inspectionContent);
-		}else if("updateContent".equals(command)){
+		} else if ("updateContent".equals(command)) {
 			int row = jt_inspectionContent.getSelectedRow();
-			if(row < 0){
-				JOptionPane.showMessageDialog(null,
-						"请选择需要修改的检验内容！", "提示信息",
+			if (row < 0) {
+				JOptionPane.showMessageDialog(null, "请选择需要修改的检验内容！", "提示信息",
 						JOptionPane.WARNING_MESSAGE);
-			}else{
-				FrameGoUtils.createContent(null,jt_inspectionContent, false);
+			} else {
+				FrameGoUtils.createContent(null, jt_inspectionContent, false);
 			}
 		}
 	}
@@ -139,23 +137,22 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 	private void deleteInspectionContent(JTable jt_shareTable) {
 		int row = jt_shareTable.getSelectedRow();
 		if (row < 0) {
-			JOptionPane.showMessageDialog(null,
-					"没有选中需要删除的检验内容,请选中后再进行删除操作！", "提示信息",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "没有选中需要删除的检验内容,请选中后再进行删除操作！",
+					"提示信息", JOptionPane.WARNING_MESSAGE);
 		} else {
-			int flag = JOptionPane.showConfirmDialog(null,
-					"确定删除该条检验内容？",
+			int flag = JOptionPane.showConfirmDialog(null, "确定删除该条检验内容？",
 					"删除检验内容", JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
 				Integer contentId = (Integer) jt_shareTable.getValueAt(row, 0);
-				//通过线程从数据库中获取该检验内容的ID
-				new SwingWorker<Integer, Void>(){
-					
+				// 通过线程从数据库中获取该检验内容的ID
+				new SwingWorker<Integer, Void>() {
+
 					@Override
 					protected Integer doInBackground() throws Exception {
-						return new InspectionContentServiceImpl().deleteInspectionByID(contentId);
+						return new InspectionContentServiceImpl()
+								.deleteInspectionByID(contentId);
 					}
-					
+
 					@Override
 					protected void done() {
 						int flag = 0;
@@ -181,7 +178,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 						}
 					}
 				}.execute();
-			}	
+			}
 		}
 	}
 
@@ -190,20 +187,21 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 	 *
 	 * @param table
 	 */
-	private void haveProject(JTable table) {
+	private void haveProject(JTable jt_quoteProjec, JTable jt_inspectionBatch) {
 		String name = null;
 		int row = -1;
-		row = table.getSelectedRow();
+		row = jt_quoteProjec.getSelectedRow();
 		if (row <= -1) {
 			JOptionPane.showMessageDialog(null, "请选中项目", "提示信息",
 					JOptionPane.WARNING_MESSAGE);
 		} else if (row > -1) {
-			name = (String) jt_quoteTask.getValueAt(row, 1);
+			name = (String) jt_quoteProjec.getValueAt(row, 1);
 			if ("请新建项目".equals(name) || name == null) {
 				JOptionPane.showMessageDialog(null, "请先创建项目", "提示信息",
 						JOptionPane.WARNING_MESSAGE);
 			} else {
-				FrameGoUtils.creatInspection(table);
+				FrameGoUtils
+						.creatInspection(jt_quoteProjec, jt_inspectionBatch);
 			}
 		}
 
@@ -235,14 +233,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 
 	/**
 	 * 查询报价任务
-<<<<<<< Updated upstream
-	 *
-	 * @param jt_quoteTask
-=======
 	 * 
-	 * @param jt_shareTable
->>>>>>> Stashed changes
-	 *            显示任务的列表
+	 * @param jt_quoteTask
 	 * @param jtf_queryName
 	 *            存放查询条件的任务名称
 	 */
@@ -298,6 +290,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 
 	/**
 	 * 删除报价任务
+	 * 
 	 * @param jt_quoteTask
 	 *            显示任务的列表
 	 */
@@ -361,7 +354,6 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 			else
 				jt_quoteTask.setToolTipText(null);// 关闭提示
 		}
-		
 
 	}
 
@@ -455,7 +447,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 								.getModel();
 						model.getDataVector().clear();
 						Vector<Object> rowData = new Vector<Object>();
-						rowData.add("");
+						rowData.add(0);
 						rowData.add("请新建项目");
 						model.addRow(rowData);
 						jt_quoteProjec.setRowSelectionInterval(0, 0);// 选中第一行
@@ -485,7 +477,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 								.getModel();
 						model.getDataVector().clear();
 						Vector<Object> rowData = new Vector<Object>();
-						rowData.add("");
+						rowData.add(0);
 						rowData.add("请新建检验批");
 						model.addRow(rowData);
 						jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
@@ -504,57 +496,62 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener ,Mou
 	 * 项目面板JTable点击事件逻辑处理
 	 */
 	private void ProjectAndInspection() {
-		new SwingWorker<List<InspectionBatch>, InspectionBatch>() {
 
-			@Override
-			protected List<InspectionBatch> doInBackground() throws Exception {
-				// 从数据库获取检验批数据
-				return new InspectionBatchServiceImpl()
-						.queryAllInspectionBatchByProjectID((int) jt_quoteProjec
-								.getValueAt(jt_quoteProjec.getSelectedRow(), 0));
-			}
+		int id = ((int) jt_quoteProjec.getValueAt(
+				jt_quoteProjec.getSelectedRow(), 0));
+		if (0 != id) {
+			new SwingWorker<List<InspectionBatch>, InspectionBatch>() {
 
-			protected void done() {
-				List<InspectionBatch> inspectionList = null;
-				try {
-					inspectionList = get();
+				@Override
+				protected List<InspectionBatch> doInBackground()
+						throws Exception {
+					// 从数据库获取检验批数据
+					return new InspectionBatchServiceImpl()
+							.queryAllInspectionBatchByProjectID((int) jt_quoteProjec
+									.getValueAt(
+											jt_quoteProjec.getSelectedRow(), 0));
+				}
 
-					if (null != inspectionList && inspectionList.size() > 0) {
-						DefaultTableModel dtm = (DefaultTableModel) jt_inspectionBatch
-								.getModel();
-						dtm.getDataVector().clear();
-						for (InspectionBatch inspectionBatch : inspectionList) {
-							Vector<Object> dataRow = new Vector<Object>();
-							dataRow.add(inspectionBatch.getId());
-							dataRow.add(inspectionBatch
-									.getInspectionBatchName());
-							dataRow.add(inspectionBatch
-									.getInspectionBatchAmount());
-							dtm.addRow(dataRow);
+				protected void done() {
+					List<InspectionBatch> inspectionList = null;
+					try {
+						inspectionList = get();
+
+						if (null != inspectionList && inspectionList.size() > 0) {
+							DefaultTableModel dtm = (DefaultTableModel) jt_inspectionBatch
+									.getModel();
+							dtm.getDataVector().clear();
+							for (InspectionBatch inspectionBatch : inspectionList) {
+								Vector<Object> dataRow = new Vector<Object>();
+								dataRow.add(inspectionBatch.getId());
+								dataRow.add(inspectionBatch
+										.getInspectionBatchName());
+								dataRow.add(inspectionBatch
+										.getInspectionBatchAmount());
+								dtm.addRow(dataRow);
+							}
+
+							jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
+						} else {
+							DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
+									.getModel();
+							model.getDataVector().clear();
+							Vector<Object> rowData = new Vector<Object>();
+							rowData.add(Integer.valueOf(0));
+							rowData.add("请新建检验批");
+							model.addRow(rowData);
+							jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
 						}
 
-						jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
-					} else {
-						DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
-								.getModel();
-						model.getDataVector().clear();
-						Vector<Object> rowData = new Vector<Object>();
-						rowData.add("");
-						rowData.add("请新建检验批");
-						model.addRow(rowData);
-						jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
 					}
+				};
 
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			};
+			}.execute();
+		}
 
-		}.execute();
 	}
-
 }

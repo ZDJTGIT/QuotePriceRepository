@@ -24,4 +24,12 @@ public interface InspectionBatchMapper {
 	 * @return
 	 */
 	List<InspectionBatch> selectByProjectNumber(int id);
+
+	/**
+	 * 查询最大Id的检验批
+	 * 
+	 * @param maxId
+	 * @return
+	 */
+	InspectionBatch selectInspectionBatchByMaxId();
 }
