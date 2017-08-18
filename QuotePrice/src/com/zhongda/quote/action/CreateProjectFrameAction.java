@@ -90,7 +90,6 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 			} else if (jcb_city == source) { // 如果是市的ComboBox产生事件
 				provinceCityCountyLinkage(e, jcb_county);
 			} else if (jcb_jyp == source) {
-
 				creatInspection();
 			}
 
@@ -188,7 +187,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 	 */
 	private void creatInspection() {
 		if ("新建检验批".equals((String) jcb_jyp.getSelectedItem())) {
-			jcb_jyp.setSelectedIndex(0);
+			jcb_jyp.setSelectedIndex(0);// 点击新建检验批后选中第一个数据
 			if ((boolean) objects[0]) {
 				String content = projectName.getText();
 				content = content.replace(" ", "");
@@ -197,13 +196,15 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 							JOptionPane.WARNING_MESSAGE);
 				} else {
 					int flag = JOptionPane.showConfirmDialog(null,
-							"确认后将无法修改以上所有信息！", "删除报价任务", JOptionPane.OK_OPTION);
+							"确认后将无法修改以上所有信息！", "创建检验批", JOptionPane.OK_OPTION);
 					if (flag == JOptionPane.OK_OPTION) {
+
 						projectName.setEnabled(false);
 						jcb_industry.setEnabled(false);
 						jcb_province.setEnabled(false);
 						jcb_city.setEnabled(false);
 						jcb_county.setEnabled(false);
+						// 获取当前选中任务ID
 						int taskId = Integer.valueOf(jtf_task.getName());
 						String projectName = this.projectName.getText();
 						int industryId = ((Industry) jcb_industry
@@ -222,10 +223,17 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 									throws Exception {
 								QuoteProject quoProject = null;
 								if ((boolean) objects[0]) {
+									System.out
+											.println("--------BUG测试CreateProjectFrameAction第227行");
 									quoProject = new QuoteProjectServiceImpl()
 											.createProject(quoteProject);
+									System.out.println("新建检验批后返回的新建的项目对象"
+											+ quoProject);
+
 								} else {
 									quoProject = (QuoteProject) objects[1];
+									System.out.println("--------------------"
+											+ quoProject);
 								}
 								return quoProject;
 							}
@@ -237,6 +245,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 									if (quoteProject != null) {
 										objects[0] = false;
 										objects[1] = quoteProject;
+
 										FrameGoUtils.creatInspection(
 												quoteProject, jp_inspection);
 									} else {
@@ -259,6 +268,8 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 
 				}
 			} else {
+				System.out.println("-------------------------------运行else"
+						+ objects[1]);
 				FrameGoUtils.creatInspection((QuoteProject) objects[1],
 						jp_inspection);
 			}

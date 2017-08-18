@@ -76,8 +76,8 @@ public class CreateProjectFrame {
 	private JLabel ble_4;
 	private JComboBox<Industry> jcb_industry;
 	private JTable jtb_task;
-	private static QuoteProject quoteProject = null;
-	private static Object[] objects = { true, quoteProject };
+	private QuoteProject quoteProject = null;
+	private Object[] objects = { true, quoteProject };
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

@@ -632,8 +632,9 @@ public class HomeFrame {
 		// 初始化任务表列名
 		final Object[] taskColumnsName = { "序号", "任务编号", "任务名称", "任务描述", "创建人",
 				"创建时间", "最后修改时间", "任务总金额" };
-		jt_quoteTask = new MyTable(new int[] {1,4,6,5});
-		DefaultTableModel taskTableModel = new DefaultTableModel(null, taskColumnsName);
+		jt_quoteTask = new MyTable(new int[] { 1, 4, 6, 5 });
+		DefaultTableModel taskTableModel = new DefaultTableModel(null,
+				taskColumnsName);
 		jt_quoteTask.setModel(taskTableModel);
 		jt_quoteTask.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_quoteTask.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -648,9 +649,11 @@ public class HomeFrame {
 
 		// 报价项目表格面板
 		// 初始化项目表列名
-		final Object[] projectColumnsName = { "序号", "项目名称", "行业", "项目地址", "其他费用", "项目总金额" };
+		final Object[] projectColumnsName = { "序号", "项目名称", "行业", "项目地址",
+				"其他费用", "项目总金额" };
 		jt_quoteProject = new MyTable(new int[] { 1, 2, 3, 4, 5 });
-		DefaultTableModel projectTableModel = new DefaultTableModel(null, projectColumnsName);
+		DefaultTableModel projectTableModel = new DefaultTableModel(null,
+				projectColumnsName);
 		jt_quoteProject.setModel(projectTableModel);
 		jt_quoteProject.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_quoteProject.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -663,7 +666,8 @@ public class HomeFrame {
 		// 初始化检验批表列名
 		final Object[] batchColumnsName = { "序号", "检验批名称", "检验批总金额" };
 		jt_inspectionBatch = new MyTable(new int[] { 1, 2 });
-		DefaultTableModel batchTableModel = new DefaultTableModel(null, batchColumnsName);
+		DefaultTableModel batchTableModel = new DefaultTableModel(null,
+				batchColumnsName);
 		jt_inspectionBatch.setModel(batchTableModel);
 		jt_inspectionBatch.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_inspectionBatch.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -672,9 +676,11 @@ public class HomeFrame {
 		// 报价检验内容表格面板
 		scrollPanemike = new JScrollPane();
 		// 初始化检验内容表列名
-		final Object contentColumnsName[] = { "序号", "检验内容名称", "抽样数量", "单个检验对象实施数量", "收费标准" };
+		final Object contentColumnsName[] = { "序号", "检验内容名称", "抽样数量",
+				"单个检验对象实施数量", "收费标准" };
 		jt_inspectionContent = new MyTable(new int[] { 1, 2, 3, 4 });
-		DefaultTableModel contentTableModel = new DefaultTableModel(null, contentColumnsName);
+		DefaultTableModel contentTableModel = new DefaultTableModel(null,
+				contentColumnsName);
 		jt_inspectionContent.setModel(contentTableModel);
 		jt_inspectionContent.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_inspectionContent.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -739,19 +745,23 @@ public class HomeFrame {
 						List<QuoteProject> projectList = (List<QuoteProject>) quoteMap
 								.get("quoteProject");
 						if (null != projectList && projectList.size() > 0) {
-							RenderDataUtils.renderProjectData(jt_quoteProject, projectList);
+							RenderDataUtils.renderProjectData(jt_quoteProject,
+									projectList);
 							// 填充检验批数据
 							@SuppressWarnings("unchecked")
 							List<InspectionBatch> batchList = (List<InspectionBatch>) quoteMap
 									.get("inspectionBatch");
 							if (null != batchList && batchList.size() > 0) {
-								RenderDataUtils.renderBatchData(jt_inspectionBatch, batchList);
+								RenderDataUtils.renderBatchData(
+										jt_inspectionBatch, batchList);
 								// 填充检验内容数据
 								@SuppressWarnings("unchecked")
 								List<InspectionContent> contentList = (List<InspectionContent>) quoteMap
 										.get("inspectionContent");
-								if (null != contentList && contentList.size() > 0) {
-									RenderDataUtils.renderContentData(jt_inspectionContent, contentList);
+								if (null != contentList
+										&& contentList.size() > 0) {
+									RenderDataUtils.renderContentData(
+											jt_inspectionContent, contentList);
 								}
 							}
 						}
@@ -765,24 +775,51 @@ public class HomeFrame {
 
 		}.execute();
 
+		// JToolBar工具栏及其下按钮
+		jtb_tb = new JToolBar();
+		jf_jpanel.add(jtb_tb, BorderLayout.NORTH);
+		jtb_tb.setFloatable(false);
+
+		lblNewLabel_8 = new JLabel("  ");
+		jtb_tb.add(lblNewLabel_8);
+
+		jb_bt_1 = new JButton();
+		jb_bt_1.setIcon(new ImageIcon("images/creat.png"));
+		jb_bt_1.setToolTipText("新建  (Ctrl+N)");
+		jb_bt_1.setFocusPainted(false);// 去除按钮边线
+		jtb_tb.add(jb_bt_1);
+
+		jb_bt_save = new JButton();
+		jb_bt_save.setIcon(new ImageIcon("images/save.png"));
+		jb_bt_save.setToolTipText("保存  (Ctrl+S)");
+		jb_bt_save.setFocusPainted(false);// 去除按钮边线
+		jtb_tb.add(jb_bt_save);
+		jtb_tb.setRollover(true);
+
 		// 添加创建任务事件
 		bt_createTask.setActionCommand("createTask");
-		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask, null, null, null));
+		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
+				null, null));
 		// 添加删除任务事件
 		bt_deleteTask.setActionCommand("deleteTask");
-		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
+		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加修改任务事件
 		bt_updateTask.setActionCommand("updateTask");
-		bt_updateTask.addActionListener(new HomeFrameAction(jt_quoteTask, null, null, null));
+		bt_updateTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
+				null, null));
 		// 添加查询任务事件
 		bt_queryTask.setActionCommand("queryTask");
-		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask, null, null, null, jtf_queryTaskName));
+		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
+				null, null, jtf_queryTaskName));
 
 		// 添加创建项目事件
-		jbt_createProject.addActionListener(new HomeFrameAction(jt_quoteTask, null, null, null));
+		jbt_createProject.addActionListener(new HomeFrameAction(jt_quoteTask,
+				null, null, null));
 
 		// 添加创建检验批事件
-		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(null, jt_quoteProject, jt_inspectionBatch, null));
+		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(null,
+				jt_quoteProject, jt_inspectionBatch, null));
 
 		// 添加创建检验内容事件
 		jbt_createContent.setActionCommand("createContent");
@@ -797,22 +834,24 @@ public class HomeFrame {
 		jbt_deleteContent.addActionListener(new HomeFrameAction(null, null,
 				null, jt_inspectionContent));
 
-
 		/**
 		 * 鼠标点击事件
 		 */
 		// 任务Jtable鼠标点击事件
 		jt_quoteTask.addMouseListener(new HomeFrameAction(jt_quoteTask,
-				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent, "task_jtabel"));
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent,
+				"task_jtabel"));
 		// 项目JTabel鼠标点击事件
 		jt_quoteProject.addMouseListener(new HomeFrameAction(null,
-				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent, "project_jtabel"));
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent,
+				"project_jtabel"));
 		// 检验批JTabel鼠标点击事件
-		jt_inspectionBatch.addMouseListener(new HomeFrameAction(null,
-				null, jt_inspectionBatch, jt_inspectionContent, "batch_jtabel"));
+		jt_inspectionBatch.addMouseListener(new HomeFrameAction(null, null,
+				jt_inspectionBatch, jt_inspectionContent, "batch_jtabel"));
 
 		// 任务Jtable鼠标悬浮事件
-		jt_quoteTask.addMouseMotionListener(new HomeFrameAction(jt_quoteTask, null, null, null));
+		jt_quoteTask.addMouseMotionListener(new HomeFrameAction(jt_quoteTask,
+				null, null, null));
 
 	}
 

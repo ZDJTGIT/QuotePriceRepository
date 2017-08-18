@@ -70,9 +70,9 @@ public class CreatInspectionFrame {
 	private String project;
 	private int projectName;
 	private JTable jt_inspection;
-	private static InspectionBatch inspectionBatch;
-	private static Vector<InspectionContent> creatInspectionNumber = new Vector<InspectionContent>();
-	private static Object[] objects = { true, inspectionBatch };
+	private InspectionBatch inspectionBatch;
+	private Vector<InspectionContent> creatInspectionNumber = new Vector<InspectionContent>();
+	private Object[] objects = { true, inspectionBatch };
 	private JPanel jp_inspection;
 
 	/**
