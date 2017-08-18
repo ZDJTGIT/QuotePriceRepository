@@ -8,7 +8,6 @@ import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
@@ -18,13 +17,15 @@ import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
 import com.zhongda.quote.model.InspectionBatch;
+import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.model.QuoteTask;
 import com.zhongda.quote.service.impl.InspectionBatchServiceImpl;
-import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
+import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
 import com.zhongda.quote.utils.FrameGoUtils;
+import com.zhongda.quote.utils.RenderDataUtils;
 
 /**
  *
@@ -42,7 +43,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	// 主界面报价任务JTable
 	private JTable jt_quoteTask;
 	// 主界面报价项目JTable
-	private JTable jt_quoteProjec;
+	private JTable jt_quoteProject;
 	// 主界面检验批JTabel
 	private JTable jt_inspectionBatch;
 	// 主界面检验内容JTabel
@@ -55,28 +56,28 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	public HomeFrameAction() {
 	}
 
-	public HomeFrameAction(JTable jt_quoteTask, JTable jt_quoteProjec,
+	public HomeFrameAction(JTable jt_quoteTask, JTable jt_quoteProject,
 			JTable jt_inspectionBatch, JTable jt_inspectionContent) {
 		this.jt_quoteTask = jt_quoteTask;
-		this.jt_quoteProjec = jt_quoteProjec;
+		this.jt_quoteProject = jt_quoteProject;
 		this.jt_inspectionBatch = jt_inspectionBatch;
 		this.jt_inspectionContent = jt_inspectionContent;
 	}
 
-	public HomeFrameAction(JTable jt_quoteTask, JTable jt_quoteProjec,
+	public HomeFrameAction(JTable jt_quoteTask, JTable jt_quoteProject,
 			JTable jt_inspectionBatch, JTable jt_inspectionContent, String name) {
 		this.jt_quoteTask = jt_quoteTask;
-		this.jt_quoteProjec = jt_quoteProjec;
+		this.jt_quoteProject = jt_quoteProject;
 		this.jt_inspectionBatch = jt_inspectionBatch;
 		this.jt_inspectionContent = jt_inspectionContent;
 		this.clickName = name;
 	}
 
-	public HomeFrameAction(JTable jt_quoteTask, JTable jt_quoteProjec,
+	public HomeFrameAction(JTable jt_quoteTask, JTable jt_quoteProject,
 			JTable jt_inspectionBatch, JTable jt_inspectionContent,
 			JTextField jtf_queryName) {
 		this.jt_quoteTask = jt_quoteTask;
-		this.jt_quoteProjec = jt_quoteProjec;
+		this.jt_quoteProject = jt_quoteProject;
 		this.jt_inspectionBatch = jt_inspectionBatch;
 		this.jt_inspectionContent = jt_inspectionContent;
 		this.jtf_queryName = jtf_queryName;
@@ -89,7 +90,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		if ("createTask".equals(command)) {
 			FrameGoUtils.creatTask(jt_quoteTask, true);
 		} else if ("deleteTask".equals(command)) {
-			deleteQuoteTask(jt_quoteTask);
+			deleteQuoteTask(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 		} else if ("queryTask".equals(command)) {
 			queryQuotePrice(jt_quoteTask, jtf_queryName);
 		} else if ("updateTask".equals(command)) {
@@ -105,7 +106,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		} else if ("creatProject".equals(command)) {
 			haveTask(jt_quoteTask);
 		} else if ("addInspection".equals(command)) {
-			haveProject(jt_quoteProjec, jt_inspectionBatch);
+			haveProject(jt_quoteProject, jt_inspectionBatch);
 		} else if ("createContent".equals(command)) {
 			int row = jt_inspectionBatch.getSelectedRow();
 			if (row < 0) {
@@ -133,9 +134,10 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 删除检验内容
+	 * @param jt_inspectionContent
 	 */
-	private void deleteInspectionContent(JTable jt_shareTable) {
-		int row = jt_shareTable.getSelectedRow();
+	private void deleteInspectionContent(JTable jt_inspectionContent) {
+		int row = jt_inspectionContent.getSelectedRow();
 		if (row < 0) {
 			JOptionPane.showMessageDialog(null, "没有选中需要删除的检验内容,请选中后再进行删除操作！",
 					"提示信息", JOptionPane.WARNING_MESSAGE);
@@ -143,9 +145,10 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			int flag = JOptionPane.showConfirmDialog(null, "确定删除该条检验内容？",
 					"删除检验内容", JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
-				Integer contentId = (Integer) jt_shareTable.getValueAt(row, 0);
-				// 通过线程从数据库中获取该检验内容的ID
-				new SwingWorker<Integer, Void>() {
+				Integer contentId = (Integer) jt_inspectionContent.getValueAt(row, 0);
+
+				//通过线程从数据库中获取该检验内容的ID
+				new SwingWorker<Integer, Void>(){
 
 					@Override
 					protected Integer doInBackground() throws Exception {
@@ -163,7 +166,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 										"检验内容删除成功！", "提示信息",
 										JOptionPane.PLAIN_MESSAGE);
 
-								DefaultTableModel model = (DefaultTableModel) jt_shareTable
+								DefaultTableModel model = (DefaultTableModel) jt_inspectionContent
 										.getModel();
 								model.removeRow(row);
 							} else {
@@ -184,8 +187,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 创建检验批的时候判断是否有项目
-	 *
-	 * @param table
+	 * @param jt_quoteProjec
+	 * @param jt_inspectionBatch
 	 */
 	private void haveProject(JTable jt_quoteProjec, JTable jt_inspectionBatch) {
 		String name = null;
@@ -209,7 +212,6 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 创建项目时判断是否有任务
-	 *
 	 * @param table
 	 */
 	private void haveTask(JTable table) {
@@ -233,70 +235,44 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 查询报价任务
-	 * 
 	 * @param jt_quoteTask
-	 * @param jtf_queryName
-	 *            存放查询条件的任务名称
+	 * @param jtf_queryName 存放查询条件的任务名称
 	 */
 	private void queryQuotePrice(JTable jt_quoteTask, JTextField jtf_queryName) {
 		final String taskName = jtf_queryName.getText();
 		if (null != taskName && !"".equals(taskName)) {
 			new SwingWorker<List<QuoteTask>, Void>() {
-
 				@Override
 				protected List<QuoteTask> doInBackground() throws Exception {
 					return new QuoteTaskServiceImpl()
 							.queryQuoteTaskByName(taskName);
 				}
-
 				protected void done() {
-					List<QuoteTask> taskList;
+					List<QuoteTask> taskList = null;
 					try {
 						taskList = get();
-						// jt_shareTable.updateUI();
-						DefaultTableModel model = (DefaultTableModel) jt_quoteTask
-								.getModel();
-						// 清除原有数据
-						model.getDataVector().clear();
-						// 将数据添加到table
-						if (null != taskList && taskList.size() > 0) {
-							for (QuoteTask quoteTask : taskList) {
-								Vector<Object> rowData = new Vector<Object>();
-								rowData.add(quoteTask.getId());
-								rowData.add(quoteTask.getTaskNumber());
-								rowData.add(quoteTask.getTaskName());
-								rowData.add(quoteTask.getTaskDescription());
-								rowData.add(quoteTask.getCreateUser());
-								rowData.add(quoteTask.getCreateDate());
-								rowData.add(quoteTask.getLastUpdateDate());
-								rowData.add(quoteTask.getTaskAmount());
-								model.addRow(rowData);
-							}
-						}
+						RenderDataUtils.renderTaskData(jt_quoteTask, taskList);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					} catch (ExecutionException e) {
 						e.printStackTrace();
 					}
 				};
-
 			}.execute();
 		} else {
 			JOptionPane.showMessageDialog(null, "请填写任务名称！", "提示信息",
 					JOptionPane.WARNING_MESSAGE);
 		}
-
 	}
 
 	/**
 	 * 删除报价任务
-	 * 
 	 * @param jt_quoteTask
 	 *            显示任务的列表
 	 */
-	private void deleteQuoteTask(JTable jt_shareTable) {
+	private void deleteQuoteTask(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent) {
 		// 获取Table中被选中的行序号
-		final int row = jt_shareTable.getSelectedRow();
+		final int row = jt_quoteTask.getSelectedRow();
 		if (row < 0) {
 			JOptionPane.showMessageDialog(null, "没有选中需要删除的报价任务,请选中后再进行删除操作！",
 					"提示信息", JOptionPane.WARNING_MESSAGE);
@@ -305,7 +281,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					"点击确认按钮，将会删除所选中的报价任务，包括报价任务下的所有项目以及检验批，是否确认删除？", "删除报价任务",
 					JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
-				Object value = jt_shareTable.getValueAt(row, 0);
+				Object value = jt_quoteTask.getValueAt(row, 0);
 				final Integer id = Integer.valueOf(String.valueOf(value));
 				// 启动任务线程删除选中报价任务
 				new SwingWorker<Boolean, Void>() {
@@ -321,9 +297,11 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 										"报价任务删除成功！", "提示信息",
 										JOptionPane.PLAIN_MESSAGE);
 
-								DefaultTableModel model = (DefaultTableModel) jt_shareTable
+								DefaultTableModel model = (DefaultTableModel) jt_quoteTask
 										.getModel();
 								model.removeRow(row);
+								jt_quoteTask.setRowSelectionInterval(0, 0);
+								taskToProject(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 							} else {
 								JOptionPane.showMessageDialog(null,
 										"报价任务删除失败！", "提示信息",
@@ -355,14 +333,17 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				jt_quoteTask.setToolTipText(null);// 关闭提示
 		}
 
+
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if ("task_jtabel".equals(clickName)) {
-			taskToProject();
+			taskToProject(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 		} else if ("project_jtabel".equals(clickName)) {
-			ProjectAndInspection();
+			projectToInspectionBatch(jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
+		} else if ("batch_jtabel".equals(clickName)) {
+			inspectionBatchToContent(jt_inspectionBatch, jt_inspectionContent);
 		}
 	}
 
@@ -387,14 +368,18 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	}
 
 	/**
-	 * Task面板Jtable点击事件
+	 * Task面板Jtable点击事件逻辑处理
+	 * @param jt_quoteTask
+	 * @param jt_quoteProjec
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
 	 */
-	private void taskToProject() {
+	public void taskToProject(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent) {
 		new SwingWorker<Map<String, Object>, Void>() {
 
 			@Override
 			protected Map<String, Object> doInBackground() throws Exception {
-				// 获取项目任务数据
+				// 获取选择任务下所有的数据数据
 				Map<String, Object> quoteMap = new HashMap<String, Object>();
 				// 从数据库获取项目数据
 				List<QuoteProject> projectList = new QuoteProjectServiceImpl()
@@ -402,156 +387,134 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 								.getValueAt(jt_quoteTask.getSelectedRow(), 0));
 				quoteMap.put("quote_project", projectList);
 				// 从数据库获取检验批数据
-				List<InspectionBatch> inspectionBatch = null;
+				List<InspectionBatch> inspectionBatchList = null;
 				if (null != projectList && projectList.size() > 0) {
 					QuoteProject quoteProject = projectList.get(0);
-					inspectionBatch = new InspectionBatchServiceImpl()
+					inspectionBatchList = new InspectionBatchServiceImpl()
 							.queryAllInspectionBatchByProjectID(quoteProject
 									.getId());
+					quoteMap.put("quote_batch", inspectionBatchList);
+
+					// 从数据库获取检验内容数据
+					List<InspectionContent> contentList = null;
+					if (null != inspectionBatchList && inspectionBatchList.size() > 0) {
+						InspectionBatch inspectionBatch = inspectionBatchList.get(0);
+						contentList = new InspectionContentServiceImpl()
+								.queryAllInspectionContentByBatchId(inspectionBatch.getId());
+						quoteMap.put("quote_content", contentList);
+					}
 				}
-				quoteMap.put("quote_inspection", inspectionBatch);
 				return quoteMap;
 			}
 
 			protected void done() {
 				Map<String, Object> quoteMap = null;
-
 				try {
 					quoteMap = get();
-					// 修改项目面板数据
+					// 切换项目面板数据
 					@SuppressWarnings("unchecked")
-					List<QuoteProject> projectList = (List<QuoteProject>) quoteMap
-							.get("quote_project");
-					if (null != projectList && projectList.size() > 0) {
-
-						DefaultTableModel model = (DefaultTableModel) jt_quoteProjec
-								.getModel();
-						// 清除模板数据
-						model.getDataVector().clear();
-						for (QuoteProject quoteProject : projectList) {
-							Vector<Object> rowData = new Vector<Object>();
-							rowData.add(quoteProject.getId());
-							rowData.add(quoteProject.getProjectName());
-							rowData.add(quoteProject.getIndustry()
-									.getIndustryName());
-							rowData.add(quoteProject.getAddress()
-									.getMergerName());
-							rowData.add(quoteProject.getOtherAmout());
-							rowData.add(quoteProject.getProjectAmount());
-							model.addRow(rowData);
-						}
-						jt_quoteProjec.setRowSelectionInterval(0, 0);// 选中第一行
-
-					} else {
-						DefaultTableModel model = (DefaultTableModel) jt_quoteProjec
-								.getModel();
-						model.getDataVector().clear();
-						Vector<Object> rowData = new Vector<Object>();
-						rowData.add(0);
-						rowData.add("请新建项目");
-						model.addRow(rowData);
-						jt_quoteProjec.setRowSelectionInterval(0, 0);// 选中第一行
-					}
-					// 修改检验批数据
+					List<QuoteProject> projectList = (List<QuoteProject>) quoteMap.get("quote_project");
+					RenderDataUtils.renderProjectData(jt_quoteProject, projectList);
+					// 切换检验批数据
 					@SuppressWarnings("unchecked")
 					List<InspectionBatch> inspectionList = (List<InspectionBatch>) quoteMap
-							.get("quote_inspection");
-					if (null != inspectionList && inspectionList.size() > 0) {
-						DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
-								.getModel();
-						// 清除模板数据
-						model.getDataVector().clear();
-						for (InspectionBatch inspectionBatch : inspectionList) {
-							Vector<Object> dataRow = new Vector<Object>();
-							dataRow.add(inspectionBatch.getId());
-							dataRow.add(inspectionBatch
-									.getInspectionBatchName());
-							dataRow.add(inspectionBatch
-									.getInspectionBatchAmount());
-							model.addRow(dataRow);
-						}
+							.get("quote_batch");
+					RenderDataUtils.renderBatchData(jt_inspectionBatch, inspectionList);
+					// 切换检验内容数据
+					@SuppressWarnings("unchecked")
+					List<InspectionContent> contentList = (List<InspectionContent>) quoteMap
+							.get("quote_content");
+					RenderDataUtils.renderContentData(jt_inspectionContent, contentList);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			}
+		}.execute();
+	}
 
-						jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
-					} else {
-						DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
-								.getModel();
-						model.getDataVector().clear();
-						Vector<Object> rowData = new Vector<Object>();
-						rowData.add(0);
-						rowData.add("请新建检验批");
-						model.addRow(rowData);
-						jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
-					}
+	/**
+	 * 项目面板JTable点击事件逻辑处理
+	 * @param jt_quoteProjec
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
+	 */
+	public void projectToInspectionBatch(JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+		new SwingWorker<Map<String, Object>, Void>() {
+			@Override
+			protected Map<String, Object> doInBackground()
+					throws Exception {
+				// 获取选择项目下所有的数据数据
+				Map<String, Object> quoteMap = new HashMap<String, Object>();
+				// 从数据库获取检验批数据
+				List<InspectionBatch> batchList = new InspectionBatchServiceImpl()
+					.queryAllInspectionBatchByProjectID((int) jt_quoteProject
+						.getValueAt(jt_quoteProject.getSelectedRow(), 0));
+				quoteMap.put("quote_batch", batchList);
+				// 从数据库获取检验内容数据
+				List<InspectionContent> contentList = null;
+				if (null != batchList && batchList.size() > 0) {
+					InspectionBatch inspectionBatch = batchList.get(0);
+					contentList = new InspectionContentServiceImpl()
+							.queryAllInspectionContentByBatchId(inspectionBatch.getId());
+					quoteMap.put("quote_content", contentList);
+				}
+				return quoteMap;
+			}
+
+			protected void done() {
+				Map<String, Object> quoteMap = null;
+				try {
+					quoteMap = get();
+					// 切换检验批数据
+					@SuppressWarnings("unchecked")
+					List<InspectionBatch> inspectionList = (List<InspectionBatch>) quoteMap
+							.get("quote_batch");
+					RenderDataUtils.renderBatchData(jt_inspectionBatch, inspectionList);
+					// 切换检验内容数据
+					@SuppressWarnings("unchecked")
+					List<InspectionContent> contentList = (List<InspectionContent>) quoteMap
+							.get("quote_content");
+					RenderDataUtils.renderContentData(jt_inspectionContent, contentList);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (ExecutionException e) {
 					e.printStackTrace();
 				}
 			};
-
 		}.execute();
 	}
 
 	/**
-	 * 项目面板JTable点击事件逻辑处理
+	 * 检验批面板JTable点击事件逻辑处理
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
 	 */
-	private void ProjectAndInspection() {
+	public void inspectionBatchToContent(JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+		new SwingWorker<List<InspectionContent>, Void>() {
+			@Override
+			protected List<InspectionContent> doInBackground()
+					throws Exception {
+				// 获取选择检验批下所有的数据数据
+				List<InspectionContent> contentList = new InspectionContentServiceImpl()
+				.queryAllInspectionContentByBatchId((int) jt_inspectionBatch
+						.getValueAt(jt_inspectionBatch.getSelectedRow(), 0));
+				return contentList;
+			}
 
-		int id = ((int) jt_quoteProjec.getValueAt(
-				jt_quoteProjec.getSelectedRow(), 0));
-		if (0 != id) {
-			new SwingWorker<List<InspectionBatch>, InspectionBatch>() {
-
-				@Override
-				protected List<InspectionBatch> doInBackground()
-						throws Exception {
-					// 从数据库获取检验批数据
-					return new InspectionBatchServiceImpl()
-							.queryAllInspectionBatchByProjectID((int) jt_quoteProjec
-									.getValueAt(
-											jt_quoteProjec.getSelectedRow(), 0));
+			protected void done() {
+				List<InspectionContent> contentList = null;
+				try {
+					contentList = get();
+					// 切换检验内容数据
+					RenderDataUtils.renderContentData(jt_inspectionContent, contentList);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
 				}
-
-				protected void done() {
-					List<InspectionBatch> inspectionList = null;
-					try {
-						inspectionList = get();
-
-						if (null != inspectionList && inspectionList.size() > 0) {
-							DefaultTableModel dtm = (DefaultTableModel) jt_inspectionBatch
-									.getModel();
-							dtm.getDataVector().clear();
-							for (InspectionBatch inspectionBatch : inspectionList) {
-								Vector<Object> dataRow = new Vector<Object>();
-								dataRow.add(inspectionBatch.getId());
-								dataRow.add(inspectionBatch
-										.getInspectionBatchName());
-								dataRow.add(inspectionBatch
-										.getInspectionBatchAmount());
-								dtm.addRow(dataRow);
-							}
-
-							jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
-						} else {
-							DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
-									.getModel();
-							model.getDataVector().clear();
-							Vector<Object> rowData = new Vector<Object>();
-							rowData.add(Integer.valueOf(0));
-							rowData.add("请新建检验批");
-							model.addRow(rowData);
-							jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
-						}
-
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					} catch (ExecutionException e) {
-						e.printStackTrace();
-					}
-				};
-
-			}.execute();
-		}
-
+			};
+		}.execute();
 	}
 }

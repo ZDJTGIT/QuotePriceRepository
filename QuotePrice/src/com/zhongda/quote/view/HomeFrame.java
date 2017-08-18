@@ -25,7 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
@@ -43,6 +42,7 @@ import com.zhongda.quote.service.impl.InspectionBatchServiceImpl;
 import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
+import com.zhongda.quote.utils.RenderDataUtils;
 import com.zhongda.quote.view.uiutils.JMenBarColor;
 import com.zhongda.quote.view.uiutils.MyTable;
 
@@ -156,18 +156,16 @@ public class HomeFrame {
 	private Insets screenInsets;
 	private int height;
 	private JScrollPane jsp_jsrw;
-	private DefaultTableModel dtm;
-	private JTable jt_quoteTask;
+	private MyTable jt_quoteTask;
 
 	private JPanel jp_center_up;
 	private JScrollPane jsp_center_up;
 	private MyTable jt_quoteProject;
-	private DefaultTableModel dtmPJ;
 	private JScrollPane scrollPane;
 	private MyTable jt_inspectionBatch;
 
 	private JScrollPane scrollPanemike;
-	private JTable jt_inspectionContent;
+	private MyTable jt_inspectionContent;
 
 	/**
 	 * Create the frame.
@@ -389,11 +387,6 @@ public class HomeFrame {
 		jsp_center_up = new JScrollPane();
 		jp_center_up.add(jsp_center_up, BorderLayout.CENTER);
 
-		// 项目表
-		String[] projectHeadSt = { "序号", "项目名称", "行业", "项目地址", "其他费用", "项目总金额" };
-		jt_quoteProject = new MyTable(new int[] { 1, 2, 3, 4, 5 });
-		jsp_center_up.setViewportView(jt_quoteProject);
-
 		jp_down = new JPanel();
 		sp_right.setRightComponent(jp_down);
 		jp_down.setLayout(new BorderLayout(0, 0));
@@ -464,11 +457,6 @@ public class HomeFrame {
 
 		scrollPane = new JScrollPane();
 		jpanel_center_down.add(scrollPane, BorderLayout.CENTER);
-
-		String[] inspectionHeadName = { "序号", "检验批名称", "检验批总金额" };
-		int[] inspectionNumber = { 1, 2 };
-		jt_inspectionBatch = new MyTable(inspectionNumber);
-		scrollPane.setViewportView(jt_inspectionBatch);
 
 		jp_right = new JPanel();
 		sp_center.setRightComponent(jp_right);
@@ -618,260 +606,6 @@ public class HomeFrame {
 		lblNewLabel_6 = new JLabel("  ");
 		jtb_jsrw.add(lblNewLabel_6);
 
-		// 建设任务表格面板
-		jsp_jsrw = new JScrollPane();
-
-		// 初始化列名
-		final Object[] taskColumnsName = { "序号", "任务编号", "任务名称", "任务描述", "创建人",
-				"创建时间", "最后修改时间", "任务总金额" };
-		jt_quoteTask = new JTable() {
-			/**
-			 *
-			 */
-			private static final long serialVersionUID = 1L;
-
-			public boolean isCellEditable(int row, int column) {
-				if (column == 1 || column == 4 || column == 6 || column == 5)
-					return false;// 不可编辑
-				return true;// 可编辑
-			}
-		};
-
-		jsp_jsrw.setViewportView(jt_quoteTask);
-		jpanel_left.add(jsp_jsrw, BorderLayout.CENTER);
-
-		// 添加检验内容表
-		// 初始化列名
-		scrollPanemike = new JScrollPane();
-		Object contentColumnsName[] = { "序号", "检验内容名称", "抽样数量", "单个检验对象实施数量",
-				"收费标准" };
-
-		jt_inspectionContent = new JTable() {
-			private static final long serialVersionUID = 1L;
-
-			public boolean isCellEditable(int rowIndex, int ColIndex) {
-				return false;// 设置不可编辑文字
-			}
-		};
-		// 设置单行可被选中
-		jt_inspectionContent.getSelectionModel().setSelectionMode(
-				ListSelectionModel.SINGLE_SELECTION);
-		jt_inspectionContent.getTableHeader().setReorderingAllowed(false);// 设置表头不可移动
-		scrollPanemike.setViewportView(jt_inspectionContent);
-		jpanel_right.add(scrollPanemike, BorderLayout.CENTER);
-
-		// 生成该窗口时启动任务线程从数据库加载初始化数据
-		new SwingWorker<Map<String, Object>, Void>() {
-
-			@Override
-			protected Map<String, Object> doInBackground() throws Exception {
-				Map<String, Object> map = new HashMap<String, Object>();
-				// 从数据库获取报价任务数据
-				List<QuoteTask> taskList = new QuoteTaskServiceImpl()
-						.queryAllQuoteTask();
-				map.put("quoteTask", taskList);
-				// 从数据库获取项目数据
-				List<QuoteProject> projectList = null;
-				if (null != taskList && taskList.size() > 0) {
-					QuoteTask quoteTask = taskList.get(0);
-					projectList = new QuoteProjectServiceImpl()
-							.queryAllQuoteProjectsByTaskNmber(quoteTask.getId());
-					map.put("quoteProject", projectList);
-				}
-				// 从数据库获取检验批数据
-				List<InspectionBatch> batchList = null;
-				if (null != projectList && projectList.size() > 0) {
-					QuoteProject quoteProject = projectList.get(0);
-					batchList = new InspectionBatchServiceImpl()
-							.queryAllInspectionBatchByProjectID(quoteProject
-									.getId());
-					map.put("inspectionBatch", batchList);
-				}
-				// 从数据库获取检验内容数据
-				List<InspectionContent> ContentList = null;
-				if (null != batchList && batchList.size() > 0) {
-					InspectionBatch inspectionBatch = batchList.get(0);
-					ContentList = new InspectionContentServiceImpl()
-							.queryAllInspectionContentByBatchId(inspectionBatch
-									.getId());
-					map.put("inspectionContent", ContentList);
-				}
-				return map;
-			}
-
-			@Override
-			protected void done() {
-				Map<String, Object> map;
-				try {
-					map = get();
-					@SuppressWarnings("unchecked")
-					List<QuoteTask> taskList = (List<QuoteTask>) map
-							.get("quoteTask");
-					// 填充任务数据
-					int length = 0;
-					if (null != taskList && (length = taskList.size()) > 0) {
-						Object[][] rowData = new Object[length][taskColumnsName.length];
-						int index = 0;
-						for (QuoteTask quoteTask : taskList) {
-							rowData[index][0] = quoteTask.getId();
-							rowData[index][1] = quoteTask.getTaskNumber();
-							rowData[index][2] = quoteTask.getTaskName();
-							rowData[index][3] = quoteTask.getTaskDescription();
-							rowData[index][4] = quoteTask.getCreateUser();
-							rowData[index][5] = quoteTask.getCreateDate();
-							rowData[index][6] = quoteTask.getLastUpdateDate();
-							rowData[index][7] = quoteTask.getTaskAmount();
-							index++;
-						}
-						dtm = new DefaultTableModel(rowData, taskColumnsName);
-						jt_quoteTask.isCellEditable(2, 1);// 1列不可编辑
-						jt_quoteTask.isCellEditable(2, 4);// 8列不可编辑
-						jt_quoteTask.isCellEditable(2, 6);// 6列不可编辑
-						jt_quoteTask.isCellEditable(2, 5);// 7列不可编辑
-
-						jt_quoteTask.setModel(dtm);
-						jt_quoteTask.getColumnModel().getColumn(0)
-								.setMinWidth(0);
-						jt_quoteTask.getColumnModel().getColumn(0)
-								.setMaxWidth(0);
-						jt_quoteTask.getColumnModel().getColumn(1)
-								.setPreferredWidth(110);
-						jt_quoteTask.getColumnModel().getColumn(2)
-								.setPreferredWidth(76);
-						jt_quoteTask.getColumnModel().getColumn(3)
-								.setPreferredWidth(137);
-						jt_quoteTask.getColumnModel().getColumn(4)
-								.setPreferredWidth(44);
-						jt_quoteTask.getColumnModel().getColumn(5)
-								.setPreferredWidth(55);
-						jt_quoteTask.getColumnModel().getColumn(6)
-								.setPreferredWidth(70);
-						jt_quoteTask
-								.addMouseMotionListener(new HomeFrameAction(
-										jt_quoteTask, null, null, null));
-						jt_quoteTask.setRowSelectionInterval(0, 0);// 选中第一行
-
-						// Table表中添加日期组件
-						// Chooser ser = Chooser.getInstance();
-						// JTextField jtf_date = new JTextField();
-						// jtf_date.setEditable(false);
-						// ser.register(jtf_date);
-						// jt_quoteTask.getColumnModel().getColumn(5)
-						// .setCellEditor(new DefaultCellEditor(jtf_date));
-
-						// // 项目模块代码
-						// 填充项目数据
-						@SuppressWarnings("unchecked")
-						List<QuoteProject> projectList = (List<QuoteProject>) map
-								.get("quoteProject");
-						int lengthProject = 0;
-						if (null != projectList
-								&& (lengthProject = projectList.size()) > 0) {
-							index = 0;
-							Object[][] objProject = new Object[lengthProject][projectHeadSt.length];
-							for (QuoteProject quoteProject : projectList) {
-								objProject[index][0] = quoteProject.getId();
-								objProject[index][1] = quoteProject
-										.getProjectName();
-								objProject[index][2] = quoteProject
-										.getIndustry().getIndustryName();
-								objProject[index][3] = quoteProject
-										.getAddress().getMergerName();
-								objProject[index][4] = quoteProject
-										.getOtherAmout();
-								objProject[index][5] = quoteProject
-										.getProjectAmount();
-								index++;
-
-							}
-							dtmPJ = new DefaultTableModel(objProject,
-									projectHeadSt);
-							jt_quoteProject.setModel(dtmPJ);
-							jt_quoteProject.getColumnModel().getColumn(0)
-									.setMinWidth(0);
-							jt_quoteProject.getColumnModel().getColumn(0)
-									.setMaxWidth(0);
-							jt_quoteProject.getColumnModel().getColumn(1)
-									.setPreferredWidth(100);
-							jt_quoteProject.getColumnModel().getColumn(2)
-									.setPreferredWidth(30);
-							jt_quoteProject.getColumnModel().getColumn(3)
-									.setPreferredWidth(120);
-							jt_quoteProject.setRowSelectionInterval(0, 0);// 选中第一行
-
-							// 填充检验批数据
-							// 检验批模块代码
-							@SuppressWarnings("unchecked")
-							List<InspectionBatch> batchList = (List<InspectionBatch>) map
-									.get("inspectionBatch");
-							length = 0;
-							if (null != batchList
-									&& (length = batchList.size()) > 0) {
-								index = 0;
-								Object[][] objBatch = new Object[length][inspectionHeadName.length];
-								for (InspectionBatch inspectionBatch : batchList) {
-									objBatch[index][0] = inspectionBatch
-											.getId();
-									objBatch[index][1] = inspectionBatch
-											.getInspectionBatchName();
-									objBatch[index][2] = inspectionBatch
-											.getInspectionBatchAmount();
-									index++;
-								}
-								DefaultTableModel dtmInspection = new DefaultTableModel(
-										objBatch, inspectionHeadName);
-
-								jt_inspectionBatch.setModel(dtmInspection);
-								jt_inspectionBatch.getColumnModel()
-										.getColumn(0).setMinWidth(0);
-								jt_inspectionBatch.getColumnModel()
-										.getColumn(0).setMaxWidth(0);
-								jt_inspectionBatch
-										.setRowSelectionInterval(0, 0);
-
-								// 填充检验内容数据
-								@SuppressWarnings("unchecked")
-								List<InspectionContent> contentList = (List<InspectionContent>) map
-										.get("inspectionContent");
-								if (null != contentList
-										&& (length = contentList.size()) > 0) {
-									Object contentData[][] = new Object[length][contentColumnsName.length];
-									int indax = 0;
-									// 2,3,4,7,10
-									for (InspectionContent inspectionContent : contentList) {
-										contentData[indax][0] = inspectionContent
-												.getId();
-										contentData[indax][1] = inspectionContent
-												.getInspectionContentName();
-										contentData[indax][2] = inspectionContent
-												.getSampleQuantity();
-										contentData[indax][3] = inspectionContent
-												.getSingleObjectQuantity();
-										contentData[indax][4] = inspectionContent
-												.getChargeStandard();
-										indax++;
-									}
-									DefaultTableModel model = new DefaultTableModel(
-											contentData, contentColumnsName);
-									jt_inspectionContent.setModel(model);
-									jt_inspectionContent.getColumnModel()
-											.getColumn(0).setMinWidth(0);
-									jt_inspectionContent.getColumnModel()
-											.getColumn(0).setMaxWidth(0);
-								}
-							}
-						}
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-
-			}
-
-		}.execute();
-
 		// JToolBar工具栏及其下按钮
 		jtb_tb = new JToolBar();
 		jf_jpanel.add(jtb_tb, BorderLayout.NORTH);
@@ -893,33 +627,163 @@ public class HomeFrame {
 		jtb_tb.add(jb_bt_save);
 		jtb_tb.setRollover(true);
 
-		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(null,
-				jt_quoteProject, null, null));
+		// 报价任务表格面板
+		jsp_jsrw = new JScrollPane();
+		// 初始化任务表列名
+		final Object[] taskColumnsName = { "序号", "任务编号", "任务名称", "任务描述", "创建人",
+				"创建时间", "最后修改时间", "任务总金额" };
+		jt_quoteTask = new MyTable(new int[] {1,4,6,5});
+		DefaultTableModel taskTableModel = new DefaultTableModel(null, taskColumnsName);
+		jt_quoteTask.setModel(taskTableModel);
+		jt_quoteTask.getColumnModel().getColumn(0).setMinWidth(0);
+		jt_quoteTask.getColumnModel().getColumn(0).setMaxWidth(0);
+		jt_quoteTask.getColumnModel().getColumn(1).setPreferredWidth(110);
+		jt_quoteTask.getColumnModel().getColumn(2).setPreferredWidth(76);
+		jt_quoteTask.getColumnModel().getColumn(3).setPreferredWidth(137);
+		jt_quoteTask.getColumnModel().getColumn(4).setPreferredWidth(44);
+		jt_quoteTask.getColumnModel().getColumn(5).setPreferredWidth(55);
+		jt_quoteTask.getColumnModel().getColumn(6).setPreferredWidth(70);
+		jsp_jsrw.setViewportView(jt_quoteTask);
+		jpanel_left.add(jsp_jsrw, BorderLayout.CENTER);
+
+		// 报价项目表格面板
+		// 初始化项目表列名
+		final Object[] projectColumnsName = { "序号", "项目名称", "行业", "项目地址", "其他费用", "项目总金额" };
+		jt_quoteProject = new MyTable(new int[] { 1, 2, 3, 4, 5 });
+		DefaultTableModel projectTableModel = new DefaultTableModel(null, projectColumnsName);
+		jt_quoteProject.setModel(projectTableModel);
+		jt_quoteProject.getColumnModel().getColumn(0).setMinWidth(0);
+		jt_quoteProject.getColumnModel().getColumn(0).setMaxWidth(0);
+		jt_quoteProject.getColumnModel().getColumn(1).setPreferredWidth(100);
+		jt_quoteProject.getColumnModel().getColumn(2).setPreferredWidth(30);
+		jt_quoteProject.getColumnModel().getColumn(3).setPreferredWidth(120);
+		jsp_center_up.setViewportView(jt_quoteProject);
+
+		// 报价检验批表格面板
+		// 初始化检验批表列名
+		final Object[] batchColumnsName = { "序号", "检验批名称", "检验批总金额" };
+		jt_inspectionBatch = new MyTable(new int[] { 1, 2 });
+		DefaultTableModel batchTableModel = new DefaultTableModel(null, batchColumnsName);
+		jt_inspectionBatch.setModel(batchTableModel);
+		jt_inspectionBatch.getColumnModel().getColumn(0).setMinWidth(0);
+		jt_inspectionBatch.getColumnModel().getColumn(0).setMaxWidth(0);
+		scrollPane.setViewportView(jt_inspectionBatch);
+
+
+		// 报价检验内容表格面板
+		scrollPanemike = new JScrollPane();
+		// 初始化检验内容表列名
+		final Object contentColumnsName[] = { "序号", "检验内容名称", "抽样数量", "单个检验对象实施数量", "收费标准" };
+		jt_inspectionContent = new MyTable(new int[] { 1, 2, 3, 4 });
+		DefaultTableModel contentTableModel = new DefaultTableModel(null, contentColumnsName);
+		jt_inspectionContent.setModel(contentTableModel);
+		jt_inspectionContent.getColumnModel().getColumn(0).setMinWidth(0);
+		jt_inspectionContent.getColumnModel().getColumn(0).setMaxWidth(0);
+		// 设置单行可被选中
+		jt_inspectionContent.getSelectionModel().setSelectionMode(
+				ListSelectionModel.SINGLE_SELECTION);
+		jt_inspectionContent.getTableHeader().setReorderingAllowed(false);// 设置表头不可移动
+		scrollPanemike.setViewportView(jt_inspectionContent);
+		jpanel_right.add(scrollPanemike, BorderLayout.CENTER);
+
+		// 生成该窗口时启动任务线程从数据库加载初始化数据(包括任务，项目，检验批，检验内容)
+		new SwingWorker<Map<String, Object>, Void>() {
+			@Override
+			protected Map<String, Object> doInBackground() throws Exception {
+				Map<String, Object> quoteMap = new HashMap<String, Object>();
+				// 从数据库获取报价任务数据
+				List<QuoteTask> taskList = new QuoteTaskServiceImpl()
+						.queryAllQuoteTask();
+				quoteMap.put("quoteTask", taskList);
+				// 从数据库获取项目数据
+				List<QuoteProject> projectList = null;
+				if (null != taskList && taskList.size() > 0) {
+					QuoteTask quoteTask = taskList.get(0);
+					projectList = new QuoteProjectServiceImpl()
+							.queryAllQuoteProjectsByTaskNmber(quoteTask.getId());
+					quoteMap.put("quoteProject", projectList);
+				}
+				// 从数据库获取检验批数据
+				List<InspectionBatch> batchList = null;
+				if (null != projectList && projectList.size() > 0) {
+					QuoteProject quoteProject = projectList.get(0);
+					batchList = new InspectionBatchServiceImpl()
+							.queryAllInspectionBatchByProjectID(quoteProject
+									.getId());
+					quoteMap.put("inspectionBatch", batchList);
+				}
+				// 从数据库获取检验内容数据
+				List<InspectionContent> ContentList = null;
+				if (null != batchList && batchList.size() > 0) {
+					InspectionBatch inspectionBatch = batchList.get(0);
+					ContentList = new InspectionContentServiceImpl()
+							.queryAllInspectionContentByBatchId(inspectionBatch
+									.getId());
+					quoteMap.put("inspectionContent", ContentList);
+				}
+				return quoteMap;
+			}
+
+			@Override
+			protected void done() {
+				Map<String, Object> quoteMap;
+				try {
+					quoteMap = get();
+					@SuppressWarnings("unchecked")
+					List<QuoteTask> taskList = (List<QuoteTask>) quoteMap
+							.get("quoteTask");
+					// 填充任务数据
+					if (null != taskList && taskList.size() > 0) {
+						RenderDataUtils.renderTaskData(jt_quoteTask, taskList);
+						// 填充项目数据
+						@SuppressWarnings("unchecked")
+						List<QuoteProject> projectList = (List<QuoteProject>) quoteMap
+								.get("quoteProject");
+						if (null != projectList && projectList.size() > 0) {
+							RenderDataUtils.renderProjectData(jt_quoteProject, projectList);
+							// 填充检验批数据
+							@SuppressWarnings("unchecked")
+							List<InspectionBatch> batchList = (List<InspectionBatch>) quoteMap
+									.get("inspectionBatch");
+							if (null != batchList && batchList.size() > 0) {
+								RenderDataUtils.renderBatchData(jt_inspectionBatch, batchList);
+								// 填充检验内容数据
+								@SuppressWarnings("unchecked")
+								List<InspectionContent> contentList = (List<InspectionContent>) quoteMap
+										.get("inspectionContent");
+								if (null != contentList && contentList.size() > 0) {
+									RenderDataUtils.renderContentData(jt_inspectionContent, contentList);
+								}
+							}
+						}
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}.execute();
 
 		// 添加创建任务事件
 		bt_createTask.setActionCommand("createTask");
-		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
-				null, null));
+		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask, null, null, null));
 		// 添加删除任务事件
 		bt_deleteTask.setActionCommand("deleteTask");
-		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
-				null, null));
-		// 添加查询任务事件
-		bt_queryTask.setActionCommand("queryTask");
-		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
-				null, null, jtf_queryTaskName));
+		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加修改任务事件
 		bt_updateTask.setActionCommand("updateTask");
-		bt_updateTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
-				null, null));
+		bt_updateTask.addActionListener(new HomeFrameAction(jt_quoteTask, null, null, null));
+		// 添加查询任务事件
+		bt_queryTask.setActionCommand("queryTask");
+		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask, null, null, null, jtf_queryTaskName));
 
-		// 创建项目
-		jbt_createProject.addActionListener(new HomeFrameAction(jt_quoteTask,
-				null, null, null));
+		// 添加创建项目事件
+		jbt_createProject.addActionListener(new HomeFrameAction(jt_quoteTask, null, null, null));
 
-		// 新建检验批按钮
-		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(null,
-				jt_quoteProject, jt_inspectionBatch, null));
+		// 添加创建检验批事件
+		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(null, jt_quoteProject, jt_inspectionBatch, null));
 
 		// 添加创建检验内容事件
 		jbt_createContent.setActionCommand("createContent");
@@ -934,14 +798,22 @@ public class HomeFrame {
 		jbt_deleteContent.addActionListener(new HomeFrameAction(null, null,
 				null, jt_inspectionContent));
 
-		// 任务JTabel鼠标点击事件
+
+		/**
+		 * 鼠标点击事件
+		 */
+		// 任务Jtable鼠标点击事件
 		jt_quoteTask.addMouseListener(new HomeFrameAction(jt_quoteTask,
-				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent,
-				"task_jtabel"));
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent, "task_jtabel"));
 		// 项目JTabel鼠标点击事件
 		jt_quoteProject.addMouseListener(new HomeFrameAction(null,
-				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent,
-				"project_jtabel"));
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent, "project_jtabel"));
+		// 检验批JTabel鼠标点击事件
+		jt_inspectionBatch.addMouseListener(new HomeFrameAction(null,
+				null, jt_inspectionBatch, jt_inspectionContent, "batch_jtabel"));
+
+		// 任务Jtable鼠标悬浮事件
+		jt_quoteTask.addMouseMotionListener(new HomeFrameAction(jt_quoteTask, null, null, null));
 
 	}
 
