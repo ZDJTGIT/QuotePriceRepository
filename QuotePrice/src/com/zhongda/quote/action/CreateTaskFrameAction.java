@@ -75,8 +75,8 @@ public class CreateTaskFrameAction implements ActionListener {
 			String createUser = jtf_createUser.getText();
 			String createDate = df_createDate.getText();
 			String taskDescription = jta_taskDescription.getText();
-			DefaultTableModel model = (DefaultTableModel) jt_quoteTask
-					.getModel();
+
+			final DefaultTableModel model = (DefaultTableModel) jt_quoteTask.getModel();
 			final int row = jt_quoteTask.getSelectedRow();
 
 			// 判断用户填写的任务信息是否完整

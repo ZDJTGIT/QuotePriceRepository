@@ -669,7 +669,6 @@ public class HomeFrame {
 		jt_inspectionBatch.getColumnModel().getColumn(0).setMaxWidth(0);
 		scrollPane.setViewportView(jt_inspectionBatch);
 
-
 		// 报价检验内容表格面板
 		scrollPanemike = new JScrollPane();
 		// 初始化检验内容表列名

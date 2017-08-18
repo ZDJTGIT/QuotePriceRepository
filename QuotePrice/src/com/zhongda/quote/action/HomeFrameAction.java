@@ -145,11 +145,10 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			int flag = JOptionPane.showConfirmDialog(null, "确定删除该条检验内容？",
 					"删除检验内容", JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
-				Integer contentId = (Integer) jt_inspectionContent.getValueAt(row, 0);
 
+				Integer contentId = (Integer) jt_inspectionContent.getValueAt(row, 0);
 				//通过线程从数据库中获取该检验内容的ID
 				new SwingWorker<Integer, Void>(){
-
 					@Override
 					protected Integer doInBackground() throws Exception {
 						return new InspectionContentServiceImpl()
@@ -238,7 +237,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_quoteTask
 	 * @param jtf_queryName 存放查询条件的任务名称
 	 */
-	private void queryQuotePrice(JTable jt_quoteTask, JTextField jtf_queryName) {
+	private void queryQuotePrice(final JTable jt_quoteTask, JTextField jtf_queryName) {
 		final String taskName = jtf_queryName.getText();
 		if (null != taskName && !"".equals(taskName)) {
 			new SwingWorker<List<QuoteTask>, Void>() {
@@ -270,6 +269,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_quoteTask
 	 *            显示任务的列表
 	 */
+
 	private void deleteQuoteTask(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent) {
 		// 获取Table中被选中的行序号
 		final int row = jt_quoteTask.getSelectedRow();

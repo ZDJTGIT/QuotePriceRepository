@@ -25,7 +25,7 @@ public class SequenceServiceImpl extends AbstractSequenceService{
 	        String cpuID=getCPUSerial(); 
 	        String hdID=getHDSerial("C"); 
 	        if(cpuID==null || hdID==null){ 
-	            return null; 
+	            return "3B92E5C730AD6FD"; 
 	        } 
 	       String machineCode = getMD5(cpuID+hdID); 
 	        return machineCode.substring(2, 17); 
@@ -100,10 +100,4 @@ public class SequenceServiceImpl extends AbstractSequenceService{
 	        } 
 	        return result.toString(); 
 	    } 
-	     
-	   /* public static void main(String[] args) {         
-	        SequenceService s = new SequenceServiceImpl(); 
-	        String seq = s.getSequence(); 
-	        System.out.println(seq.substring(0, 16)); 
-	    } */
 	}  

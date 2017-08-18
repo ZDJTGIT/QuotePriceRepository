@@ -46,7 +46,7 @@ public class FrameGoUtils {
 	 * 创建新增检验内容窗口
 	 * @param jTable
 	 */
-	public static void createContent(Integer inspectionid,final JTable jt_inspectionContent, boolean isCreate){
+	public static void createContent(final Integer inspectionid,final JTable jt_inspectionContent, final boolean isCreate){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -63,7 +63,7 @@ public class FrameGoUtils {
 	/**
 	 * 创建项目启动窗口
 	 */
-	public static void creatProject(JTable jt) {
+	public static void creatProject(final JTable jt) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -96,8 +96,8 @@ public class FrameGoUtils {
 	/**
 	 * 创建检验批窗口
 	 */
-	public static void creatInspection(QuoteProject quoteProject,
-			JPanel jp_inspection) {
+	public static void creatInspection(final QuoteProject quoteProject,
+			final JPanel jp_inspection) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -114,7 +114,7 @@ public class FrameGoUtils {
 	/**
 	 * 创建检验批窗口
 	 */
-	public static void creatInspection(JTable jt, JTable jt2) {
+	public static void creatInspection(final JTable jt, final JTable jt2) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
