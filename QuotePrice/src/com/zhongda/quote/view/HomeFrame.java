@@ -99,19 +99,19 @@ public class HomeFrame {
 	private JMenBarColor jmb_center_up;
 	private JPanel jpanel_center_up;
 	private JToolBar jtb_center_up;
-	private JButton jb_center_up_1;
-	private JButton jb_center_up_2;
+	private JButton jbt_createProject;
+	private JButton jbt_updateProject;
 	private JMenBarColor jmb_center_down;
 	private JPanel jpanel_center_down;
 	private JToolBar jtb_center_down;
 	private JMenBarColor jmb_right;
 	private JPanel jpanel_right;
 	private JToolBar jtb_right_jcnr;
-	private JButton jtb_center_down_1;
-	private JButton jtb_center_down_2;
-	private JButton jtb_right_1;
-	private JButton jtb_right_2;
-	private JLabel jlb_center_ip;
+	private JButton jbt_createInspectionBatch;
+	private JButton jbt_updateInspectionBatch;
+	private JButton jbt_createContent;
+	private JButton jbt_updateContent;
+	private JLabel jlb_quoteProject;
 	private JLabel jlb_center_down;
 	private JLabel jlb_right_jcnr;
 	private JButton bt_exportTask;
@@ -121,23 +121,23 @@ public class HomeFrame {
 	private JTextField jtf_queryTaskName;
 	private JButton bt_queryTask;
 	private JPanel jf_jpanel;
-	private JButton jb_center_up_3;
-	private JButton jb_center_up_4;
-	private JButton jtb_center_down_3;
-	private JButton jtb_center_down_4;
-	private JButton jtb_right_3;
-	private JButton jtb_right_4;
+	private JButton jbt_deleteProject;
+	private JButton jbt_queryProject;
+	private JButton jbt_deleteInspectionBatch;
+	private JButton jbt_queryInspectionBatch;
+	private JButton jbt_deleteContent;
+	private JButton jbt_queryContent;
 	private JLabel jlb_rwxm;
 	private JTextField jtf_rwxm;
-	private JButton jb_center_up_5;
+	private JButton jbt_queryProject_next;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
-	private JButton jtb_center_down_5;
+	private JButton jbt_queryInspectionBatch_next;
 	private JLabel jlb_jyp;
 	private JTextField jtf_jyp;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
-	private JButton jtb_right_5;
+	private JButton jbt_queryContent_next;
 	private JLabel jlb_jcnr;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
@@ -157,10 +157,10 @@ public class HomeFrame {
 	private JTable jt_quoteTask;
 	private JPanel jp_center_up;
 	private JScrollPane jsp_center_up;
-	private MyTable jtb_center_up_xm;
+	private MyTable jt_quoteProject;
 	private DefaultTableModel dtmPJ;
 	private JScrollPane scrollPane;
-	private MyTable jt_inspection;
+	private MyTable jt_inspectionBatch;
 
 	/**
 	 * Create the frame.
@@ -316,10 +316,10 @@ public class HomeFrame {
 		jmb_center_up = new JMenBarColor();
 		jp_up.add(jmb_center_up, BorderLayout.NORTH);
 
-		jlb_center_ip = new JLabel("任务项目");
-		jlb_center_ip.setBorder(new EmptyBorder(3, 10, 3, 0));
-		jlb_center_ip.setFont(new Font("黑体", 1, 14));
-		jmb_center_up.add(jlb_center_ip);
+		jlb_quoteProject = new JLabel("报价项目");
+		jlb_quoteProject.setBorder(new EmptyBorder(3, 10, 3, 0));
+		jlb_quoteProject.setFont(new Font("黑体", 1, 14));
+		jmb_center_up.add(jlb_quoteProject);
 
 		jpanel_center_up = new JPanel();
 		jp_up.add(jpanel_center_up, BorderLayout.CENTER);
@@ -330,24 +330,24 @@ public class HomeFrame {
 		jtb_center_up.setFloatable(false);// 工具栏不能拖动
 		jpanel_center_up.add(jtb_center_up, BorderLayout.NORTH);
 
-		jb_center_up_1 = new JButton();
-		jb_center_up_1.setIcon(new ImageIcon("images/add.png"));
-		jb_center_up_1.setToolTipText("新增任务");
-		jb_center_up_1.setActionCommand("creatProject");
-		jb_center_up_1.setFocusPainted(false);// 去除按钮边线
-		jtb_center_up.add(jb_center_up_1);
+		jbt_createProject = new JButton();
+		jbt_createProject.setIcon(new ImageIcon("images/add.png"));
+		jbt_createProject.setToolTipText("新增项目");
+		jbt_createProject.setActionCommand("creatProject");
+		jbt_createProject.setFocusPainted(false);// 去除按钮边线
+		jtb_center_up.add(jbt_createProject);
 
-		jb_center_up_2 = new JButton();
-		jb_center_up_2.setIcon(new ImageIcon("images/updatepen.png"));
-		jb_center_up_2.setToolTipText("修改任务");
-		jb_center_up_2.setFocusPainted(false);// 去除按钮边线
-		jtb_center_up.add(jb_center_up_2);
+		jbt_updateProject = new JButton();
+		jbt_updateProject.setIcon(new ImageIcon("images/updatepen.png"));
+		jbt_updateProject.setToolTipText("修改项目");
+		jbt_updateProject.setFocusPainted(false);// 去除按钮边线
+		jtb_center_up.add(jbt_updateProject);
 
-		jb_center_up_3 = new JButton();
-		jb_center_up_3.setIcon(new ImageIcon("images/del.png"));
-		jb_center_up_3.setToolTipText("删除任务");
-		jb_center_up_3.setFocusPainted(false);// 去除按钮边线
-		jtb_center_up.add(jb_center_up_3);
+		jbt_deleteProject = new JButton();
+		jbt_deleteProject.setIcon(new ImageIcon("images/del.png"));
+		jbt_deleteProject.setToolTipText("删除项目");
+		jbt_deleteProject.setFocusPainted(false);// 去除按钮边线
+		jtb_center_up.add(jbt_deleteProject);
 
 		jtb_center_up.addSeparator();// 分隔符
 		jlb_rwxm = new JLabel(" 查找 ");
@@ -360,17 +360,17 @@ public class HomeFrame {
 		lblNewLabel = new JLabel(" ");
 		jtb_center_up.add(lblNewLabel);
 
-		jb_center_up_4 = new JButton();
-		jb_center_up_4.setIcon(new ImageIcon("images/find.png"));
-		jb_center_up_4.setToolTipText("查找项目");
-		jb_center_up_4.setFocusPainted(false);// 去除按钮边线
-		jtb_center_up.add(jb_center_up_4);
+		jbt_queryProject = new JButton();
+		jbt_queryProject.setIcon(new ImageIcon("images/find.png"));
+		jbt_queryProject.setToolTipText("查找项目");
+		jbt_queryProject.setFocusPainted(false);// 去除按钮边线
+		jtb_center_up.add(jbt_queryProject);
 
-		jb_center_up_5 = new JButton();
-		jb_center_up_5.setIcon(new ImageIcon("images/next.png"));
-		jb_center_up_5.setToolTipText("查找下一个");
-		jb_center_up_5.setFocusPainted(false);// 去除按钮边线
-		jtb_center_up.add(jb_center_up_5);
+		jbt_queryProject_next = new JButton();
+		jbt_queryProject_next.setIcon(new ImageIcon("images/next.png"));
+		jbt_queryProject_next.setToolTipText("查找下一个");
+		jbt_queryProject_next.setFocusPainted(false);// 去除按钮边线
+		jtb_center_up.add(jbt_queryProject_next);
 
 		lblNewLabel_1 = new JLabel("  ");
 		jtb_center_up.add(lblNewLabel_1);
@@ -384,8 +384,8 @@ public class HomeFrame {
 
 		// 项目表
 		String[] projectHeadSt = { "序号", "项目名称", "行业", "项目地址", "其他费用", "项目总金额" };
-		jtb_center_up_xm = new MyTable(new int[] { 1, 2, 3, 4, 5 });
-		jsp_center_up.setViewportView(jtb_center_up_xm);
+		jt_quoteProject = new MyTable(new int[] { 1, 2, 3, 4, 5 });
+		jsp_center_up.setViewportView(jt_quoteProject);
 
 		jp_down = new JPanel();
 		sp_right.setRightComponent(jp_down);
@@ -409,26 +409,27 @@ public class HomeFrame {
 		jtb_center_down.setFloatable(false);// 工具栏不能拖动
 		jpanel_center_down.add(jtb_center_down, BorderLayout.NORTH);
 
-		jtb_center_down_1 = new JButton();
-		jtb_center_down_1.setIcon(new ImageIcon("images/add.png"));
-		jtb_center_down_1.setToolTipText("新增");
-		jtb_center_down_1.setActionCommand("addInspection");
-		jtb_center_down_1.addActionListener(new HomeFrameAction(
-				jtb_center_up_xm));
-		jtb_center_down_1.setFocusPainted(false);// 去除按钮边线
-		jtb_center_down.add(jtb_center_down_1);
+		jbt_createInspectionBatch = new JButton();
+		jbt_createInspectionBatch.setIcon(new ImageIcon("images/add.png"));
+		jbt_createInspectionBatch.setToolTipText("新增检验批");
+		jbt_createInspectionBatch.setActionCommand("addInspection");
+		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(null,
+				jt_quoteProject, null, null));
+		jbt_createInspectionBatch.setFocusPainted(false);// 去除按钮边线
+		jtb_center_down.add(jbt_createInspectionBatch);
 
-		jtb_center_down_2 = new JButton();
-		jtb_center_down_2.setIcon(new ImageIcon("images/updatepen.png"));
-		jtb_center_down_2.setToolTipText("修改");
-		jtb_center_down_2.setFocusPainted(false);// 去除按钮边线
-		jtb_center_down.add(jtb_center_down_2);
+		jbt_updateInspectionBatch = new JButton();
+		jbt_updateInspectionBatch
+				.setIcon(new ImageIcon("images/updatepen.png"));
+		jbt_updateInspectionBatch.setToolTipText("修改检验批");
+		jbt_updateInspectionBatch.setFocusPainted(false);// 去除按钮边线
+		jtb_center_down.add(jbt_updateInspectionBatch);
 
-		jtb_center_down_3 = new JButton();
-		jtb_center_down_3.setIcon(new ImageIcon("images/del.png"));
-		jtb_center_down_3.setToolTipText("删除");
-		jtb_center_down_3.setFocusPainted(false);// 去除按钮边线
-		jtb_center_down.add(jtb_center_down_3);
+		jbt_deleteInspectionBatch = new JButton();
+		jbt_deleteInspectionBatch.setIcon(new ImageIcon("images/del.png"));
+		jbt_deleteInspectionBatch.setToolTipText("删除检验批");
+		jbt_deleteInspectionBatch.setFocusPainted(false);// 去除按钮边线
+		jtb_center_down.add(jbt_deleteInspectionBatch);
 
 		jtb_center_down.addSeparator();// 分隔符
 		jlb_jyp = new JLabel(" 查找 ");
@@ -441,17 +442,17 @@ public class HomeFrame {
 		lblNewLabel_2 = new JLabel(" ");
 		jtb_center_down.add(lblNewLabel_2);
 
-		jtb_center_down_4 = new JButton();
-		jtb_center_down_4.setIcon(new ImageIcon("images/find.png"));
-		jtb_center_down_4.setToolTipText("查找");
-		jtb_center_down_4.setFocusPainted(false);// 去除按钮边线
-		jtb_center_down.add(jtb_center_down_4);
+		jbt_queryInspectionBatch = new JButton();
+		jbt_queryInspectionBatch.setIcon(new ImageIcon("images/find.png"));
+		jbt_queryInspectionBatch.setToolTipText("查找");
+		jbt_queryInspectionBatch.setFocusPainted(false);// 去除按钮边线
+		jtb_center_down.add(jbt_queryInspectionBatch);
 
-		jtb_center_down_5 = new JButton();
-		jtb_center_down_5.setIcon(new ImageIcon("images/next.png"));
-		jtb_center_down_5.setToolTipText("查找下一个");
-		jtb_center_down_5.setFocusPainted(false);// 去除按钮边线
-		jtb_center_down.add(jtb_center_down_5);
+		jbt_queryInspectionBatch_next = new JButton();
+		jbt_queryInspectionBatch_next.setIcon(new ImageIcon("images/next.png"));
+		jbt_queryInspectionBatch_next.setToolTipText("查找下一个");
+		jbt_queryInspectionBatch_next.setFocusPainted(false);// 去除按钮边线
+		jtb_center_down.add(jbt_queryInspectionBatch_next);
 
 		lblNewLabel_3 = new JLabel("  ");
 		jtb_center_down.add(lblNewLabel_3);
@@ -461,8 +462,8 @@ public class HomeFrame {
 
 		String[] inspectionHeadName = { "序号", "检验批名称", "检验批总金额" };
 		int[] inspectionNumber = { 1, 2 };
-		jt_inspection = new MyTable(inspectionNumber);
-		scrollPane.setViewportView(jt_inspection);
+		jt_inspectionBatch = new MyTable(inspectionNumber);
+		scrollPane.setViewportView(jt_inspectionBatch);
 
 		jp_right = new JPanel();
 		sp_center.setRightComponent(jp_right);
@@ -486,23 +487,23 @@ public class HomeFrame {
 		jtb_right_jcnr.setFloatable(false);// 工具栏不能拖动
 		jpanel_right.add(jtb_right_jcnr, BorderLayout.NORTH);
 
-		jtb_right_1 = new JButton();
-		jtb_right_1.setIcon(new ImageIcon("images/add.png"));
-		jtb_right_1.setToolTipText("新增");
-		jtb_right_1.setFocusPainted(false);// 去除按钮边线
-		jtb_right_jcnr.add(jtb_right_1);
+		jbt_createContent = new JButton();
+		jbt_createContent.setIcon(new ImageIcon("images/add.png"));
+		jbt_createContent.setToolTipText("新增检验内容");
+		jbt_createContent.setFocusPainted(false);// 去除按钮边线
+		jtb_right_jcnr.add(jbt_createContent);
 
-		jtb_right_2 = new JButton();
-		jtb_right_2.setIcon(new ImageIcon("images/updatepen.png"));
-		jtb_right_2.setToolTipText("修改");
-		jtb_right_2.setFocusPainted(false);// 去除按钮边线
-		jtb_right_jcnr.add(jtb_right_2);
+		jbt_updateContent = new JButton();
+		jbt_updateContent.setIcon(new ImageIcon("images/updatepen.png"));
+		jbt_updateContent.setToolTipText("修改检验内容");
+		jbt_updateContent.setFocusPainted(false);// 去除按钮边线
+		jtb_right_jcnr.add(jbt_updateContent);
 
-		jtb_right_3 = new JButton();
-		jtb_right_3.setIcon(new ImageIcon("images/del.png"));
-		jtb_right_3.setToolTipText("删除");
-		jtb_right_3.setFocusPainted(false);// 去除按钮边线
-		jtb_right_jcnr.add(jtb_right_3);
+		jbt_deleteContent = new JButton();
+		jbt_deleteContent.setIcon(new ImageIcon("images/del.png"));
+		jbt_deleteContent.setToolTipText("删除检验内容");
+		jbt_deleteContent.setFocusPainted(false);// 去除按钮边线
+		jtb_right_jcnr.add(jbt_deleteContent);
 
 		jtb_right_jcnr.addSeparator();// 分隔符
 		jlb_jcnr = new JLabel(" 查找  ");
@@ -515,17 +516,17 @@ public class HomeFrame {
 		lblNewLabel_4 = new JLabel(" ");
 		jtb_right_jcnr.add(lblNewLabel_4);
 
-		jtb_right_4 = new JButton();
-		jtb_right_4.setIcon(new ImageIcon("images/find.png"));
-		jtb_right_4.setToolTipText("查找");
-		jtb_right_4.setFocusPainted(false);// 去除按钮边线
-		jtb_right_jcnr.add(jtb_right_4);
+		jbt_queryContent = new JButton();
+		jbt_queryContent.setIcon(new ImageIcon("images/find.png"));
+		jbt_queryContent.setToolTipText("查找");
+		jbt_queryContent.setFocusPainted(false);// 去除按钮边线
+		jtb_right_jcnr.add(jbt_queryContent);
 
-		jtb_right_5 = new JButton();
-		jtb_right_5.setIcon(new ImageIcon("images/next.png"));
-		jtb_right_5.setToolTipText("查找下一个");
-		jtb_right_5.setFocusPainted(false);// 去除按钮边线
-		jtb_right_jcnr.add(jtb_right_5);
+		jbt_queryContent_next = new JButton();
+		jbt_queryContent_next.setIcon(new ImageIcon("images/next.png"));
+		jbt_queryContent_next.setToolTipText("查找下一个");
+		jbt_queryContent_next.setFocusPainted(false);// 去除按钮边线
+		jtb_right_jcnr.add(jbt_queryContent_next);
 
 		lblNewLabel_5 = new JLabel("  ");
 		jtb_right_jcnr.add(lblNewLabel_5);
@@ -539,7 +540,7 @@ public class HomeFrame {
 		jmb_left.setBackground(Color.cyan);
 		jp_left.add(jmb_left, BorderLayout.NORTH);
 
-		jmb_left_lb = new JLabel("建设任务");
+		jmb_left_lb = new JLabel("报价任务");
 		jmb_left_lb.setBorder(new EmptyBorder(3, 10, 3, 0));
 		jmb_left_lb.setFont(new Font("黑体", 1, 14));
 		jmb_left.add(jmb_left_lb);
@@ -713,7 +714,7 @@ public class HomeFrame {
 								.setPreferredWidth(70);
 						jt_quoteTask
 								.addMouseMotionListener(new HomeFrameAction(
-										jt_quoteTask));
+										jt_quoteTask, null, null, null));
 						jt_quoteTask.setRowSelectionInterval(0, 0);// 选中第一行
 
 						// Table表中添加日期组件
@@ -750,18 +751,18 @@ public class HomeFrame {
 							}
 							dtmPJ = new DefaultTableModel(objProject,
 									projectHeadSt);
-							jtb_center_up_xm.setModel(dtmPJ);
-							jtb_center_up_xm.getColumnModel().getColumn(0)
+							jt_quoteProject.setModel(dtmPJ);
+							jt_quoteProject.getColumnModel().getColumn(0)
 									.setMinWidth(0);
-							jtb_center_up_xm.getColumnModel().getColumn(0)
+							jt_quoteProject.getColumnModel().getColumn(0)
 									.setMaxWidth(0);
-							jtb_center_up_xm.getColumnModel().getColumn(1)
+							jt_quoteProject.getColumnModel().getColumn(1)
 									.setPreferredWidth(100);
-							jtb_center_up_xm.getColumnModel().getColumn(2)
+							jt_quoteProject.getColumnModel().getColumn(2)
 									.setPreferredWidth(30);
-							jtb_center_up_xm.getColumnModel().getColumn(3)
+							jt_quoteProject.getColumnModel().getColumn(3)
 									.setPreferredWidth(120);
-							jtb_center_up_xm.setRowSelectionInterval(0, 0);// 选中第一行
+							jt_quoteProject.setRowSelectionInterval(0, 0);// 选中第一行
 
 							// 检验批模块代码
 							@SuppressWarnings("unchecked")
@@ -783,12 +784,13 @@ public class HomeFrame {
 								}
 								DefaultTableModel dtmInspection = new DefaultTableModel(
 										objBatch, inspectionHeadName);
-								jt_inspection.setModel(dtmInspection);
-								jt_inspection.getColumnModel().getColumn(0)
-										.setMinWidth(0);
-								jt_inspection.getColumnModel().getColumn(0)
-										.setMaxWidth(0);
-								jt_inspection.setRowSelectionInterval(0, 0);
+								jt_inspectionBatch.setModel(dtmInspection);
+								jt_inspectionBatch.getColumnModel()
+										.getColumn(0).setMinWidth(0);
+								jt_inspectionBatch.getColumnModel()
+										.getColumn(0).setMaxWidth(0);
+								jt_inspectionBatch
+										.setRowSelectionInterval(0, 0);
 
 							}
 
@@ -828,26 +830,30 @@ public class HomeFrame {
 
 		// 添加创建任务事件
 		bt_createTask.setActionCommand("createTask");
-		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask));
+		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
+				null, null));
 		// 添加删除任务事件
 		bt_deleteTask.setActionCommand("deleteTask");
-		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask));
+		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
+				null, null));
 		// 添加查询任务事件
 		bt_queryTask.setActionCommand("queryTask");
 
-		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask,
-				jtf_queryTaskName));
+		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
+				null, null, jtf_queryTaskName));
 		// 添加查询任务事件
 		bt_updateTask.setActionCommand("updateTask");
-		bt_updateTask.addActionListener(new HomeFrameAction(jt_quoteTask));
+		bt_updateTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
+				null, null));
 		// 创建项目
-		jb_center_up_1.addActionListener(new HomeFrameAction(jt_quoteTask));
+		jbt_createProject.addActionListener(new HomeFrameAction(jt_quoteTask,
+				null, null, null));
 		// 创建任务面板Jtable事件
-		jt_quoteTask.addMouseListener(new HomeFrameAction("task_jtabel",
-				jt_quoteTask, jtb_center_up_xm, jt_inspection));
+		jt_quoteTask.addMouseListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, null, "task_jtabel"));
 		// 项目JTabel鼠标点击事件
-		jtb_center_up_xm.addMouseListener(new HomeFrameAction("project_jtabel",
-				jtb_center_up_xm, jt_inspection));
+		jt_quoteProject.addMouseListener(new HomeFrameAction(null,
+				jt_quoteProject, jt_inspectionBatch, null, "project_jtabel"));
 
 	}
 

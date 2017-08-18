@@ -37,45 +37,49 @@ import com.zhongda.quote.utils.FrameGoUtils;
 public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		MouseListener {
 
-	// 主界面报价任务的引用
+	// 主界面报价任务JTable
 	private JTable jt_quoteTask;
-	// 主界面查询任务搜索任务名称
-	private JTextField jtf_queryTaskName;
-	// 区别鼠标单击事件名称
-	private String clickName;
 	// 主界面报价项目JTable
 	private JTable jt_quoteProjec;
 	// 主界面检验批JTabel
-	private JTable jt_inspection;
+	private JTable jt_inspectionBatch;
+	// 主界面检验内容JTabel
+	private JTable jt_inspectionContent;
+	// 区别鼠标单击事件名称
+	private String clickName;
+	// 主界面查询对象的名称
+	private JTextField jtf_queryName;
 
 	public HomeFrameAction() {
 	}
 
-	public HomeFrameAction(String name, JTable jt1, JTable jt2) {
-		this.clickName = name;
-		this.jt_quoteProjec = jt1;
-		this.jt_inspection = jt2;
-	}
-
-	public HomeFrameAction(String name, JTable jt1, JTable jt2, JTable jt3) {
-		this.clickName = name;
-		this.jt_quoteTask = jt1;
-		this.jt_quoteProjec = jt2;
-		this.jt_inspection = jt3;
-	}
-
-	public HomeFrameAction(JTable jt_quoteTask) {
+	public HomeFrameAction(JTable jt_quoteTask, JTable jt_quoteProjec,
+			JTable jt_inspectionBatch, JTable jt_inspectionContent) {
 		this.jt_quoteTask = jt_quoteTask;
+		this.jt_quoteProjec = jt_quoteProjec;
+		this.jt_inspectionBatch = jt_inspectionBatch;
+		this.jt_inspectionContent = jt_inspectionContent;
 	}
 
-	public HomeFrameAction(JTable jt_quoteTask, JTextField jtf_queryTaskName) {
+	public HomeFrameAction(JTable jt_quoteTask,
+			JTable jt_quoteProjec, JTable jt_inspectionBatch, JTable jt_inspectionContent, String name) {
 		this.jt_quoteTask = jt_quoteTask;
-		this.jtf_queryTaskName = jtf_queryTaskName;
+		this.jt_quoteProjec = jt_quoteProjec;
+		this.jt_inspectionBatch = jt_inspectionBatch;
+		this.jt_inspectionContent = jt_inspectionContent;
+		this.clickName = name;
 	}
 
-	public HomeFrameAction(JTable jt_quoteTask, boolean isCreate) {
-
+	public HomeFrameAction(JTable jt_quoteTask, JTable jt_quoteProjec,
+			JTable jt_inspectionBatch, JTable jt_inspectionContent,
+			JTextField jtf_queryName) {
+		this.jt_quoteTask = jt_quoteTask;
+		this.jt_quoteProjec = jt_quoteProjec;
+		this.jt_inspectionBatch = jt_inspectionBatch;
+		this.jt_inspectionContent = jt_inspectionContent;
+		this.jtf_queryName = jtf_queryName;
 	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -86,7 +90,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		} else if ("deleteTask".equals(command)) {
 			deleteQuoteTask(jt_quoteTask);
 		} else if ("queryTask".equals(command)) {
-			queryQuotePrice(jt_quoteTask, jtf_queryTaskName);
+			queryQuotePrice(jt_quoteTask, jtf_queryName);
 		} else if ("updateTask".equals(command)) {
 			// 获取Table中被选中的行序号
 			int row = jt_quoteTask.getSelectedRow();
@@ -106,7 +110,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 创建检验批的时候判断是否有项目
-	 * 
+	 *
 	 * @param table
 	 */
 	private void haveProject(JTable table) {
@@ -130,7 +134,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 创建项目时判断是否有任务
-	 * 
+	 *
 	 * @param table
 	 */
 	private void haveTask(JTable table) {
@@ -154,15 +158,14 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 查询报价任务
-	 * 
+	 *
 	 * @param jt_quoteTask
 	 *            显示任务的列表
-	 * @param jtf_queryTaskName
+	 * @param jtf_queryName
 	 *            存放查询条件的任务名称
 	 */
-	private void queryQuotePrice(JTable jt_quoteTask,
-			JTextField jtf_queryTaskName) {
-		final String taskName = jtf_queryTaskName.getText();
+	private void queryQuotePrice(JTable jt_quoteTask, JTextField jtf_queryName) {
+		final String taskName = jtf_queryName.getText();
 		if (null != taskName && !"".equals(taskName)) {
 			new SwingWorker<List<QuoteTask>, Void>() {
 
@@ -213,7 +216,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 删除报价任务
-	 * 
+	 *
 	 * @param jt_quoteTask
 	 *            显示任务的列表
 	 */
@@ -381,7 +384,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					List<InspectionBatch> inspectionList = (List<InspectionBatch>) quoteMap
 							.get("quote_inspection");
 					if (null != inspectionList && inspectionList.size() > 0) {
-						DefaultTableModel model = (DefaultTableModel) jt_inspection
+						DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
 								.getModel();
 						// 清除模板数据
 						model.getDataVector().clear();
@@ -395,16 +398,16 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 							model.addRow(dataRow);
 						}
 
-						jt_inspection.setRowSelectionInterval(0, 0);// 选中第一行
+						jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
 					} else {
-						DefaultTableModel model = (DefaultTableModel) jt_inspection
+						DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
 								.getModel();
 						model.getDataVector().clear();
 						Vector<Object> rowData = new Vector<Object>();
 						rowData.add("");
 						rowData.add("请新建检验批");
 						model.addRow(rowData);
-						jt_inspection.setRowSelectionInterval(0, 0);// 选中第一行
+						jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -436,7 +439,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					inspectionList = get();
 
 					if (null != inspectionList && inspectionList.size() > 0) {
-						DefaultTableModel dtm = (DefaultTableModel) jt_inspection
+						DefaultTableModel dtm = (DefaultTableModel) jt_inspectionBatch
 								.getModel();
 						dtm.getDataVector().clear();
 						for (InspectionBatch inspectionBatch : inspectionList) {
@@ -449,16 +452,16 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 							dtm.addRow(dataRow);
 						}
 
-						jt_inspection.setRowSelectionInterval(0, 0);// 选中第一行
+						jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
 					} else {
-						DefaultTableModel model = (DefaultTableModel) jt_inspection
+						DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
 								.getModel();
 						model.getDataVector().clear();
 						Vector<Object> rowData = new Vector<Object>();
 						rowData.add("");
 						rowData.add("请新建检验批");
 						model.addRow(rowData);
-						jt_inspection.setRowSelectionInterval(0, 0);// 选中第一行
+						jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
 					}
 
 				} catch (InterruptedException e) {
