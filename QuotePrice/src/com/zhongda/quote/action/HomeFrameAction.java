@@ -136,8 +136,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * 删除检验内容
 	 * @param jt_inspectionContent
 	 */
-	private void deleteInspectionContent(JTable jt_inspectionContent) {
-		int row = jt_inspectionContent.getSelectedRow();
+	private void deleteInspectionContent(final JTable jt_inspectionContent) {
+		final int row = jt_inspectionContent.getSelectedRow();
 		if (row < 0) {
 			JOptionPane.showMessageDialog(null, "没有选中需要删除的检验内容,请选中后再进行删除操作！",
 					"提示信息", JOptionPane.WARNING_MESSAGE);
@@ -146,7 +146,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					"删除检验内容", JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
 
-				Integer contentId = (Integer) jt_inspectionContent.getValueAt(row, 0);
+				final Integer contentId = (Integer) jt_inspectionContent.getValueAt(row, 0);
 				//通过线程从数据库中获取该检验内容的ID
 				new SwingWorker<Integer, Void>(){
 					@Override
@@ -270,7 +270,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 *            显示任务的列表
 	 */
 
-	private void deleteQuoteTask(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+	private void deleteQuoteTask(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
 		// 获取Table中被选中的行序号
 		final int row = jt_quoteTask.getSelectedRow();
 		if (row < 0) {
@@ -374,7 +374,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 */
-	public void taskToProject(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+	public void taskToProject(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
 		new SwingWorker<Map<String, Object>, Void>() {
 
 			@Override
@@ -440,7 +440,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 */
-	public void projectToInspectionBatch(JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+	public void projectToInspectionBatch(final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
 		new SwingWorker<Map<String, Object>, Void>() {
 			@Override
 			protected Map<String, Object> doInBackground()
@@ -491,7 +491,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 */
-	public void inspectionBatchToContent(JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+	public void inspectionBatchToContent(final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
 		new SwingWorker<List<InspectionContent>, Void>() {
 			@Override
 			protected List<InspectionContent> doInBackground()

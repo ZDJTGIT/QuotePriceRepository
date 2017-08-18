@@ -49,7 +49,6 @@ public class LoginFrameAction implements ActionListener, FocusListener,
 	public LoginFrameAction(JFrame frame, JPasswordFieldUser passwordFieldUser) {
 		this.jFrame = frame;
 		this.passwordFieldUser = passwordFieldUser;
-		this.jFrame = frame;
 	}
 
 	/**
