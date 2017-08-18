@@ -134,8 +134,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	/**
 	 * 删除检验内容
 	 */
-	private void deleteInspectionContent(JTable jt_shareTable) {
-		int row = jt_shareTable.getSelectedRow();
+	private void deleteInspectionContent(final JTable jt_shareTable) {
+		final int row = jt_shareTable.getSelectedRow();
 		if (row < 0) {
 			JOptionPane.showMessageDialog(null, "没有选中需要删除的检验内容,请选中后再进行删除操作！",
 					"提示信息", JOptionPane.WARNING_MESSAGE);
@@ -143,7 +143,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			int flag = JOptionPane.showConfirmDialog(null, "确定删除该条检验内容？",
 					"删除检验内容", JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
-				Integer contentId = (Integer) jt_shareTable.getValueAt(row, 0);
+				final Integer contentId = (Integer) jt_shareTable.getValueAt(row, 0);
 				// 通过线程从数据库中获取该检验内容的ID
 				new SwingWorker<Integer, Void>() {
 
@@ -238,7 +238,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jtf_queryName
 	 *            存放查询条件的任务名称
 	 */
-	private void queryQuotePrice(JTable jt_quoteTask, JTextField jtf_queryName) {
+	private void queryQuotePrice(final JTable jt_quoteTask, JTextField jtf_queryName) {
 		final String taskName = jtf_queryName.getText();
 		if (null != taskName && !"".equals(taskName)) {
 			new SwingWorker<List<QuoteTask>, Void>() {
@@ -294,7 +294,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_quoteTask
 	 *            显示任务的列表
 	 */
-	private void deleteQuoteTask(JTable jt_shareTable) {
+	private void deleteQuoteTask(final JTable jt_shareTable) {
 		// 获取Table中被选中的行序号
 		final int row = jt_shareTable.getSelectedRow();
 		if (row < 0) {

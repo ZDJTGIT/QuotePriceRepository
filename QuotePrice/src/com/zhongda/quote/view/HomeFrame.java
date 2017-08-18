@@ -390,7 +390,8 @@ public class HomeFrame {
 		jp_center_up.add(jsp_center_up, BorderLayout.CENTER);
 
 		// 项目表
-		String[] projectHeadSt = { "序号", "项目名称", "行业", "项目地址", "其他费用", "项目总金额" };
+
+		final String[] projectHeadSt = { "序号", "项目名称", "行业", "项目地址", "其他费用", "项目总金额" };
 		jt_quoteProject = new MyTable(new int[] { 1, 2, 3, 4, 5 });
 		jsp_center_up.setViewportView(jt_quoteProject);
 
@@ -465,7 +466,7 @@ public class HomeFrame {
 		scrollPane = new JScrollPane();
 		jpanel_center_down.add(scrollPane, BorderLayout.CENTER);
 
-		String[] inspectionHeadName = { "序号", "检验批名称", "检验批总金额" };
+		final String[] inspectionHeadName = { "序号", "检验批名称", "检验批总金额" };
 		int[] inspectionNumber = { 1, 2 };
 		jt_inspectionBatch = new MyTable(inspectionNumber);
 		scrollPane.setViewportView(jt_inspectionBatch);
@@ -643,7 +644,7 @@ public class HomeFrame {
 		// 添加检验内容表
 		// 初始化列名
 		scrollPanemike = new JScrollPane();
-		Object contentColumnsName[] = { "序号", "检验内容名称", "抽样数量", "单个检验对象实施数量",
+		final Object contentColumnsName[] = { "序号", "检验内容名称", "抽样数量", "单个检验对象实施数量",
 				"收费标准" };
 
 		jt_inspectionContent = new JTable() {

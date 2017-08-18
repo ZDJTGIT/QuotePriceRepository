@@ -137,7 +137,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 
 	// 对省市区三级联动选项变化事件的处理，联动查询出下级地址渲染到界面下拉列表
 	private void provinceCityCountyLinkage(ItemEvent e,
-			JComboBox<Address> jcb_CityOrCounty) {
+			final JComboBox<Address> jcb_CityOrCounty) {
 		final Address address = (Address) e.getItem();
 		// 选中省时加载该省(市)下的所有市(区或县)
 		new SwingWorker<List<Address>, Address>() {
@@ -212,7 +212,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 								.getSelectedItem()).getId();
 						int addressId = ((Address) jcb_county.getSelectedItem())
 								.getId();
-						QuoteProject quoteProject = new QuoteProject(
+						final QuoteProject quoteProject = new QuoteProject(
 								projectName, taskId, industryId, addressPid,
 								addressId);
 						new SwingWorker<QuoteProject, Void>() {

@@ -220,7 +220,7 @@ public class CreatInspectionAction implements MouseMotionListener,
 	 * 搜索检测内容线程类
 	 */
 	private void searchSysInspectionContent() {
-		String filedContent = jField.getText().replace(" ", "");
+		final String filedContent = jField.getText().replace(" ", "");
 		if (null == filedContent || "".equals(filedContent)
 				|| "请输入检测内容".equals(filedContent)) {
 			JOptionPane.showMessageDialog(null, "请输入检测内容", "提示信息",
@@ -366,7 +366,7 @@ public class CreatInspectionAction implements MouseMotionListener,
 	 * 确认提交逻辑代码
 	 */
 	private void commitInspectio() {
-		InspectionBatch insBatch = new InspectionBatch();
+		final InspectionBatch insBatch = new InspectionBatch();
 		String inspectionBatchName = jtf_pname.getText().replace(" ", "");
 		if (null == inspectionBatchName && "".equals(inspectionBatchName)) {
 			JOptionPane.showMessageDialog(null, "请输入检验批名称", "提示信息",
