@@ -684,6 +684,13 @@ public class HomeFrame {
 		jt_inspectionContent.setModel(contentTableModel);
 		jt_inspectionContent.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_inspectionContent.getColumnModel().getColumn(0).setMaxWidth(0);
+		jt_inspectionContent.getColumnModel().getColumn(2)
+				.setPreferredWidth(50);
+		jt_inspectionContent.getColumnModel().getColumn(3)
+				.setPreferredWidth(120);
+		jt_inspectionContent.getColumnModel().getColumn(4)
+				.setPreferredWidth(50);
+
 		// 设置单行可被选中
 		jt_inspectionContent.getSelectionModel().setSelectionMode(
 				ListSelectionModel.SINGLE_SELECTION);

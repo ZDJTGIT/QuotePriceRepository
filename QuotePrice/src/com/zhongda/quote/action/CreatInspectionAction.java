@@ -58,6 +58,7 @@ public class CreatInspectionAction implements MouseMotionListener,
 	private Object[] objects;
 	private JTable jt_inspection;
 	private JPanel jp_inspection;
+	private Double icAmount = 0.00;
 
 	public CreatInspectionAction() {
 
@@ -77,11 +78,13 @@ public class CreatInspectionAction implements MouseMotionListener,
 	}
 
 	public CreatInspectionAction(JPanel panel, JTable jt_creatIns,
-			JTable jt_content, Vector<InspectionContent> creatInspectionNumber) {
+			JTable jt_content, Vector<InspectionContent> creatInspectionNumber,
+			JTextField jtf_money) {
 		this.panel = panel;
 		this.jt_creatIns = jt_creatIns;
 		this.jt_content = jt_content;
 		this.creatInspectionNumber = creatInspectionNumber;
+		this.jtf_money = jtf_money;
 	}
 
 	public CreatInspectionAction(JTextField jtf_project, JTextField jtf_pname,
@@ -314,14 +317,26 @@ public class CreatInspectionAction implements MouseMotionListener,
 					.getModel();
 			int maxNumber = creatIns.getRowCount() + 1;
 			Vector<Object> vector = new Vector<Object>();
+			int sample_quantity = (int) jt_content.getValueAt(
+					jt_content.getSelectedRow(), 4);
+			int single_object_quantity = (int) jt_content.getValueAt(
+					jt_content.getSelectedRow(), 7);
+			int charge_standard = (int) jt_content.getValueAt(
+					jt_content.getSelectedRow(), 9);
 			vector.add(jt_content.getValueAt(jt_content.getSelectedRow(), 0));
 			vector.add(maxNumber);
 			vector.add(jt_content.getValueAt(jt_content.getSelectedRow(), 1));
 			vector.add(jt_content.getValueAt(jt_content.getSelectedRow(), 2));
 			vector.add(jt_content.getValueAt(jt_content.getSelectedRow(), 6));
-			vector.add(jt_content.getValueAt(jt_content.getSelectedRow(), 7));
-			vector.add(jt_content.getValueAt(jt_content.getSelectedRow(), 4));
+			vector.add(single_object_quantity);
+			vector.add(sample_quantity);
+			vector.add(charge_standard);
+			double oneICAmount = sample_quantity * single_object_quantity
+					* charge_standard;
+			vector.add(oneICAmount);
 			panel.setVisible(false);
+			icAmount += oneICAmount;
+			jtf_money.setText(String.valueOf(icAmount));
 			creatIns.addRow(vector);
 			InspectionContent inspectionContent = new InspectionContent();
 			// "序号"0, "检测内容1", "抽样依据2", "抽样数量范围3", "抽样数量4",
@@ -368,7 +383,7 @@ public class CreatInspectionAction implements MouseMotionListener,
 	private void commitInspectio() {
 		final InspectionBatch insBatch = new InspectionBatch();
 		String inspectionBatchName = jtf_pname.getText().replace(" ", "");
-		if (null == inspectionBatchName && "".equals(inspectionBatchName)) {
+		if (null == inspectionBatchName || "".equals(inspectionBatchName)) {
 			JOptionPane.showMessageDialog(null, "请输入检验批名称", "提示信息",
 					JOptionPane.WARNING_MESSAGE);
 		} else {

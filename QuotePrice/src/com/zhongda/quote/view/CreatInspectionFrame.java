@@ -237,7 +237,7 @@ public class CreatInspectionFrame {
 		jt_creatIns = new JTable();
 
 		String[] tHead = { "id", "序号", "检测内容名称", "抽样依据", "单个检测实施数量的范围",
-				"单个检测实施对象的数量", "抽样数量", "自定义检测内容Id" };
+				"单个检测实施对象的数量", "抽样数量", "收费标准", "总金额", "自定义检测内容Id" };
 		// <<<<测试数据
 		Object[][] obj = {};
 		// >>>>>测试数据
@@ -258,10 +258,11 @@ public class CreatInspectionFrame {
 		jt_creatIns.getColumnModel().getColumn(1).setPreferredWidth(15);
 		jt_creatIns.getColumnModel().getColumn(2).setPreferredWidth(70);
 		jt_creatIns.getColumnModel().getColumn(3).setPreferredWidth(40);
-		jt_creatIns.getColumnModel().getColumn(4).setPreferredWidth(100);
+		jt_creatIns.getColumnModel().getColumn(4).setPreferredWidth(120);
 		jt_creatIns.getColumnModel().getColumn(5).setPreferredWidth(130);
-		jt_creatIns.getColumnModel().getColumn(7).setMinWidth(0);
-		jt_creatIns.getColumnModel().getColumn(7).setMaxWidth(0);
+		jt_creatIns.getColumnModel().getColumn(8).setPreferredWidth(50);
+		jt_creatIns.getColumnModel().getColumn(9).setMinWidth(0);
+		jt_creatIns.getColumnModel().getColumn(9).setMaxWidth(0);
 
 		scrollPane.setViewportView(jt_creatIns);
 
@@ -310,7 +311,7 @@ public class CreatInspectionFrame {
 		dialog.getLayeredPane().add(jp_search, new Integer(Integer.MAX_VALUE));
 		// 搜索结果面板鼠标事件
 		jt_content.addMouseListener(new CreatInspectionAction(jp_search,
-				jt_creatIns, jt_content, creatInspectionNumber));
+				jt_creatIns, jt_content, creatInspectionNumber, jtf_money));
 
 		jbt_yes.addActionListener(new CreatInspectionAction(jtf_project,
 				jtf_pname, jt_creatIns, jtf_money, creatInspectionNumber,

@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.zhongda.quote.machine.impl.SequenceServiceImpl;
 import com.zhongda.quote.utils.MachineKeyUtil;
@@ -122,10 +123,10 @@ public class LoginFrameAction implements ActionListener, FocusListener,
 
 	public void login() {
 		// ***********为方便测试，机器码功能暂时注释
-		 String machineSerial = SequenceServiceImpl.getMachineCode();
-		 String machineKey = MachineKeyUtil.getMachineKey(machineSerial);
-		 String pwd = new String(passwordFieldUser.getPassword());
-		 if (machineKey.equals(pwd)) {
+		// String machineSerial = SequenceServiceImpl.getMachineCode();
+		// String machineKey = MachineKeyUtil.getMachineKey(machineSerial);
+		// String pwd = new String(passwordFieldUser.getPassword());
+		// if (machineKey.equals(pwd)) {
 		jFrame.dispose();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -141,8 +142,7 @@ public class LoginFrameAction implements ActionListener, FocusListener,
 		// // 机器码与解码值不匹配
 		// JOptionPane.showMessageDialog(null, "解码值不正确或为授权!", "操作提醒",
 		// JOptionPane.PLAIN_MESSAGE);
-		 }
-		// ***********为方便测试，机器码功能暂时注释
+		// }
+		// // ***********为方便测试，机器码功能暂时注释
 	}
-
 }

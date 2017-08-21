@@ -209,7 +209,6 @@ public class CreateProjectFrame {
 
 		jtf_po = new JTextField();
 		jtf_po.setBounds(26, 440, 445, 25);
-		jtf_po.setEnabled(false);
 		jPanel.add(jtf_po);
 		jtf_po.setColumns(10);
 
