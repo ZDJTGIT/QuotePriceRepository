@@ -195,7 +195,7 @@ public class CreateContentFrame {
 				jt_inspectionContent, inspectionid, jaDialog, tab_viw));
 		btnNewButton_no.setActionCommand("no");
 		btnNewButton_sertch.setActionCommand("sertch");
-		btnNewButton_sertch.addActionListener(new CreateContentAction());
+		btnNewButton_sertch.addActionListener(new CreateContentAction(textField,tab_viw));
 
 	}
 }

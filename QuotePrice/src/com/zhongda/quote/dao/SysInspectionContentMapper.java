@@ -28,7 +28,14 @@ public interface SysInspectionContentMapper {
 	
 	/**
 	 * 查询所有未添加的系统检验内容
-	 * @return
+	 * @return SysInspectionContent
 	 */
 	List<SysInspectionContent> selectAllSysInspectionContent(Integer batchID);
+	
+	/**
+	 * 根据用户输入的关键字查询所有匹配的选项
+	 * @param blurryString
+	 * @return SysInspectionContent
+	 */
+	List<SysInspectionContent> selectAllBlurrySysInspectionContent(String blurryString);
 }

@@ -20,4 +20,11 @@ public interface SysInspectionContentService {
 	 * @return
 	 */
 	List<SysInspectionContent> selectSysInspectionContent(Integer batchID);
+	
+	/**
+	 * 根据用户输入的关键字查询所有匹配的选项
+	 * @param blurryString
+	 * @return SysInspectionContent
+	 */
+	List<SysInspectionContent> selectAllBlurrySysInspectionContent(String blurryString);
 }

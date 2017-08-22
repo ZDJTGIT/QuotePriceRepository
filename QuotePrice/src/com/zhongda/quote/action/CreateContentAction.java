@@ -2,6 +2,7 @@ package com.zhongda.quote.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
@@ -13,7 +14,9 @@ import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
 import com.zhongda.quote.model.InspectionContent;
+import com.zhongda.quote.model.SysInspectionContent;
 import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
+import com.zhongda.quote.service.impl.SysInspectionContenServiceImpl;
 
 public class CreateContentAction implements ActionListener {
 
@@ -28,16 +31,18 @@ public class CreateContentAction implements ActionListener {
 	public CreateContentAction() {
 
 	}
+	
+	public CreateContentAction(JTextField textField, JTable tab_viw) {
+		this.textField = textField;
+		this.tab_viw = tab_viw;
+	}
 
 	public CreateContentAction(JDialog jaDialog) {
 		this.jaDialog = jaDialog;
 	}
 
-	public CreateContentAction(JTextField textField) {
-		this.textField = textField;
-	}
-	
-	public CreateContentAction(JTable jt_inspectionContent, Integer inspectionid, JDialog jaDialog, JTable tab_viw) {
+	public CreateContentAction(JTable jt_inspectionContent, Integer inspectionid
+			, JDialog jaDialog, JTable tab_viw) {
 		this.jt_inspectionContent = jt_inspectionContent;
 		this.jaDialog = jaDialog;
 		this.inspectionid = inspectionid;
@@ -70,7 +75,6 @@ public class CreateContentAction implements ActionListener {
 			inspectionContent = new InspectionContent(object);
 		    //系统默认数据和计算生成数据
 			inspectionContent.setSourceId((Integer)tab_viw.getValueAt(num, 0));
-			System.out.println((Integer)tab_viw.getValueAt(num, 0));
 			inspectionContent.setChargeStandardUnit("元");
 			inspectionContent.setBatchId(inspectionid);
 			//给定算法传入总金额
@@ -123,8 +127,46 @@ public class CreateContentAction implements ActionListener {
 				jaDialog.dispose();
 			}//添加模糊查询操作
 		}else if("sertch".equals(command)){
-			JOptionPane.showMessageDialog(null, "当前内容过少，无需查找！！！", "提示信息",
-					JOptionPane.WARNING_MESSAGE);
+			//根据传入的字符串做模糊查询，查出的数据展示到表中
+			new SwingWorker <List<SysInspectionContent>, SysInspectionContent> () {
+				@Override
+				protected List<SysInspectionContent> doInBackground()
+						throws Exception {
+					return new SysInspectionContenServiceImpl()
+					.selectAllBlurrySysInspectionContent(textField.getText());
+				}
+				protected void done() {
+					try {
+						List<SysInspectionContent> sysInspectionContent = get();
+						if(null == sysInspectionContent){
+							JOptionPane.showMessageDialog(null, "查询结果不存在！", "提示信息",
+									JOptionPane.WARNING_MESSAGE);
+						}else{
+							DefaultTableModel model = (DefaultTableModel) tab_viw
+									.getModel();
+							model.setRowCount(0);
+							for (SysInspectionContent sic : sysInspectionContent) {
+								Vector<Object> dataRow = new Vector<Object>();
+								dataRow.add(sic.getId());
+								dataRow.add(sic.getInspectionContentName());
+								dataRow.add(sic.getSampleBasicId());
+								dataRow.add(sic.getSampleQuantityRange());
+								dataRow.add(sic.getSampleQuantity());
+								dataRow.add(sic.getQuoteBasisId());
+								dataRow.add(sic.getSingleQuantityRange());
+								dataRow.add(sic.getSingleObjectQuantity());
+								dataRow.add(sic.getChargeUnit());
+								dataRow.add(sic.getChargeStandard());
+								model.addRow(dataRow);
+								tab_viw.setRowSelectionInterval(0, 0);// 选中第一行
+							}
+						}
+					} catch (InterruptedException | ExecutionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}.execute();
 		}
 	}
 

@@ -48,6 +48,20 @@ public class SysInspectionContenServiceImpl implements
 		}
 		return sysInspectionContent;
 	}
+
+	@Override
+	public List<SysInspectionContent> selectAllBlurrySysInspectionContent(
+			String blurryString) {
+		List<SysInspectionContent> sysInspectionContent = null;
+		try {
+			sysInspectionContent = sysInsContentMapper.selectAllBlurrySysInspectionContent(blurryString);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return sysInspectionContent;
+	}
 	
 
 }
