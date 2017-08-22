@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,6 +23,7 @@ public class CreateContentAction implements ActionListener {
 	private Integer inspectionid;
 	// 添加添加检验内容表
 	private JTable tab_viw;
+	private JTextField textField;
 
 	public CreateContentAction() {
 
@@ -31,6 +33,10 @@ public class CreateContentAction implements ActionListener {
 		this.jaDialog = jaDialog;
 	}
 
+	public CreateContentAction(JTextField textField) {
+		this.textField = textField;
+	}
+	
 	public CreateContentAction(JTable jt_inspectionContent, Integer inspectionid, JDialog jaDialog, JTable tab_viw) {
 		this.jt_inspectionContent = jt_inspectionContent;
 		this.jaDialog = jaDialog;
