@@ -33,6 +33,7 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 		return contentList;
 	}
 
+	//插入一天检验内容，如果插入成功，返回当前插入的检验内容
 	@Override
 	public InspectionContent createInspectionContent(
 			InspectionContent inspectionContent) {
@@ -41,6 +42,7 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 					.insertSelective(inspectionContent);
 			sqlSession.commit();
 			if (index > 0) {
+				//添加实时更新原理
 				inspectionContent = inspectionContentMapper
 						.selectInspectionContentByMaxId();
 			}

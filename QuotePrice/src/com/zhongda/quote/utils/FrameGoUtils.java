@@ -2,6 +2,7 @@ package com.zhongda.quote.utils;
 
 import java.awt.EventQueue;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
@@ -10,6 +11,7 @@ import com.zhongda.quote.view.CreatInspectionFrame;
 import com.zhongda.quote.view.CreateContentFrame;
 import com.zhongda.quote.view.CreateProjectFrame;
 import com.zhongda.quote.view.CreateTaskFrame;
+import com.zhongda.quote.view.ModifyContentFrame;
 
 /**
  *
@@ -46,12 +48,25 @@ public class FrameGoUtils {
 	 * 创建新增检验内容窗口
 	 * @param jTable
 	 */
-	public static void createContent(final Integer inspectionid,final JTable jt_inspectionContent, final boolean isCreate){
+	public static void createContent(final Integer inspectionid,final JTable jt_inspectionContent){
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreateContentFrame window = new CreateContentFrame(inspectionid,jt_inspectionContent);
+					window.jaDialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	public static void modifyContent(final JTable jt_inspectionContent){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					//传入一个检验批ID作为显示的内容的依据
-					CreateContentFrame window = new CreateContentFrame(inspectionid,jt_inspectionContent, isCreate);
+					ModifyContentFrame window = new ModifyContentFrame( jt_inspectionContent);
 					window.jaDialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

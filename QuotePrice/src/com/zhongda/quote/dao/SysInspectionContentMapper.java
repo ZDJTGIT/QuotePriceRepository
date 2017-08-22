@@ -5,6 +5,7 @@ import java.util.List;
 import com.zhongda.quote.model.SysInspectionContent;
 
 public interface SysInspectionContentMapper {
+	
 	int deleteByPrimaryKey(Integer id);
 
 	int insert(SysInspectionContent record);
@@ -24,4 +25,10 @@ public interface SysInspectionContentMapper {
 	 * @return
 	 */
 	List<SysInspectionContent> selectByName(String name);
+	
+	/**
+	 * 查询所有未添加的系统检验内容
+	 * @return
+	 */
+	List<SysInspectionContent> selectAllSysInspectionContent(Integer batchID);
 }

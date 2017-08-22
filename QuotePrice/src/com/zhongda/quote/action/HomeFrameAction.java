@@ -110,14 +110,13 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		} else if ("createContent".equals(command)) {
 			int row = jt_inspectionBatch.getSelectedRow();
 			if (row < 0) {
-				JOptionPane.showMessageDialog(null, "请选择一个检验批创建检验内容！", "提示信息",
+				JOptionPane.showMessageDialog(null, "请选择一个检验批添加检验内容！", "提示信息",
 						JOptionPane.WARNING_MESSAGE);
 			} else {
 				// 获取当前检验批ID，新建时传入检验批ID作为打开的“钥匙”
 				Integer inspectionid = (Integer) jt_inspectionBatch.getValueAt(
 						row, 0);
-				FrameGoUtils.createContent(inspectionid, jt_inspectionContent,
-						true);
+				FrameGoUtils.createContent(inspectionid, jt_inspectionContent);
 			}
 		} else if ("deleteContent".equals(command)) {
 			deleteInspectionContent(jt_inspectionContent);
@@ -127,8 +126,11 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				JOptionPane.showMessageDialog(null, "请选择需要修改的检验内容！", "提示信息",
 						JOptionPane.WARNING_MESSAGE);
 			} else {
-				FrameGoUtils.createContent(null, jt_inspectionContent, false);
+				FrameGoUtils.modifyContent(jt_inspectionContent);
 			}
+		}else if("Forbidden".equals(command)){
+			JOptionPane.showMessageDialog(null, "当前内容过少，无需查找！！！", "提示信息",
+					JOptionPane.WARNING_MESSAGE);
 		}
 	}
 

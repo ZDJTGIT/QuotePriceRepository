@@ -29,17 +29,34 @@ public class InspectionContent {
 
     private Double inspectionContentAmount;
     
+    private Object[] objects;
+    
     public InspectionContent(){
     	
     }
 
     public InspectionContent(String inspectionContentName, Integer sampleQuantity,
-			Integer singleObjectQuantity, Integer chargeStandard) {
+    		Integer singleObjectQuantity, Integer chargeStandard) {
 		this.inspectionContentName = inspectionContentName;
 		this.sampleQuantity = sampleQuantity;
 		this.singleObjectQuantity = singleObjectQuantity;
 		this.chargeStandard = chargeStandard;
 	}
+    
+    public InspectionContent(Object[] objects){
+    	this.objects = objects;
+    	 inspectionContentName = (String) objects[0];
+    	 sampleBasisId = (Integer) objects[1];
+    	 sampleQuantityRange = (String) objects[2];
+    	 sampleQuantity = (Integer) objects[3];
+    	 quoteBasisId = (Integer) objects[4];
+    	 singleQuantityRange = (String) objects[5];
+    	 singleObjectQuantity = (Integer) objects[6];
+    	 chargeUnit = (String) objects[7];
+    	 chargeStandard = (Integer) objects[8];
+    	
+    	
+    }
 
 	public Integer getId() {
         return id;

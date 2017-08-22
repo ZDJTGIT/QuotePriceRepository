@@ -144,5 +144,6 @@ public class LoginFrameAction implements ActionListener, FocusListener,
 		// JOptionPane.PLAIN_MESSAGE);
 		// }
 		// // ***********为方便测试，机器码功能暂时注释
+
 	}
 }

@@ -35,4 +35,19 @@ public class SysInspectionContenServiceImpl implements
 		return contentList;
 	}
 
+	//从系统中获得所有未添加的检验内容
+	@Override
+	public List<SysInspectionContent> selectSysInspectionContent(Integer batchID) {
+		List<SysInspectionContent> sysInspectionContent = null;
+		try {
+			sysInspectionContent = sysInsContentMapper.selectAllSysInspectionContent(batchID);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return sysInspectionContent;
+	}
+	
+
 }

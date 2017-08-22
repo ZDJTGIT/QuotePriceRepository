@@ -33,6 +33,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import com.zhongda.quote.action.CreateContentAction;
 import com.zhongda.quote.action.HomeFrameAction;
 import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.InspectionContent;
@@ -513,6 +514,8 @@ public class HomeFrame {
 		jbt_queryContent.setIcon(new ImageIcon("images/find.png"));
 		jbt_queryContent.setToolTipText("查找");
 		jbt_queryContent.setFocusPainted(false);// 去除按钮边线
+		jbt_queryContent.setActionCommand("Forbidden");
+		jbt_queryContent.addActionListener(new HomeFrameAction());
 		jtb_right_jcnr.add(jbt_queryContent);
 
 		jbt_queryContent_next = new JButton();
@@ -828,14 +831,14 @@ public class HomeFrame {
 		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(null,
 				jt_quoteProject, jt_inspectionBatch, null));
 
-		// 添加创建检验内容事件
+		// 添加添加检验内容事件
 		jbt_createContent.setActionCommand("createContent");
 		jbt_createContent.addActionListener(new HomeFrameAction(null, null,
 				jt_inspectionBatch, jt_inspectionContent));
 		// 添加修改检验内容事件
 		jbt_updateContent.setActionCommand("updateContent");
 		jbt_updateContent.addActionListener(new HomeFrameAction(null, null,
-				null, jt_inspectionContent));
+				jt_inspectionBatch, jt_inspectionContent));
 		// 添加删除检验内容事件
 		jbt_deleteContent.setActionCommand("deleteContent");
 		jbt_deleteContent.addActionListener(new HomeFrameAction(null, null,

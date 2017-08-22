@@ -14,4 +14,10 @@ public interface SysInspectionContentService {
 	 */
 	List<SysInspectionContent> querySysInspectionContentByContentName(
 			String contentName);
+	
+	/**
+	 * 查询所有未添加的系统检测内容
+	 * @return
+	 */
+	List<SysInspectionContent> selectSysInspectionContent(Integer batchID);
 }

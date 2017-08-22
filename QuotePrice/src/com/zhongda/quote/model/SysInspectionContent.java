@@ -3,29 +3,29 @@ package com.zhongda.quote.model;
 public class SysInspectionContent {
 	private Integer id;
 
-	private String inspectionContentName;
+	private String inspectionContentName;//1
 
 	private Integer industryId;
 
 	private Integer addressId;
 
-	private Integer sampleQuantity;
+	private Integer sampleQuantity;//4
 
-	private String sampleQuantityRange;
+	private String sampleQuantityRange;//3
 
-	private Integer sampleBasicId;
+	private Integer sampleBasicId;//2
 
-	private Integer singleObjectQuantity;
+	private Integer singleObjectQuantity;//7
 
-	private String singleQuantityRange;
+	private String singleQuantityRange;//6
 
-	private String chargeUnit;
+	private String chargeUnit;//8
 
-	private Integer chargeStandard;
+	private Integer chargeStandard;//9
 
 	private String chargeStandardUnit;
 
-	private Integer quoteBasisId;
+	private Integer quoteBasisId;//5
 
 	private QuoteBasis quoteBasis;
 
