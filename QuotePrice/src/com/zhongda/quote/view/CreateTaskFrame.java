@@ -40,8 +40,6 @@ public class CreateTaskFrame {
 	private JTextField jtf_createUser;
 	private JButton bt_confirm;
 	private JButton bt_cancel;
-	// 主界面报价任务的引用
-	private JTable jt_quoteTask;
 	private JPanel panel;
 	private JPanel panel_1;
 	private JLabel lblNewLabel;
@@ -52,6 +50,11 @@ public class CreateTaskFrame {
 	private JTextArea jta_taskDescription;
 	private JSeparator separator_1;
 	private JTextField jtf_date;
+	// 主界面报价任务的引用
+	private JTable jt_quoteTask;
+	private JTable jt_quoteProject;
+	private JTable jt_inspectionBatch;
+	private JTable jt_inspectionContent;
 	private boolean isCreate;
 
 	/**
@@ -62,8 +65,11 @@ public class CreateTaskFrame {
 
 	}
 
-	public CreateTaskFrame(JTable jt_quoteTask, boolean isCreate) {
+	public CreateTaskFrame(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent, boolean isCreate) {
 		this.jt_quoteTask = jt_quoteTask;
+		this.jt_quoteProject = jt_quoteProject;
+		this.jt_inspectionBatch = jt_inspectionBatch;
+		this.jt_inspectionContent = jt_inspectionContent;
 		this.isCreate = isCreate;
 		init();
 	}
@@ -175,7 +181,7 @@ public class CreateTaskFrame {
 		// 添加确认按钮事件
 		bt_confirm.setActionCommand("confirmCreateTask");
 		bt_confirm.addActionListener(new CreateTaskFrameAction(jtf_taskName,
-				jtf_createUser, jtf_date, jta_taskDescription, jt_quoteTask, jDialog, isCreate));
+				jtf_createUser, jtf_date, jta_taskDescription, jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent, jDialog, isCreate));
 		//如果是修改报价任务，则填充需修改的值
 		if(!isCreate){
 			lblNewLabel.setText("修改任务");

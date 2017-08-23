@@ -24,6 +24,7 @@ import com.zhongda.quote.service.impl.InspectionBatchServiceImpl;
 import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
+import com.zhongda.quote.utils.ConstantUtils;
 import com.zhongda.quote.utils.FrameGoUtils;
 import com.zhongda.quote.utils.RenderDataUtils;
 
@@ -88,7 +89,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		String command = e.getActionCommand();
 		// 如果command为创建任务，则打开创建任务窗口
 		if ("createTask".equals(command)) {
-			FrameGoUtils.creatTask(jt_quoteTask, true);
+			FrameGoUtils.creatTask(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent, true);
 		} else if ("deleteTask".equals(command)) {
 			deleteQuoteTask(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 		} else if ("queryTask".equals(command)) {
@@ -101,12 +102,16 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 						"没有选中需要修改的报价任务,请选中后再进行修改操作！", "提示信息",
 						JOptionPane.WARNING_MESSAGE);
 			} else {
-				FrameGoUtils.creatTask(jt_quoteTask, false);
+				FrameGoUtils.creatTask(jt_quoteTask, null, null, null, false);
 			}
-		} else if ("creatProject".equals(command)) {
-			haveTask(jt_quoteTask);
-		} else if ("addInspection".equals(command)) {
-			haveProject(jt_quoteProject, jt_inspectionBatch);
+		} else if ("createProject".equals(command)) {
+			createFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent, ConstantUtils.PROJECT);
+		} else if ("deleteProject".equals(command)) {
+			deleteQuoteProject(jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
+		} else if ("createInspectionBatch".equals(command)) {
+			createFrame(null, jt_quoteProject, jt_inspectionBatch, null, ConstantUtils.BATCH);
+		} else if ("deleteInspectionBatch".equals(command)) {
+			deleteInspectionBatch(jt_inspectionBatch, jt_inspectionContent);
 		} else if ("createContent".equals(command)) {
 			int row = jt_inspectionBatch.getSelectedRow();
 			if (row < 0) {
@@ -130,6 +135,72 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			}
 		}else if("Forbidden".equals(command)){
 			JOptionPane.showMessageDialog(null, "当前内容过少，无需查找！！！", "提示信息",
+					JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
+
+	/**
+	 * 创建项目，检验批或检验内容的时候判断是否有上级存在，有则打开创建窗口，没有则给出提示信息
+	 * @param jt_parentTable 父级Table
+	 * @param jt_childTable 子级Table
+	 */
+	private void createFrame(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent, String frameName) {
+		if(ConstantUtils.PROJECT.equals(frameName)){ //创建项目
+			int row = jt_quoteTask.getSelectedRow();
+			if (row < 0) {
+				JOptionPane.showMessageDialog(null, "请选中"+frameName, "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			} else{
+				FrameGoUtils.createProject(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
+			}
+		}else if(ConstantUtils.BATCH.equals(frameName)){ //创建检验批
+			int row = jt_quoteProject.getSelectedRow();
+			if (row < 0) {
+				JOptionPane.showMessageDialog(null, "请选中"+frameName, "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			} else{
+				FrameGoUtils.createBatch(jt_quoteProject, jt_inspectionBatch);
+			}
+		}else{ //创建检验内容
+			int row = jt_inspectionBatch.getSelectedRow();
+			if (row < 0) {
+				JOptionPane.showMessageDialog(null, "请选中"+frameName, "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			} else{
+//				FrameGoUtils.createContent(jt_inspectionBatch, jt_inspectionContent, true);
+			}
+		}
+	}
+
+	/**
+	 * 查询报价任务
+	 * @param jt_quoteTask
+	 * @param jtf_queryName 存放查询条件的任务名称
+	 */
+	private void queryQuotePrice(final JTable jt_quoteTask, JTextField jtf_queryName) {
+		final String taskName = jtf_queryName.getText();
+		if (null != taskName && !"".equals(taskName)) {
+			new SwingWorker<List<QuoteTask>, Void>() {
+				@Override
+				protected List<QuoteTask> doInBackground() throws Exception {
+					return new QuoteTaskServiceImpl()
+							.queryQuoteTaskByName(taskName);
+				}
+				protected void done() {
+					List<QuoteTask> taskList = null;
+					try {
+						taskList = get();
+						RenderDataUtils.renderTaskData(jt_quoteTask, taskList);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+				};
+			}.execute();
+		} else {
+			JOptionPane.showMessageDialog(null, "请填写任务名称！", "提示信息",
 					JOptionPane.WARNING_MESSAGE);
 		}
 	}
@@ -187,91 +258,118 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	}
 
 	/**
-	 * 创建检验批的时候判断是否有项目
-	 * @param jt_quoteProjec
+	 * 删除检验批
 	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
 	 */
-	private void haveProject(JTable jt_quoteProjec, JTable jt_inspectionBatch) {
-		String name = null;
-		int row = -1;
-		row = jt_quoteProjec.getSelectedRow();
-		if (row <= -1) {
-			JOptionPane.showMessageDialog(null, "请选中项目", "提示信息",
-					JOptionPane.WARNING_MESSAGE);
-		} else if (row > -1) {
-			name = (String) jt_quoteProjec.getValueAt(row, 1);
-			if ("请新建项目".equals(name) || name == null) {
-				JOptionPane.showMessageDialog(null, "请先创建项目", "提示信息",
-						JOptionPane.WARNING_MESSAGE);
-			} else {
-				FrameGoUtils
-						.creatInspection(jt_quoteProjec, jt_inspectionBatch);
-			}
-		}
-
-	}
-
-	/**
-	 * 创建项目时判断是否有任务
-	 * @param table
-	 */
-	private void haveTask(JTable table) {
-		String name = null;
-		int row = -1;
-		row = table.getSelectedRow();
-		if (row <= -1) {
-			JOptionPane.showMessageDialog(null, "请选中项目", "提示信息",
-					JOptionPane.WARNING_MESSAGE);
-		} else if (row > -1) {
-			name = (String) jt_quoteTask.getValueAt(row, 1);
-			if ("请新建项目".equals(name) || name == null) {
-				JOptionPane.showMessageDialog(null, "请先创建项目", "提示信息",
-						JOptionPane.WARNING_MESSAGE);
-			} else {
-				FrameGoUtils.creatProject(table);
-			}
-		}
-
-	}
-
-	/**
-	 * 查询报价任务
-	 * @param jt_quoteTask
-	 * @param jtf_queryName 存放查询条件的任务名称
-	 */
-	private void queryQuotePrice(final JTable jt_quoteTask, JTextField jtf_queryName) {
-		final String taskName = jtf_queryName.getText();
-		if (null != taskName && !"".equals(taskName)) {
-			new SwingWorker<List<QuoteTask>, Void>() {
-				@Override
-				protected List<QuoteTask> doInBackground() throws Exception {
-					return new QuoteTaskServiceImpl()
-							.queryQuoteTaskByName(taskName);
-				}
-				protected void done() {
-					List<QuoteTask> taskList = null;
-					try {
-						taskList = get();
-						RenderDataUtils.renderTaskData(jt_quoteTask, taskList);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					} catch (ExecutionException e) {
-						e.printStackTrace();
-					}
-				};
-			}.execute();
+	private void deleteInspectionBatch(JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+		// 获取Table中被选中的行序号
+		final int row = jt_inspectionBatch.getSelectedRow();
+		if (row < 0) {
+			JOptionPane.showMessageDialog(null, "没有选中需要删除的检验批,请选中后再进行删除操作！",
+					"提示信息", JOptionPane.WARNING_MESSAGE);
 		} else {
-			JOptionPane.showMessageDialog(null, "请填写任务名称！", "提示信息",
-					JOptionPane.WARNING_MESSAGE);
+			int flag = JOptionPane.showConfirmDialog(null,
+					"点击确认按钮，将会删除所选中的检验批，包括检验批的所有检验内容，是否确认删除？", "删除报价项目",
+					JOptionPane.OK_OPTION);
+			if (flag == JOptionPane.OK_OPTION) {
+				Object value = jt_inspectionBatch.getValueAt(row, 0);
+				final Integer id = Integer.valueOf(String.valueOf(value));
+				// 启动任务线程删除选中报价项目
+				new SwingWorker<Boolean, Void>() {
+					protected Boolean doInBackground() throws Exception {
+						return new InspectionBatchServiceImpl().deleteInspectionBatch(id);
+					}
+
+					protected void done() {
+						try {
+							boolean flag = get();
+							if (flag) {
+								JOptionPane.showMessageDialog(null,
+										"检验批删除成功！", "提示信息",
+										JOptionPane.PLAIN_MESSAGE);
+
+								DefaultTableModel model = (DefaultTableModel) jt_quoteProject
+										.getModel();
+								model.removeRow(row);
+								jt_quoteProject.setRowSelectionInterval(0, 0);
+								//重新渲染所有数据
+								inspectionBatchToContent(jt_inspectionBatch, jt_inspectionContent);
+							} else {
+								JOptionPane.showMessageDialog(null,
+										"检验批删除失败！", "提示信息",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						} catch (InterruptedException | ExecutionException e) {
+							e.printStackTrace();
+						}
+					};
+				}.execute();
+			}
+		}
+	}
+
+	/**
+	 * 删除报价项目
+	 * @param jt_quoteProject
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
+	 */
+	private void deleteQuoteProject(JTable jt_quoteProject, JTable jt_inspectionBatch,
+			JTable jt_inspectionContent) {
+		// 获取Table中被选中的行序号
+		final int row = jt_quoteProject.getSelectedRow();
+		if (row < 0) {
+			JOptionPane.showMessageDialog(null, "没有选中需要删除的报价项目,请选中后再进行删除操作！",
+					"提示信息", JOptionPane.WARNING_MESSAGE);
+		} else {
+			int flag = JOptionPane.showConfirmDialog(null,
+					"点击确认按钮，将会删除所选中的报价项目，包括报价任务下的所有检验批以及检验内容，是否确认删除？", "删除报价项目",
+					JOptionPane.OK_OPTION);
+			if (flag == JOptionPane.OK_OPTION) {
+				Object value = jt_quoteProject.getValueAt(row, 0);
+				final Integer id = Integer.valueOf(String.valueOf(value));
+				// 启动任务线程删除选中报价项目
+				new SwingWorker<Boolean, Void>() {
+					protected Boolean doInBackground() throws Exception {
+						return new QuoteProjectServiceImpl().deleteQuoteProject(id);
+					}
+
+					protected void done() {
+						try {
+							boolean flag = get();
+							if (flag) {
+								JOptionPane.showMessageDialog(null,
+										"报价项目删除成功！", "提示信息",
+										JOptionPane.PLAIN_MESSAGE);
+
+								DefaultTableModel model = (DefaultTableModel) jt_quoteProject
+										.getModel();
+								model.removeRow(row);
+								jt_quoteProject.setRowSelectionInterval(0, 0);
+								//重新渲染所有数据
+								projectToInspectionBatch(jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
+							} else {
+								JOptionPane.showMessageDialog(null,
+										"报价项目删除失败！", "提示信息",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						} catch (InterruptedException | ExecutionException e) {
+							e.printStackTrace();
+						}
+					};
+				}.execute();
+			}
 		}
 	}
 
 	/**
 	 * 删除报价任务
 	 * @param jt_quoteTask
-	 *            显示任务的列表
+	 * @param jt_quoteProject
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
 	 */
-
 	private void deleteQuoteTask(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
 		// 获取Table中被选中的行序号
 		final int row = jt_quoteTask.getSelectedRow();
@@ -303,6 +401,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 										.getModel();
 								model.removeRow(row);
 								jt_quoteTask.setRowSelectionInterval(0, 0);
+								//重新渲染所有数据
 								taskToProject(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 							} else {
 								JOptionPane.showMessageDialog(null,

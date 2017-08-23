@@ -6,8 +6,18 @@ import com.zhongda.quote.model.InspectionBatch;
 
 public interface InspectionBatchMapper {
 
+	/**
+	 * 删除指定id的检验批
+	 * @param id
+	 * @return
+	 */
 	int deleteByPrimaryKey(Integer id);
 
+	/**
+	 * 插入一条检验批
+	 * @param record
+	 * @return
+	 */
 	int insert(InspectionBatch record);
 
 	int insertSelective(InspectionBatch record);
@@ -20,14 +30,14 @@ public interface InspectionBatchMapper {
 
 	/**
 	 * 查询检验批通过项目ID
-	 * 
+	 *
 	 * @return
 	 */
 	List<InspectionBatch> selectByProjectNumber(int id);
 
 	/**
 	 * 查询最大Id的检验批
-	 * 
+	 *
 	 * @param maxId
 	 * @return
 	 */

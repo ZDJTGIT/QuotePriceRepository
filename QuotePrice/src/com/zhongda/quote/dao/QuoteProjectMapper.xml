@@ -9,7 +9,7 @@
     <result column="address_pid" jdbcType="INTEGER" property="addressPid" />
     <result column="task_id" jdbcType="INTEGER" property="taskId" />
     <result column="project_amount" jdbcType="FLOAT" property="projectAmount" />
-    <result column="other_amout" jdbcType="FLOAT" property="otherAmout" />
+    <result column="other_amount" jdbcType="FLOAT" property="otherAmount" />
     <association property="industry" javaType="Industry">
        <id column="id" jdbcType="INTEGER" property="id" />
        <result column="industry_name" jdbcType="VARCHAR" property="industryName" />
@@ -25,7 +25,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, project_name, industry_id, address_id, address_pid, task_id, project_amount,
-    other_amout
+    other_amount
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -37,13 +37,13 @@
   	select
   	qp.*, i.*, a.*
   	from QuoteProject qp, Industry i, Address a
-  	where qp.industry_id = i.id and qp.address_id = a.id and task_id = #{taskId,jdbcType=INTEGER}
+  	where qp.industry_id = i.id and qp.address_id = a.id and qp.task_id = #{taskId,jdbcType=INTEGER}
   </select>
   <select id="selectMaxProjectId" resultMap="BaseResultMap">
   	select
-    <include refid="Base_Column_List" />
-    from QuoteProject 
-    where id = (select max(id) from QuoteProject)
+    qp.*, i.*, a.*
+   from QuoteProject qp, Industry i, Address a
+    where qp.industry_id = i.id and qp.address_id = a.id and qp.id = (select max(id) from QuoteProject)
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from QuoteProject
@@ -52,10 +52,10 @@
   <insert id="insert" parameterType="com.zhongda.quote.model.QuoteProject">
     insert into QuoteProject (id, project_name, industry_id,
       address_id, address_pid, task_id,
-      project_amount, other_amout)
+      project_amount, other_amount)
     values (#{id,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{industryId,jdbcType=INTEGER},
       #{addressId,jdbcType=INTEGER}, #{addressPid,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER},
-      #{projectAmount,jdbcType=FLOAT}, #{otherAmout,jdbcType=FLOAT})
+      #{projectAmount,jdbcType=FLOAT}, #{otherAmount,jdbcType=FLOAT})
   </insert>
   <insert id="insertSelective" parameterType="com.zhongda.quote.model.QuoteProject">
     insert into QuoteProject
@@ -81,8 +81,8 @@
       <if test="projectAmount != null">
         project_amount,
       </if>
-      <if test="otherAmout != null">
-        other_amout,
+      <if test="otherAmount != null">
+        other_amount,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -107,8 +107,8 @@
       <if test="projectAmount != null">
         #{projectAmount,jdbcType=FLOAT},
       </if>
-      <if test="otherAmout != null">
-        #{otherAmout,jdbcType=FLOAT},
+      <if test="otherAmount != null">
+        #{otherAmount,jdbcType=FLOAT},
       </if>
     </trim>
   </insert>
@@ -133,8 +133,8 @@
       <if test="projectAmount != null">
         project_amount = #{projectAmount,jdbcType=FLOAT},
       </if>
-      <if test="otherAmout != null">
-        other_amout = #{otherAmout,jdbcType=FLOAT},
+      <if test="otherAmount != null">
+        other_amount = #{otherAmount,jdbcType=FLOAT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -147,7 +147,7 @@
       address_pid = #{addressPid,jdbcType=INTEGER},
       task_id = #{taskId,jdbcType=INTEGER},
       project_amount = #{projectAmount,jdbcType=FLOAT},
-      other_amout = #{otherAmout,jdbcType=FLOAT}
+      other_amount = #{otherAmount,jdbcType=FLOAT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

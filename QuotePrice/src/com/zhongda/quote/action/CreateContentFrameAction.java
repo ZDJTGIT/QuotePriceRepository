@@ -18,30 +18,36 @@ import com.zhongda.quote.model.SysInspectionContent;
 import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.SysInspectionContenServiceImpl;
 
-public class CreateContentAction implements ActionListener {
+public class CreateContentFrameAction implements ActionListener {
 
-	private JTable jt_inspectionContent;
 	private JDialog jaDialog;
 	private InspectionContent inspectionContent;
-	private Integer inspectionid;
 	// 添加添加检验内容表
 	private JTable tab_viw;
 	private JTextField textField;
 
-	public CreateContentAction() {
+    private Integer inspectionid;
+	private JTextField textField_1, textField_3, textField_4,
+			textField_5;
+	private JTable jt_inspectionBatch;
+	private JTable jt_inspectionContent;
+	private boolean isCreate;
+
+
+	public CreateContentFrameAction() {
 
 	}
-	
-	public CreateContentAction(JTextField textField, JTable tab_viw) {
+
+	public CreateContentFrameAction(JTextField textField, JTable tab_viw) {
 		this.textField = textField;
 		this.tab_viw = tab_viw;
 	}
 
-	public CreateContentAction(JDialog jaDialog) {
+	public CreateContentFrameAction(JDialog jaDialog) {
 		this.jaDialog = jaDialog;
 	}
 
-	public CreateContentAction(JTable jt_inspectionContent, Integer inspectionid
+	public CreateContentFrameAction(JTable jt_inspectionContent, Integer inspectionid
 			, JDialog jaDialog, JTable tab_viw) {
 		this.jt_inspectionContent = jt_inspectionContent;
 		this.jaDialog = jaDialog;
@@ -117,7 +123,7 @@ public class CreateContentAction implements ActionListener {
 						e.printStackTrace();
 					}
 				};
-				
+
 			}.execute();
 		}
 		} else if ("no".equals(command)) {
@@ -129,7 +135,6 @@ public class CreateContentAction implements ActionListener {
 		}else if("sertch".equals(command)){
 			//根据传入的字符串做模糊查询，查出的数据展示到表中
 			new SwingWorker <List<SysInspectionContent>, SysInspectionContent> () {
-				@Override
 				protected List<SysInspectionContent> doInBackground()
 						throws Exception {
 					return new SysInspectionContenServiceImpl()
@@ -149,7 +154,7 @@ public class CreateContentAction implements ActionListener {
 								Vector<Object> dataRow = new Vector<Object>();
 								dataRow.add(sic.getId());
 								dataRow.add(sic.getInspectionContentName());
-								dataRow.add(sic.getSampleBasicId());
+								dataRow.add(sic.getSampleBasisId());
 								dataRow.add(sic.getSampleQuantityRange());
 								dataRow.add(sic.getSampleQuantity());
 								dataRow.add(sic.getQuoteBasisId());
@@ -170,6 +175,7 @@ public class CreateContentAction implements ActionListener {
 		}
 	}
 
+
 	public static boolean isNumeric(String str) {
 		for (int i = str.length(); --i >= 0;) {
 			if (!Character.isDigit(str.charAt(i))) {
@@ -178,5 +184,4 @@ public class CreateContentAction implements ActionListener {
 		}
 		return true;
 	}
-
 }

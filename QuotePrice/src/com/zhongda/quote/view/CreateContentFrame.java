@@ -10,7 +10,7 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
-import com.zhongda.quote.action.CreateContentAction;
+import com.zhongda.quote.action.CreateContentFrameAction;
 import com.zhongda.quote.model.SysInspectionContent;
 import com.zhongda.quote.service.impl.SysInspectionContenServiceImpl;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
@@ -28,7 +28,7 @@ import javax.swing.JTextField;
  * <p>
  *
  * <p>
- * 
+ *
  * @author 研发中心-Mikepolite<1011592269@qq.com>
  * @sine 2017年8月17日
  */
@@ -52,6 +52,7 @@ public class CreateContentFrame {
 	public static void main(String[] args) {
 		new CreateContentFrame();
 	}
+
 
 	/**
 	 * @wbp.parser.constructor
@@ -110,6 +111,7 @@ public class CreateContentFrame {
 		label_1.setBounds(30, 48, 365, 15);
 		panel_viw.add(label_1);
 
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(52, 375, 642, 2);
 		panel.add(separator);
@@ -117,7 +119,8 @@ public class CreateContentFrame {
 		label_2 = new JLabel("中大检测");
 		label_2.setBounds(0, 364, 54, 15);
 		panel.add(label_2);
-		btnNewButton_no.addActionListener(new CreateContentAction(jaDialog));
+
+		btnNewButton_no.addActionListener(new CreateContentFrameAction(jaDialog));
 
 		label_3 = new JLabel("查询（请输入关键字）");
 		label_3.setBounds(10, 338, 130, 23);
@@ -172,7 +175,7 @@ public class CreateContentFrame {
 						Vector<Object> dataRow = new Vector<Object>();
 						dataRow.add(sic.getId());
 						dataRow.add(sic.getInspectionContentName());
-						dataRow.add(sic.getSampleBasicId());
+						dataRow.add(sic.getSampleBasisId());
 						dataRow.add(sic.getSampleQuantityRange());
 						dataRow.add(sic.getSampleQuantity());
 						dataRow.add(sic.getQuoteBasisId());
@@ -191,11 +194,11 @@ public class CreateContentFrame {
 
 		btnNewButton_add.setActionCommand("add");
 		// 传入检验批ID-inspectionid,tab-viw
-		btnNewButton_add.addActionListener(new CreateContentAction(
+		btnNewButton_add.addActionListener(new CreateContentFrameAction(
 				jt_inspectionContent, inspectionid, jaDialog, tab_viw));
 		btnNewButton_no.setActionCommand("no");
 		btnNewButton_sertch.setActionCommand("sertch");
-		btnNewButton_sertch.addActionListener(new CreateContentAction(textField,tab_viw));
+		btnNewButton_sertch.addActionListener(new CreateContentFrameAction(textField,tab_viw));
 
 	}
 }

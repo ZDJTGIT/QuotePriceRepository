@@ -1,13 +1,13 @@
 package com.zhongda.quote.utils;
 
 import java.awt.EventQueue;
+import java.util.Map;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
-import com.zhongda.quote.model.QuoteProject;
-import com.zhongda.quote.view.CreatInspectionFrame;
+import com.zhongda.quote.view.CreateBatchFrame;
 import com.zhongda.quote.view.CreateContentFrame;
 import com.zhongda.quote.view.CreateProjectFrame;
 import com.zhongda.quote.view.CreateTaskFrame;
@@ -25,17 +25,16 @@ import com.zhongda.quote.view.ModifyContentFrame;
 public class FrameGoUtils {
 
 	/**
-	 * 创建任务窗口
-	 *
+	 * 创建任务窗口或修改任务窗口
 	 * @param jt_quoteTask
-	 *            任务面板JTable对象
+	 * @param isCreate 为true时，表示是创建任务窗口，false 时表示是修改任务窗口
 	 */
-	public static void creatTask(final JTable jt_quoteTask,
+	public static void creatTask(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent,
 			final boolean isCreate) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateTaskFrame window = new CreateTaskFrame(jt_quoteTask,
+					CreateTaskFrame window = new CreateTaskFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent,
 							isCreate);
 					window.jDialog.setVisible(true);
 				} catch (Exception e) {
@@ -44,9 +43,13 @@ public class FrameGoUtils {
 			}
 		});
 	}
+
 	/**
-	 * 创建新增检验内容窗口
-	 * @param jTable
+	 * 联动创建报价项目窗口
+	 * @param jt_quoteTask
+	 * @param jt_quoteProject
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
 	 */
 	public static void createContent(final Integer inspectionid,final JTable jt_inspectionContent){
 		EventQueue.invokeLater(new Runnable() {
@@ -60,7 +63,7 @@ public class FrameGoUtils {
 			}
 		});
 	}
-	
+
 	public static void modifyContent(final JTable jt_inspectionContent){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -75,15 +78,12 @@ public class FrameGoUtils {
 		});
 	}
 
-	/**
-	 * 创建项目启动窗口
-	 */
-	public static void creatProject(final JTable jt) {
+	public static void createProject(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateProjectFrame createP = new CreateProjectFrame(jt);
-					createP.dialog.setVisible(true);
+					CreateProjectFrame window = new CreateProjectFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
+					window.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -92,33 +92,18 @@ public class FrameGoUtils {
 	}
 
 	/**
-	 * 创建检验批窗口
+	 * 单独创建报价项目窗口
+	 * @param jt_quoteTask
+	 * @param jt_quoteProject
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
 	 */
-	public static void creatInspection() {
+	public static void createProject(final JTable jt_quoteTask, final JTable jt_quoteProject) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreatInspectionFrame cif = new CreatInspectionFrame();
-					cif.dialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-
-	/**
-	 * 创建检验批窗口
-	 */
-	public static void creatInspection(final QuoteProject quoteProject,
-			final JPanel jp_inspection) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreatInspectionFrame cif = new CreatInspectionFrame(
-							quoteProject, jp_inspection);
-					cif.dialog.setVisible(true);
+					CreateProjectFrame window = new CreateProjectFrame(jt_quoteTask, jt_quoteProject);
+					window.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -127,14 +112,19 @@ public class FrameGoUtils {
 	}
 
 	/**
-	 * 创建检验批窗口
+	  * 联动创建检验批窗口
+	 * @param batchMap 需传入一个map对象接受用户选择好的检验批和检验内容
+	 * @param jp_inspectionBatch 添加检验批的panel
+	 * @param projectName 项目名称
 	 */
-	public static void creatInspection(final JTable jt, final JTable jt2) {
+	public static void createBatch(final Map<String, Map<String,Object>> batchMap, final JPanel jp_inspectionBatch,
+			String projectName, final JTextField jtf_projectAmount) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreatInspectionFrame cif = new CreatInspectionFrame(jt, jt2);
-					cif.dialog.setVisible(true);
+					CreateBatchFrame window = new CreateBatchFrame(
+							batchMap, jp_inspectionBatch, projectName, jtf_projectAmount);
+					window.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -142,17 +132,42 @@ public class FrameGoUtils {
 		});
 	}
 
-	
-	public static void updateContent(){
+	/**
+	 * 单独创建检验批窗口
+	 * @param jt_quoteProject
+	 * @param jt_inspectionBatch
+	 */
+	public static void createBatch(JTable jt_quoteProject, JTable jt_inspectionBatch) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateContentFrame window = new CreateContentFrame();
-					window.jaDialog.setVisible(true);
+					CreateBatchFrame window = new CreateBatchFrame(
+							jt_quoteProject, jt_inspectionBatch);
+					window.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
+
+	/**
+	 * 创建检验内容窗口或修改检验内容窗口
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
+	 * @param isCreate 为true时，表示是创建任务窗口，false 时表示是修改任务窗口
+	 */
+//	public static void createContent(final JTable jt_inspectionBatch,final JTable jt_inspectionContent, final boolean isCreate){
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					//传入一个检验批ID作为显示的内容的依据
+//					CreateContentFrame window = new CreateContentFrame(jt_inspectionBatch,jt_inspectionContent, isCreate);
+//					window.jaDialog.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 }

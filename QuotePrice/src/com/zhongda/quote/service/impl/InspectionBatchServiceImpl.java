@@ -11,11 +11,11 @@ import com.zhongda.quote.service.InspectionBatchService;
 import com.zhongda.quote.utils.MyBatisUtil;
 
 /**
- * 
+ *
  * <p>
  * 检验批Service类
  * </p>
- * 
+ *
  * @author 研发中心-LiVerson<1061734892@qq.com>
  * @sine 2017年8月16日
  */
@@ -63,6 +63,24 @@ public class InspectionBatchServiceImpl implements InspectionBatchService {
 			MyBatisUtil.closeSqlSession();
 		}
 		return insBatch;
+	}
+
+	public boolean deleteInspectionBatch(Integer id) {
+		int index = 0;
+		try {
+			index = inspectionBatchMapper.deleteByPrimaryKey(id);
+			sqlSession.commit();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			sqlSession.rollback();
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		if (index < 1) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

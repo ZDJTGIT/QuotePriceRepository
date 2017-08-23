@@ -10,21 +10,21 @@ public interface InspectionContentMapper {
 
 	/*
 	 * 插入一条检验内容
-	 * 
+	 *
 	 * @return
 	 */
 	int insertSelective(InspectionContent record);
 
 	/**
 	 * 依据ID查询检验内容
-	 * 
+	 *
 	 * @return
 	 */
 	InspectionContent selectByPrimaryKey(Integer id);
 
 	/**
 	 * 修改检验内容
-	 * 
+	 *
 	 * @param inspectionContent
 	 *            被修改的检验内容
 	 * @return
@@ -35,35 +35,40 @@ public interface InspectionContentMapper {
 
 	/**
 	 * 查询所有的检验内容
-	 * 
+	 *
 	 * @return
 	 */
 	List<InspectionContent> selectAllInspectionContent();
 
 	/**
 	 * 查询出id最大的检验内容
-	 * 
+	 *
 	 * @return
 	 */
 	InspectionContent selectInspectionContentByMaxId();
 
 	/**
-	 * 
+	 *
 	 * 按ID删除检验内容
-	 * 
+	 *
 	 * @return
 	 */
 	int deleteInspectionByID(Integer id);
 
 	/**
 	 * 查询当前检验批下所有的检验内容
-	 * 
+	 *
 	 * @param batchId
 	 *            当前检验批的id
 	 * @return 当前检验批下所有的检验内容
 	 */
 	List<InspectionContent> selectAllInspectionContentByBatchId(Integer batchId);
 
+	/**
+	 * 插入一条检验内容
+	 * @param record
+	 * @return
+	 */
 	int insert(InspectionContent record);
 
 }

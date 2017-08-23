@@ -28,23 +28,40 @@ public class InspectionContent {
     private Integer batchId;
 
     private Double inspectionContentAmount;
-    
-    private Object[] objects;
-    
+
     public InspectionContent(){
-    	
+
     }
 
-    public InspectionContent(String inspectionContentName, Integer sampleQuantity,
-    		Integer singleObjectQuantity, Integer chargeStandard) {
+    public InspectionContent(Integer sourceId, String inspectionContentName,
+			Integer sampleQuantity, String sampleQuantityRange,
+			Integer sampleBasisId, Integer singleObjectQuantity,
+			String singleQuantityRange, String chargeUnit,
+			Integer chargeStandard, String chargeStandardUnit,
+			Integer quoteBasisId, Double inspectionContentAmount) {
+		this.sourceId = sourceId;
+		this.inspectionContentName = inspectionContentName;
+		this.sampleQuantity = sampleQuantity;
+		this.sampleQuantityRange = sampleQuantityRange;
+		this.sampleBasisId = sampleBasisId;
+		this.singleObjectQuantity = singleObjectQuantity;
+		this.singleQuantityRange = singleQuantityRange;
+		this.chargeUnit = chargeUnit;
+		this.chargeStandard = chargeStandard;
+		this.chargeStandardUnit = chargeStandardUnit;
+		this.quoteBasisId = quoteBasisId;
+		this.inspectionContentAmount = inspectionContentAmount;
+	}
+
+	public InspectionContent(String inspectionContentName, Integer sampleQuantity,
+			Integer singleObjectQuantity, Integer chargeStandard) {
 		this.inspectionContentName = inspectionContentName;
 		this.sampleQuantity = sampleQuantity;
 		this.singleObjectQuantity = singleObjectQuantity;
 		this.chargeStandard = chargeStandard;
 	}
-    
+
     public InspectionContent(Object[] objects){
-    	this.objects = objects;
     	 inspectionContentName = (String) objects[0];
     	 sampleBasisId = (Integer) objects[1];
     	 sampleQuantityRange = (String) objects[2];
@@ -54,8 +71,6 @@ public class InspectionContent {
     	 singleObjectQuantity = (Integer) objects[6];
     	 chargeUnit = (String) objects[7];
     	 chargeStandard = (Integer) objects[8];
-    	
-    	
     }
 
 	public Integer getId() {

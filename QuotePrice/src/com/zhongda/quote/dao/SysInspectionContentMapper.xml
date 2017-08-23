@@ -8,7 +8,7 @@
     <result column="address_id" jdbcType="INTEGER" property="addressId" />
     <result column="sample_quantity" jdbcType="INTEGER" property="sampleQuantity" />
     <result column="sample_quantity_range" jdbcType="VARCHAR" property="sampleQuantityRange" />
-    <result column="sample_basic_id" jdbcType="INTEGER" property="sampleBasicId" />
+    <result column="sample_basis_id" jdbcType="INTEGER" property="sampleBasisId" />
     <result column="single_object_quantity" jdbcType="INTEGER" property="singleObjectQuantity" />
     <result column="single_quantity_range" jdbcType="VARCHAR" property="singleQuantityRange" />
     <result column="charge_unit" jdbcType="VARCHAR" property="chargeUnit" />
@@ -36,21 +36,21 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, inspection_content_name, industry_id, address_id, sample_quantity,
-    sample_quantity_range, sample_basic_id, single_object_quantity,
+    sample_quantity_range, sample_basis_id, single_object_quantity,
     single_quantity_range, charge_unit, charge_standard, charge_standard_unit, quote_basis_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
 	sc.*, qb.*, sb.*
 	from SysInspectionContent sc, QuoteBasis qb, SampleBasis sb
-	where sc.quote_basis_id = qb.id and sc.sample_basic_id = sb.id and sc.id = #{id,jdbcType=INTEGER}
+	where sc.quote_basis_id = qb.id and sc.sample_basis_id = sb.id and sc.id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectByName" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 	select
 	sc.*, qb.*, sb.*
 	from SysInspectionContent sc, QuoteBasis qb, SampleBasis sb
-	where sc.quote_basis_id = qb.id and sc.sample_basic_id = sb.id and sc.inspection_content_name like '%${_parameter}%'
+	where sc.quote_basis_id = qb.id and sc.sample_basis_id = sb.id and sc.inspection_content_name like '%${_parameter}%'
   </select>
   
   <select id="selectAllSysInspectionContent" parameterType="java.lang.Integer" 
@@ -79,13 +79,13 @@
   <insert id="insert" parameterType="com.zhongda.quote.model.SysInspectionContent">
     insert into SysInspectionContent (id, inspection_content_name,
       industry_id, address_id,
-      sample_quantity, sample_quantity_range, sample_basic_id,
+      sample_quantity, sample_quantity_range, sample_basis_id,
       single_object_quantity, single_quantity_range,
       charge_unit, charge_standard, charge_standard_unit,
       quote_basis_id)
     values (#{id,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR},
       #{industryId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER},
-      #{sampleQuantity,jdbcType=INTEGER}, #{sampleQuantityRange,jdbcType=VARCHAR}, #{sampleBasicId,jdbcType=INTEGER},
+      #{sampleQuantity,jdbcType=INTEGER}, #{sampleQuantityRange,jdbcType=VARCHAR}, #{sampleBasisId,jdbcType=INTEGER},
       #{singleObjectQuantity,jdbcType=INTEGER}, #{singleQuantityRange,jdbcType=VARCHAR},
       #{chargeUnit,jdbcType=VARCHAR}, #{chargeStandard,jdbcType=INTEGER}, #{chargeStandardUnit,jdbcType=VARCHAR},
       #{quoteBasisId,jdbcType=INTEGER})
@@ -111,8 +111,8 @@
       <if test="sampleQuantityRange != null">
         sample_quantity_range,
       </if>
-      <if test="sampleBasicId != null">
-        sample_basic_id,
+      <if test="sampleBasisId != null">
+        sample_basis_id,
       </if>
       <if test="singleObjectQuantity != null">
         single_object_quantity,
@@ -152,8 +152,8 @@
       <if test="sampleQuantityRange != null">
         #{sampleQuantityRange,jdbcType=VARCHAR},
       </if>
-      <if test="sampleBasicId != null">
-        #{sampleBasicId,jdbcType=INTEGER},
+      <if test="sampleBasisId != null">
+        #{sampleBasisId,jdbcType=INTEGER},
       </if>
       <if test="singleObjectQuantity != null">
         #{singleObjectQuantity,jdbcType=INTEGER},
@@ -193,8 +193,8 @@
       <if test="sampleQuantityRange != null">
         sample_quantity_range = #{sampleQuantityRange,jdbcType=VARCHAR},
       </if>
-      <if test="sampleBasicId != null">
-        sample_basic_id = #{sampleBasicId,jdbcType=INTEGER},
+      <if test="sampleBasisId != null">
+        sample_basis_id = #{sampleBasisId,jdbcType=INTEGER},
       </if>
       <if test="singleObjectQuantity != null">
         single_object_quantity = #{singleObjectQuantity,jdbcType=INTEGER},
@@ -224,7 +224,7 @@
       address_id = #{addressId,jdbcType=INTEGER},
       sample_quantity = #{sampleQuantity,jdbcType=INTEGER},
       sample_quantity_range = #{sampleQuantityRange,jdbcType=VARCHAR},
-      sample_basic_id = #{sampleBasicId,jdbcType=INTEGER},
+      sample_basis_id = #{sampleBasisId,jdbcType=INTEGER},
       single_object_quantity = #{singleObjectQuantity,jdbcType=INTEGER},
       single_quantity_range = #{singleQuantityRange,jdbcType=VARCHAR},
       charge_unit = #{chargeUnit,jdbcType=VARCHAR},

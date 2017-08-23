@@ -13,7 +13,7 @@ public class SysInspectionContent {
 
 	private String sampleQuantityRange;//3
 
-	private Integer sampleBasicId;//2
+	private Integer sampleBasisId;
 
 	private Integer singleObjectQuantity;//7
 
@@ -81,12 +81,12 @@ public class SysInspectionContent {
 				: sampleQuantityRange.trim();
 	}
 
-	public Integer getSampleBasicId() {
-		return sampleBasicId;
+	public Integer getSampleBasisId() {
+		return sampleBasisId;
 	}
 
-	public void setSampleBasicId(Integer sampleBasicId) {
-		this.sampleBasicId = sampleBasicId;
+	public void setSampleBasisId(Integer sampleBasisId) {
+		this.sampleBasisId = sampleBasisId;
 	}
 
 	public Integer getSingleObjectQuantity() {

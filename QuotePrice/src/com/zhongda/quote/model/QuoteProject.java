@@ -15,7 +15,7 @@ public class QuoteProject {
 
 	private Double projectAmount;
 
-	private Double otherAmout;
+	private Double otherAmount;
 
 	private Industry industry;
 
@@ -25,14 +25,16 @@ public class QuoteProject {
 
 	}
 
-	public QuoteProject(String projectName, Integer taskId, Integer industryId,
-			Integer addressPid, Integer addressId) {
+	public QuoteProject(String projectName, int industryId, int addressId,
+			int addressPid, int taskId, double projectAmount,
+			double otherAmount) {
 		this.projectName = projectName;
-		this.taskId = taskId;
 		this.industryId = industryId;
-		this.addressPid = addressPid;
 		this.addressId = addressId;
-
+		this.addressPid = addressPid;
+		this.taskId = taskId;
+		this.projectAmount = projectAmount;
+		this.otherAmount = otherAmount;
 	}
 
 	public Integer getId() {
@@ -91,12 +93,12 @@ public class QuoteProject {
 		this.projectAmount = projectAmount;
 	}
 
-	public Double getOtherAmout() {
-		return otherAmout;
+	public Double getOtherAmount() {
+		return otherAmount;
 	}
 
-	public void setOtherAmout(Double otherAmout) {
-		this.otherAmout = otherAmout;
+	public void setOtherAmount(Double otherAmount) {
+		this.otherAmount = otherAmount;
 	}
 
 	public Industry getIndustry() {

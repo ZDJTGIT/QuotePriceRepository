@@ -5,6 +5,12 @@ import java.util.List;
 import com.zhongda.quote.model.QuoteProject;
 
 public interface QuoteProjectMapper {
+
+	/**
+	 * 删除一个报价项目根据项目id
+	 * @param id
+	 * @return
+	 */
 	int deleteByPrimaryKey(Integer id);
 
 	int insert(QuoteProject record);
@@ -19,14 +25,14 @@ public interface QuoteProjectMapper {
 
 	/**
 	 * 查询项目根据任务ID
-	 * 
+	 *
 	 * @return
 	 */
 	List<QuoteProject> selectByTaskNumber(int taskId);
 
 	/**
 	 * 查询id最大一行项目数据
-	 * 
+	 *
 	 * @return
 	 */
 	QuoteProject selectMaxProjectId();

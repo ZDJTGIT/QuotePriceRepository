@@ -38,18 +38,25 @@ public class CreateTaskFrameAction implements ActionListener {
 	private QuoteTask quoteTask;
 	// 主界面报价任务的引用
 	private JTable jt_quoteTask;
+	private JTable jt_quoteProject;
+	private JTable jt_inspectionBatch;
+	private JTable jt_inspectionContent;
 	private boolean isCreate;
 
 	public CreateTaskFrameAction(JTextField jtf_taskName,
 			JTextField jtf_createUser, JTextField df_createDate,
-			JTextArea jta_taskDescription, JTable jt_quoteTask, JDialog dialog,
-			boolean isCreate) {
+			JTextArea jta_taskDescription, JTable jt_quoteTask, JTable jt_quoteProject,
+			JTable jt_inspectionBatch, JTable jt_inspectionContent,
+			JDialog dialog, boolean isCreate) {
 
 		this.jtf_taskName = jtf_taskName;
 		this.jtf_createUser = jtf_createUser;
 		this.df_createDate = df_createDate;
 		this.jta_taskDescription = jta_taskDescription;
 		this.jt_quoteTask = jt_quoteTask;
+		this.jt_quoteProject = jt_quoteProject;
+		this.jt_inspectionBatch = jt_inspectionBatch;
+		this.jt_inspectionContent = jt_inspectionContent;
 		this.jDialog = dialog;
 		this.isCreate = isCreate;
 	}
@@ -58,9 +65,9 @@ public class CreateTaskFrameAction implements ActionListener {
 
 		this.jDialog = jDialog;
 	}
-	
+
 	public CreateTaskFrameAction(){
-		
+
 	}
 
 	/**
@@ -135,7 +142,7 @@ public class CreateTaskFrameAction implements ActionListener {
 											jt_quoteTask.getRowCount() - 1);
 
 									jDialog.dispose();
-									FrameGoUtils.creatProject(jt_quoteTask);
+									FrameGoUtils.createProject(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 								} else {
 									JOptionPane.showMessageDialog(null,
 											"任务创建失败！", "提示信息",

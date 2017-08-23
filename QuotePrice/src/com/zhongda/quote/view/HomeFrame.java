@@ -33,7 +33,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import com.zhongda.quote.action.CreateContentAction;
 import com.zhongda.quote.action.HomeFrameAction;
 import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.InspectionContent;
@@ -635,7 +634,7 @@ public class HomeFrame {
 		// 初始化任务表列名
 		final Object[] taskColumnsName = { "序号", "任务编号", "任务名称", "任务描述", "创建人",
 				"创建时间", "最后修改时间", "任务总金额" };
-		jt_quoteTask = new MyTable(new int[] { 1, 4, 6, 5 });
+		jt_quoteTask = new MyTable(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 });
 		DefaultTableModel taskTableModel = new DefaultTableModel(null,
 				taskColumnsName);
 		jt_quoteTask.setModel(taskTableModel);
@@ -808,8 +807,8 @@ public class HomeFrame {
 
 		// 添加创建任务事件
 		bt_createTask.setActionCommand("createTask");
-		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
-				null, null));
+		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
+				jt_inspectionBatch, jt_inspectionContent));
 		// 添加删除任务事件
 		bt_deleteTask.setActionCommand("deleteTask");
 		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask,
@@ -824,12 +823,22 @@ public class HomeFrame {
 				null, null, jtf_queryTaskName));
 
 		// 添加创建项目事件
+		jbt_createProject.setActionCommand("createProject");
 		jbt_createProject.addActionListener(new HomeFrameAction(jt_quoteTask,
-				null, null, null));
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
+		// 添加删除项目事件
+		jbt_deleteProject.setActionCommand("deleteProject");
+		jbt_deleteProject.addActionListener(new HomeFrameAction(null,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 
 		// 添加创建检验批事件
+		jbt_createInspectionBatch.setActionCommand("createInspectionBatch");
 		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(null,
 				jt_quoteProject, jt_inspectionBatch, null));
+		// 添加删除检验批事件
+		jbt_deleteInspectionBatch.setActionCommand("deleteInspectionBatch");
+		jbt_deleteInspectionBatch.addActionListener(new HomeFrameAction(null,
+				null, jt_inspectionBatch, jt_inspectionContent));
 
 		// 添加添加检验内容事件
 		jbt_createContent.setActionCommand("createContent");

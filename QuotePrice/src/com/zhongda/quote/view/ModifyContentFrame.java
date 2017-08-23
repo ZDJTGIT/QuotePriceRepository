@@ -10,7 +10,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-import com.zhongda.quote.action.CreateContentAction;
+import com.zhongda.quote.action.CreateContentFrameAction;
 import com.zhongda.quote.action.ModifiyContentAction;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 
@@ -116,17 +116,17 @@ public class ModifyContentFrame {
 		btnNewButton_no = new JButton("取消");
 		btnNewButton_no.setBounds(375, 370, 93, 23);
 		panel.add(btnNewButton_no);
-		
+
 		panel_1 = new JpaneColorAndPhoto("images/bookpen.png", 430, 2, 48, 48);
 		panel_1.setBounds(0, 0, 494, 76);
 		panel_1.setLayout(null);
 		panel.add(panel_1);
-		
+
 		label = new JLabel("修改检验内容");
 		label.setFont(new Font("宋体", Font.BOLD, 12));
 		label.setBounds(10, 23, 142, 15);
 		panel_1.add(label);
-		
+
 		label_1 = new JLabel("表中可选中的位置为可修改信息，不可选中的为系统默认信息");
 		label_1.setBounds(30, 48, 365, 15);
 		panel_1.add(label_1);
@@ -134,19 +134,19 @@ public class ModifyContentFrame {
 		label_2 = new JLabel("中大检测");
 		label_2.setBounds(0, 327, 54, 15);
 		panel.add(label_2);
-		btnNewButton_no.addActionListener(new CreateContentAction(
+		btnNewButton_no.addActionListener(new CreateContentFrameAction(
 				jaDialog));
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(52, 338, 442, 2);
 		panel.add(separator);
-	
+
 		int row = jt_inspectionContent.getSelectedRow();
 		textField_Contentname.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 1)));
 		textField_SamplesCount.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 2)));
 		textField_ImplementationCount.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 3)));
 		textField_Charges.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 4)));
-		
+
 		btnNewButton_yes.setActionCommand("yes");
 		btnNewButton_yes.addActionListener(new ModifiyContentAction(jaDialog, jt_inspectionContent,
 				textField_Contentname,textField_SamplesCount, textField_ImplementationCount,textField_Charges) );
