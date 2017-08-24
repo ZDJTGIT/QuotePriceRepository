@@ -106,7 +106,7 @@ public class CreateContentFrame {
 		panel_tab.setLayout(new BorderLayout(0, 0));
 		panel.add(panel_tab);
 
-		label = new JLabel("新建/修改检验内容");
+		label = new JLabel("添加检验内容");
 		label.setFont(new Font("宋体", Font.BOLD, 12));
 		label.setBounds(10, 23, 142, 15);
 		panel_viw.add(label);

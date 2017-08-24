@@ -160,19 +160,11 @@ public class RenderDataUtils {
 		if (null != contentList && contentList.size() > 0) {
 			for (InspectionContent inspectionContent : contentList) {
 				Vector<Object> dataRow = new Vector<Object>();
-				dataRow.add(inspectionContent.getId());
-				dataRow.add(inspectionContent.getSourceId());
-				dataRow.add(inspectionContent.getInspectionContentName());
-				dataRow.add(inspectionContent.getSampleQuantityRange());
-				dataRow.add(inspectionContent.getSampleQuantity());
-				dataRow.add(inspectionContent.getSingleQuantityRange());
-				dataRow.add(inspectionContent.getSingleObjectQuantity());
-				dataRow.add(inspectionContent.getSampleBasisId());
-				dataRow.add(inspectionContent.getChargeUnit());
-				dataRow.add(inspectionContent.getChargeStandard());
-				dataRow.add(inspectionContent.getChargeStandardUnit());
-				dataRow.add(inspectionContent.getQuoteBasisId());
-				dataRow.add(inspectionContent.getInspectionContentAmount());
+				dataRow.add(inspectionContent.getId());//0
+				dataRow.add(inspectionContent.getInspectionContentName());//1
+				dataRow.add(inspectionContent.getSampleQuantity());//2
+				dataRow.add(inspectionContent.getSingleObjectQuantity());//3
+				dataRow.add(inspectionContent.getChargeStandard());//4
 				model.addRow(dataRow);
 			}
 			jt_inspectionContent.setRowSelectionInterval(0, 0);// 选中第一行

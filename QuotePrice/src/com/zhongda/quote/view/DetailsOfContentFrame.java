@@ -66,7 +66,7 @@ public class DetailsOfContentFrame {
 
 	public void initialize() {
 		jDialog = new JDialog();
-		jDialog.setBounds(0, 0, 472, 706);
+		jDialog.setBounds(0, 0, 472, 588);
 		jDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		ImageIcon icon = new ImageIcon("images\\zdLogo1.png");
 		jDialog.setTitle("中大检测");
@@ -81,47 +81,47 @@ public class DetailsOfContentFrame {
 		panel.setLayout(null);
 
 		panel_viw = new JpaneColorAndPhoto("images/bookpen.png", 370, 6, 48, 48);
-		panel_viw.setBounds(0, 0, 485, 65);
+		panel_viw.setBounds(0, 0, 466, 57);
 		panel_viw.setLayout(null);
 		panel.add(panel_viw);
 
 		label_0 = new JLabel("检验内容详情");
 		label_0.setFont(new Font("黑体", Font.BOLD, 14));
-		label_0.setBounds(10, 10, 125, 23);
+		label_0.setBounds(10, 3, 125, 25);
 		panel_viw.add(label_0);
 
 		label_1 = new JLabel("表中所有相关数据皆出自指定官方文件,表头宽度可手动调节");
-		label_1.setBounds(20, 33, 359, 15);
+		label_1.setBounds(20, 25, 359, 15);
 		panel_viw.add(label_1);
 
 		label_4 = new JLabel("基本信息表");
 		label_4.setFont(new Font("宋体", Font.BOLD, 14));
-		label_4.setBounds(10, 75, 132, 15);
+		label_4.setBounds(10, 65, 132, 15);
 		panel.add(label_4);
 		
 		label_2 = new JLabel("抽样依据表");
 		label_2.setFont(new Font("宋体", Font.BOLD, 14));
-		label_2.setBounds(10, 376, 92, 15);
+		label_2.setBounds(10, 260, 92, 15);
 		panel.add(label_2);
 		
 		label_3 = new JLabel("报价依据表");
 		label_3.setFont(new Font("宋体", Font.BOLD, 14));
-		label_3.setBounds(10, 532, 120, 15);
+		label_3.setBounds(10, 414, 120, 15);
 		panel.add(label_3);
 		
 		//基本信息
 		panel_Basic = new JPanel();
-		panel_Basic.setBounds(0, 100, 466, 262);
+		panel_Basic.setBounds(0, 90, 466, 160);
 		panel.add(panel_Basic);
 
 		//抽样依据
 		panel_Sampling = new JPanel();
-		panel_Sampling.setBounds(0, 402, 466, 120);
+		panel_Sampling.setBounds(0, 284, 466, 120);
 		panel.add(panel_Sampling);
 		
 		//报价依据
 		panel_Quotes = new JPanel();
-		panel_Quotes.setBounds(0, 557, 466, 122);
+		panel_Quotes.setBounds(0, 440, 466, 120);
 		panel.add(panel_Quotes);
 		
 		
@@ -318,3 +318,4 @@ public class DetailsOfContentFrame {
 		
 	}
 }
+

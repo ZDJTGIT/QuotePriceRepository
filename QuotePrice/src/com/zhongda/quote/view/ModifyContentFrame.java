@@ -9,12 +9,16 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.SwingWorker;
 
 import com.zhongda.quote.action.CreateContentFrameAction;
 import com.zhongda.quote.action.ModifiyContentAction;
+import com.zhongda.quote.model.InspectionContent;
+import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 
 import java.awt.Font;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JSeparator;
 
@@ -41,6 +45,10 @@ public class ModifyContentFrame {
 	private JLabel label;
 	private JLabel label_1;
 	private JLabel label_2;
+	private JLabel label_3;
+	private JLabel label_4;
+	private JLabel label_sampling;
+	private JLabel label_Implementation;
 
 	/**
 	 * @wbp.parser.constructor
@@ -80,7 +88,7 @@ public class ModifyContentFrame {
 		panel.add(lblNewLabel_3);
 
 		lblNewLabel_4 = new JLabel("单个检验内容实施数量");
-		lblNewLabel_4.setBounds(26, 198, 156, 15);
+		lblNewLabel_4.setBounds(26, 198, 133, 15);
 		panel.add(lblNewLabel_4);
 
 		lblNewLabel_5 = new JLabel("收费标准（元）");
@@ -121,6 +129,10 @@ public class ModifyContentFrame {
 		panel_1.setBounds(0, 0, 494, 76);
 		panel_1.setLayout(null);
 		panel.add(panel_1);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(52, 338, 442, 2);
+		panel.add(separator);
 
 		label = new JLabel("修改检验内容");
 		label.setFont(new Font("宋体", Font.BOLD, 12));
@@ -136,10 +148,49 @@ public class ModifyContentFrame {
 		panel.add(label_2);
 		btnNewButton_no.addActionListener(new CreateContentFrameAction(
 				jaDialog));
+		
+		label_3 = new JLabel("抽样数量范围：");
+		label_3.setBounds(89, 142, 85, 15);
+		panel.add(label_3);
+		
+		label_4 = new JLabel("单个检验内容实施数量范围：");
+		label_4.setBounds(161, 198, 156, 15);
+		panel.add(label_4);
+		
+		label_sampling = new JLabel();
+		label_sampling.setBounds(184, 142, 72, 15);
+		panel.add(label_sampling);
+		
+		label_Implementation = new JLabel();
+		label_Implementation.setBounds(326, 198, 72, 15);
+		panel.add(label_Implementation);
 
-		JSeparator separator = new JSeparator();
-		separator.setBounds(52, 338, 442, 2);
-		panel.add(separator);
+		Integer InspectiongID = (Integer) jt_inspectionContent.
+				getValueAt(jt_inspectionContent.getSelectedRow(), 0);
+		System.out.println(InspectiongID);
+		
+		new SwingWorker<InspectionContent, InspectionContent>() {
+			@Override
+			protected InspectionContent doInBackground() throws Exception {
+				return new InspectionContentServiceImpl()
+				.selectInspectionContentByInspectionContentID(InspectiongID);
+			}
+			@Override
+			protected void done() {
+				try {
+					InspectionContent inspectionContent = get();
+					System.out.println(inspectionContent);
+					label_sampling.setText(inspectionContent.getSampleQuantityRange());
+					label_Implementation.setText(inspectionContent.getSingleQuantityRange());
+					System.out.println(inspectionContent.getSampleQuantityRange());
+					System.out.println(inspectionContent.getSingleQuantityRange());
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			}
+		}.execute();
 
 		int row = jt_inspectionContent.getSelectedRow();
 		textField_Contentname.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 1)));
@@ -151,5 +202,6 @@ public class ModifyContentFrame {
 		btnNewButton_yes.addActionListener(new ModifiyContentAction(jaDialog, jt_inspectionContent,
 				textField_Contentname,textField_SamplesCount, textField_ImplementationCount,textField_Charges) );
 		btnNewButton_no.setActionCommand("no");
+		
 	}
 }
