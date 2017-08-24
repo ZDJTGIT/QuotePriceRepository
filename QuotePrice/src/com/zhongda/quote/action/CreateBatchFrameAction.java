@@ -24,6 +24,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
+import com.zhongda.quote.model.Address;
+import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.model.SysInspectionContent;
@@ -59,6 +61,8 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 	private JTable jt_partInspectionContent;
 	private JPanel jp_inspectionBatch;
 	private JPanel jp_search;
+	private Industry industry;
+	private Address address;
 	private Map<String, Map<String,Object>> batchMap;
 	private Map<String, Map<String,Object>> tmpBatchMap =new HashMap<String, Map<String,Object>>();
 	private static List<InspectionContent> contentList = new ArrayList<InspectionContent>();
@@ -79,10 +83,12 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 		this.jtf_contentName = jtf_contentName;
 	}
 
-	public CreateBatchFrameAction(JTable jt_sysInspectionContent, JTextField jtf_contentName, JPanel jp_search) {
+	public CreateBatchFrameAction(JTable jt_sysInspectionContent, JTextField jtf_contentName, JPanel jp_search, Industry industry, Address address) {
 		this.jt_sysInspectionContent = jt_sysInspectionContent;
 		this.jtf_contentName = jtf_contentName;
 		this.jp_search = jp_search;
+		this.industry = industry;
+		this.address = address;
 	}
 
 	//联动检验批点击事件构造函数
@@ -180,7 +186,7 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 						JOptionPane.WARNING_MESSAGE);
 			} else {
 				jp_search.setVisible(true);
-				searchSysInspectionContent(jt_sysInspectionContent, contentName);
+				searchSysInspectionContent(jt_sysInspectionContent, contentName, industry, address);
 			}
 		} else if ("confirm".equals(commandName)) {
 			int flag = JOptionPane.showConfirmDialog(null, "确定提交?", "提交项目",
@@ -350,15 +356,16 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 	 * 按检验内容名称搜索系统检验内容，并渲染到Table上
 	 * @param jt_sysInspectionContent 系统检验内容Table
 	 * @param contentName 检验内容名称
+	 * @param address 所选地址
+	 * @param industry 所选行业
 	 */
-	private void searchSysInspectionContent(JTable jt_sysInspectionContent, String contentName) {
+	private void searchSysInspectionContent(JTable jt_sysInspectionContent, String contentName, Industry industry, Address address) {
 		new SwingWorker<List<SysInspectionContent>, Void>() {
-
 			@Override
 			protected List<SysInspectionContent> doInBackground()
 					throws Exception {
 				return new SysInspectionContenServiceImpl()
-						.querySysInspectionContentByContentName(contentName);
+						.querySysInspectionContentByContentName(contentName, industry.getId(), address.getId());
 			}
 
 			protected void done() {

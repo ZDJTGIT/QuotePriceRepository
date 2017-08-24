@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.zhongda.quote.model.Address;
-import com.zhongda.quote.model.Industry;
 
 public interface AddressService {
 
@@ -26,7 +25,7 @@ public interface AddressService {
 	 * @return
 	 */
 	Map<String, List<Address>> queryAllProvinceAndCityCountyByParent();
-	
+
 	/**
 	 * 传入检验内容ID查所在地址
 	 * @param InspectionID

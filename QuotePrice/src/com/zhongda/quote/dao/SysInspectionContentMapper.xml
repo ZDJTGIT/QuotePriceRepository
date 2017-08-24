@@ -45,36 +45,35 @@
 	from SysInspectionContent sc, QuoteBasis qb, SampleBasis sb
 	where sc.quote_basis_id = qb.id and sc.sample_basis_id = sb.id and sc.id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByName" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
+  <select id="selectByName" resultMap="BaseResultMap">
 	select
 	sc.*, qb.*, sb.*
 	from SysInspectionContent sc, QuoteBasis qb, SampleBasis sb
-	where sc.quote_basis_id = qb.id and sc.sample_basis_id = sb.id and sc.inspection_content_name like '%${_parameter}%'
+	where sc.industry_id = ${_parameter.param2} and sc.address_id = ${_parameter.param3} and sc.quote_basis_id = qb.id and sc.sample_basis_id = sb.id and sc.inspection_content_name like '%${_parameter.param1}%'
   </select>
-  
-  <select id="selectAllSysInspectionContent" parameterType="java.lang.Integer" 
+
+  <select id="selectAllSysInspectionContent" parameterType="java.lang.Integer"
   resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" /> 
-    from SysInspectionContent 
-    where id not in 
-    (select source_id from InspectionContent 
+    select
+    <include refid="Base_Column_List" />
+    from SysInspectionContent
+    where id not in
+    (select source_id from InspectionContent
     where InspectionContent.batch_id = #{batchID,jdbcType=INTEGER})
-  </select> 
+  </select>
   <select id="selectSysInspectionContentByInspectionContentID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from SysInspectionContent where id = 
-    (select source_id from inspectionContent 
+    from SysInspectionContent where id =
+    (select source_id from inspectionContent
     where id = #{InspectionContentID,jdbcType=INTEGER})
   </select>
-  <select id="selectAllBlurrySysInspectionContent" parameterType="java.lang.String" 
+  <select id="selectAllBlurrySysInspectionContent" parameterType="java.lang.String"
   resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" /> 
-    from SysInspectionContent 
-    where inspection_content_name 
+    select
+    <include refid="Base_Column_List" />
+    from SysInspectionContent
+    where inspection_content_name
     like '%${_parameter}%'
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

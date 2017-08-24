@@ -46,17 +46,22 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 
 	//插入一天检验内容，如果插入成功，返回当前插入的检验内容
 	@Override
-	public InspectionContent createInspectionContent(
-			InspectionContent inspectionContent) {
+	public InspectionContent createInspectionContent(InspectionContent inspectionContent,
+			 double taskAmount, double projectAmount, double batchAmount) {
+		int index = 0;
 		try {
-			int index = inspectionContentMapper
-					.insertSelective(inspectionContent);
-			sqlSession.commit();
+			index = inspectionContentMapper.insertSelective(inspectionContent);
 			if (index > 0) {
-				//添加实时更新原理
-				inspectionContent = inspectionContentMapper
-						.selectInspectionContentByMaxId();
+				inspectionBatchMapper.updateByPrimaryKeySelective(new InspectionBatch(inspectionContent.getBatchId(), batchAmount));
+				InspectionBatch inspectionBatch = inspectionBatchMapper.selectByPrimaryKey(inspectionContent.getBatchId());
+				quoteProjectMapper.updateByPrimaryKeySelective(new QuoteProject(inspectionBatch.getProjectId(), projectAmount));
+				QuoteProject quoteProject = quoteProjectMapper.selectByPrimaryKey(inspectionBatch.getProjectId());
+				quoteTaskMapper.updateByPrimaryKeySelective(new QuoteTask(quoteProject.getTaskId(), taskAmount));
+				inspectionContent = inspectionContentMapper.selectInspectionContentByMaxId();
+			}else{
+				inspectionContent = null;
 			}
+			sqlSession.commit();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			sqlSession.rollback();

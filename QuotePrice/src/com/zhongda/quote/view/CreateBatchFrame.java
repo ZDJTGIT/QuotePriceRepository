@@ -24,6 +24,8 @@ import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 import sun.swing.table.DefaultTableCellHeaderRenderer;
 
 import com.zhongda.quote.action.CreateBatchFrameAction;
+import com.zhongda.quote.model.Address;
+import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
@@ -71,6 +73,8 @@ public class CreateBatchFrame {
 	private JPanel jp_inspectionBatch;
 	private String projectName;
 	private JTextField jtf_projectAmount;
+	private Industry industry;
+	private Address address;
 	private Map<String, Map<String,Object>> batchMap;
 	private List<InspectionContent> singleContentList = new ArrayList<InspectionContent>();
 
@@ -79,11 +83,13 @@ public class CreateBatchFrame {
 		init();
 	}
 
-	public CreateBatchFrame(Map<String, Map<String,Object>> batchMap, JPanel jp_inspectionBatch, String projectName, JTextField jtf_projectAmount) {
+	public CreateBatchFrame(Map<String, Map<String,Object>> batchMap, JPanel jp_inspectionBatch, String projectName, JTextField jtf_projectAmount, Industry industry, Address address) {
 		this.batchMap = batchMap;
 		this.jp_inspectionBatch = jp_inspectionBatch;
 		this.projectName = projectName;
 		this.jtf_projectAmount = jtf_projectAmount;
+		this.industry = industry;
+		this.address = address;
 		init();
 	}
 
@@ -274,7 +280,7 @@ public class CreateBatchFrame {
 
 		//搜索检验内容按钮点击事件
 		jbt_searchContent.setActionCommand("searchSysContent");
-		jbt_searchContent.addActionListener(new CreateBatchFrameAction(jt_sysInspectionContent, jtf_contentName, jp_search));
+		jbt_searchContent.addActionListener(new CreateBatchFrameAction(jt_sysInspectionContent, jtf_contentName, jp_search, industry, address));
 
 		//搜索框添加得到焦点事件
 		jtf_contentName.addFocusListener((new CreateBatchFrameAction(jtf_contentName)));

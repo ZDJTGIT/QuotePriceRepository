@@ -852,7 +852,7 @@ public class HomeFrame {
 
 		// 添加添加检验内容事件
 		jbt_createContent.setActionCommand("createContent");
-		jbt_createContent.addActionListener(new HomeFrameAction(null, null,
+		jbt_createContent.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
 				jt_inspectionBatch, jt_inspectionContent));
 		// 添加修改检验内容事件
 		jbt_updateContent.setActionCommand("updateContent");

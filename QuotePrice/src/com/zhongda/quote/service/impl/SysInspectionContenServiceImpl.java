@@ -5,9 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
-import com.zhongda.quote.dao.InspectionContentMapper;
 import com.zhongda.quote.dao.SysInspectionContentMapper;
-import com.zhongda.quote.model.QuoteBasis;
 import com.zhongda.quote.model.SysInspectionContent;
 import com.zhongda.quote.service.SysInspectionContentService;
 import com.zhongda.quote.utils.MyBatisUtil;
@@ -22,13 +20,13 @@ public class SysInspectionContenServiceImpl implements
 
 	private SysInspectionContentMapper sysInsContentMapper = sqlSession
 			.getMapper(SysInspectionContentMapper.class);
-	
+
 	@Override
 	public List<SysInspectionContent> querySysInspectionContentByContentName(
-			String contentName) {
+			String contentName, int industryId, int addressId) {
 		List<SysInspectionContent> contentList = null;
 		try {
-			contentList = sysInsContentMapper.selectByName(contentName);
+			contentList = sysInsContentMapper.selectByName(contentName, industryId, addressId);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {
@@ -79,6 +77,6 @@ public class SysInspectionContenServiceImpl implements
 		}
 		return sysInspectionContent;
 	}
-	
+
 
 }

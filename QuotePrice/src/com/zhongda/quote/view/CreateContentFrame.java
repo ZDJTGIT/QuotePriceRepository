@@ -1,30 +1,29 @@
 package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableModel;
+
 import com.zhongda.quote.action.CreateContentFrameAction;
 import com.zhongda.quote.model.SysInspectionContent;
 import com.zhongda.quote.service.impl.SysInspectionContenServiceImpl;
+import com.zhongda.quote.utils.RenderDataUtils;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 import com.zhongda.quote.view.uiutils.MyTable;
-
-import java.awt.Font;
-import java.util.List;
-import java.util.Vector;
-import java.util.concurrent.ExecutionException;
-
-import javax.swing.JSeparator;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTextField;
 
 /**
  * 添加检验内容弹框界面
@@ -41,22 +40,19 @@ public class CreateContentFrame {
 	public JDialog jaDialog;
 	private JPanel panel;
 	private JPanel panel_viw, panel_tab;
-	private MyTable tab_viw;
+
 	private JScrollPane scrollPanemike;
-	private JButton btnNewButton_add, btnNewButton_no, btnNewButton_sertch;
-	private JTable jt_inspectionContent;
+	private JButton bt_addContent, bt_cancel, bt_searchSysContent;
 	private JLabel label;
 	private JLabel label_1;
 	private JLabel label_2;
-	private Integer inspectionid;
 	private JLabel label_3;
-	private JTextField textField;
-
-
-	public static void main(String[] args) {
-		new CreateContentFrame();
-	}
-
+	private JTextField jtf_contentName;
+	private JTable jt_sysInspectionContent;
+	private JTable jt_quoteTask;
+	private JTable jt_quoteProject;
+	private JTable jt_inspectionBatch;
+	private JTable jt_inspectionContent;
 
 	/**
 	 * @wbp.parser.constructor
@@ -65,12 +61,15 @@ public class CreateContentFrame {
 		init();
 	}
 
-	// 检验批ID 检验内容主界面table 是否是删除操作
-	public CreateContentFrame(Integer inspectionid, JTable jt_inspectionContent) {
-		this.inspectionid = inspectionid;
+	public CreateContentFrame(JTable jt_quoteTask, JTable jt_quoteProject,
+			JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+		this.jt_quoteTask = jt_quoteTask;
+		this.jt_quoteProject = jt_quoteProject;
+		this.jt_inspectionBatch = jt_inspectionBatch;
 		this.jt_inspectionContent = jt_inspectionContent;
 		init();
 	}
+
 
 	public void init() {
 		jaDialog = new JDialog();
@@ -88,13 +87,13 @@ public class CreateContentFrame {
 		jaDialog.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
-		btnNewButton_add = new JButton("添加");
-		btnNewButton_add.setBounds(446, 384, 93, 23);
-		panel.add(btnNewButton_add);
+		bt_addContent = new JButton("添加");
+		bt_addContent.setBounds(446, 384, 93, 23);
+		panel.add(bt_addContent);
 
-		btnNewButton_no = new JButton("取消");
-		btnNewButton_no.setBounds(572, 384, 93, 23);
-		panel.add(btnNewButton_no);
+		bt_cancel = new JButton("取消");
+		bt_cancel.setBounds(572, 384, 93, 23);
+		panel.add(bt_cancel);
 
 		panel_viw = new JpaneColorAndPhoto("images/bookpen.png", 610, 10, 48, 48);
 		panel_viw.setBounds(0, 0, 694, 76);
@@ -124,39 +123,50 @@ public class CreateContentFrame {
 		label_2.setBounds(0, 364, 54, 15);
 		panel.add(label_2);
 
-		btnNewButton_no.addActionListener(new CreateContentFrameAction(jaDialog));
-
-		label_3 = new JLabel("查询（请输入关键字）");
+		label_3 = new JLabel("请输入检测内容名称：");
 		label_3.setBounds(10, 338, 130, 23);
 		panel.add(label_3);
 
-		textField = new JTextField();
-		textField.setBounds(135, 338, 446, 21);
-		panel.add(textField);
-		textField.setColumns(10);
+		jtf_contentName = new JTextField();
+		jtf_contentName.setBounds(135, 338, 446, 21);
+		panel.add(jtf_contentName);
+		jtf_contentName.setColumns(10);
 
-		btnNewButton_sertch = new JButton("确定");
-		btnNewButton_sertch.setBounds(599, 338, 85, 23);
-		panel.add(btnNewButton_sertch);
+		bt_searchSysContent = new JButton("查询");
+		bt_searchSysContent.setBounds(599, 338, 85, 23);
+		panel.add(bt_searchSysContent);
 
 		// 报价检验内容表格面板
 		scrollPanemike = new JScrollPane();
 		// 初始化检验内容表列名
-		final Object contentColumnsName[] = { "序号", "检验内容", "抽样依据", "抽样数量范围",
-				"抽样数量", "报价依据", "单个检测对象数量范围", "单个检验对象实施数量", "计费单位", "收费标准" };
-		tab_viw = new MyTable(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
-		DefaultTableModel contentTableModel = new DefaultTableModel(null,
-				contentColumnsName);
-		tab_viw.setModel(contentTableModel);
-		tab_viw.getColumnModel().getColumn(0).setMinWidth(0);
-		tab_viw.getColumnModel().getColumn(0).setMaxWidth(0);
+		String[] sysContentColumnsName = { "序号id", "检测内容", "抽样数量范围", "抽样数量",
+			    "单个检测对象实施数量范围", "单个检测对象实施数量", "抽样依据", "计费单位", "收费标准",
+				"收费标准单位", "报价依据" };
+		jt_sysInspectionContent = new MyTable(new int[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
+		jt_sysInspectionContent.setModel(new DefaultTableModel(null, sysContentColumnsName));
+		jt_sysInspectionContent.getColumnModel().getColumn(0).setMinWidth(0);
+		jt_sysInspectionContent.getColumnModel().getColumn(0).setMaxWidth(0);
+		jt_sysInspectionContent.getTableHeader().setFont(new Font("宋体", 0, 12));
+		jt_sysInspectionContent.getColumnModel().getColumn(1).setPreferredWidth(50);
+		jt_sysInspectionContent.getColumnModel().getColumn(5).setPreferredWidth(50);
+		jt_sysInspectionContent.getColumnModel().getColumn(6).setPreferredWidth(50);
+		jt_sysInspectionContent.getColumnModel().getColumn(6).setPreferredWidth(50);
+		jt_sysInspectionContent.getColumnModel().getColumn(7).setPreferredWidth(100);
+		jt_sysInspectionContent.getColumnModel().getColumn(8).setPreferredWidth(100);
+		jt_sysInspectionContent.getColumnModel().getColumn(10).setPreferredWidth(50);
+		jt_sysInspectionContent.getColumnModel().getColumn(10).setPreferredWidth(50);
+
 		// 设置单行可被选中
-		tab_viw.getSelectionModel().setSelectionMode(
+		jt_sysInspectionContent.getSelectionModel().setSelectionMode(
 				ListSelectionModel.SINGLE_SELECTION);
 		// 设置表头不可移动
-		tab_viw.getTableHeader().setReorderingAllowed(false);
-		scrollPanemike.setViewportView(tab_viw);
+		jt_sysInspectionContent.getTableHeader().setReorderingAllowed(false);
+		scrollPanemike.setViewportView(jt_sysInspectionContent);
 		panel_tab.add(scrollPanemike, BorderLayout.CENTER);
+
+		//获取检验批Id
+		int batchRow = jt_inspectionBatch.getSelectedRow();
+		final int batchId = (int) jt_inspectionBatch.getValueAt(batchRow, 0);
 		// 生成该窗口时启动任务线程从数据库加载初始化数据(包括所有检验内容)
 		new SwingWorker<List<SysInspectionContent>, SysInspectionContent>() {
 
@@ -165,44 +175,33 @@ public class CreateContentFrame {
 					throws Exception {
 				// 从数据库获取所有未选中系统检验内容
 				return new SysInspectionContenServiceImpl()
-						.selectSysInspectionContent(inspectionid);
+						.selectSysInspectionContent(batchId);
 			}
 
 			@Override
 			protected void done() {
-				List<SysInspectionContent> sysInspectionContentSysInspectionContentList;
+				List<SysInspectionContent> sysContentList;
 				try {
-					sysInspectionContentSysInspectionContentList = get();
-					DefaultTableModel model = (DefaultTableModel) tab_viw
-							.getModel();
-					for (SysInspectionContent sic : sysInspectionContentSysInspectionContentList) {
-						Vector<Object> dataRow = new Vector<Object>();
-						dataRow.add(sic.getId());
-						dataRow.add(sic.getInspectionContentName());
-						dataRow.add(sic.getSampleBasisId());
-						dataRow.add(sic.getSampleQuantityRange());
-						dataRow.add(sic.getSampleQuantity());
-						dataRow.add(sic.getQuoteBasisId());
-						dataRow.add(sic.getSingleQuantityRange());
-						dataRow.add(sic.getSingleObjectQuantity());
-						dataRow.add(sic.getChargeUnit());
-						dataRow.add(sic.getChargeStandard());
-						model.addRow(dataRow);
-						tab_viw.setRowSelectionInterval(0, 0);// 选中第一行
-					}
+					sysContentList = get();
+					RenderDataUtils.renderSysContentData(jt_sysInspectionContent, sysContentList);
 				} catch (InterruptedException | ExecutionException e) {
 					e.printStackTrace();
 				}
 			}
 		}.execute();
 
-		btnNewButton_add.setActionCommand("add");
-		// 传入检验批ID-inspectionid,tab-viw
-		btnNewButton_add.addActionListener(new CreateContentFrameAction(
-				jt_inspectionContent, inspectionid, jaDialog, tab_viw));
-		btnNewButton_no.setActionCommand("no");
-		btnNewButton_sertch.setActionCommand("sertch");
-		btnNewButton_sertch.addActionListener(new CreateContentFrameAction(textField,tab_viw));
+		//添加按钮事件
+		bt_addContent.setActionCommand("addContent");
+		bt_addContent.addActionListener(new CreateContentFrameAction(jt_quoteTask, jt_quoteProject,
+				jt_inspectionBatch, jt_inspectionContent, jaDialog, jt_sysInspectionContent));
+
+		//取消按钮事件
+		bt_cancel.setActionCommand("cancel");
+		bt_cancel.addActionListener(new CreateContentFrameAction(jaDialog));
+
+		//查询按钮事件
+		bt_searchSysContent.setActionCommand("searchContent");
+		bt_searchSysContent.addActionListener(new CreateContentFrameAction(jtf_contentName,jt_sysInspectionContent));
 
 	}
 }

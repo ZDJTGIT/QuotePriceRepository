@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.zhongda.quote.model.Address;
+import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.view.CreateBatchFrame;
 import com.zhongda.quote.view.CreateContentFrame;
 import com.zhongda.quote.view.CreateProjectFrame;
@@ -46,39 +48,12 @@ public class FrameGoUtils {
 	}
 
 	/**
-	 * 联动创建报价项目窗口
+	 * 创建报价项目窗口
 	 * @param jt_quoteTask
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 */
-	public static void createContent(final Integer inspectionid,final JTable jt_inspectionContent){
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateContentFrame window = new CreateContentFrame(inspectionid,jt_inspectionContent);
-					window.jaDialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public static void modifyContent(final JTable jt_inspectionContent){
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					//传入一个检验批ID作为显示的内容的依据
-					ModifyContentFrame window = new ModifyContentFrame( jt_inspectionContent);
-					window.jaDialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public static void createProject(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -93,38 +68,20 @@ public class FrameGoUtils {
 	}
 
 	/**
-	 * 单独创建报价项目窗口
-	 * @param jt_quoteTask
-	 * @param jt_quoteProject
-	 * @param jt_inspectionBatch
-	 * @param jt_inspectionContent
-	 */
-	public static void createProject(final JTable jt_quoteTask, final JTable jt_quoteProject) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateProjectFrame window = new CreateProjectFrame(jt_quoteTask, jt_quoteProject);
-					window.dialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	  * 联动创建检验批窗口
 	 * @param batchMap 需传入一个map对象接受用户选择好的检验批和检验内容
 	 * @param jp_inspectionBatch 添加检验批的panel
 	 * @param projectName 项目名称
+	 * @param address 所选行业
+	 * @param industry 所选地址
 	 */
 	public static void createBatch(final Map<String, Map<String,Object>> batchMap, final JPanel jp_inspectionBatch,
-			String projectName, final JTextField jtf_projectAmount) {
+			String projectName, final JTextField jtf_projectAmount, Industry industry, Address address) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					CreateBatchFrame window = new CreateBatchFrame(
-							batchMap, jp_inspectionBatch, projectName, jtf_projectAmount);
+							batchMap, jp_inspectionBatch, projectName, jtf_projectAmount, industry, address);
 					window.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -152,6 +109,41 @@ public class FrameGoUtils {
 		});
 	}
 
+	/**
+	 * 创建检验内容窗口
+	 * @param jt_quoteTask
+	 * @param jt_quoteProject
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
+	 */
+	public static void createContent(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent){
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreateContentFrame window = new CreateContentFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
+					window.jaDialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public static void modifyContent(final JTable jt_inspectionContent){
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					//传入一个检验批ID作为显示的内容的依据
+					ModifyContentFrame window = new ModifyContentFrame( jt_inspectionContent);
+					window.jaDialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+
 	/*
 	 * 添加检验内容界面
 	 */
@@ -167,7 +159,7 @@ public class FrameGoUtils {
 			}
 		});
 	}
-	
+
 	/*
 	 * 查看详细检验内容界面
 	 */
@@ -183,5 +175,4 @@ public class FrameGoUtils {
 			}
 		});
 	}
-	
 }

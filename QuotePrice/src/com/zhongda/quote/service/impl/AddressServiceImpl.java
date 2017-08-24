@@ -4,13 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
 import com.zhongda.quote.dao.AddressMapper;
-import com.zhongda.quote.dao.QuoteBasisMapper;
 import com.zhongda.quote.model.Address;
-import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.service.AddressService;
 import com.zhongda.quote.utils.MyBatisUtil;
 

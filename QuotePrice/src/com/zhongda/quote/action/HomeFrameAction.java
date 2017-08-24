@@ -113,16 +113,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		} else if ("deleteInspectionBatch".equals(command)) {
 			deleteInspectionBatch(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 		} else if ("createContent".equals(command)) {
-			int row = jt_inspectionBatch.getSelectedRow();
-			if (row < 0) {
-				JOptionPane.showMessageDialog(null, "请选择一个检验批添加检验内容！", "提示信息",
-						JOptionPane.WARNING_MESSAGE);
-			} else {
-				// 获取当前检验批ID，新建时传入检验批ID作为打开的“钥匙”
-				Integer inspectionid = (Integer) jt_inspectionBatch.getValueAt(
-						row, 0);
-				FrameGoUtils.createContent(inspectionid, jt_inspectionContent);
-			}
+			createFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent, ConstantUtils.CONTENT);
 		} else if ("deleteContent".equals(command)) {
 			deleteInspectionContent(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 		} else if ("updateContent".equals(command)) {
@@ -152,14 +143,17 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 创建项目，检验批或检验内容的时候判断是否有上级存在，有则打开创建窗口，没有则给出提示信息
-	 * @param jt_parentTable 父级Table
-	 * @param jt_childTable 子级Table
+	 * @param jt_quoteTask
+	 * @param jt_quoteProject
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
+	 * @param frameName 项目和检验批以及内容的标志
 	 */
 	private void createFrame(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent, String frameName) {
 		if(ConstantUtils.PROJECT.equals(frameName)){ //创建项目
 			int row = jt_quoteTask.getSelectedRow();
 			if (row < 0) {
-				JOptionPane.showMessageDialog(null, "请选中"+frameName, "提示信息",
+				JOptionPane.showMessageDialog(null, "请选中"+ConstantUtils.TASK, "提示信息",
 						JOptionPane.WARNING_MESSAGE);
 			} else{
 				FrameGoUtils.createProject(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
@@ -167,7 +161,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		}else if(ConstantUtils.BATCH.equals(frameName)){ //创建检验批
 			int row = jt_quoteProject.getSelectedRow();
 			if (row < 0) {
-				JOptionPane.showMessageDialog(null, "请选中"+frameName, "提示信息",
+				JOptionPane.showMessageDialog(null, "请选中"+ConstantUtils.PROJECT, "提示信息",
 						JOptionPane.WARNING_MESSAGE);
 			} else{
 				FrameGoUtils.createBatch(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
@@ -175,10 +169,10 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		}else{ //创建检验内容
 			int row = jt_inspectionBatch.getSelectedRow();
 			if (row < 0) {
-				JOptionPane.showMessageDialog(null, "请选中"+frameName, "提示信息",
+				JOptionPane.showMessageDialog(null, "请选中"+ConstantUtils.BATCH, "提示信息",
 						JOptionPane.WARNING_MESSAGE);
 			} else{
-//				FrameGoUtils.createContent(jt_inspectionBatch, jt_inspectionContent, true);
+				FrameGoUtils.createContent(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 			}
 		}
 	}

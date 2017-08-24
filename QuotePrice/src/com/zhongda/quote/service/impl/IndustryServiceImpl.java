@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.zhongda.quote.dao.IndustryMapper;
-import com.zhongda.quote.model.Address;
 import com.zhongda.quote.model.Industry;
 import com.zhongda.quote.service.IndustryService;
 import com.zhongda.quote.utils.MyBatisUtil;

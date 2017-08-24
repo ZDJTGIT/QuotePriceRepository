@@ -4,7 +4,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
 import com.zhongda.quote.dao.SampleBasisMapper;
-import com.zhongda.quote.model.QuoteBasis;
 import com.zhongda.quote.model.SampleBasis;
 import com.zhongda.quote.service.SampleBasisService;
 import com.zhongda.quote.utils.MyBatisUtil;
@@ -18,7 +17,7 @@ public class SampleBasisServiceImpl implements SampleBasisService{
 
 	private SampleBasisMapper sampleBasisMapper = sqlSession
 			.getMapper(SampleBasisMapper.class);
-	
+
 	@Override
 	public SampleBasis SelectSampleBasisByInspectionContentID(
 			Integer InspectionContentID) {

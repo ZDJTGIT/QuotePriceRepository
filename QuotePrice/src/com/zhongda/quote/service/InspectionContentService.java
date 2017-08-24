@@ -15,12 +15,14 @@ public interface InspectionContentService {
 
 	/**
 	 * 创建一个检验内容
-	 *
 	 * @param inspectionContent
-	 * @return 返回当前插入检验内容，可通过返回的任务是否为null来判断创建是否成功
+	 * @param taskAmount 需修改的任务金额
+	 * @param projectAmount 需修改的项目金额
+	 * @param batchAmount 需修改的检验批金额
+	 * @return
 	 */
-	InspectionContent createInspectionContent(
-			InspectionContent inspectionContent);
+	InspectionContent createInspectionContent(InspectionContent inspectionContent,
+			double taskAmount, double projectAmount, double batchAmount);
 
 	/**
 	 * 获取当前检验批下所有的检验内容

@@ -202,6 +202,9 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 		if ("新建检验批".equals((String) jcb_selectOrCreateBatch.getSelectedItem())) {
 			jcb_selectOrCreateBatch.setSelectedIndex(0);// 点击新建检验批后选中第一个数据
 			String projectName = jtf_projectName.getText();
+			//获取行业和地址
+			Industry industry = (Industry) jcb_industry.getSelectedItem();
+			Address address = (Address) jcb_province.getSelectedItem();
 			if (null == projectName || "".equals(projectName.trim())) {
 				JOptionPane.showMessageDialog(null, "请先填写项目名称", "提示信息",
 						JOptionPane.WARNING_MESSAGE);
@@ -217,11 +220,11 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 						jcb_city.setEnabled(false);
 						jcb_county.setEnabled(false);
 						FrameGoUtils.createBatch(
-								batchMap, jp_batchItems, projectName, jtf_projectAmount);
+								batchMap, jp_batchItems, projectName, jtf_projectAmount, industry, address);
 					}
 				}else{
 					FrameGoUtils.createBatch(
-							batchMap, jp_batchItems, projectName, jtf_projectAmount);
+							batchMap, jp_batchItems, projectName, jtf_projectAmount, industry, address);
 				}
 			}
 		}
