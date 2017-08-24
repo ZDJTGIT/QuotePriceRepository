@@ -11,4 +11,10 @@ public interface IndustryService {
 	 * @return
 	 */
 	List<Industry> queryAllIndustry();
+	/**
+	 * 传入检验内容ID查所属行业
+	 * @param InspectionID
+	 * @return
+	 */
+	Industry selectIndustryByInspectionID(Integer InspectionID);
 }

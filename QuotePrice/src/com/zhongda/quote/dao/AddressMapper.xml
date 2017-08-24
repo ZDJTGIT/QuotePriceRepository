@@ -18,6 +18,14 @@
     from Address
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAddressByInspectionID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+     <include refid="Base_Column_List" />
+      from Address where id = (select address_id 
+      from SysInspectionContent where id = 
+      (select source_id from inspectionContent 
+      where id = #{InspectionID,jdbcType=INTEGER}))
+  </select>
   <select id="selectAllProvince" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

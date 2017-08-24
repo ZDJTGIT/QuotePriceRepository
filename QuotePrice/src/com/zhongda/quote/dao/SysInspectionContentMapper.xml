@@ -62,7 +62,13 @@
     (select source_id from InspectionContent 
     where InspectionContent.batch_id = #{batchID,jdbcType=INTEGER})
   </select> 
-     
+  <select id="selectSysInspectionContentByInspectionContentID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from SysInspectionContent where id = 
+    (select source_id from inspectionContent 
+    where id = #{InspectionContentID,jdbcType=INTEGER})
+  </select>
   <select id="selectAllBlurrySysInspectionContent" parameterType="java.lang.String" 
   resultMap="BaseResultMap">
     select 
@@ -71,7 +77,6 @@
     where inspection_content_name 
     like '%${_parameter}%'
   </select>
-     
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from SysInspectionContent
     where id = #{id,jdbcType=INTEGER}

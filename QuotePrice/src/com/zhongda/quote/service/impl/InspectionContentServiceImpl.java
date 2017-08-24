@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.zhongda.quote.dao.InspectionContentMapper;
 import com.zhongda.quote.model.InspectionContent;
+import com.zhongda.quote.model.SysInspectionContent;
 import com.zhongda.quote.service.InspectionContentService;
 import com.zhongda.quote.utils.MyBatisUtil;
 
@@ -128,6 +129,21 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 			MyBatisUtil.closeSqlSession();
 		}
 		return isTrue;
+	}
+
+	@Override
+	public InspectionContent selectInspectionContentByInspectionContentID(
+			Integer InspectionContentID) {
+		InspectionContent inspectionContent = null;
+		try {
+			inspectionContent = inspectionContentMapper
+					.selectInspectionContentByInspectionContentID(InspectionContentID);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return inspectionContent;
 	}
 
 }

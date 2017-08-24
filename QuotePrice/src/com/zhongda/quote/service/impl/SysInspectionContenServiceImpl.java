@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
+import com.zhongda.quote.dao.InspectionContentMapper;
 import com.zhongda.quote.dao.SysInspectionContentMapper;
+import com.zhongda.quote.model.QuoteBasis;
 import com.zhongda.quote.model.SysInspectionContent;
 import com.zhongda.quote.service.SysInspectionContentService;
 import com.zhongda.quote.utils.MyBatisUtil;
@@ -20,7 +22,7 @@ public class SysInspectionContenServiceImpl implements
 
 	private SysInspectionContentMapper sysInsContentMapper = sqlSession
 			.getMapper(SysInspectionContentMapper.class);
-
+	
 	@Override
 	public List<SysInspectionContent> querySysInspectionContentByContentName(
 			String contentName) {
@@ -55,6 +57,21 @@ public class SysInspectionContenServiceImpl implements
 		List<SysInspectionContent> sysInspectionContent = null;
 		try {
 			sysInspectionContent = sysInsContentMapper.selectAllBlurrySysInspectionContent(blurryString);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return sysInspectionContent;
+	}
+
+	@Override
+	public SysInspectionContent selectSysInspectionContentByInspectionContentID(
+			Integer InspectionContentID) {
+		SysInspectionContent sysInspectionContent = null;
+		try {
+			sysInspectionContent = sysInsContentMapper
+					.selectSysInspectionContentByInspectionContentID(InspectionContentID);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {

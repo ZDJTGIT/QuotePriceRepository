@@ -14,6 +14,14 @@
     from Industry
     where id = #{id,jdbcType=INTEGER}
   </select>
+   <select id="selectIndustryByInspectionID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+     <include refid="Base_Column_List" />
+      from Industry where id = (select industry_id 
+      from SysInspectionContent where id = 
+      (select source_id from inspectionContent 
+      where id = #{InspectionID,jdbcType=INTEGER}))
+  </select>
   <select id="selectAllIndustry" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

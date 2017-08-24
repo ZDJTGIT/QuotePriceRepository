@@ -114,6 +114,7 @@ public class HomeFrame {
 	private JButton jbt_updateInspectionBatch;
 	private JButton jbt_createContent;
 	private JButton jbt_updateContent;
+	private JButton jbt_selectContent;
 	private JLabel jlb_quoteProject;
 	private JLabel jlb_center_down;
 	private JLabel jlb_right_jcnr;
@@ -166,6 +167,7 @@ public class HomeFrame {
 
 	private JScrollPane scrollPanemike;
 	private MyTable jt_inspectionContent;
+	
 
 	/**
 	 * Create the frame.
@@ -497,6 +499,12 @@ public class HomeFrame {
 		jbt_deleteContent.setToolTipText("删除检验内容");
 		jbt_deleteContent.setFocusPainted(false);// 去除按钮边线
 		jtb_right_jcnr.add(jbt_deleteContent);
+		
+		jbt_selectContent = new JButton();
+		jbt_selectContent.setIcon(new ImageIcon("images/daochu.png"));
+		jbt_selectContent.setToolTipText("查看详细检验内容");
+		jbt_selectContent.setFocusPainted(false);// 去除按钮边线
+		jtb_right_jcnr.add(jbt_selectContent);
 
 		jtb_right_jcnr.addSeparator();// 分隔符
 		jlb_jcnr = new JLabel(" 查找  ");
@@ -852,7 +860,11 @@ public class HomeFrame {
 		jbt_deleteContent.setActionCommand("deleteContent");
 		jbt_deleteContent.addActionListener(new HomeFrameAction(null, null,
 				null, jt_inspectionContent));
-
+		//添加查看详细检验内容事件
+		jbt_selectContent.setActionCommand("selectContent");
+		jbt_selectContent.addActionListener(new HomeFrameAction(null,null,
+				null,jt_inspectionContent));
+		
 		/**
 		 * 鼠标点击事件
 		 */

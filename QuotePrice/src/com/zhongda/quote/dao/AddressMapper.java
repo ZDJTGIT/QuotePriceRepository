@@ -20,5 +20,11 @@ public interface AddressMapper {
 	 * @return
 	 */
 	List<Address> selectAllCityOrCountyByParent(Integer id);
+	/**
+	 * 传入检验内容ID查所在地址
+	 * @param InspectionID
+	 * @return
+	 */
+	Address selectAddressByInspectionID(Integer InspectionID);
 
 }

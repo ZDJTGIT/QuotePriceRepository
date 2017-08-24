@@ -70,5 +70,12 @@ public interface InspectionContentMapper {
 	 * @return
 	 */
 	int insert(InspectionContent record);
+	
+	/**
+	 * 传当前检验内容ID获取检验内容
+	 * @param InspectionContentID
+	 * @return InspectionContent
+	 */
+	InspectionContent selectInspectionContentByInspectionContentID(Integer InspectionContentID);
 
 }

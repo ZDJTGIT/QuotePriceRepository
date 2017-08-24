@@ -11,6 +11,7 @@ import com.zhongda.quote.view.CreateBatchFrame;
 import com.zhongda.quote.view.CreateContentFrame;
 import com.zhongda.quote.view.CreateProjectFrame;
 import com.zhongda.quote.view.CreateTaskFrame;
+import com.zhongda.quote.view.DetailsOfContentFrame;
 import com.zhongda.quote.view.ModifyContentFrame;
 
 /**
@@ -151,23 +152,36 @@ public class FrameGoUtils {
 		});
 	}
 
-	/**
-	 * 创建检验内容窗口或修改检验内容窗口
-	 * @param jt_inspectionBatch
-	 * @param jt_inspectionContent
-	 * @param isCreate 为true时，表示是创建任务窗口，false 时表示是修改任务窗口
+	/*
+	 * 添加检验内容界面
 	 */
-//	public static void createContent(final JTable jt_inspectionBatch,final JTable jt_inspectionContent, final boolean isCreate){
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					//传入一个检验批ID作为显示的内容的依据
-//					CreateContentFrame window = new CreateContentFrame(jt_inspectionBatch,jt_inspectionContent, isCreate);
-//					window.jaDialog.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void updateContent(){
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreateContentFrame window = new CreateContentFrame();
+					window.jaDialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	/*
+	 * 查看详细检验内容界面
+	 */
+	public static void selectContent(Integer InspectionContentID){
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					DetailsOfContentFrame window = new DetailsOfContentFrame(InspectionContentID);
+					window.jDialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 }

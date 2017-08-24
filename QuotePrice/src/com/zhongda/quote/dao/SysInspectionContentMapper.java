@@ -38,4 +38,10 @@ public interface SysInspectionContentMapper {
 	 * @return SysInspectionContent
 	 */
 	List<SysInspectionContent> selectAllBlurrySysInspectionContent(String blurryString);
+	/**
+	 * 传入当前选中的检验内容ID查询系统检验内容表
+	 * @param InspectionContentID
+	 * @return SysInspectionContent
+	 */
+	SysInspectionContent selectSysInspectionContentByInspectionContentID(Integer InspectionContentID);
 }

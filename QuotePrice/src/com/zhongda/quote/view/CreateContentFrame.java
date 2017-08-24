@@ -1,6 +1,7 @@
 package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -15,16 +16,18 @@ import com.zhongda.quote.model.SysInspectionContent;
 import com.zhongda.quote.service.impl.SysInspectionContenServiceImpl;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 import com.zhongda.quote.view.uiutils.MyTable;
+
 import java.awt.Font;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.JSeparator;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 
 /**
- * 创建检验内容弹框界面
+ * 添加检验内容弹框界面
  * <p>
  *
  * <p>
@@ -48,6 +51,7 @@ public class CreateContentFrame {
 	private Integer inspectionid;
 	private JLabel label_3;
 	private JTextField textField;
+
 
 	public static void main(String[] args) {
 		new CreateContentFrame();
@@ -92,7 +96,7 @@ public class CreateContentFrame {
 		btnNewButton_no.setBounds(572, 384, 93, 23);
 		panel.add(btnNewButton_no);
 
-		panel_viw = new JpaneColorAndPhoto("images/bookpen.png", 430, 2, 48, 48);
+		panel_viw = new JpaneColorAndPhoto("images/bookpen.png", 610, 10, 48, 48);
 		panel_viw.setBounds(0, 0, 694, 76);
 		panel_viw.setLayout(null);
 		panel.add(panel_viw);

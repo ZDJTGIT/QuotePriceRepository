@@ -136,6 +136,16 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		}else if("Forbidden".equals(command)){
 			JOptionPane.showMessageDialog(null, "当前内容过少，无需查找！！！", "提示信息",
 					JOptionPane.WARNING_MESSAGE);
+		}else if("selectContent".equals(command)){
+			//获取当前选中的检验内容ID InspectionContentID
+			int row = jt_inspectionContent.getSelectedRow();
+			if (row < 0) {
+				JOptionPane.showMessageDialog(null, "请选择一个检验内容查看！", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			} else {
+			Integer InspectionContentID = (Integer) jt_inspectionContent.getValueAt(row, 0);
+			FrameGoUtils.selectContent(InspectionContentID);
+			}
 		}
 	}
 

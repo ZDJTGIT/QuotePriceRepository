@@ -23,4 +23,10 @@ public interface IndustryMapper {
 	 * @return
 	 */
 	List<Industry> selectAllIndustry();
+	/**
+	 * 传入检验内容ID查所属行业
+	 * @param InspectionID
+	 * @return
+	 */
+	Industry selectIndustryByInspectionID(Integer InspectionID);
 }
