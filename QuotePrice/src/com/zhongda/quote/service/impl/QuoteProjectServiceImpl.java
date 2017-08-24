@@ -10,9 +10,11 @@ import org.apache.log4j.Logger;
 import com.zhongda.quote.dao.InspectionBatchMapper;
 import com.zhongda.quote.dao.InspectionContentMapper;
 import com.zhongda.quote.dao.QuoteProjectMapper;
+import com.zhongda.quote.dao.QuoteTaskMapper;
 import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.model.QuoteProject;
+import com.zhongda.quote.model.QuoteTask;
 import com.zhongda.quote.service.QuoteProjectService;
 import com.zhongda.quote.utils.MyBatisUtil;
 
@@ -31,7 +33,8 @@ public class QuoteProjectServiceImpl implements QuoteProjectService {
 			.getLogger(QuoteProjectServiceImpl.class);
 
 	private SqlSession sqlSession = MyBatisUtil.getSqlSession();
-
+	private QuoteTaskMapper quoteTaskMapper = sqlSession
+			.getMapper(QuoteTaskMapper.class);
 	private QuoteProjectMapper quoteProjectMapper = sqlSession
 			.getMapper(QuoteProjectMapper.class);
 	private InspectionBatchMapper inspectionBatchMapper = sqlSession
@@ -72,9 +75,11 @@ public class QuoteProjectServiceImpl implements QuoteProjectService {
 		return quoteProject;
 	}
 
-	public boolean deleteQuoteProject(Integer id) {
+	public boolean deleteQuoteProject(Integer id, double taskAmount) {
 		int index = 0;
 		try {
+			QuoteProject quoteProject = quoteProjectMapper.selectByPrimaryKey(id);
+			quoteTaskMapper.updateByPrimaryKeySelective(new QuoteTask(quoteProject.getTaskId(), taskAmount));
 			index = quoteProjectMapper.deleteByPrimaryKey(id);
 			sqlSession.commit();
 		} catch (Exception e) {
@@ -91,7 +96,7 @@ public class QuoteProjectServiceImpl implements QuoteProjectService {
 	}
 
 	public Map<String, Object> createProjectAndBatchAndContent(QuoteProject quoteProject,
-			Map<String, Map<String, Object>> batchMap) {
+			Map<String, Map<String, Object>> batchMap, double taskAmount) {
 		Map<String, Object> quoteMap = null;
 		try {
 			quoteMap =new HashMap<String, Object>();
@@ -101,15 +106,21 @@ public class QuoteProjectServiceImpl implements QuoteProjectService {
 				quoteMap.put("project", quoteProject);
 				for (Map<String, Object> map : batchMap.values()) {
 					InspectionBatch inspectionBatch = (InspectionBatch) map.get("batch");
-					inspectionBatch.setProjectId(quoteProject.getId());
-					int indexBatch = inspectionBatchMapper.insert(inspectionBatch);
-					if(indexBatch >0){
-						@SuppressWarnings("unchecked")
-						List<InspectionContent> contentList = (List<InspectionContent>) map.get("content");
-						inspectionBatch = inspectionBatchMapper.selectInspectionBatchByMaxId();
-						for (InspectionContent inspectionContent : contentList) {
-							inspectionContent.setBatchId(inspectionBatch.getId());
-							inspectionContentMapper.insert(inspectionContent);
+					if(null != inspectionBatch){
+						inspectionBatch.setProjectId(quoteProject.getId());
+						int indexBatch = inspectionBatchMapper.insert(inspectionBatch);
+						if(indexBatch >0){
+							@SuppressWarnings("unchecked")
+							List<InspectionContent> contentList = (List<InspectionContent>) map.get("content");
+							if(null != contentList && contentList.size() > 0){
+								inspectionBatch = inspectionBatchMapper.selectInspectionBatchByMaxId();
+								for (InspectionContent inspectionContent : contentList) {
+									inspectionContent.setBatchId(inspectionBatch.getId());
+									inspectionContentMapper.insert(inspectionContent);
+								}
+								//如果有检验内容添加则修改任务金额
+								quoteTaskMapper.updateByPrimaryKeySelective(new QuoteTask(quoteProject.getTaskId(), taskAmount));
+							}
 						}
 					}
 				}

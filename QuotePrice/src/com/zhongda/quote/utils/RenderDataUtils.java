@@ -94,7 +94,7 @@ public class RenderDataUtils {
 		rowData.add(quoteProject.getOtherAmount());
 		rowData.add(quoteProject.getProjectAmount());
 		model.addRow(rowData);
-		jt_quoteProject.setRowSelectionInterval(model.getRowCount() - 1, 0);
+		jt_quoteProject.setRowSelectionInterval(model.getRowCount() - 1, model.getRowCount() - 1);
 		jt_quoteProject.updateUI();
 	}
 
@@ -122,6 +122,28 @@ public class RenderDataUtils {
 			jt_inspectionBatch.setRowSelectionInterval(0, 0);// 选中第一行
 		}
 		jt_inspectionBatch.updateUI();
+	}
+
+	/**
+	 * 渲染单个检验批数据到检验批Table
+	 * @param jt_inspectionBatch 检验批Table
+	 * @param inspectionBatch 单个检验批数据
+	 */
+	public static void renderSingleBatchData(JTable jt_inspectionBatch,
+			InspectionBatch inspectionBatch) {
+		if (null != inspectionBatch) {
+			DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
+					.getModel();
+			Vector<Object> dataRow = new Vector<Object>();
+			dataRow.add(inspectionBatch.getId());
+			dataRow.add(inspectionBatch
+					.getInspectionBatchName());
+			dataRow.add(inspectionBatch
+					.getInspectionBatchAmount());
+			model.addRow(dataRow);
+			jt_inspectionBatch.setRowSelectionInterval(model.getRowCount() - 1, model.getRowCount() - 1);// 选中新添加的一行
+			jt_inspectionBatch.updateUI();
+		}
 	}
 
 	/**
@@ -159,6 +181,34 @@ public class RenderDataUtils {
 	}
 
 	/**
+	 * 渲染自定义部分数据数据到检验内容Table
+	 * @param jt_inspectionContent 检验内容Table
+	 * @param inspectionList 自定义部分检验内容数据
+	 */
+	public static void renderPartContentData(JTable jt_inspectionContent,
+			List<InspectionContent> contentList) {
+		DefaultTableModel model = (DefaultTableModel) jt_inspectionContent
+				.getModel();
+		// 清除模板数据
+		model.getDataVector().clear();
+		if (null != contentList && contentList.size() > 0) {
+			for (InspectionContent inspectionContent : contentList) {
+				Vector<Object> dataRow = new Vector<Object>();
+				dataRow.add(inspectionContent.getId());
+				dataRow.add(inspectionContent.getInspectionContentName());
+				dataRow.add(inspectionContent.getSampleQuantity());
+				dataRow.add(inspectionContent.getSingleObjectQuantity());
+				dataRow.add(inspectionContent.getChargeStandard());
+				dataRow.add(inspectionContent.getInspectionContentAmount());
+				model.addRow(dataRow);
+			}
+			jt_inspectionContent.setRowSelectionInterval(0, 0);// 选中第一行
+		}
+		jt_inspectionContent.updateUI();
+	}
+
+
+	/**
 	 * 添加单个检测内容数据到检验内容Table
 	 * @param jt_inspectionContent 检验内容Table
 	 * @param inspectionContent 单个检验内容数据
@@ -185,7 +235,7 @@ public class RenderDataUtils {
 			dataRow.add(inspectionContent.getQuoteBasisId());
 			dataRow.add(inspectionContent.getInspectionContentAmount());
 			model.addRow(dataRow);
-			jt_inspectionContent.setRowSelectionInterval(model.getRowCount() - 1, 0);// 选中新添加的一行
+			jt_inspectionContent.setRowSelectionInterval(model.getRowCount() - 1, model.getRowCount() - 1);// 选中新添加的一行
 			jt_inspectionContent.updateUI();
 		}
 	}

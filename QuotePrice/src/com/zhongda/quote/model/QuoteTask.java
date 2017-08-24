@@ -29,6 +29,11 @@ public class QuoteTask {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
+	public QuoteTask(Integer taskId, double taskAmount) {
+		this.id = taskId;
+		this.taskAmount = taskAmount;
+	}
+
 	public Integer getId() {
 		return id;
 	}

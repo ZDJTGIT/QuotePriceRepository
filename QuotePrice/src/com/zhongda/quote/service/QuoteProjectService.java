@@ -24,18 +24,19 @@ public interface QuoteProjectService {
 	QuoteProject createProject(QuoteProject quoteProject);
 
 	/**
-	 * 删除一个报价项目根据项目id
+	 * 删除一个报价项目根据项目id,同时修改任务的金额
 	 * @param id
 	 * @return 返回成功或失败的提示信息
 	 */
-	boolean deleteQuoteProject(Integer id);
+	boolean deleteQuoteProject(Integer id, double taskAmount);
 
 	/**
 	 * 联动插入一条项目同时插入对应的检验批已经检验内容
 	 * @param quoteProject 需插入的项目对象
 	 * @param batchMap 需插入的检验批已经检验内容
+	 * @param taskAmount 需修改的任务金额
 	 * @return 插入成功的所有数据
 	 */
 	Map<String, Object> createProjectAndBatchAndContent(QuoteProject quoteProject,
-			Map<String, Map<String, Object>> batchMap);
+			Map<String, Map<String, Object>> batchMap, double taskAmount);
 }

@@ -166,8 +166,8 @@ public class LoginFrame {
 				MyBatisUtil.getSqlSession();
 				long end = new Date().getTime();
 				System.out.println("加载数据库配置文件结束");
-				System.out.println("此次加载数据库配置文件耗时：" + (end - start) / 1000
-						+ "秒");
+				System.out.println("此次加载数据库配置文件耗时：" + (end - start)
+						+ "ms");
 				return null;
 			}
 

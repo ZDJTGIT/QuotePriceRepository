@@ -107,11 +107,11 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		} else if ("createProject".equals(command)) {
 			createFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent, ConstantUtils.PROJECT);
 		} else if ("deleteProject".equals(command)) {
-			deleteQuoteProject(jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
+			deleteQuoteProject(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 		} else if ("createInspectionBatch".equals(command)) {
-			createFrame(null, jt_quoteProject, jt_inspectionBatch, null, ConstantUtils.BATCH);
+			createFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent, ConstantUtils.BATCH);
 		} else if ("deleteInspectionBatch".equals(command)) {
-			deleteInspectionBatch(jt_inspectionBatch, jt_inspectionContent);
+			deleteInspectionBatch(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 		} else if ("createContent".equals(command)) {
 			int row = jt_inspectionBatch.getSelectedRow();
 			if (row < 0) {
@@ -124,7 +124,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				FrameGoUtils.createContent(inspectionid, jt_inspectionContent);
 			}
 		} else if ("deleteContent".equals(command)) {
-			deleteInspectionContent(jt_inspectionContent);
+			deleteInspectionContent(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 		} else if ("updateContent".equals(command)) {
 			int row = jt_inspectionContent.getSelectedRow();
 			if (row < 0) {
@@ -170,7 +170,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				JOptionPane.showMessageDialog(null, "请选中"+frameName, "提示信息",
 						JOptionPane.WARNING_MESSAGE);
 			} else{
-				FrameGoUtils.createBatch(jt_quoteProject, jt_inspectionBatch);
+				FrameGoUtils.createBatch(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 			}
 		}else{ //创建检验内容
 			int row = jt_inspectionBatch.getSelectedRow();
@@ -219,7 +219,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * 删除检验内容
 	 * @param jt_inspectionContent
 	 */
-	private void deleteInspectionContent(final JTable jt_inspectionContent) {
+	private void deleteInspectionContent(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
 		final int row = jt_inspectionContent.getSelectedRow();
 		if (row < 0) {
 			JOptionPane.showMessageDialog(null, "没有选中需要删除的检验内容,请选中后再进行删除操作！",
@@ -228,14 +228,24 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			int flag = JOptionPane.showConfirmDialog(null, "确定删除该条检验内容？",
 					"删除检验内容", JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
-
+				//获取检验内容id
 				final Integer contentId = (Integer) jt_inspectionContent.getValueAt(row, 0);
+				//获取检验内容金额
+				final double contentAmount = (double)jt_inspectionContent.getValueAt(row, 5);
+				System.out.println("contentAmount:"+contentAmount);
+				//重新计算任务金额与项目金额及检验批金额
+				int taskRow = jt_quoteTask.getSelectedRow();
+				double taskAmount = (double)jt_quoteTask.getValueAt(taskRow, 7) - contentAmount;
+				int projectRow = jt_quoteProject.getSelectedRow();
+				double projectAmount = (double)jt_quoteProject.getValueAt(projectRow, 5) - contentAmount;
+				int batchtRow = jt_inspectionBatch.getSelectedRow();
+				double batchAmount = (double)jt_inspectionBatch.getValueAt(batchtRow, 2) - contentAmount;
 				//通过线程从数据库中获取该检验内容的ID
 				new SwingWorker<Integer, Void>(){
 					@Override
 					protected Integer doInBackground() throws Exception {
 						return new InspectionContentServiceImpl()
-								.deleteInspectionByID(contentId);
+								.deleteInspectionByID(contentId, taskAmount, projectAmount, batchAmount);
 					}
 
 					@Override
@@ -251,6 +261,12 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 								DefaultTableModel model = (DefaultTableModel) jt_inspectionContent
 										.getModel();
 								model.removeRow(row);
+								if(jt_inspectionContent.getRowCount() > 0){
+									jt_inspectionContent.setRowSelectionInterval(0, 0);
+								}
+								jt_quoteTask.setValueAt(taskAmount, taskRow, 7);
+								jt_quoteProject.setValueAt(projectAmount, projectRow, 5);
+								jt_inspectionBatch.setValueAt(batchAmount, batchtRow, 2);
 							} else {
 								JOptionPane.showMessageDialog(null,
 										"检验内容删除失败！", "提示信息",
@@ -272,7 +288,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 */
-	private void deleteInspectionBatch(JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+	private void deleteInspectionBatch(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent) {
 		// 获取Table中被选中的行序号
 		final int row = jt_inspectionBatch.getSelectedRow();
 		if (row < 0) {
@@ -283,12 +299,20 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					"点击确认按钮，将会删除所选中的检验批，包括检验批的所有检验内容，是否确认删除？", "删除报价项目",
 					JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
+				//获取检验批id
 				Object value = jt_inspectionBatch.getValueAt(row, 0);
 				final Integer id = Integer.valueOf(String.valueOf(value));
+				//获取检验批金额
+				final double batchAmount = (double)jt_inspectionBatch.getValueAt(row, 2);
+				//重新计算任务金额与项目金额
+				int taskRow = jt_quoteTask.getSelectedRow();
+				double taskAmount = (double)jt_quoteTask.getValueAt(taskRow, 7) - batchAmount;
+				int projectRow = jt_quoteProject.getSelectedRow();
+				double projectAmount = (double)jt_quoteProject.getValueAt(projectRow, 5) - batchAmount;
 				// 启动任务线程删除选中报价项目
 				new SwingWorker<Boolean, Void>() {
 					protected Boolean doInBackground() throws Exception {
-						return new InspectionBatchServiceImpl().deleteInspectionBatch(id);
+						return new InspectionBatchServiceImpl().deleteInspectionBatch(id, taskAmount, projectAmount);
 					}
 
 					protected void done() {
@@ -299,12 +323,16 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 										"检验批删除成功！", "提示信息",
 										JOptionPane.PLAIN_MESSAGE);
 
-								DefaultTableModel model = (DefaultTableModel) jt_quoteProject
+								DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
 										.getModel();
 								model.removeRow(row);
-								jt_quoteProject.setRowSelectionInterval(0, 0);
+								if(jt_inspectionBatch.getRowCount() > 0){
+									jt_inspectionBatch.setRowSelectionInterval(0, 0);
+								}
 								//重新渲染所有数据
 								inspectionBatchToContent(jt_inspectionBatch, jt_inspectionContent);
+								jt_quoteTask.setValueAt(taskAmount, taskRow, 7);
+								jt_quoteProject.setValueAt(projectAmount, projectRow, 5);
 							} else {
 								JOptionPane.showMessageDialog(null,
 										"检验批删除失败！", "提示信息",
@@ -325,8 +353,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 */
-	private void deleteQuoteProject(JTable jt_quoteProject, JTable jt_inspectionBatch,
-			JTable jt_inspectionContent) {
+	private void deleteQuoteProject(JTable jt_quoteTask, JTable jt_quoteProject,
+			JTable jt_inspectionBatch, JTable jt_inspectionContent) {
 		// 获取Table中被选中的行序号
 		final int row = jt_quoteProject.getSelectedRow();
 		if (row < 0) {
@@ -337,12 +365,18 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					"点击确认按钮，将会删除所选中的报价项目，包括报价任务下的所有检验批以及检验内容，是否确认删除？", "删除报价项目",
 					JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
+				//获取项目id
 				Object value = jt_quoteProject.getValueAt(row, 0);
 				final Integer id = Integer.valueOf(String.valueOf(value));
+				//获取项目金额与其他费用之和
+				double totalProjectAmount = (double)jt_quoteProject.getValueAt(row, 4) + (double)jt_quoteProject.getValueAt(row, 5);
+				//重新计算任务金额
+				int taskRow = jt_quoteTask.getSelectedRow();
+				double taskAmount = (double)jt_quoteTask.getValueAt(taskRow, 7) - totalProjectAmount;
 				// 启动任务线程删除选中报价项目
 				new SwingWorker<Boolean, Void>() {
 					protected Boolean doInBackground() throws Exception {
-						return new QuoteProjectServiceImpl().deleteQuoteProject(id);
+						return new QuoteProjectServiceImpl().deleteQuoteProject(id, taskAmount);
 					}
 
 					protected void done() {
@@ -356,9 +390,12 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 								DefaultTableModel model = (DefaultTableModel) jt_quoteProject
 										.getModel();
 								model.removeRow(row);
-								jt_quoteProject.setRowSelectionInterval(0, 0);
+								if(jt_quoteProject.getRowCount() > 0){
+									jt_quoteProject.setRowSelectionInterval(0, 0);
+								}
 								//重新渲染所有数据
 								projectToInspectionBatch(jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
+								jt_quoteTask.setValueAt(taskAmount, taskRow, 7);
 							} else {
 								JOptionPane.showMessageDialog(null,
 										"报价项目删除失败！", "提示信息",
@@ -410,7 +447,9 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 								DefaultTableModel model = (DefaultTableModel) jt_quoteTask
 										.getModel();
 								model.removeRow(row);
-								jt_quoteTask.setRowSelectionInterval(0, 0);
+								if(jt_quoteTask.getRowCount() > 0){
+									jt_quoteTask.setRowSelectionInterval(0, 0);
+								}
 								//重新渲染所有数据
 								taskToProject(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 							} else {
@@ -425,11 +464,6 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				}.execute();
 			}
 		}
-	}
-
-	@Override
-	public void mouseDragged(java.awt.event.MouseEvent e) {
-
 	}
 
 	@Override
@@ -458,6 +492,183 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		}
 	}
 
+	/**
+	 * Task面板Jtable点击事件逻辑处理
+	 * @param jt_quoteTask
+	 * @param jt_quoteProjec
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
+	 */
+	public void taskToProject(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
+		if(jt_quoteTask.getRowCount() <= 0){
+			DefaultTableModel projectModel = (DefaultTableModel) jt_quoteProject.getModel();
+			projectModel.getDataVector().clear();
+			jt_quoteProject.updateUI();
+			DefaultTableModel batchModel = (DefaultTableModel) jt_inspectionBatch.getModel();
+			batchModel.getDataVector().clear();
+			jt_inspectionBatch.updateUI();
+			DefaultTableModel contentModel = (DefaultTableModel) jt_inspectionContent.getModel();
+			contentModel.getDataVector().clear();
+			jt_inspectionContent.updateUI();
+		}else{
+			new SwingWorker<Map<String, Object>, Void>() {
+				@Override
+				protected Map<String, Object> doInBackground() throws Exception {
+					// 获取选择任务下所有的数据数据
+					Map<String, Object> quoteMap = new HashMap<String, Object>();
+					// 从数据库获取项目数据
+					List<QuoteProject> projectList = new QuoteProjectServiceImpl()
+							.queryAllQuoteProjectsByTaskNmber((int) jt_quoteTask
+									.getValueAt(jt_quoteTask.getSelectedRow(), 0));
+					quoteMap.put("quote_project", projectList);
+					// 从数据库获取检验批数据
+					List<InspectionBatch> inspectionBatchList = null;
+					if (null != projectList && projectList.size() > 0) {
+						QuoteProject quoteProject = projectList.get(0);
+						inspectionBatchList = new InspectionBatchServiceImpl()
+								.queryAllInspectionBatchByProjectID(quoteProject
+										.getId());
+						quoteMap.put("quote_batch", inspectionBatchList);
+
+						// 从数据库获取检验内容数据
+						List<InspectionContent> contentList = null;
+						if (null != inspectionBatchList && inspectionBatchList.size() > 0) {
+							InspectionBatch inspectionBatch = inspectionBatchList.get(0);
+							contentList = new InspectionContentServiceImpl()
+									.queryAllInspectionContentByBatchId(inspectionBatch.getId());
+							quoteMap.put("quote_content", contentList);
+						}
+					}
+					return quoteMap;
+				}
+
+				protected void done() {
+					Map<String, Object> quoteMap = null;
+					try {
+						quoteMap = get();
+						// 切换项目面板数据
+						@SuppressWarnings("unchecked")
+						List<QuoteProject> projectList = (List<QuoteProject>) quoteMap.get("quote_project");
+						RenderDataUtils.renderProjectData(jt_quoteProject, projectList);
+						// 切换检验批数据
+						@SuppressWarnings("unchecked")
+						List<InspectionBatch> inspectionList = (List<InspectionBatch>) quoteMap
+								.get("quote_batch");
+						RenderDataUtils.renderBatchData(jt_inspectionBatch, inspectionList);
+						// 切换检验内容数据
+						@SuppressWarnings("unchecked")
+						List<InspectionContent> contentList = (List<InspectionContent>) quoteMap
+								.get("quote_content");
+						RenderDataUtils.renderPartContentData(jt_inspectionContent, contentList);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+				}
+			}.execute();
+		}
+	}
+
+	/**
+	 * 项目面板JTable点击事件逻辑处理
+	 * @param jt_quoteProjec
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
+	 */
+	public void projectToInspectionBatch(final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
+		if(jt_quoteProject.getRowCount() <= 0){
+			DefaultTableModel batchModel = (DefaultTableModel) jt_inspectionBatch.getModel();
+			jt_inspectionBatch.updateUI();
+			batchModel.getDataVector().clear();
+			DefaultTableModel contentModel = (DefaultTableModel) jt_inspectionContent.getModel();
+			contentModel.getDataVector().clear();
+			jt_inspectionContent.updateUI();
+		}else{
+			new SwingWorker<Map<String, Object>, Void>() {
+				@Override
+				protected Map<String, Object> doInBackground()
+						throws Exception {
+					// 获取选择项目下所有的数据数据
+					Map<String, Object> quoteMap = new HashMap<String, Object>();
+					// 从数据库获取检验批数据
+					List<InspectionBatch> batchList = new InspectionBatchServiceImpl()
+						.queryAllInspectionBatchByProjectID((int) jt_quoteProject
+							.getValueAt(jt_quoteProject.getSelectedRow(), 0));
+					quoteMap.put("quote_batch", batchList);
+					// 从数据库获取检验内容数据
+					List<InspectionContent> contentList = null;
+					if (null != batchList && batchList.size() > 0) {
+						InspectionBatch inspectionBatch = batchList.get(0);
+						contentList = new InspectionContentServiceImpl()
+								.queryAllInspectionContentByBatchId(inspectionBatch.getId());
+						quoteMap.put("quote_content", contentList);
+					}
+					return quoteMap;
+				}
+
+				protected void done() {
+					Map<String, Object> quoteMap = null;
+					try {
+						quoteMap = get();
+						// 切换检验批数据
+						@SuppressWarnings("unchecked")
+						List<InspectionBatch> inspectionList = (List<InspectionBatch>) quoteMap
+								.get("quote_batch");
+						RenderDataUtils.renderBatchData(jt_inspectionBatch, inspectionList);
+						// 切换检验内容数据
+						@SuppressWarnings("unchecked")
+						List<InspectionContent> contentList = (List<InspectionContent>) quoteMap
+								.get("quote_content");
+						RenderDataUtils.renderPartContentData(jt_inspectionContent, contentList);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+				};
+			}.execute();
+		}
+	}
+
+	/**
+	 * 检验批面板JTable点击事件逻辑处理
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
+	 */
+	public void inspectionBatchToContent(final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
+		if(jt_inspectionBatch.getRowCount() <= 0){
+			DefaultTableModel contentModel = (DefaultTableModel) jt_inspectionContent.getModel();
+			contentModel.getDataVector().clear();
+			jt_inspectionContent.updateUI();
+		}else{
+			new SwingWorker<List<InspectionContent>, Void>() {
+				@Override
+				protected List<InspectionContent> doInBackground()
+						throws Exception {
+					// 获取选择检验批下所有的数据数据
+					List<InspectionContent> contentList = new InspectionContentServiceImpl()
+					.queryAllInspectionContentByBatchId((int) jt_inspectionBatch
+							.getValueAt(jt_inspectionBatch.getSelectedRow(), 0));
+					return contentList;
+				}
+
+				protected void done() {
+					List<InspectionContent> contentList = null;
+					try {
+						contentList = get();
+						// 切换检验内容数据
+						RenderDataUtils.renderPartContentData(jt_inspectionContent, contentList);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						e.printStackTrace();
+					}
+				};
+			}.execute();
+		}
+	}
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 
@@ -478,154 +689,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	}
 
-	/**
-	 * Task面板Jtable点击事件逻辑处理
-	 * @param jt_quoteTask
-	 * @param jt_quoteProjec
-	 * @param jt_inspectionBatch
-	 * @param jt_inspectionContent
-	 */
-	public void taskToProject(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
-		new SwingWorker<Map<String, Object>, Void>() {
+	@Override
+	public void mouseDragged(java.awt.event.MouseEvent e) {
 
-			@Override
-			protected Map<String, Object> doInBackground() throws Exception {
-				// 获取选择任务下所有的数据数据
-				Map<String, Object> quoteMap = new HashMap<String, Object>();
-				// 从数据库获取项目数据
-				List<QuoteProject> projectList = new QuoteProjectServiceImpl()
-						.queryAllQuoteProjectsByTaskNmber((int) jt_quoteTask
-								.getValueAt(jt_quoteTask.getSelectedRow(), 0));
-				quoteMap.put("quote_project", projectList);
-				// 从数据库获取检验批数据
-				List<InspectionBatch> inspectionBatchList = null;
-				if (null != projectList && projectList.size() > 0) {
-					QuoteProject quoteProject = projectList.get(0);
-					inspectionBatchList = new InspectionBatchServiceImpl()
-							.queryAllInspectionBatchByProjectID(quoteProject
-									.getId());
-					quoteMap.put("quote_batch", inspectionBatchList);
-
-					// 从数据库获取检验内容数据
-					List<InspectionContent> contentList = null;
-					if (null != inspectionBatchList && inspectionBatchList.size() > 0) {
-						InspectionBatch inspectionBatch = inspectionBatchList.get(0);
-						contentList = new InspectionContentServiceImpl()
-								.queryAllInspectionContentByBatchId(inspectionBatch.getId());
-						quoteMap.put("quote_content", contentList);
-					}
-				}
-				return quoteMap;
-			}
-
-			protected void done() {
-				Map<String, Object> quoteMap = null;
-				try {
-					quoteMap = get();
-					// 切换项目面板数据
-					@SuppressWarnings("unchecked")
-					List<QuoteProject> projectList = (List<QuoteProject>) quoteMap.get("quote_project");
-					RenderDataUtils.renderProjectData(jt_quoteProject, projectList);
-					// 切换检验批数据
-					@SuppressWarnings("unchecked")
-					List<InspectionBatch> inspectionList = (List<InspectionBatch>) quoteMap
-							.get("quote_batch");
-					RenderDataUtils.renderBatchData(jt_inspectionBatch, inspectionList);
-					// 切换检验内容数据
-					@SuppressWarnings("unchecked")
-					List<InspectionContent> contentList = (List<InspectionContent>) quoteMap
-							.get("quote_content");
-					RenderDataUtils.renderContentData(jt_inspectionContent, contentList);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-			}
-		}.execute();
-	}
-
-	/**
-	 * 项目面板JTable点击事件逻辑处理
-	 * @param jt_quoteProjec
-	 * @param jt_inspectionBatch
-	 * @param jt_inspectionContent
-	 */
-	public void projectToInspectionBatch(final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
-		new SwingWorker<Map<String, Object>, Void>() {
-			@Override
-			protected Map<String, Object> doInBackground()
-					throws Exception {
-				// 获取选择项目下所有的数据数据
-				Map<String, Object> quoteMap = new HashMap<String, Object>();
-				// 从数据库获取检验批数据
-				List<InspectionBatch> batchList = new InspectionBatchServiceImpl()
-					.queryAllInspectionBatchByProjectID((int) jt_quoteProject
-						.getValueAt(jt_quoteProject.getSelectedRow(), 0));
-				quoteMap.put("quote_batch", batchList);
-				// 从数据库获取检验内容数据
-				List<InspectionContent> contentList = null;
-				if (null != batchList && batchList.size() > 0) {
-					InspectionBatch inspectionBatch = batchList.get(0);
-					contentList = new InspectionContentServiceImpl()
-							.queryAllInspectionContentByBatchId(inspectionBatch.getId());
-					quoteMap.put("quote_content", contentList);
-				}
-				return quoteMap;
-			}
-
-			protected void done() {
-				Map<String, Object> quoteMap = null;
-				try {
-					quoteMap = get();
-					// 切换检验批数据
-					@SuppressWarnings("unchecked")
-					List<InspectionBatch> inspectionList = (List<InspectionBatch>) quoteMap
-							.get("quote_batch");
-					RenderDataUtils.renderBatchData(jt_inspectionBatch, inspectionList);
-					// 切换检验内容数据
-					@SuppressWarnings("unchecked")
-					List<InspectionContent> contentList = (List<InspectionContent>) quoteMap
-							.get("quote_content");
-					RenderDataUtils.renderContentData(jt_inspectionContent, contentList);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-			};
-		}.execute();
-	}
-
-	/**
-	 * 检验批面板JTable点击事件逻辑处理
-	 * @param jt_inspectionBatch
-	 * @param jt_inspectionContent
-	 */
-	public void inspectionBatchToContent(final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
-		new SwingWorker<List<InspectionContent>, Void>() {
-			@Override
-			protected List<InspectionContent> doInBackground()
-					throws Exception {
-				// 获取选择检验批下所有的数据数据
-				List<InspectionContent> contentList = new InspectionContentServiceImpl()
-				.queryAllInspectionContentByBatchId((int) jt_inspectionBatch
-						.getValueAt(jt_inspectionBatch.getSelectedRow(), 0));
-				return contentList;
-			}
-
-			protected void done() {
-				List<InspectionContent> contentList = null;
-				try {
-					contentList = get();
-					// 切换检验内容数据
-					RenderDataUtils.renderContentData(jt_inspectionContent, contentList);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-			};
-		}.execute();
 	}
 }

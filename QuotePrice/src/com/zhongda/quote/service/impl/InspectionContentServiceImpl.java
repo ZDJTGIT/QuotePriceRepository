@@ -5,9 +5,14 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 
+import com.zhongda.quote.dao.InspectionBatchMapper;
 import com.zhongda.quote.dao.InspectionContentMapper;
+import com.zhongda.quote.dao.QuoteProjectMapper;
+import com.zhongda.quote.dao.QuoteTaskMapper;
+import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.InspectionContent;
-import com.zhongda.quote.model.SysInspectionContent;
+import com.zhongda.quote.model.QuoteProject;
+import com.zhongda.quote.model.QuoteTask;
 import com.zhongda.quote.service.InspectionContentService;
 import com.zhongda.quote.utils.MyBatisUtil;
 
@@ -17,9 +22,14 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 			.getLogger(InspectionContentServiceImpl.class);
 
 	private SqlSession sqlSession = MyBatisUtil.getSqlSession();
-
-	private InspectionContentMapper inspectionContentMapper = MyBatisUtil
-			.getSqlSession().getMapper(InspectionContentMapper.class);
+	private QuoteTaskMapper quoteTaskMapper = sqlSession
+			.getMapper(QuoteTaskMapper.class);
+	private QuoteProjectMapper quoteProjectMapper = sqlSession
+			.getMapper(QuoteProjectMapper.class);
+	private InspectionBatchMapper inspectionBatchMapper = sqlSession
+			.getMapper(InspectionBatchMapper.class);
+	private InspectionContentMapper inspectionContentMapper = sqlSession
+			.getMapper(InspectionContentMapper.class);
 
 	@Override
 	public List<InspectionContent> queryAllInspectionContent() {
@@ -57,9 +67,15 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 	}
 
 	@Override
-	public Integer deleteInspectionByID(Integer id) {
+	public Integer deleteInspectionByID(Integer id, double taskAmount, double projectAmount, double batchAmount) {
 		int index = 0;
 		try {
+			InspectionContent inspectionContent = inspectionContentMapper.selectByPrimaryKey(id);
+			inspectionBatchMapper.updateByPrimaryKeySelective(new InspectionBatch(inspectionContent.getBatchId(), batchAmount));
+			InspectionBatch inspectionBatch = inspectionBatchMapper.selectByPrimaryKey(inspectionContent.getBatchId());
+			quoteProjectMapper.updateByPrimaryKeySelective(new QuoteProject(inspectionBatch.getProjectId(), projectAmount));
+			QuoteProject quoteProject = quoteProjectMapper.selectByPrimaryKey(inspectionBatch.getProjectId());
+			quoteTaskMapper.updateByPrimaryKeySelective(new QuoteTask(quoteProject.getTaskId(), taskAmount));
 			index = inspectionContentMapper.deleteInspectionByID(id);
 			sqlSession.commit();
 		} catch (Exception e) {

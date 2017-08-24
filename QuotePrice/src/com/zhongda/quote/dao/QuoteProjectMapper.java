@@ -19,6 +19,11 @@ public interface QuoteProjectMapper {
 
 	QuoteProject selectByPrimaryKey(Integer id);
 
+	/**
+	 * 修改报价项目
+	 * @param record
+	 * @return
+	 */
 	int updateByPrimaryKeySelective(QuoteProject record);
 
 	int updateByPrimaryKey(QuoteProject record);

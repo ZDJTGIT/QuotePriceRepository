@@ -167,7 +167,7 @@ public class HomeFrame {
 
 	private JScrollPane scrollPanemike;
 	private MyTable jt_inspectionContent;
-	
+
 
 	/**
 	 * Create the frame.
@@ -499,7 +499,7 @@ public class HomeFrame {
 		jbt_deleteContent.setToolTipText("删除检验内容");
 		jbt_deleteContent.setFocusPainted(false);// 去除按钮边线
 		jtb_right_jcnr.add(jbt_deleteContent);
-		
+
 		jbt_selectContent = new JButton();
 		jbt_selectContent.setIcon(new ImageIcon("images/daochu.png"));
 		jbt_selectContent.setToolTipText("查看详细检验内容");
@@ -687,8 +687,8 @@ public class HomeFrame {
 		scrollPanemike = new JScrollPane();
 		// 初始化检验内容表列名
 		final Object contentColumnsName[] = { "序号", "检验内容名称", "抽样数量",
-				"单个检验对象实施数量", "收费标准" };
-		jt_inspectionContent = new MyTable(new int[] { 1, 2, 3, 4 });
+				"单个检验对象实施数量", "收费标准", "检验内容金额"};
+		jt_inspectionContent = new MyTable(new int[] { 0, 1, 2, 3, 4, 5 });
 		DefaultTableModel contentTableModel = new DefaultTableModel(null,
 				contentColumnsName);
 		jt_inspectionContent.setModel(contentTableModel);
@@ -700,6 +700,8 @@ public class HomeFrame {
 				.setPreferredWidth(120);
 		jt_inspectionContent.getColumnModel().getColumn(4)
 				.setPreferredWidth(50);
+		jt_inspectionContent.getColumnModel().getColumn(5).setMinWidth(0);
+		jt_inspectionContent.getColumnModel().getColumn(5).setMaxWidth(0);
 
 		// 设置单行可被选中
 		jt_inspectionContent.getSelectionModel().setSelectionMode(
@@ -777,7 +779,7 @@ public class HomeFrame {
 										.get("inspectionContent");
 								if (null != contentList
 										&& contentList.size() > 0) {
-									RenderDataUtils.renderContentData(
+									RenderDataUtils.renderPartContentData(
 											jt_inspectionContent, contentList);
 								}
 							}
@@ -836,17 +838,17 @@ public class HomeFrame {
 				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加删除项目事件
 		jbt_deleteProject.setActionCommand("deleteProject");
-		jbt_deleteProject.addActionListener(new HomeFrameAction(null,
+		jbt_deleteProject.addActionListener(new HomeFrameAction(jt_quoteTask,
 				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 
 		// 添加创建检验批事件
 		jbt_createInspectionBatch.setActionCommand("createInspectionBatch");
-		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(null,
-				jt_quoteProject, jt_inspectionBatch, null));
+		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加删除检验批事件
 		jbt_deleteInspectionBatch.setActionCommand("deleteInspectionBatch");
-		jbt_deleteInspectionBatch.addActionListener(new HomeFrameAction(null,
-				null, jt_inspectionBatch, jt_inspectionContent));
+		jbt_deleteInspectionBatch.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 
 		// 添加添加检验内容事件
 		jbt_createContent.setActionCommand("createContent");
@@ -858,13 +860,13 @@ public class HomeFrame {
 				jt_inspectionBatch, jt_inspectionContent));
 		// 添加删除检验内容事件
 		jbt_deleteContent.setActionCommand("deleteContent");
-		jbt_deleteContent.addActionListener(new HomeFrameAction(null, null,
-				null, jt_inspectionContent));
+		jbt_deleteContent.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
+				jt_inspectionBatch, jt_inspectionContent));
 		//添加查看详细检验内容事件
 		jbt_selectContent.setActionCommand("selectContent");
 		jbt_selectContent.addActionListener(new HomeFrameAction(null,null,
 				null,jt_inspectionContent));
-		
+
 		/**
 		 * 鼠标点击事件
 		 */

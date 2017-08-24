@@ -3,6 +3,8 @@ package com.zhongda.quote.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -22,6 +24,7 @@ import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 import sun.swing.table.DefaultTableCellHeaderRenderer;
 
 import com.zhongda.quote.action.CreateBatchFrameAction;
+import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 import com.zhongda.quote.view.uiutils.MyTable;
@@ -57,16 +60,19 @@ public class CreateBatchFrame {
 	private JButton jbt_confirm;
 	private JButton jbt_cancel;
 	private JScrollPane scrollPane;
-	private JTable jt_inspectionContent;
 	private JPanel jp_search;
 	private JScrollPane scrollPane_1;
 	private MyTable jt_sysInspectionContent;
+	private JTable jt_quoteTask;
+	private JTable jt_quoteProject;
 	private JTable jt_inspectionBatch;
+	private JTable jt_inspectionContent;
+	private JTable jt_partInspectionContent;
 	private JPanel jp_inspectionBatch;
-	private int projectId;
 	private String projectName;
 	private JTextField jtf_projectAmount;
 	private Map<String, Map<String,Object>> batchMap;
+	private List<InspectionContent> singleContentList = new ArrayList<InspectionContent>();
 
 
 	public CreateBatchFrame() {
@@ -81,10 +87,14 @@ public class CreateBatchFrame {
 		init();
 	}
 
-	public CreateBatchFrame(JTable jt_quoteProject, JTable jt_inspectionBatch) {
-		this.projectName = (String) jt_quoteProject.getValueAt(jt_quoteProject.getSelectedRow(), 1);
-		this.projectId = (int) jt_quoteProject.getValueAt(jt_quoteProject.getSelectedRow(), 0);
+	public CreateBatchFrame(JTable jt_quoteTask, JTable jt_quoteProject,
+			JTable jt_inspectionBatch, JTable jt_partInspectionContent) {
+		this.jt_quoteTask = jt_quoteTask;
+		this.jt_quoteProject = jt_quoteProject;
 		this.jt_inspectionBatch = jt_inspectionBatch;
+		this.jt_partInspectionContent = jt_partInspectionContent;
+		int projectRow = jt_quoteProject.getSelectedRow();
+		this.projectName = (String) jt_quoteProject.getValueAt(projectRow, 1);
 		init();
 	}
 
@@ -127,7 +137,6 @@ public class CreateBatchFrame {
 		jtf_projectName.setBounds(26, 80, 845, 25);
 		jtf_projectName.setEnabled(false);
 		jtf_projectName.setText(projectName);
-		jtf_projectName.setName(String.valueOf(projectId));
 		panel.add(jtf_projectName);// 存入所选项目的id，取出时需要强转为int类型
 		jtf_projectName.setColumns(10);
 
@@ -271,11 +280,20 @@ public class CreateBatchFrame {
 		jtf_contentName.addFocusListener((new CreateBatchFrameAction(jtf_contentName)));
 
 		// 搜索系统检验内容结果面板鼠标点击事件
-		jt_sysInspectionContent.addMouseListener(new CreateBatchFrameAction(jt_sysInspectionContent, jt_inspectionContent, jtf_batchAmount, jp_search, batchMap));
+		if(null != this.batchMap){
+			jt_sysInspectionContent.addMouseListener(new CreateBatchFrameAction(jt_sysInspectionContent, jt_inspectionContent, jtf_batchAmount, jp_search, batchMap));
+		}else{
+			jt_sysInspectionContent.addMouseListener(new CreateBatchFrameAction(jt_sysInspectionContent, jt_inspectionContent, jtf_batchAmount, jp_search, singleContentList));
+		}
 
 		// 确认事件
 		jbt_confirm.setActionCommand("confirm");
-		jbt_confirm.addActionListener(new CreateBatchFrameAction(dialog, jp_inspectionBatch, batchMap, jtf_batchName, jtf_batchAmount, jtf_projectAmount));
+		if(null != this.batchMap){
+			jbt_confirm.addActionListener(new CreateBatchFrameAction(dialog, jp_inspectionBatch, jt_inspectionContent, batchMap, jtf_batchName, jtf_batchAmount, jtf_projectAmount));
+		}else{
+			jbt_confirm.addActionListener(new CreateBatchFrameAction(dialog, jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_partInspectionContent, jt_inspectionContent, singleContentList, jtf_batchName, jtf_batchAmount));
+		}
+
 
 		//取消事件
 		jbt_cancel.setActionCommand("cancel");

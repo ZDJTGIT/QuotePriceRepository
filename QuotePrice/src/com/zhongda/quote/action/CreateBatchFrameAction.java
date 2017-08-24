@@ -27,6 +27,7 @@ import javax.swing.SwingWorker;
 import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.model.SysInspectionContent;
+import com.zhongda.quote.service.impl.InspectionBatchServiceImpl;
 import com.zhongda.quote.service.impl.SysInspectionContenServiceImpl;
 import com.zhongda.quote.utils.ConstantUtils;
 import com.zhongda.quote.utils.RenderDataUtils;
@@ -52,11 +53,16 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 	private JTextField jtf_projectAmount;
 	private JTable jt_sysInspectionContent;
 	private JTable jt_inspectionContent;
+	private JTable jt_quoteTask;
+	private JTable jt_quoteProject;
+	private JTable jt_inspectionBatch;
+	private JTable jt_partInspectionContent;
 	private JPanel jp_inspectionBatch;
 	private JPanel jp_search;
 	private Map<String, Map<String,Object>> batchMap;
 	private Map<String, Map<String,Object>> tmpBatchMap =new HashMap<String, Map<String,Object>>();
 	private static List<InspectionContent> contentList = new ArrayList<InspectionContent>();
+	private List<InspectionContent> singleContentList;
 
 	public CreateBatchFrameAction() {
 	}
@@ -79,6 +85,7 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 		this.jp_search = jp_search;
 	}
 
+	//联动检验批点击事件构造函数
 	public CreateBatchFrameAction(JTable jt_sysInspectionContent, JTable jt_inspectionContent, JTextField jtf_batchAmount, JPanel jp_search, Map<String, Map<String,Object>> batchMap) {
 		this.jt_sysInspectionContent = jt_sysInspectionContent;
 		this.jt_inspectionContent = jt_inspectionContent;
@@ -87,15 +94,45 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 		this.batchMap = batchMap;
 	}
 
-	public CreateBatchFrameAction(JDialog dialog,JPanel jp_inspectionBatch,
+	//单独检验批点击事件构造函数
+	public CreateBatchFrameAction(JTable jt_sysInspectionContent,
+			JTable jt_inspectionContent, JTextField jtf_batchAmount,
+			JPanel jp_search, List<InspectionContent> singleContentList) {
+		this.jt_sysInspectionContent = jt_sysInspectionContent;
+		this.jt_inspectionContent = jt_inspectionContent;
+		this.jtf_batchAmount = jtf_batchAmount;
+		this.jp_search = jp_search;
+		this.singleContentList = singleContentList;
+	}
+
+	//联动检验批确认事件构造函数
+	public CreateBatchFrameAction(JDialog dialog,JPanel jp_inspectionBatch, JTable jt_inspectionContent,
 			Map<String, Map<String,Object>> batchMap, JTextField jtf_batchName,
 			JTextField jtf_batchAmount, JTextField jtf_projectAmount) {
 		this.dialog = dialog;
 		this.jp_inspectionBatch = jp_inspectionBatch;
+		this.jt_inspectionContent = jt_inspectionContent;
 		this.batchMap = batchMap;
 		this.jtf_batchName = jtf_batchName;
 		this.jtf_batchAmount =jtf_batchAmount;
 		this.jtf_projectAmount = jtf_projectAmount;
+	}
+
+	//单独检验批确认事件构造函数
+	public CreateBatchFrameAction(JDialog dialog, JTable jt_quoteTask,
+			JTable jt_quoteProject, JTable jt_inspectionBatch,
+			JTable jt_partInspectionContent, JTable jt_inspectionContent,
+			List<InspectionContent> singleContentList,
+			JTextField jtf_batchName, JTextField jtf_batchAmount) {
+		this.dialog = dialog;
+		this.jt_quoteTask = jt_quoteTask;
+		this.jt_quoteProject = jt_quoteProject;
+		this.jt_inspectionBatch = jt_inspectionBatch;
+		this.jt_partInspectionContent = jt_partInspectionContent;
+		this.jt_inspectionContent = jt_inspectionContent;
+		this.singleContentList = singleContentList;
+		this.jtf_batchName = jtf_batchName;
+		this.jtf_batchAmount =jtf_batchAmount;
 	}
 
 	@Override
@@ -149,7 +186,11 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 			int flag = JOptionPane.showConfirmDialog(null, "确定提交?", "提交项目",
 					JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
-				commitInspectionBatch(dialog, jp_inspectionBatch, batchMap, jtf_batchName, jtf_batchAmount);
+				if(null != this.batchMap){
+					commitInspectionBatch(dialog, jp_inspectionBatch, batchMap, jtf_batchName, jtf_batchAmount);
+				}else{
+					commitSingleInspectionBatch(dialog, jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_partInspectionContent, singleContentList, jtf_batchName, jtf_batchAmount);
+				}
 			}
 		} else if ("cancel".equals(commandName)) {
 			int flag = JOptionPane.showConfirmDialog(null, "取消项目？", "取消项目",
@@ -197,7 +238,7 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 	}
 
 	/**
-	 * 将选好的检验批以及检验内容暂存到集合中
+	 * 联动将选好的检验批以及检验内容暂存到集合中
 	 * @param dialog
 	 * @param jp_inspectionBatch
 	 * @param batchMap
@@ -211,7 +252,10 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 		if (null == batchName || "".equals(batchName.trim())) {
 			JOptionPane.showMessageDialog(null, "请输入检验批名称", "提示信息",
 					JOptionPane.WARNING_MESSAGE);
-		} else {
+		} else if(jt_inspectionContent.getRowCount() == 0){
+			JOptionPane.showMessageDialog(null, "请选择检验内容", "提示信息",
+					JOptionPane.WARNING_MESSAGE);
+		} else{
 			final InspectionBatch inspectionBatch = new InspectionBatch();
 			inspectionBatch.setInspectionBatchName(batchName);
 			inspectionBatch.setInspectionBatchAmount(Double.parseDouble(jtf_batchAmount.getText()));
@@ -233,6 +277,71 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 			contentList.clear();
 			tmpBatchMap.put(ConstantUtils.index+"", batchAndContentMap);
 			ConstantUtils.index++;
+			dialog.dispose();
+		}
+	}
+
+	/**
+	 * 单独将选好的检验批以及检验内容插入数据库中
+	 * @param dialog
+	 * @param jt_quoteTask
+	 * @param jt_quoteProject
+	 * @param jt_inspectionBatch
+	 * @param jt_partInspectionContent
+	 * @param singleContentList
+	 * @param jtf_batchName
+	 * @param jtf_batchAmount
+	 */
+	private void commitSingleInspectionBatch(JDialog dialog, JTable jt_quoteTask,
+			JTable jt_quoteProject, JTable jt_inspectionBatch,
+			JTable jt_partInspectionContent,
+			List<InspectionContent> singleContentList,
+			JTextField jtf_batchName, JTextField jtf_batchAmount) {
+		String batchName = jtf_batchName.getText();
+		if (null == batchName || "".equals(batchName.trim())) {
+			JOptionPane.showMessageDialog(null, "请输入检验批名称", "提示信息",
+					JOptionPane.WARNING_MESSAGE);
+		} else if(jt_inspectionContent.getRowCount() == 0){
+			JOptionPane.showMessageDialog(null, "请选择检验内容", "提示信息",
+					JOptionPane.WARNING_MESSAGE);
+		} else {
+			final InspectionBatch inspectionBatch = new InspectionBatch();
+			inspectionBatch.setInspectionBatchName(batchName);
+			double batchAmount = Double.parseDouble(jtf_batchAmount.getText());
+			inspectionBatch.setInspectionBatchAmount(batchAmount);
+			int projectRow = jt_quoteProject.getSelectedRow();
+			inspectionBatch.setProjectId((int)jt_quoteProject.getValueAt(projectRow, 0));
+			//重新计算项目金额
+			double projectAmountOld = (double)jt_quoteProject.getValueAt(projectRow, 5);
+			double projectAmount = projectAmountOld + batchAmount;
+			//重新计算任务金额
+			int taskRow = jt_quoteTask.getSelectedRow();
+			double taskAmountOld = (double)jt_quoteTask.getValueAt(taskRow, 7);
+			double taskAmount = taskAmountOld + batchAmount;
+
+			new SwingWorker<Map<String, Object>, Void>() {
+
+				@Override
+				protected Map<String, Object> doInBackground() throws Exception {
+					return new InspectionBatchServiceImpl().createBatchAndContent(inspectionBatch, singleContentList, taskAmount, projectAmount);
+				}
+
+				protected void done() {
+					Map<String, Object> quoteMap = null;
+					try {
+						quoteMap = get();
+						InspectionBatch inspectionBatch = (InspectionBatch) quoteMap.get("batch");
+						RenderDataUtils.renderSingleBatchData(jt_inspectionBatch, inspectionBatch);
+						@SuppressWarnings("unchecked")
+						List<InspectionContent> contentList = (List<InspectionContent>) quoteMap.get("content");
+						RenderDataUtils.renderPartContentData(jt_partInspectionContent, contentList);
+						jt_quoteTask.setValueAt(taskAmount, taskRow, 7);
+						jt_quoteProject.setValueAt(projectAmount, projectRow, 5);
+					} catch (InterruptedException | ExecutionException e) {
+						e.printStackTrace();
+					}
+				}
+			}.execute();
 			dialog.dispose();
 		}
 	}
@@ -290,7 +399,11 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 		double inspectionContentAmount = sampleQuantity*singleObjectQuantity*chargeStandard;
 		InspectionContent inspectionContent = new InspectionContent(sourceId,inspectionContentName,sampleQuantity,sampleQuantityRange,sampleBasisId,singleObjectQuantity,singleQuantityRange,chargeUnit,chargeStandard,chargeStandardUnit,quoteBasisId,inspectionContentAmount);
 		//添加到集合中
-		contentList.add(inspectionContent);
+		if(null != this.batchMap){
+			contentList.add(inspectionContent);
+		}else{
+			singleContentList.add(inspectionContent);
+		}
 		RenderDataUtils.renderSingleContentData(jt_inspectionContent, inspectionContent);
 		return inspectionContentAmount;
 	}

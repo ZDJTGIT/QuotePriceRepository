@@ -138,12 +138,12 @@ public class FrameGoUtils {
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
 	 */
-	public static void createBatch(JTable jt_quoteProject, JTable jt_inspectionBatch) {
+	public static void createBatch(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateBatchFrame window = new CreateBatchFrame(
-							jt_quoteProject, jt_inspectionBatch);
+					CreateBatchFrame window = new CreateBatchFrame(jt_quoteTask,
+							jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 					window.dialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

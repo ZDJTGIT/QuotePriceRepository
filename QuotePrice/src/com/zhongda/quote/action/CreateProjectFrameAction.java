@@ -167,7 +167,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 
 				@Override
 				protected Map<String, Object> doInBackground() throws Exception {
-					return new QuoteProjectServiceImpl().createProjectAndBatchAndContent(quoteProject, batchMap);
+					return new QuoteProjectServiceImpl().createProjectAndBatchAndContent(quoteProject, batchMap, taskAmount);
 				}
 
 				protected void done() {
@@ -181,8 +181,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 						RenderDataUtils.renderBatchData(jt_inspectionBatch, batchList);
 						@SuppressWarnings("unchecked")
 						List<InspectionContent> contentList = (List<InspectionContent>) quoteMap.get("content");
-						RenderDataUtils.renderContentData(jt_inspectionContent, contentList);
-
+						RenderDataUtils.renderPartContentData(jt_inspectionContent, contentList);
 						jt_quoteTask.setValueAt(taskAmount, row, 7);
 					} catch (InterruptedException | ExecutionException e) {
 						e.printStackTrace();

@@ -37,6 +37,11 @@ public class QuoteProject {
 		this.otherAmount = otherAmount;
 	}
 
+	public QuoteProject(Integer projectId, double projectAmount) {
+		this.id = projectId;
+		this.projectAmount = projectAmount;
+	}
+
 	public Integer getId() {
 		return id;
 	}

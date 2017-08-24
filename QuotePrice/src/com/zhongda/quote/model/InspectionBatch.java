@@ -9,6 +9,14 @@ public class InspectionBatch {
 
 	private Double inspectionBatchAmount;
 
+	public InspectionBatch() {
+	}
+
+	public InspectionBatch(Integer batchId, double batchAmount) {
+		this.id = batchId;
+		this.inspectionBatchAmount = batchAmount;
+	}
+
 	public Integer getId() {
 		return id;
 	}

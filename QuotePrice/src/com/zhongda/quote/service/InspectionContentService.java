@@ -8,14 +8,14 @@ public interface InspectionContentService {
 
 	/**
 	 * 获取所有的检验内容
-	 * 
+	 *
 	 * @return
 	 */
 	List<InspectionContent> queryAllInspectionContent();
 
 	/**
 	 * 创建一个检验内容
-	 * 
+	 *
 	 * @param inspectionContent
 	 * @return 返回当前插入检验内容，可通过返回的任务是否为null来判断创建是否成功
 	 */
@@ -24,7 +24,7 @@ public interface InspectionContentService {
 
 	/**
 	 * 获取当前检验批下所有的检验内容
-	 * 
+	 *
 	 * @param batchId
 	 *            当前检验批的id
 	 * @return 当前检验批下所有的检验内容
@@ -32,15 +32,15 @@ public interface InspectionContentService {
 	List<InspectionContent> queryAllInspectionContentByBatchId(Integer batchId);
 
 	/**
-	 * 
+	 * 按ID删除检验内容,同时修改任务，项目以及检验批金额
 	 * @param id
-	 * @return 按ID删除检验内容
+	 * @return
 	 */
-	Integer deleteInspectionByID(Integer id);
+	Integer deleteInspectionByID(Integer id, double taskAmount, double projectAmount, double batchAmount);
 
 	/**
 	 * 修改检验内容
-	 * 
+	 *
 	 * @param inspectionContent
 	 *            被修改的检验内容
 	 * @return 修改后的检验内容
@@ -50,7 +50,7 @@ public interface InspectionContentService {
 
 	/**
 	 * 插入用户自定义检验内容
-	 * 
+	 *
 	 * @param inspectionContent
 	 * @return
 	 */
