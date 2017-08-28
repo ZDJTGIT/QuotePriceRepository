@@ -42,9 +42,13 @@ import com.zhongda.quote.service.impl.InspectionBatchServiceImpl;
 import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
+import com.zhongda.quote.test.Testweb;
 import com.zhongda.quote.utils.RenderDataUtils;
 import com.zhongda.quote.view.uiutils.JMenBarColor;
 import com.zhongda.quote.view.uiutils.MyTable;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * <p>
@@ -67,7 +71,7 @@ public class HomeFrame {
 	private JMenu jm_v;
 	private JMenu jm_t;
 	private JMenu jm_w;
-	private JMenu jm_h;
+	private JMenu jm_help;
 	private JMenu jm_f_1;
 	private JMenuItem jm_f_2;
 	private JMenu jm_f_3;
@@ -167,6 +171,11 @@ public class HomeFrame {
 
 	private JScrollPane scrollPanemike;
 	private MyTable jt_inspectionContent;
+	private JMenuItem mmi_help_help;
+	private JMenuItem mmi_help_semple;
+	private JMenuItem mmi_help_registered;
+	private JMenuItem mmi_help_home;
+	private JMenuItem mmi_help_about;
 
 
 	/**
@@ -255,10 +264,26 @@ public class HomeFrame {
 		jm_w = new JMenu("窗口(W) ");
 		jmb_tb.add(jm_w);
 
-		// 工具栏帮助
-		jm_h = new JMenu("帮助(H) ");
-		jmb_tb.add(jm_h);
-
+		// 工具栏帮助及下子键
+		jm_help = new JMenu("帮助(H) ");
+		jmb_tb.add(jm_help);
+		
+		mmi_help_help = new JMenuItem("帮助        F1");
+		jm_help.add(mmi_help_help);
+		
+		mmi_help_semple = new JMenuItem("产品报价示例");
+		jm_help.add(mmi_help_semple);
+		
+		mmi_help_registered = new JMenuItem("产品注册功能");
+		jm_help.add(mmi_help_registered);
+		
+		mmi_help_home = new JMenuItem("公司主页");
+		jm_help.add(mmi_help_home);
+		
+		mmi_help_about = new JMenuItem("关于");
+		jm_help.add(mmi_help_about);
+		
+		
 		jf_jpanel = new JPanel();
 		frame.getContentPane().add(jf_jpanel, BorderLayout.CENTER);
 		jf_jpanel.setLayout(new BorderLayout(0, 0));
@@ -862,11 +887,16 @@ public class HomeFrame {
 		jbt_deleteContent.setActionCommand("deleteContent");
 		jbt_deleteContent.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
 				jt_inspectionBatch, jt_inspectionContent));
-		//添加查看详细检验内容事件
+		// 添加查看详细检验内容事件
 		jbt_selectContent.setActionCommand("selectContent");
 		jbt_selectContent.addActionListener(new HomeFrameAction(null,null,
 				null,jt_inspectionContent));
-
+		// 添加查看公司官网事件
+		mmi_help_home.setActionCommand("selectHome");
+		mmi_help_home.addActionListener(new HomeFrameAction());
+		// 添加查看关于事件
+		mmi_help_about.setActionCommand("About");
+		mmi_help_about.addActionListener(new HomeFrameAction());
 		/**
 		 * 鼠标点击事件
 		 */
@@ -885,7 +915,6 @@ public class HomeFrame {
 		// 任务Jtable鼠标悬浮事件
 		jt_quoteTask.addMouseMotionListener(new HomeFrameAction(jt_quoteTask,
 				null, null, null));
-
 	}
 
 	public Image titlePhoto(String file) {

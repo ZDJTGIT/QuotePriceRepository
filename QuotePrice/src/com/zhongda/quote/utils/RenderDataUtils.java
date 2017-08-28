@@ -1,5 +1,7 @@
 package com.zhongda.quote.utils;
 
+import java.awt.Desktop;
+import java.net.URI;
 import java.util.List;
 import java.util.Vector;
 
@@ -18,6 +20,8 @@ import com.zhongda.quote.model.SysInspectionContent;
  * @date 2017年8月18日
  */
 public class RenderDataUtils {
+	
+	private static Desktop desktop; 
 
 	/**
 	 * 渲染数据到任务Table
@@ -261,4 +265,20 @@ public class RenderDataUtils {
 		}
 		jt_sysInspectionContent.updateUI();
 	}
+	/**
+	 * 打开公司官网
+	 */
+		public static void openHomeWeb(){
+			if (Desktop.isDesktopSupported()) {  
+		        desktop = Desktop.getDesktop();  
+		        try {  
+		            //URI指定网页的地址  
+		            desktop.browse(new URI("http://www.hnzdjc.com/"));  
+		        } catch (Exception e) {  
+		            // TODO: handle exception  
+		            e.printStackTrace();  
+		        }  
+		    }  
+			}
+	
 }

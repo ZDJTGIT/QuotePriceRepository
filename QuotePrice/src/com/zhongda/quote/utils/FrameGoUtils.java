@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 
 import com.zhongda.quote.model.Address;
 import com.zhongda.quote.model.Industry;
+import com.zhongda.quote.view.AboutFrame;
 import com.zhongda.quote.view.CreateBatchFrame;
 import com.zhongda.quote.view.CreateContentFrame;
 import com.zhongda.quote.view.CreateProjectFrame;
@@ -175,4 +176,18 @@ public class FrameGoUtils {
 			}
 		});
 	}
+	
+	public static void about(){
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AboutFrame window = new AboutFrame();
+					window.jaDialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 }

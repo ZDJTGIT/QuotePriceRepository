@@ -38,7 +38,7 @@ import com.zhongda.quote.utils.RenderDataUtils;
  * @sine 2017年8月10日
  */
 
-public class HomeFrameAction implements ActionListener, MouseMotionListener,
+public class HomeFrameAction implements ActionListener, MouseMotionListener, 
 		MouseListener {
 
 	// 主界面报价任务JTable
@@ -137,6 +137,10 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			Integer InspectionContentID = (Integer) jt_inspectionContent.getValueAt(row, 0);
 			FrameGoUtils.selectContent(InspectionContentID);
 			}
+		}else if("selectHome".equals(command)){
+			RenderDataUtils.openHomeWeb();
+		}else if("About".equals(command)){
+			FrameGoUtils.about();
 		}
 	}
 
