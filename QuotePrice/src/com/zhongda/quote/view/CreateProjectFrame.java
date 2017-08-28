@@ -277,30 +277,41 @@ public class CreateProjectFrame {
 		}.execute();
 
 		// 生成该窗口时启动任务线程从数据库加载初始化数据(所有省的数据,以及默认选中省后的所有市的数据和默认选中市后所有区的数据)
-		new SwingWorker<Map<String, List<Address>>, Void>() {
+		new SwingWorker<List<Address>, Void>() {
 
 			@Override
-			protected Map<String, List<Address>> doInBackground()
+			protected List<Address> doInBackground()
 					throws Exception {
+				return new AddressServiceImpl().queryAllProvince();
 				// 从数据库获取所有省的数据,以及默认选中省后的所有市的数据和默认选中市后所有区的数据
-				return new AddressServiceImpl()
-						.queryAllProvinceAndCityCountyByParent();
+				/*return new AddressServiceImpl()
+						.queryAllProvinceAndCityCountyByParent();*/
 			}
 
 			@Override
 			protected void done() {
-				Map<String, List<Address>> addressMap;
+				//Map<String, List<Address>> addressMap;
+				List<Address> provinceList;
 				try {
-					addressMap = get();
-					List<Address> provinceList = addressMap.get("provinceList");
-					// 填充省数据到省的ComboBox
+					provinceList = get();
 					initAddressComboBoxDataDisplay(jcb_province, provinceList);
-					List<Address> cityList = addressMap.get("cityList");
-					// 填充市数据到市的ComboBox
-					initAddressComboBoxDataDisplay(jcb_city, cityList);
-					List<Address> countyList = addressMap.get("countyList");
-					// 填充区数据到区的ComboBox
-					initAddressComboBoxDataDisplay(jcb_county, countyList);
+					initAddressComboBoxDataDisplay(jcb_city, null);
+					initAddressComboBoxDataDisplay(jcb_county, null);
+					//默认选中湖南
+					jcb_province.setSelectedIndex(17);
+
+					/** // 注释加载初始化北京数据,默认初始数据改为湖南
+					  	addressMap = get();
+						List<Address> provinceList = addressMap.get("provinceList");
+						// 填充省数据到省的ComboBox
+						initAddressComboBoxDataDisplay(jcb_province, provinceList);
+						List<Address> cityList = addressMap.get("cityList");
+						// 填充市数据到市的ComboBox
+						initAddressComboBoxDataDisplay(jcb_city, cityList);
+						List<Address> countyList = addressMap.get("countyList");
+						// 填充区数据到区的ComboBox
+						initAddressComboBoxDataDisplay(jcb_county, countyList);
+					**/
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (ExecutionException e) {
@@ -319,13 +330,15 @@ public class CreateProjectFrame {
 			private void initAddressComboBoxDataDisplay(
 					JComboBox<Address> jcb_address, List<Address> addressList) {
 				Vector<Address> model = new Vector<Address>();
-				// 将数据添加到comboBox
-				for (Address address : addressList) {
-					model.addElement(address);
+				if(null != addressList){
+					// 将数据添加到comboBox
+					for (Address address : addressList) {
+						model.addElement(address);
+					}
+					ComboBoxModel<Address> comboBoxModel = new DefaultComboBoxModel<Address>(
+							model);
+					jcb_address.setModel(comboBoxModel);
 				}
-				ComboBoxModel<Address> comboBoxModel = new DefaultComboBoxModel<Address>(
-						model);
-				jcb_address.setModel(comboBoxModel);
 				// 提供自定义渲染类，实现键值绑定
 				jcb_address.setRenderer(new DefaultListCellRenderer() {
 
@@ -348,11 +361,14 @@ public class CreateProjectFrame {
 		}.execute();
 
 		CreateProjectFrameAction createProjectFrameAction = new CreateProjectFrameAction(
-				jcb_province, jcb_city, jcb_county);
+				jcb_province, jcb_city, jcb_county, null);
 		// 省的下拉列表选项选中后触发事件
 		jcb_province.addItemListener(createProjectFrameAction);
 		// 市的下拉列表选项选中后触发事件
 		jcb_city.addItemListener(createProjectFrameAction);
+
+		// 行业的下拉列表选择后触发事件
+		jcb_industry.addItemListener(new CreateProjectFrameAction(null, null, null, jcb_industry));
 
 		// 创建检验批组件
 		jcb_selectOrCreateBatch.addItemListener(new CreateProjectFrameAction(batchMap, jcb_selectOrCreateBatch, jtf_projectName,
