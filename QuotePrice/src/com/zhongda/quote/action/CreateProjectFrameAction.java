@@ -178,9 +178,9 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 			if(null != otherAmountString && !"".equals(otherAmountString.trim())){
 				otherAmount = Double.parseDouble(otherAmountString);
 			}
-			int row = jt_quoteTask.getSelectedRow();
+			final int row = jt_quoteTask.getSelectedRow();
 			double taskAmountOld = (double)jt_quoteTask.getValueAt(row, 7);
-			double taskAmount = taskAmountOld + projectAmount + otherAmount;
+			final double taskAmount = taskAmountOld + projectAmount + otherAmount;
 			final QuoteProject quoteProject = new QuoteProject(
 					projectName, industryId, addressId, addressPid,
 					taskId, projectAmount, otherAmount);

@@ -327,8 +327,8 @@ public class RenderDataUtils {
 		}
 	}
 
-	public static void exportTask(String[] taskidAry, String[] taskName,
-			String[] taskNumberName, JFrame frame) {
+	public static void exportTask(final String[] taskidAry, final String[] taskName,
+			final String[] taskNumberName, final JFrame frame) {
 		new SwingWorker<List<QuoteTask>, Void>() {
 			@Override
 			protected List<QuoteTask> doInBackground() throws Exception {

@@ -316,14 +316,14 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 						.getValueAt(row, 5);
 				System.out.println("contentAmount:" + contentAmount);
 				// 重新计算任务金额与项目金额及检验批金额
-				int taskRow = jt_quoteTask.getSelectedRow();
-				double taskAmount = (double) jt_quoteTask
+				final int taskRow = jt_quoteTask.getSelectedRow();
+				final double taskAmount = (double) jt_quoteTask
 						.getValueAt(taskRow, 7) - contentAmount;
-				int projectRow = jt_quoteProject.getSelectedRow();
-				double projectAmount = (double) jt_quoteProject.getValueAt(
+				final int projectRow = jt_quoteProject.getSelectedRow();
+				final double projectAmount = (double) jt_quoteProject.getValueAt(
 						projectRow, 5) - contentAmount;
-				int batchtRow = jt_inspectionBatch.getSelectedRow();
-				double batchAmount = (double) jt_inspectionBatch.getValueAt(
+				final int batchtRow = jt_inspectionBatch.getSelectedRow();
+				final double batchAmount = (double) jt_inspectionBatch.getValueAt(
 						batchtRow, 2) - contentAmount;
 				// 通过线程从数据库中获取该检验内容的ID
 				new SwingWorker<Integer, Void>() {
@@ -380,9 +380,9 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 */
-	private void deleteInspectionBatch(JTable jt_quoteTask,
-			JTable jt_quoteProject, JTable jt_inspectionBatch,
-			JTable jt_inspectionContent) {
+	private void deleteInspectionBatch(final JTable jt_quoteTask,
+			final JTable jt_quoteProject, final JTable jt_inspectionBatch,
+			final JTable jt_inspectionContent) {
 
 		// 获取Table中被选中的行序号
 		final int row = jt_inspectionBatch.getSelectedRow();
@@ -401,11 +401,11 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				final double batchAmount = (double) jt_inspectionBatch
 						.getValueAt(row, 2);
 				// 重新计算任务金额与项目金额
-				int taskRow = jt_quoteTask.getSelectedRow();
-				double taskAmount = (double) jt_quoteTask
+				final int taskRow = jt_quoteTask.getSelectedRow();
+				final double taskAmount = (double) jt_quoteTask
 						.getValueAt(taskRow, 7) - batchAmount;
-				int projectRow = jt_quoteProject.getSelectedRow();
-				double projectAmount = (double) jt_quoteProject.getValueAt(
+				final int projectRow = jt_quoteProject.getSelectedRow();
+				final double projectAmount = (double) jt_quoteProject.getValueAt(
 						projectRow, 5) - batchAmount;
 				// 启动任务线程删除选中报价项目
 				new SwingWorker<Boolean, Void>() {
@@ -456,10 +456,10 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 */
-	private void deleteQuoteProject(JTable jt_quoteTask,
-			JTable jt_quoteProject,
+	private void deleteQuoteProject(final JTable jt_quoteTask,
+			final JTable jt_quoteProject,
 
-			JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+			final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
 		// 获取Table中被选中的行序号
 		final int row = jt_quoteProject.getSelectedRow();
 		if (row < 0) {
@@ -478,8 +478,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 						.getValueAt(row, 4)
 						+ (double) jt_quoteProject.getValueAt(row, 5);
 				// 重新计算任务金额
-				int taskRow = jt_quoteTask.getSelectedRow();
-				double taskAmount = (double) jt_quoteTask
+				final int taskRow = jt_quoteTask.getSelectedRow();
+				final double taskAmount = (double) jt_quoteTask
 						.getValueAt(taskRow, 7) - totalProjectAmount;
 				// 启动任务线程删除选中报价项目
 				new SwingWorker<Boolean, Void>() {

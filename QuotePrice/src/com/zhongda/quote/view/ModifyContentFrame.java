@@ -165,7 +165,7 @@ public class ModifyContentFrame {
 		label_Implementation.setBounds(326, 198, 72, 15);
 		panel.add(label_Implementation);
 
-		Integer InspectiongID = (Integer) jt_inspectionContent.
+		final Integer InspectiongID = (Integer) jt_inspectionContent.
 				getValueAt(jt_inspectionContent.getSelectedRow(), 0);
 		System.out.println(InspectiongID);
 		

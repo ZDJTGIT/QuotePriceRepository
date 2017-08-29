@@ -298,10 +298,10 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 	 * @param jtf_batchName
 	 * @param jtf_batchAmount
 	 */
-	private void commitSingleInspectionBatch(JDialog dialog, JTable jt_quoteTask,
-			JTable jt_quoteProject, JTable jt_inspectionBatch,
-			JTable jt_partInspectionContent,
-			List<InspectionContent> singleContentList,
+	private void commitSingleInspectionBatch(JDialog dialog, final JTable jt_quoteTask,
+			final JTable jt_quoteProject, final JTable jt_inspectionBatch,
+			final JTable jt_partInspectionContent,
+			final List<InspectionContent> singleContentList,
 			JTextField jtf_batchName, JTextField jtf_batchAmount) {
 		String batchName = jtf_batchName.getText();
 		if (null == batchName || "".equals(batchName.trim())) {
@@ -315,15 +315,15 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 			inspectionBatch.setInspectionBatchName(batchName);
 			double batchAmount = Double.parseDouble(jtf_batchAmount.getText());
 			inspectionBatch.setInspectionBatchAmount(batchAmount);
-			int projectRow = jt_quoteProject.getSelectedRow();
+			final int projectRow = jt_quoteProject.getSelectedRow();
 			inspectionBatch.setProjectId((int)jt_quoteProject.getValueAt(projectRow, 0));
 			//重新计算项目金额
 			double projectAmountOld = (double)jt_quoteProject.getValueAt(projectRow, 5);
-			double projectAmount = projectAmountOld + batchAmount;
+			final double projectAmount = projectAmountOld + batchAmount;
 			//重新计算任务金额
-			int taskRow = jt_quoteTask.getSelectedRow();
+			final int taskRow = jt_quoteTask.getSelectedRow();
 			double taskAmountOld = (double)jt_quoteTask.getValueAt(taskRow, 7);
-			double taskAmount = taskAmountOld + batchAmount;
+			final double taskAmount = taskAmountOld + batchAmount;
 
 			new SwingWorker<Map<String, Object>, Void>() {
 
@@ -359,7 +359,7 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 	 * @param address 所选地址
 	 * @param industry 所选行业
 	 */
-	private void searchSysInspectionContent(JTable jt_sysInspectionContent, String contentName, Industry industry, Address address) {
+	private void searchSysInspectionContent(final JTable jt_sysInspectionContent, final String contentName, final Industry industry, final Address address) {
 		new SwingWorker<List<SysInspectionContent>, Void>() {
 			@Override
 			protected List<SysInspectionContent> doInBackground()

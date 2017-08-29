@@ -78,18 +78,18 @@ public class CreateContentFrameAction implements ActionListener {
 				double inspectionContentAmount = sampleQuantity*singleObjectQuantity*chargeStandard;
 				final InspectionContent inspectionContent = new InspectionContent(sourceId,inspectionContentName,sampleQuantity,sampleQuantityRange,sampleBasisId,singleObjectQuantity,singleQuantityRange,chargeUnit,chargeStandard,chargeStandardUnit,quoteBasisId,inspectionContentAmount);
 
-				int batchRow = jt_inspectionBatch.getSelectedRow();
+				final int batchRow = jt_inspectionBatch.getSelectedRow();
 				int batchId = (int) jt_inspectionBatch.getValueAt(batchRow, 0);
 				//传入batchId
 				inspectionContent.setBatchId(batchId);
 				//重新计算检验批金额
-				double batchAmount = (double)jt_inspectionBatch.getValueAt(batchRow, 2) + inspectionContentAmount;
+				final double batchAmount = (double)jt_inspectionBatch.getValueAt(batchRow, 2) + inspectionContentAmount;
 				//重新计算项目金额
-				int projectRow = jt_quoteProject.getSelectedRow();
-				double projectAmount = (double)jt_quoteProject.getValueAt(projectRow, 5) + inspectionContentAmount;
+				final int projectRow = jt_quoteProject.getSelectedRow();
+				final double projectAmount = (double)jt_quoteProject.getValueAt(projectRow, 5) + inspectionContentAmount;
 				//重新计算任务金额
-				int taskRow = jt_quoteTask.getSelectedRow();
-				double taskAmount = (double)jt_quoteTask.getValueAt(taskRow, 7) + inspectionContentAmount;
+				final int taskRow = jt_quoteTask.getSelectedRow();
+				final double taskAmount = (double)jt_quoteTask.getValueAt(taskRow, 7) + inspectionContentAmount;
 
 				// 启动任务线程往数据库插入数据
 				new SwingWorker<InspectionContent, Void>() {

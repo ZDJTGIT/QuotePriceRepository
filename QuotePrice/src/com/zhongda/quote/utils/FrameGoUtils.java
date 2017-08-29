@@ -77,7 +77,7 @@ public class FrameGoUtils {
 	 * @param industry 所选地址
 	 */
 	public static void createBatch(final Map<String, Map<String,Object>> batchMap, final JPanel jp_inspectionBatch,
-			String projectName, final JTextField jtf_projectAmount, Industry industry, Address address) {
+			final String projectName, final JTextField jtf_projectAmount, final Industry industry, final Address address) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -96,7 +96,7 @@ public class FrameGoUtils {
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
 	 */
-	public static void createBatch(JTable jt_quoteTask, JTable jt_quoteProject, JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+	public static void createBatch(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -164,7 +164,7 @@ public class FrameGoUtils {
 	/*
 	 * 查看详细检验内容界面
 	 */
-	public static void selectContent(Integer InspectionContentID){
+	public static void selectContent(final Integer InspectionContentID){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
