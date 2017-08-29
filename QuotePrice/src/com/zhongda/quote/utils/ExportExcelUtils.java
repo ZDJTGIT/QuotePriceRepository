@@ -26,6 +26,7 @@ import org.apache.poi.hssf.util.Region;
  * @author 研发中心-LiIverson<1061734892@qq.com>
  * @sine 2017年8月24日
  */
+@SuppressWarnings("deprecation")
 public class ExportExcelUtils {
 
 	private HSSFWorkbook wb = null;
@@ -49,7 +50,6 @@ public class ExportExcelUtils {
 	 * @param colSum
 	 *            该报表的列数
 	 */
-	@SuppressWarnings({ "deprecation", "unused" })
 	public void createNormalHead(String headString, int colSum) {
 		HSSFRow row = sheet.createRow(0);
 		// 设置第一行
@@ -91,7 +91,6 @@ public class ExportExcelUtils {
 	 * @param colSum
 	 *            需要合并到的列索引
 	 */
-	@SuppressWarnings("deprecation")
 	public void createNormalTwoRow(String[] head) {
 		// 创建第二行
 		HSSFCellStyle cellStyle = wb.createCellStyle();
@@ -136,11 +135,16 @@ public class ExportExcelUtils {
 	/**
 	 * 创建一个特殊行
 	 * 
-	 * @param headString
+	 * @param number
+	 *            第一列内容
+	 * @param taskName
+	 *            第二列内容
+	 * @param allRow
+	 *            当前列数
 	 * @param beginRow
+	 *            开始行
 	 * @param endRow
-	 * @param beginCol
-	 * @param endCol
+	 *            结束行
 	 */
 	public void createNormalSpecial(String number, String taskName, int allRow,
 			int beginRow, int endRow) {
@@ -296,7 +300,6 @@ public class ExportExcelUtils {
 	 *            需要合并到的列索引
 	 * @param cellValue
 	 */
-	@SuppressWarnings("deprecation")
 	public void createLastSumRow(int colSum, String[] cellValue) {
 
 		HSSFCellStyle cellStyle = wb.createCellStyle();
@@ -337,7 +340,6 @@ public class ExportExcelUtils {
 	 * @param beginCol
 	 * @param endCol
 	 */
-	@SuppressWarnings("deprecation")
 	public void merge(int beginRow, int endRow, int beginCol, int endCol) {
 
 		sheet.addMergedRegion(new CellRangeAddress(beginRow, endRow, beginCol,

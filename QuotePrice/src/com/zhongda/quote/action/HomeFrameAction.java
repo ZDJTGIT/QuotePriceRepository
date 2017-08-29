@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
 import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.model.QuoteProject;
@@ -36,7 +27,6 @@ import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
 import com.zhongda.quote.utils.ConstantUtils;
-import com.zhongda.quote.utils.ExportExcelUtils;
 import com.zhongda.quote.utils.FrameGoUtils;
 import com.zhongda.quote.utils.QuoteBasisPhotoUtils;
 import com.zhongda.quote.utils.RenderDataUtils;
@@ -285,198 +275,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			taskidAry[i] = (String) jt_quoteTask.getValueAt(i, 1);
 			taskName[i] = (String) jt_quoteTask.getValueAt(i, 2);
 		}
+		RenderDataUtils.exportTask(taskidAry, taskName, taskNumberName, frame);
 
-		new SwingWorker<List<QuoteTask>, Void>() {
-			@Override
-			protected List<QuoteTask> doInBackground() throws Exception {
-				List<QuoteTask> taskList = new ArrayList<QuoteTask>();
-				for (String string : taskidAry) {
-					taskList.add(new QuoteTaskServiceImpl()
-							.queryQuoteTaskByNumber(string));
-				}
-				if (null != taskList) {
-					for (QuoteTask quoteTask : taskList) {
-						if (null != quoteTask) {
-							quoteTask
-									.setProjectList(new QuoteProjectServiceImpl()
-											.queryAllQuoteProjectsByTaskNmber(quoteTask
-													.getId()));
-						}
-
-						if (null != quoteTask
-								&& null != quoteTask.getProjectList()) {
-							for (QuoteProject quoteProject : quoteTask
-									.getProjectList()) {
-								quoteProject
-										.setBatchList(new InspectionBatchServiceImpl()
-												.queryAllInspectionBatchByProjectID(quoteProject
-														.getId()));
-								if (null != quoteProject
-										&& null != quoteProject.getBatchList()) {
-									for (InspectionBatch inspectionBatch : quoteProject
-											.getBatchList()) {
-										inspectionBatch
-												.setContentList(new InspectionContentServiceImpl()
-														.queryAllContentByBatchId(inspectionBatch
-																.getId()));
-									}
-								}
-							}
-						}
-					}
-				}
-
-				return taskList;
-			}
-
-			protected void done() {
-				List<QuoteTask> taskList = null;
-				try {
-
-					taskList = get();
-
-					// 第一行类容
-					String workSheetTitle = "项目报价表";
-					// 表头字段
-					String[] head = { "序号", "项目名称", "检验批", "检测内容", "单位",
-							"单价(元)", "数量", "次数", "合价（元）", "抽样方法", "报价方法" };
-					HSSFWorkbook workbook = new HSSFWorkbook();
-					// 创建单元格样式
-					HSSFCellStyle cellStyleTitle = workbook.createCellStyle();
-					// 指定单元格居中对齐
-					cellStyleTitle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-					// 指定单元格垂直居中对齐
-					cellStyleTitle
-							.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-					// 指定当单元格内容显示不下时自动换行
-					cellStyleTitle.setWrapText(true);
-					// 设置单元格字体
-					HSSFFont font = workbook.createFont();
-					font.setFontName("宋体");
-					font.setFontHeightInPoints((short) 11);
-					cellStyleTitle.setFont(font);
-
-					cellStyleTitle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-					cellStyleTitle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-					cellStyleTitle.setBorderRight(HSSFCellStyle.BORDER_THIN);
-					cellStyleTitle.setBorderTop(HSSFCellStyle.BORDER_THIN);
-
-					HSSFSheet sheet = workbook.createSheet();
-					sheet.setColumnWidth(0, 3000);
-					sheet.setColumnWidth(1, 4000);
-					sheet.setColumnWidth(2, 4000);
-					sheet.setColumnWidth(3, 10000);
-					sheet.setColumnWidth(4, 1800);
-					sheet.setColumnWidth(5, 2500);
-					sheet.setColumnWidth(6, 1500);
-					sheet.setColumnWidth(7, 1500);
-					sheet.setColumnWidth(8, 3000);
-					sheet.setColumnWidth(9, 15000);
-					sheet.setColumnWidth(10, 15000);
-
-					ExportExcelUtils excel = new ExportExcelUtils(workbook,
-							sheet);
-					// 报表头部
-					excel.createNormalHead(workSheetTitle, 10);
-					// 设置第一行表头数据
-					HSSFRow row = sheet.createRow(1);
-					HSSFCell cell = null;
-					excel.createNormalTwoRow(head);
-
-					int allRow = 2;
-					int rowNumber = 1;
-					int taskNumber = -1;
-					for (QuoteTask quoteTask : taskList) {
-						taskNumber++;
-						excel.createNormalSpecial("任务"
-								+ taskNumberName[taskNumber],
-								taskName[taskNumber], allRow, allRow, allRow);
-						allRow++;
-						for (QuoteProject quoteProject : quoteTask
-								.getProjectList()) {
-							int projectBegin = 0;
-							for (InspectionBatch inspectionBatch : quoteProject
-									.getBatchList()) {
-								for (InspectionContent inspectionContent : inspectionBatch
-										.getContentList()) {
-									row = sheet.createRow(allRow);
-									String[] content = new String[11];
-									content[0] = String.valueOf(rowNumber);
-									content[1] = quoteProject.getProjectName();
-									content[2] = inspectionBatch
-											.getInspectionBatchName();
-									content[3] = inspectionContent
-											.getInspectionContentName();
-									content[4] = inspectionContent
-											.getChargeUnit();
-									content[5] = String
-											.valueOf(inspectionContent
-													.getChargeStandard());
-									content[6] = String
-											.valueOf(inspectionContent
-													.getSampleQuantity());
-									content[7] = String
-											.valueOf(inspectionContent
-													.getSingleObjectQuantity());
-									content[8] = String
-											.valueOf(inspectionContent
-													.getInspectionContentAmount());
-									content[9] = String
-											.valueOf(inspectionContent
-													.getSampleBasis()
-													.getBasisFileNumber()
-													+ " "
-													+ inspectionContent
-															.getSampleBasis()
-															.getBasisFileName()
-													+ " "
-													+ inspectionContent
-															.getSampleBasis()
-															.getBasisFileIndex());
-									content[10] = String
-											.valueOf(inspectionContent
-													.getQuoteBasis()
-													.getBasisFileNumber()
-													+ " "
-													+ inspectionContent
-															.getQuoteBasis()
-															.getBasisFileName()
-													+ " "
-													+ inspectionContent
-															.getQuoteBasis()
-															.getBasisFileIndex());
-									for (int i = 0; i < content.length; i++) {
-										cell = row.createCell(i);
-										cell.setCellStyle(cellStyleTitle);
-										cell.setCellValue(new HSSFRichTextString(
-												content[i]));
-									}
-									allRow++;
-									rowNumber++;
-									projectBegin++;
-								}
-								int begin = allRow
-										- inspectionBatch.getContentList()
-												.size();
-								excel.merge(begin, allRow - 1, 2, 2);
-							}
-							excel.merge(allRow - projectBegin, allRow - 1, 1, 1);
-						}
-					}
-					FileDialog fileDialog = new FileDialog(frame, "保存",
-							FileDialog.SAVE);
-					fileDialog.setVisible(true);
-					String fileName = fileDialog.getDirectory()
-							+ fileDialog.getFile();
-					excel.outputExcel(fileName + ".xls");
-					// excel.outputExcel("d:\\test.xls");
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-			};
-		}.execute();
 	}
 
 	/**

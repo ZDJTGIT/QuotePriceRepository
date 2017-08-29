@@ -46,26 +46,35 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 
 	// 插入一天检验内容，如果插入成功，返回当前插入的检验内容
 	@Override
-	public InspectionContent createInspectionContent(InspectionContent inspectionContent,
-			 double taskAmount, double projectAmount, double batchAmount) {
+	public InspectionContent createInspectionContent(
+			InspectionContent inspectionContent, double taskAmount,
+			double projectAmount, double batchAmount) {
 		int index = 0;
 		try {
 			index = inspectionContentMapper.insertSelective(inspectionContent);
 			if (index > 0) {
-<<<<<<< Updated upstream
-				inspectionBatchMapper.updateByPrimaryKeySelective(new InspectionBatch(inspectionContent.getBatchId(), batchAmount));
-				InspectionBatch inspectionBatch = inspectionBatchMapper.selectByPrimaryKey(inspectionContent.getBatchId());
-				quoteProjectMapper.updateByPrimaryKeySelective(new QuoteProject(inspectionBatch.getProjectId(), projectAmount));
-				QuoteProject quoteProject = quoteProjectMapper.selectByPrimaryKey(inspectionBatch.getProjectId());
-				quoteTaskMapper.updateByPrimaryKeySelective(new QuoteTask(quoteProject.getTaskId(), taskAmount));
-				inspectionContent = inspectionContentMapper.selectInspectionContentByMaxId();
-			}else{
+
+				inspectionBatchMapper
+						.updateByPrimaryKeySelective(new InspectionBatch(
+								inspectionContent.getBatchId(), batchAmount));
+				InspectionBatch inspectionBatch = inspectionBatchMapper
+						.selectByPrimaryKey(inspectionContent.getBatchId());
+				quoteProjectMapper
+						.updateByPrimaryKeySelective(new QuoteProject(
+								inspectionBatch.getProjectId(), projectAmount));
+				QuoteProject quoteProject = quoteProjectMapper
+						.selectByPrimaryKey(inspectionBatch.getProjectId());
+				quoteTaskMapper.updateByPrimaryKeySelective(new QuoteTask(
+						quoteProject.getTaskId(), taskAmount));
+				inspectionContent = inspectionContentMapper
+						.selectInspectionContentByMaxId();
+			} else {
 				inspectionContent = null;
-=======
+
 				// 添加实时更新原理
 				inspectionContent = inspectionContentMapper
 						.selectInspectionContentByMaxId();
->>>>>>> Stashed changes
+
 			}
 			sqlSession.commit();
 		} catch (Exception e) {
@@ -78,15 +87,23 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 	}
 
 	@Override
-	public Integer deleteInspectionByID(Integer id, double taskAmount, double projectAmount, double batchAmount) {
+	public Integer deleteInspectionByID(Integer id, double taskAmount,
+			double projectAmount, double batchAmount) {
 		int index = 0;
 		try {
-			InspectionContent inspectionContent = inspectionContentMapper.selectByPrimaryKey(id);
-			inspectionBatchMapper.updateByPrimaryKeySelective(new InspectionBatch(inspectionContent.getBatchId(), batchAmount));
-			InspectionBatch inspectionBatch = inspectionBatchMapper.selectByPrimaryKey(inspectionContent.getBatchId());
-			quoteProjectMapper.updateByPrimaryKeySelective(new QuoteProject(inspectionBatch.getProjectId(), projectAmount));
-			QuoteProject quoteProject = quoteProjectMapper.selectByPrimaryKey(inspectionBatch.getProjectId());
-			quoteTaskMapper.updateByPrimaryKeySelective(new QuoteTask(quoteProject.getTaskId(), taskAmount));
+			InspectionContent inspectionContent = inspectionContentMapper
+					.selectByPrimaryKey(id);
+			inspectionBatchMapper
+					.updateByPrimaryKeySelective(new InspectionBatch(
+							inspectionContent.getBatchId(), batchAmount));
+			InspectionBatch inspectionBatch = inspectionBatchMapper
+					.selectByPrimaryKey(inspectionContent.getBatchId());
+			quoteProjectMapper.updateByPrimaryKeySelective(new QuoteProject(
+					inspectionBatch.getProjectId(), projectAmount));
+			QuoteProject quoteProject = quoteProjectMapper
+					.selectByPrimaryKey(inspectionBatch.getProjectId());
+			quoteTaskMapper.updateByPrimaryKeySelective(new QuoteTask(
+					quoteProject.getTaskId(), taskAmount));
 			index = inspectionContentMapper.deleteInspectionByID(id);
 			sqlSession.commit();
 		} catch (Exception e) {
@@ -159,30 +176,31 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 	}
 
 	@Override
-<<<<<<< Updated upstream
 	public InspectionContent selectInspectionContentByInspectionContentID(
 			Integer InspectionContentID) {
 		InspectionContent inspectionContent = null;
 		try {
 			inspectionContent = inspectionContentMapper
 					.selectInspectionContentByInspectionContentID(InspectionContentID);
-=======
-	public List<InspectionContent> queryAllContentByBatchId(int batchId) {
-		List<InspectionContent> contentList = null;
-		try {
-			contentList = inspectionContentMapper
-					.selectAllContentByBatchId(batchId);
->>>>>>> Stashed changes
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {
 			MyBatisUtil.closeSqlSession();
 		}
-<<<<<<< Updated upstream
 		return inspectionContent;
-=======
-		return contentList;
->>>>>>> Stashed changes
 	}
 
+	@Override
+	public List<InspectionContent> queryAllContentByBatchId(int batchId) {
+		List<InspectionContent> contentList = null;
+		try {
+			contentList = inspectionContentMapper
+					.selectAllContentByBatchId(batchId);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return contentList;
+	}
 }
