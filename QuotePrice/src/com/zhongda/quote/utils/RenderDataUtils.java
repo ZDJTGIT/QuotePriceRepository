@@ -17,10 +17,12 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 
 import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.InspectionContent;
@@ -427,7 +429,8 @@ public class RenderDataUtils {
 					int allRow = 2;
 					int rowNumber = 1;
 					int taskNumber = -1;
-					int otherAmount = 0;
+					double otherAmount = 0;
+					double total = 0;
 					for (QuoteTask quoteTask : taskList) {
 						taskNumber++;
 						excel.createNormalSpecial("任务"
@@ -442,6 +445,8 @@ public class RenderDataUtils {
 									.getBatchList()) {
 								for (InspectionContent inspectionContent : inspectionBatch
 										.getContentList()) {
+									total += inspectionContent
+											.getInspectionContentAmount();
 									row = sheet.createRow(allRow);
 									String[] content = new String[11];
 									content[0] = String.valueOf(rowNumber);
@@ -506,6 +511,8 @@ public class RenderDataUtils {
 							excel.merge(allRow - projectBegin, allRow - 1, 1, 1);
 
 						}
+
+						total += otherAmount;
 						// 设置其他费用行
 						row = sheet.createRow(allRow);
 						row.setHeight((short) 600);
@@ -536,6 +543,54 @@ public class RenderDataUtils {
 						excel.merge(allRow, allRow, 1, 3);
 
 					}
+					// 设置合计行
+
+					HSSFCellStyle cellStyle2 = workbook.createCellStyle();
+
+					// 指定单元格居中对齐
+					cellStyle2.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+					// 指定单元格垂直居中对齐
+					cellStyle2
+							.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+					// 指定当单元格内容显示不下时自动换行
+					cellStyle2.setWrapText(true);
+					// 设置单元格字体
+					HSSFFont font2 = workbook.createFont();
+					font2.setFontName("宋体");
+					font2.setFontHeightInPoints((short) 11);
+					cellStyle2.setFont(font);
+					cellStyle2.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+					cellStyle2.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+					cellStyle2.setBorderRight(HSSFCellStyle.BORDER_THIN);
+					cellStyle2.setBorderTop(HSSFCellStyle.BORDER_THIN);
+
+					HSSFPalette palette = workbook.getCustomPalette();
+					palette.setColorAtIndex(HSSFColor.PINK.index, (byte) 255,
+							(byte) 242, (byte) 204);
+					cellStyle2.setFillForegroundColor(HSSFColor.PINK.index);
+					cellStyle2.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+					cellStyle2.setFillBackgroundColor(HSSFColor.PINK.index);
+
+					row = sheet.createRow(allRow + 1);
+					row.setHeight((short) 600);
+					cell = row.createCell(0);
+					cell.setCellStyle(cellStyle2);
+					cell.setCellValue(new HSSFRichTextString("合计"));
+
+					for (int i = 1; i < 8; i++) {
+						cell = row.createCell(i);
+						cell.setCellStyle(cellStyle2);
+					}
+					cell = row.createCell(8);
+					cell.setCellStyle(cellStyle2);
+					cell.setCellValue(new HSSFRichTextString(String
+							.valueOf(total)));
+					cell = row.createCell(9);
+					cell.setCellStyle(cellStyle2);
+					cell = row.createCell(10);
+					cell.setCellStyle(cellStyle2);
+					excel.merge(allRow + 1, allRow + 1, 0, 7);
+
 					FileDialog fileDialog = new FileDialog(frame, "保存",
 							FileDialog.SAVE);
 					fileDialog.setVisible(true);

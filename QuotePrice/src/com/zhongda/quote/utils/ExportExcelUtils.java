@@ -300,12 +300,17 @@ public class ExportExcelUtils {
 	 *            需要合并到的列索引
 	 * @param cellValue
 	 */
-	public void createLastSumRow(int colSum, String[] cellValue) {
+	public HSSFRow createLastSumRow(int colSum) {
 
 		HSSFCellStyle cellStyle = wb.createCellStyle();
 		cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 指定单元格居中对齐
 		cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 指定单元格垂直居中对齐
 		cellStyle.setWrapText(true);// 指定单元格自动换行
+
+		cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+		cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
 
 		// 单元格字体
 		HSSFFont font = wb.createFont();
@@ -323,13 +328,14 @@ public class ExportExcelUtils {
 		sheet.addMergedRegion(new Region(sheet.getLastRowNum(), (short) 0,
 				sheet.getLastRowNum(), (short) colSum));// 指定合并区域
 
-		for (int i = 2; i < (cellValue.length + 2); i++) {
-			// 定义最后一行的第三列
-			sumCell = lastRow.createCell(i);
-			sumCell.setCellStyle(cellStyle);
-			// 定义数组 从0开始。
-			sumCell.setCellValue(new HSSFRichTextString(cellValue[i - 2]));
-		}
+		// for (int i = 2; i < (cellValue.length + 2); i++) {
+		// // 定义最后一行的第三列
+		// sumCell = lastRow.createCell(i);
+		// sumCell.setCellStyle(cellStyle);
+		// // 定义数组 从0开始。
+		// sumCell.setCellValue(new HSSFRichTextString(cellValue[i - 2]));
+		// }
+		return lastRow;
 	}
 
 	/**
