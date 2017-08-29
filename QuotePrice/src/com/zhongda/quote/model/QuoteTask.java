@@ -1,5 +1,7 @@
 package com.zhongda.quote.model;
 
+import java.util.List;
+
 public class QuoteTask {
 	private Integer id;
 
@@ -16,6 +18,8 @@ public class QuoteTask {
 	private String lastUpdateDate;
 
 	private Double taskAmount;
+
+	private List<QuoteProject> projectList;
 
 	public QuoteTask() {
 	}
@@ -99,4 +103,13 @@ public class QuoteTask {
 	public void setTaskAmount(Double taskAmount) {
 		this.taskAmount = taskAmount;
 	}
+
+	public List<QuoteProject> getProjectList() {
+		return projectList;
+	}
+
+	public void setProjectList(List<QuoteProject> projectList) {
+		this.projectList = projectList;
+	}
+
 }

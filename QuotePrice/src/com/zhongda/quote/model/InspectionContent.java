@@ -1,39 +1,43 @@
 package com.zhongda.quote.model;
 
 public class InspectionContent {
-    private Integer id;
+	private Integer id;
 
-    private Integer sourceId;
+	private Integer sourceId;
 
-    private String inspectionContentName;
+	private String inspectionContentName;
 
-    private Integer sampleQuantity;
+	private Integer sampleQuantity;
 
-    private String sampleQuantityRange;
+	private String sampleQuantityRange;
 
-    private Integer sampleBasisId;
+	private Integer sampleBasisId;
 
-    private Integer singleObjectQuantity;
+	private Integer singleObjectQuantity;
 
-    private String singleQuantityRange;
+	private String singleQuantityRange;
 
-    private String chargeUnit;
+	private String chargeUnit;
 
-    private Integer chargeStandard;
+	private Integer chargeStandard;
 
-    private String chargeStandardUnit;
+	private String chargeStandardUnit;
 
-    private Integer quoteBasisId;
+	private Integer quoteBasisId;
 
-    private Integer batchId;
+	private Integer batchId;
 
-    private Double inspectionContentAmount;
+	private Double inspectionContentAmount;
 
-    public InspectionContent(){
+	private QuoteBasis quoteBasis;
 
-    }
+	private SampleBasis sampleBasis;
 
-    public InspectionContent(Integer sourceId, String inspectionContentName,
+	public InspectionContent() {
+
+	}
+
+	public InspectionContent(Integer sourceId, String inspectionContentName,
 			Integer sampleQuantity, String sampleQuantityRange,
 			Integer sampleBasisId, Integer singleObjectQuantity,
 			String singleQuantityRange, String chargeUnit,
@@ -53,8 +57,9 @@ public class InspectionContent {
 		this.inspectionContentAmount = inspectionContentAmount;
 	}
 
-	public InspectionContent(String inspectionContentName, Integer sampleQuantity,
-			Integer singleObjectQuantity, Integer chargeStandard) {
+	public InspectionContent(String inspectionContentName,
+			Integer sampleQuantity, Integer singleObjectQuantity,
+			Integer chargeStandard) {
 		this.inspectionContentName = inspectionContentName;
 		this.sampleQuantity = sampleQuantity;
 		this.singleObjectQuantity = singleObjectQuantity;
@@ -62,114 +67,134 @@ public class InspectionContent {
 	}
 
 	public Integer getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getSourceId() {
-        return sourceId;
-    }
+	public Integer getSourceId() {
+		return sourceId;
+	}
 
-    public void setSourceId(Integer sourceId) {
-        this.sourceId = sourceId;
-    }
+	public void setSourceId(Integer sourceId) {
+		this.sourceId = sourceId;
+	}
 
-    public String getInspectionContentName() {
-        return inspectionContentName;
-    }
+	public String getInspectionContentName() {
+		return inspectionContentName;
+	}
 
-    public void setInspectionContentName(String inspectionContentName) {
-        this.inspectionContentName = inspectionContentName == null ? null : inspectionContentName.trim();
-    }
+	public void setInspectionContentName(String inspectionContentName) {
+		this.inspectionContentName = inspectionContentName == null ? null
+				: inspectionContentName.trim();
+	}
 
-    public Integer getSampleQuantity() {
-        return sampleQuantity;
-    }
+	public Integer getSampleQuantity() {
+		return sampleQuantity;
+	}
 
-    public void setSampleQuantity(Integer sampleQuantity) {
-        this.sampleQuantity = sampleQuantity;
-    }
+	public void setSampleQuantity(Integer sampleQuantity) {
+		this.sampleQuantity = sampleQuantity;
+	}
 
-    public String getSampleQuantityRange() {
-        return sampleQuantityRange;
-    }
+	public String getSampleQuantityRange() {
+		return sampleQuantityRange;
+	}
 
-    public void setSampleQuantityRange(String sampleQuantityRange) {
-        this.sampleQuantityRange = sampleQuantityRange == null ? null : sampleQuantityRange.trim();
-    }
+	public void setSampleQuantityRange(String sampleQuantityRange) {
+		this.sampleQuantityRange = sampleQuantityRange == null ? null
+				: sampleQuantityRange.trim();
+	}
 
-    public Integer getSampleBasisId() {
-        return sampleBasisId;
-    }
+	public Integer getSampleBasisId() {
+		return sampleBasisId;
+	}
 
-    public void setSampleBasisId(Integer sampleBasisId) {
-        this.sampleBasisId = sampleBasisId;
-    }
+	public void setSampleBasisId(Integer sampleBasisId) {
+		this.sampleBasisId = sampleBasisId;
+	}
 
-    public Integer getSingleObjectQuantity() {
-        return singleObjectQuantity;
-    }
+	public Integer getSingleObjectQuantity() {
+		return singleObjectQuantity;
+	}
 
-    public void setSingleObjectQuantity(Integer singleObjectQuantity) {
-        this.singleObjectQuantity = singleObjectQuantity;
-    }
+	public void setSingleObjectQuantity(Integer singleObjectQuantity) {
+		this.singleObjectQuantity = singleObjectQuantity;
+	}
 
-    public String getSingleQuantityRange() {
-        return singleQuantityRange;
-    }
+	public String getSingleQuantityRange() {
+		return singleQuantityRange;
+	}
 
-    public void setSingleQuantityRange(String singleQuantityRange) {
-        this.singleQuantityRange = singleQuantityRange == null ? null : singleQuantityRange.trim();
-    }
+	public void setSingleQuantityRange(String singleQuantityRange) {
+		this.singleQuantityRange = singleQuantityRange == null ? null
+				: singleQuantityRange.trim();
+	}
 
-    public String getChargeUnit() {
-        return chargeUnit;
-    }
+	public String getChargeUnit() {
+		return chargeUnit;
+	}
 
-    public void setChargeUnit(String chargeUnit) {
-        this.chargeUnit = chargeUnit == null ? null : chargeUnit.trim();
-    }
+	public void setChargeUnit(String chargeUnit) {
+		this.chargeUnit = chargeUnit == null ? null : chargeUnit.trim();
+	}
 
-    public Integer getChargeStandard() {
-        return chargeStandard;
-    }
+	public Integer getChargeStandard() {
+		return chargeStandard;
+	}
 
-    public void setChargeStandard(Integer chargeStandard) {
-        this.chargeStandard = chargeStandard;
-    }
+	public void setChargeStandard(Integer chargeStandard) {
+		this.chargeStandard = chargeStandard;
+	}
 
-    public String getChargeStandardUnit() {
-        return chargeStandardUnit;
-    }
+	public String getChargeStandardUnit() {
+		return chargeStandardUnit;
+	}
 
-    public void setChargeStandardUnit(String chargeStandardUnit) {
-        this.chargeStandardUnit = chargeStandardUnit == null ? null : chargeStandardUnit.trim();
-    }
+	public void setChargeStandardUnit(String chargeStandardUnit) {
+		this.chargeStandardUnit = chargeStandardUnit == null ? null
+				: chargeStandardUnit.trim();
+	}
 
-    public Integer getQuoteBasisId() {
-        return quoteBasisId;
-    }
+	public Integer getQuoteBasisId() {
+		return quoteBasisId;
+	}
 
-    public void setQuoteBasisId(Integer quoteBasisId) {
-        this.quoteBasisId = quoteBasisId;
-    }
+	public void setQuoteBasisId(Integer quoteBasisId) {
+		this.quoteBasisId = quoteBasisId;
+	}
 
-    public Integer getBatchId() {
-        return batchId;
-    }
+	public Integer getBatchId() {
+		return batchId;
+	}
 
-    public void setBatchId(Integer batchId) {
-        this.batchId = batchId;
-    }
+	public void setBatchId(Integer batchId) {
+		this.batchId = batchId;
+	}
 
-    public Double getInspectionContentAmount() {
-        return inspectionContentAmount;
-    }
+	public Double getInspectionContentAmount() {
+		return inspectionContentAmount;
+	}
 
-    public void setInspectionContentAmount(Double inspectionContentAmount) {
-        this.inspectionContentAmount = inspectionContentAmount;
-    }
+	public void setInspectionContentAmount(Double inspectionContentAmount) {
+		this.inspectionContentAmount = inspectionContentAmount;
+	}
+
+	public QuoteBasis getQuoteBasis() {
+		return quoteBasis;
+	}
+
+	public void setQuoteBasis(QuoteBasis quoteBasis) {
+		this.quoteBasis = quoteBasis;
+	}
+
+	public SampleBasis getSampleBasis() {
+		return sampleBasis;
+	}
+
+	public void setSampleBasis(SampleBasis sampleBasis) {
+		this.sampleBasis = sampleBasis;
+	}
 }

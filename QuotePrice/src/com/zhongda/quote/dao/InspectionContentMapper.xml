@@ -16,6 +16,24 @@
     <result column="quote_basis_id" jdbcType="INTEGER" property="quoteBasisId" />
     <result column="batch_id" jdbcType="INTEGER" property="batchId" />
     <result column="inspection_content_amount" jdbcType="FLOAT" property="inspectionContentAmount" />
+    <association property="quoteBasis" javaType="QuoteBasis">
+       	<id column="id" jdbcType="INTEGER" property="id" />
+	    <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
+	    <result column="industry_id" jdbcType="INTEGER" property="industryId" />
+	    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+	    <result column="basis_file_number" jdbcType="VARCHAR" property="basisFileNumber" />
+	    <result column="basis_file_name" jdbcType="VARCHAR" property="basisFileName" />
+	    <result column="basis_file_index" jdbcType="VARCHAR" property="basisFileIndex" />
+   	</association>
+   	<association property="sampleBasis" javaType="SampleBasis">
+       	<id column="id" jdbcType="INTEGER" property="id" />
+	    <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
+	    <result column="industry_id" jdbcType="INTEGER" property="industryId" />
+	    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+	    <result column="basis_file_number" jdbcType="VARCHAR" property="basisFileNumber" />
+	    <result column="basis_file_name" jdbcType="VARCHAR" property="basisFileName" />
+	    <result column="basis_file_index" jdbcType="VARCHAR" property="basisFileIndex" />
+   	</association>
   </resultMap>
   <sql id="Base_Column_List">
     id, source_id, inspection_content_name, sample_quantity, sample_quantity_range, sample_basis_id, 
@@ -45,11 +63,17 @@
     from InspectionContent
     where batch_id = #{batchId,jdbcType=INTEGER}
   </select>
- <select id="selectInspectionContentByInspectionContentID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectInspectionContentByInspectionContentID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from InspectionContent
     where id = #{InspectionContentID,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllContentByBatchId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  select
+  ic.*,qb.*,sb.*
+  from InspectionContent ic,QuoteBasis qb,SampleBasis sb
+  where ic.quote_Basis_Id = qb.id and ic.sample_Basis_Id = sb.id and ic.batch_Id = #{batchId,jdbcType=INTEGER}
   </select>
   <delete id="deleteInspectionByID" parameterType="java.lang.Integer">
     delete from InspectionContent

@@ -83,10 +83,11 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 		int index = 0;
 		try {
 			index = quoteTaskMapper.updateByPrimaryKeySelective(quoteTask);
-			if(index>0){
-				//再查出该条数据
-				quoteTask = quoteTaskMapper.selectByPrimaryKey(quoteTask.getId());
-			}else{
+			if (index > 0) {
+				// 再查出该条数据
+				quoteTask = quoteTaskMapper.selectByPrimaryKey(quoteTask
+						.getId());
+			} else {
 				quoteTask = null;
 			}
 			sqlSession.commit();
@@ -137,4 +138,5 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 		}
 		return quoteTask;
 	}
+
 }

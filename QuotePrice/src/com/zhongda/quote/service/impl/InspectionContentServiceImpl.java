@@ -44,7 +44,7 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 		return contentList;
 	}
 
-	//插入一天检验内容，如果插入成功，返回当前插入的检验内容
+	// 插入一天检验内容，如果插入成功，返回当前插入的检验内容
 	@Override
 	public InspectionContent createInspectionContent(InspectionContent inspectionContent,
 			 double taskAmount, double projectAmount, double batchAmount) {
@@ -52,6 +52,7 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 		try {
 			index = inspectionContentMapper.insertSelective(inspectionContent);
 			if (index > 0) {
+<<<<<<< Updated upstream
 				inspectionBatchMapper.updateByPrimaryKeySelective(new InspectionBatch(inspectionContent.getBatchId(), batchAmount));
 				InspectionBatch inspectionBatch = inspectionBatchMapper.selectByPrimaryKey(inspectionContent.getBatchId());
 				quoteProjectMapper.updateByPrimaryKeySelective(new QuoteProject(inspectionBatch.getProjectId(), projectAmount));
@@ -60,6 +61,11 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 				inspectionContent = inspectionContentMapper.selectInspectionContentByMaxId();
 			}else{
 				inspectionContent = null;
+=======
+				// 添加实时更新原理
+				inspectionContent = inspectionContentMapper
+						.selectInspectionContentByMaxId();
+>>>>>>> Stashed changes
 			}
 			sqlSession.commit();
 		} catch (Exception e) {
@@ -153,18 +159,30 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 	}
 
 	@Override
+<<<<<<< Updated upstream
 	public InspectionContent selectInspectionContentByInspectionContentID(
 			Integer InspectionContentID) {
 		InspectionContent inspectionContent = null;
 		try {
 			inspectionContent = inspectionContentMapper
 					.selectInspectionContentByInspectionContentID(InspectionContentID);
+=======
+	public List<InspectionContent> queryAllContentByBatchId(int batchId) {
+		List<InspectionContent> contentList = null;
+		try {
+			contentList = inspectionContentMapper
+					.selectAllContentByBatchId(batchId);
+>>>>>>> Stashed changes
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {
 			MyBatisUtil.closeSqlSession();
 		}
+<<<<<<< Updated upstream
 		return inspectionContent;
+=======
+		return contentList;
+>>>>>>> Stashed changes
 	}
 
 }

@@ -42,13 +42,9 @@ import com.zhongda.quote.service.impl.InspectionBatchServiceImpl;
 import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
-import com.zhongda.quote.test.Testweb;
 import com.zhongda.quote.utils.RenderDataUtils;
 import com.zhongda.quote.view.uiutils.JMenBarColor;
 import com.zhongda.quote.view.uiutils.MyTable;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * <p>
@@ -68,7 +64,7 @@ public class HomeFrame {
 	private JMenu jm_e;
 	private JMenu jm_l;
 	private JMenu jm_g;
-	private JMenu jm_v;
+	private JMenu jm_view;
 	private JMenu jm_t;
 	private JMenu jm_w;
 	private JMenu jm_help;
@@ -177,6 +173,7 @@ public class HomeFrame {
 	private JMenuItem mmi_help_home;
 	private JMenuItem mmi_help_about;
 
+	private JMenuItem jmi_quoteBasis;
 
 	/**
 	 * Create the frame.
@@ -253,8 +250,13 @@ public class HomeFrame {
 		jmb_tb.add(jm_g);
 
 		// 工具视图
-		jm_v = new JMenu("视图(V) ");
-		jmb_tb.add(jm_v);
+		jm_view = new JMenu("视图(V) ");
+		jmb_tb.add(jm_view);
+
+		jmi_quoteBasis = new JMenuItem("报价依据", new ImageIcon(
+				"images/quotebasis.png"));
+		jmi_quoteBasis.setActionCommand("jmi_quoteBasis");
+		jm_view.add(jmi_quoteBasis);
 
 		// 工具栏工具
 		jm_t = new JMenu("工具(T) ");
@@ -267,23 +269,22 @@ public class HomeFrame {
 		// 工具栏帮助及下子键
 		jm_help = new JMenu("帮助(H) ");
 		jmb_tb.add(jm_help);
-		
+
 		mmi_help_help = new JMenuItem("帮助        F1");
 		jm_help.add(mmi_help_help);
-		
+
 		mmi_help_semple = new JMenuItem("产品报价示例");
 		jm_help.add(mmi_help_semple);
-		
+
 		mmi_help_registered = new JMenuItem("产品注册功能");
 		jm_help.add(mmi_help_registered);
-		
+
 		mmi_help_home = new JMenuItem("公司主页");
 		jm_help.add(mmi_help_home);
-		
+
 		mmi_help_about = new JMenuItem("关于");
 		jm_help.add(mmi_help_about);
-		
-		
+
 		jf_jpanel = new JPanel();
 		frame.getContentPane().add(jf_jpanel, BorderLayout.CENTER);
 		jf_jpanel.setLayout(new BorderLayout(0, 0));
@@ -597,6 +598,7 @@ public class HomeFrame {
 
 		bt_exportTask = new JButton();
 		bt_exportTask.setIcon(new ImageIcon("images/daochu.png"));
+		bt_exportTask.setActionCommand("bt_exportTask");
 		bt_exportTask.setToolTipText("导出建设任务");
 		bt_exportTask.setFocusPainted(false);// 去除按钮边线
 		jtb_jsrw.add(bt_exportTask);
@@ -712,7 +714,7 @@ public class HomeFrame {
 		scrollPanemike = new JScrollPane();
 		// 初始化检验内容表列名
 		final Object contentColumnsName[] = { "序号", "检验内容名称", "抽样数量",
-				"单个检验对象实施数量", "收费标准", "检验内容金额"};
+				"单个检验对象实施数量", "收费标准", "检验内容金额" };
 		jt_inspectionContent = new MyTable(new int[] { 0, 1, 2, 3, 4, 5 });
 		DefaultTableModel contentTableModel = new DefaultTableModel(null,
 				contentColumnsName);
@@ -842,8 +844,8 @@ public class HomeFrame {
 
 		// 添加创建任务事件
 		bt_createTask.setActionCommand("createTask");
-		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
-				jt_inspectionBatch, jt_inspectionContent));
+		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加删除任务事件
 		bt_deleteTask.setActionCommand("deleteTask");
 		bt_deleteTask.addActionListener(new HomeFrameAction(jt_quoteTask,
@@ -868,29 +870,31 @@ public class HomeFrame {
 
 		// 添加创建检验批事件
 		jbt_createInspectionBatch.setActionCommand("createInspectionBatch");
-		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(jt_quoteTask,
-				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
+		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(
+				jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
+				jt_inspectionContent));
 		// 添加删除检验批事件
 		jbt_deleteInspectionBatch.setActionCommand("deleteInspectionBatch");
-		jbt_deleteInspectionBatch.addActionListener(new HomeFrameAction(jt_quoteTask,
-				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
+		jbt_deleteInspectionBatch.addActionListener(new HomeFrameAction(
+				jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
+				jt_inspectionContent));
 
 		// 添加添加检验内容事件
 		jbt_createContent.setActionCommand("createContent");
-		jbt_createContent.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
-				jt_inspectionBatch, jt_inspectionContent));
+		jbt_createContent.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加修改检验内容事件
 		jbt_updateContent.setActionCommand("updateContent");
 		jbt_updateContent.addActionListener(new HomeFrameAction(null, null,
 				jt_inspectionBatch, jt_inspectionContent));
 		// 添加删除检验内容事件
 		jbt_deleteContent.setActionCommand("deleteContent");
-		jbt_deleteContent.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
-				jt_inspectionBatch, jt_inspectionContent));
+		jbt_deleteContent.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加查看详细检验内容事件
 		jbt_selectContent.setActionCommand("selectContent");
-		jbt_selectContent.addActionListener(new HomeFrameAction(null,null,
-				null,jt_inspectionContent));
+		jbt_selectContent.addActionListener(new HomeFrameAction(null, null,
+				null, jt_inspectionContent));
 		// 添加查看公司官网事件
 		mmi_help_home.setActionCommand("selectHome");
 		mmi_help_home.addActionListener(new HomeFrameAction());
@@ -915,6 +919,12 @@ public class HomeFrame {
 		// 任务Jtable鼠标悬浮事件
 		jt_quoteTask.addMouseMotionListener(new HomeFrameAction(jt_quoteTask,
 				null, null, null));
+		// 工具栏视图报价依据点击事件
+		jmi_quoteBasis.addActionListener(new HomeFrameAction(frame));
+		// 导出任务事件
+		bt_exportTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
+				null, null));
+
 	}
 
 	public Image titlePhoto(String file) {

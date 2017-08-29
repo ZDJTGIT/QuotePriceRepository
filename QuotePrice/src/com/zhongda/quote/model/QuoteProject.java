@@ -1,5 +1,7 @@
 package com.zhongda.quote.model;
 
+import java.util.List;
+
 public class QuoteProject {
 	private Integer id;
 
@@ -21,13 +23,14 @@ public class QuoteProject {
 
 	private Address address;
 
+	private List<InspectionBatch> batchList;
+
 	public QuoteProject() {
 
 	}
 
 	public QuoteProject(String projectName, int industryId, int addressId,
-			int addressPid, int taskId, double projectAmount,
-			double otherAmount) {
+			int addressPid, int taskId, double projectAmount, double otherAmount) {
 		this.projectName = projectName;
 		this.industryId = industryId;
 		this.addressId = addressId;
@@ -120,5 +123,13 @@ public class QuoteProject {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public List<InspectionBatch> getBatchList() {
+		return batchList;
+	}
+
+	public void setBatchList(List<InspectionBatch> batchList) {
+		this.batchList = batchList;
 	}
 }

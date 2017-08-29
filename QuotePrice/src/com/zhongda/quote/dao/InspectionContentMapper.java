@@ -10,7 +10,7 @@ public interface InspectionContentMapper {
 
 	/*
 	 * 插入一条检验内容
-	 *
+	 * 
 	 * @return
 	 */
 	int insertSelective(InspectionContent record);
@@ -56,7 +56,7 @@ public interface InspectionContentMapper {
 	int deleteInspectionByID(Integer id);
 
 	/**
-	 * 查询当前检验批下所有的检验内容
+	 * 查询所有检测内容根据检验批ID
 	 *
 	 * @param batchId
 	 *            当前检验批的id
@@ -66,6 +66,7 @@ public interface InspectionContentMapper {
 
 	/**
 	 * 插入一条检验内容
+	 * 
 	 * @param record
 	 * @return
 	 */
@@ -77,5 +78,14 @@ public interface InspectionContentMapper {
 	 * @return InspectionContent
 	 */
 	InspectionContent selectInspectionContentByInspectionContentID(Integer InspectionContentID);
+
+	/**
+	 * 查询所有关联抽样依据和报价依据表的检测内容根据检验批ID
+	 * 
+	 * @param batchId
+	 *            检验批ID
+	 * @return 检验内容集合
+	 */
+	List<InspectionContent> selectAllContentByBatchId(int batchId);
 
 }

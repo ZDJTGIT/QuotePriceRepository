@@ -15,14 +15,19 @@ public interface InspectionContentService {
 
 	/**
 	 * 创建一个检验内容
+	 * 
 	 * @param inspectionContent
-	 * @param taskAmount 需修改的任务金额
-	 * @param projectAmount 需修改的项目金额
-	 * @param batchAmount 需修改的检验批金额
+	 * @param taskAmount
+	 *            需修改的任务金额
+	 * @param projectAmount
+	 *            需修改的项目金额
+	 * @param batchAmount
+	 *            需修改的检验批金额
 	 * @return
 	 */
-	InspectionContent createInspectionContent(InspectionContent inspectionContent,
-			double taskAmount, double projectAmount, double batchAmount);
+	InspectionContent createInspectionContent(
+			InspectionContent inspectionContent, double taskAmount,
+			double projectAmount, double batchAmount);
 
 	/**
 	 * 获取当前检验批下所有的检验内容
@@ -34,11 +39,23 @@ public interface InspectionContentService {
 	List<InspectionContent> queryAllInspectionContentByBatchId(Integer batchId);
 
 	/**
+	 * 
+	 * 查询所有关联抽样依据和报价依据表的检测内容根据检验批ID
+	 * 
+	 * @param batchId
+	 *            检验批ID
+	 * @return 检验内容集合
+	 */
+	List<InspectionContent> queryAllContentByBatchId(int batchId);
+
+	/**
 	 * 按ID删除检验内容,同时修改任务，项目以及检验批金额
+	 * 
 	 * @param id
 	 * @return
 	 */
-	Integer deleteInspectionByID(Integer id, double taskAmount, double projectAmount, double batchAmount);
+	Integer deleteInspectionByID(Integer id, double taskAmount,
+			double projectAmount, double batchAmount);
 
 	/**
 	 * 修改检验内容
@@ -58,10 +75,13 @@ public interface InspectionContentService {
 	 */
 	boolean insertMultipleInspectionContent(
 			List<InspectionContent> inspectionContent);
+
 	/**
 	 * 传当前检验内容ID获取检验内容
+	 * 
 	 * @param InspectionContentID
 	 * @return InspectionContent
 	 */
-	InspectionContent selectInspectionContentByInspectionContentID(Integer InspectionContentID);
+	InspectionContent selectInspectionContentByInspectionContentID(
+			Integer InspectionContentID);
 }

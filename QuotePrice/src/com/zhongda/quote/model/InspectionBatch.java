@@ -1,13 +1,17 @@
 package com.zhongda.quote.model;
 
+import java.util.List;
+
 public class InspectionBatch {
-    private Integer id;
+	private Integer id;
 
 	private String inspectionBatchName;
 
 	private Integer projectId;
 
 	private Double inspectionBatchAmount;
+
+	private List<InspectionContent> contentList;
 
 	public InspectionBatch() {
 	}
@@ -48,6 +52,14 @@ public class InspectionBatch {
 
 	public void setInspectionBatchAmount(Double inspectionBatchAmount) {
 		this.inspectionBatchAmount = inspectionBatchAmount;
+	}
+
+	public List<InspectionContent> getContentList() {
+		return contentList;
+	}
+
+	public void setContentList(List<InspectionContent> contentList) {
+		this.contentList = contentList;
 	}
 
 }

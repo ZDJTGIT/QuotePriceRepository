@@ -10,10 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
-import com.zhongda.quote.machine.impl.SequenceServiceImpl;
-import com.zhongda.quote.utils.MachineKeyUtil;
 import com.zhongda.quote.view.HomeFrame;
 import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
 
