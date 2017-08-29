@@ -596,14 +596,16 @@ public class RenderDataUtils {
 					fileDialog.setVisible(true);
 					String fileName = fileDialog.getDirectory()
 							+ fileDialog.getFile();
-					excel.outputExcel(fileName + ".xls");
-
-					try {
-						Runtime.getRuntime().exec(
-								new String[] { "cmd.exe", "/c",
-										fileName + ".xls" });
-					} catch (IOException e) {
-						e.printStackTrace();
+					if (null != fileDialog.getDirectory()
+							&& !"".equals(fileName)) {
+						try {
+							excel.outputExcel(fileName + ".xls");
+							Runtime.getRuntime().exec(
+									new String[] { "cmd.exe", "/c",
+											fileName + ".xls" });
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 
 					// excel.outputExcel("d:\\test.xls");
