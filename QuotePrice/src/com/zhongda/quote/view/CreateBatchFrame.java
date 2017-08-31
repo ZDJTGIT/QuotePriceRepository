@@ -101,6 +101,10 @@ public class CreateBatchFrame {
 		this.jt_partInspectionContent = jt_partInspectionContent;
 		int projectRow = jt_quoteProject.getSelectedRow();
 		this.projectName = (String) jt_quoteProject.getValueAt(projectRow, 1);
+		int industryId = (int) jt_quoteProject.getValueAt(projectRow, 6);
+		this.industry = new Industry(industryId);
+		int addressId = ((int) jt_quoteProject.getValueAt(projectRow, 7)) / 10000 * 10000;
+		this.address = new Address(addressId);
 		init();
 	}
 

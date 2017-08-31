@@ -687,8 +687,8 @@ public class HomeFrame {
 		// 报价项目表格面板
 		// 初始化项目表列名
 		final Object[] projectColumnsName = { "序号", "项目名称", "行业", "项目地址",
-				"其他费用", "项目总金额" };
-		jt_quoteProject = new MyTable(new int[] { 1, 2, 3, 4, 5 });
+				"其他费用", "项目总金额", "行业id", "地址id" };
+		jt_quoteProject = new MyTable(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 });
 		DefaultTableModel projectTableModel = new DefaultTableModel(null,
 				projectColumnsName);
 		jt_quoteProject.setModel(projectTableModel);
@@ -697,6 +697,10 @@ public class HomeFrame {
 		jt_quoteProject.getColumnModel().getColumn(1).setPreferredWidth(100);
 		jt_quoteProject.getColumnModel().getColumn(2).setPreferredWidth(30);
 		jt_quoteProject.getColumnModel().getColumn(3).setPreferredWidth(120);
+		jt_quoteProject.getColumnModel().getColumn(6).setMinWidth(0);
+		jt_quoteProject.getColumnModel().getColumn(6).setMaxWidth(0);
+		jt_quoteProject.getColumnModel().getColumn(7).setMinWidth(0);
+		jt_quoteProject.getColumnModel().getColumn(7).setMaxWidth(0);
 		jsp_center_up.setViewportView(jt_quoteProject);
 
 		// 报价检验批表格面板

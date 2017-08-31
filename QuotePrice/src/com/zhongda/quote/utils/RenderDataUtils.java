@@ -100,6 +100,8 @@ public class RenderDataUtils {
 				rowData.add(quoteProject.getAddress().getMergerName());
 				rowData.add(quoteProject.getOtherAmount());
 				rowData.add(quoteProject.getProjectAmount());
+				rowData.add(quoteProject.getIndustryId());
+				rowData.add(quoteProject.getAddressId());
 				model.addRow(rowData);
 			}
 			jt_quoteProject.setRowSelectionInterval(0, 0);// 选中第一行
@@ -126,6 +128,8 @@ public class RenderDataUtils {
 		rowData.add(quoteProject.getAddress().getMergerName());
 		rowData.add(quoteProject.getOtherAmount());
 		rowData.add(quoteProject.getProjectAmount());
+		rowData.add(quoteProject.getIndustryId());
+		rowData.add(quoteProject.getAddressId());
 		model.addRow(rowData);
 		jt_quoteProject.setRowSelectionInterval(model.getRowCount() - 1,
 				model.getRowCount() - 1);
