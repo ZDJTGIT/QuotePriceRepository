@@ -100,6 +100,8 @@ public class RenderDataUtils {
 				rowData.add(quoteProject.getAddress().getMergerName());
 				rowData.add(quoteProject.getOtherAmount());
 				rowData.add(quoteProject.getProjectAmount());
+				rowData.add(quoteProject.getIndustryId());
+				rowData.add(quoteProject.getAddressId());
 				model.addRow(rowData);
 			}
 			jt_quoteProject.setRowSelectionInterval(0, 0);// 选中第一行
@@ -126,6 +128,8 @@ public class RenderDataUtils {
 		rowData.add(quoteProject.getAddress().getMergerName());
 		rowData.add(quoteProject.getOtherAmount());
 		rowData.add(quoteProject.getProjectAmount());
+		rowData.add(quoteProject.getIndustryId());
+		rowData.add(quoteProject.getAddressId());
 		model.addRow(rowData);
 		jt_quoteProject.setRowSelectionInterval(model.getRowCount() - 1,
 				model.getRowCount() - 1);
@@ -596,14 +600,16 @@ public class RenderDataUtils {
 					fileDialog.setVisible(true);
 					String fileName = fileDialog.getDirectory()
 							+ fileDialog.getFile();
-					excel.outputExcel(fileName + ".xls");
-
-					try {
-						Runtime.getRuntime().exec(
-								new String[] { "cmd.exe", "/c",
-										fileName + ".xls" });
-					} catch (IOException e) {
-						e.printStackTrace();
+					if (null != fileDialog.getDirectory()
+							&& !"".equals(fileName)) {
+						try {
+							excel.outputExcel(fileName + ".xls");
+							Runtime.getRuntime().exec(
+									new String[] { "cmd.exe", "/c",
+											fileName + ".xls" });
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 
 					// excel.outputExcel("d:\\test.xls");

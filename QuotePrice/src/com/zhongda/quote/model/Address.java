@@ -16,6 +16,10 @@ public class Address {
     public Address() {
 	}
 
+    public Address(Integer id) {
+		this.id = id;
+	}
+
     public Address(Integer id, String name) {
 		this.id = id;
 		this.name = name;
