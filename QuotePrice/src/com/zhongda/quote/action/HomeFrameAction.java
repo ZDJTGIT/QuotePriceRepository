@@ -267,13 +267,18 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	private void exportTask() {
 		// 获取选中行的任务
 		int[] selectedNumber = jt_quoteTask.getSelectedRows();
+		for (int i : selectedNumber) {
+			System.out.println(i);
+		}
 		String[] taskidAry = new String[selectedNumber.length];
 		String[] taskName = new String[selectedNumber.length];
 		String[] taskNumberName = { "一", "二", "三", "四", "五", "六", "七", "八",
 				"九", "十一", "十二", "十三", "十四", "十五", "十六", "十七", "十八", "十九", "二十" };
 		for (int i = 0; i < selectedNumber.length; i++) {
-			taskidAry[i] = (String) jt_quoteTask.getValueAt(i, 1);
-			taskName[i] = (String) jt_quoteTask.getValueAt(i, 2);
+			taskidAry[i] = (String) jt_quoteTask.getValueAt(selectedNumber[i],
+					1);
+			taskName[i] = (String) jt_quoteTask
+					.getValueAt(selectedNumber[i], 2);
 		}
 		RenderDataUtils.exportTask(taskidAry, taskName, taskNumberName, frame);
 
@@ -317,14 +322,14 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				System.out.println("contentAmount:" + contentAmount);
 				// 重新计算任务金额与项目金额及检验批金额
 				final int taskRow = jt_quoteTask.getSelectedRow();
-				final double taskAmount = (double) jt_quoteTask
-						.getValueAt(taskRow, 7) - contentAmount;
+				final double taskAmount = (double) jt_quoteTask.getValueAt(
+						taskRow, 7) - contentAmount;
 				final int projectRow = jt_quoteProject.getSelectedRow();
-				final double projectAmount = (double) jt_quoteProject.getValueAt(
-						projectRow, 5) - contentAmount;
+				final double projectAmount = (double) jt_quoteProject
+						.getValueAt(projectRow, 5) - contentAmount;
 				final int batchtRow = jt_inspectionBatch.getSelectedRow();
-				final double batchAmount = (double) jt_inspectionBatch.getValueAt(
-						batchtRow, 2) - contentAmount;
+				final double batchAmount = (double) jt_inspectionBatch
+						.getValueAt(batchtRow, 2) - contentAmount;
 				// 通过线程从数据库中获取该检验内容的ID
 				new SwingWorker<Integer, Void>() {
 
@@ -402,11 +407,11 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 						.getValueAt(row, 2);
 				// 重新计算任务金额与项目金额
 				final int taskRow = jt_quoteTask.getSelectedRow();
-				final double taskAmount = (double) jt_quoteTask
-						.getValueAt(taskRow, 7) - batchAmount;
+				final double taskAmount = (double) jt_quoteTask.getValueAt(
+						taskRow, 7) - batchAmount;
 				final int projectRow = jt_quoteProject.getSelectedRow();
-				final double projectAmount = (double) jt_quoteProject.getValueAt(
-						projectRow, 5) - batchAmount;
+				final double projectAmount = (double) jt_quoteProject
+						.getValueAt(projectRow, 5) - batchAmount;
 				// 启动任务线程删除选中报价项目
 				new SwingWorker<Boolean, Void>() {
 					protected Boolean doInBackground() throws Exception {
@@ -479,8 +484,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 						+ (double) jt_quoteProject.getValueAt(row, 5);
 				// 重新计算任务金额
 				final int taskRow = jt_quoteTask.getSelectedRow();
-				final double taskAmount = (double) jt_quoteTask
-						.getValueAt(taskRow, 7) - totalProjectAmount;
+				final double taskAmount = (double) jt_quoteTask.getValueAt(
+						taskRow, 7) - totalProjectAmount;
 				// 启动任务线程删除选中报价项目
 				new SwingWorker<Boolean, Void>() {
 					protected Boolean doInBackground() throws Exception {
@@ -587,7 +592,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	public void mouseMoved(java.awt.event.MouseEvent e) {
 		int row;
 		int col;
-		if("task".equals(clickmove_Name)){
+		if ("task".equals(clickmove_Name)) {
 			row = jt_quoteTask.rowAtPoint(e.getPoint());
 			col = jt_quoteTask.columnAtPoint(e.getPoint());
 			if (row > -1 && col > -1) {
@@ -597,7 +602,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				else
 					jt_quoteTask.setToolTipText(null);// 关闭提示
 			}
-		}else if ("project".equals(clickmove_Name)) {
+		} else if ("project".equals(clickmove_Name)) {
 			row = jt_quoteProject.rowAtPoint(e.getPoint());
 			col = jt_quoteProject.columnAtPoint(e.getPoint());
 			if (row > -1 && col > -1) {
@@ -607,7 +612,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				else
 					jt_quoteProject.setToolTipText(null);// 关闭提示
 			}
-		}else if ("batch".equals(clickmove_Name)) {
+		} else if ("batch".equals(clickmove_Name)) {
 			row = jt_inspectionBatch.rowAtPoint(e.getPoint());
 			col = jt_inspectionBatch.columnAtPoint(e.getPoint());
 			if (row > -1 && col > -1) {
@@ -617,7 +622,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				else
 					jt_inspectionBatch.setToolTipText(null);// 关闭提示
 			}
-		}else if ("content".equals(clickmove_Name)) {
+		} else if ("content".equals(clickmove_Name)) {
 			row = jt_inspectionContent.rowAtPoint(e.getPoint());
 			col = jt_inspectionContent.columnAtPoint(e.getPoint());
 			if (row > -1 && col > -1) {

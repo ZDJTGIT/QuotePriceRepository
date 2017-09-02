@@ -331,8 +331,9 @@ public class RenderDataUtils {
 		}
 	}
 
-	public static void exportTask(final String[] taskidAry, final String[] taskName,
-			final String[] taskNumberName, final JFrame frame) {
+	public static void exportTask(final String[] taskidAry,
+			final String[] taskName, final String[] taskNumberName,
+			final JFrame frame) {
 		new SwingWorker<List<QuoteTask>, Void>() {
 			@Override
 			protected List<QuoteTask> doInBackground() throws Exception {
@@ -515,9 +516,7 @@ public class RenderDataUtils {
 							excel.merge(allRow - projectBegin, allRow - 1, 1, 1);
 
 						}
-
 						total += otherAmount;
-						// 设置其他费用行
 						row = sheet.createRow(allRow);
 						row.setHeight((short) 600);
 						cell = row.createCell(0);
@@ -545,6 +544,8 @@ public class RenderDataUtils {
 						cell.setCellStyle(cellStyleTitle);
 
 						excel.merge(allRow, allRow, 1, 3);
+						allRow++;
+						rowNumber++;
 
 					}
 					// 设置合计行
@@ -575,7 +576,7 @@ public class RenderDataUtils {
 					cellStyle2.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 					cellStyle2.setFillBackgroundColor(HSSFColor.PINK.index);
 
-					row = sheet.createRow(allRow + 1);
+					row = sheet.createRow(allRow);
 					row.setHeight((short) 600);
 					cell = row.createCell(0);
 					cell.setCellStyle(cellStyle2);
@@ -593,7 +594,7 @@ public class RenderDataUtils {
 					cell.setCellStyle(cellStyle2);
 					cell = row.createCell(10);
 					cell.setCellStyle(cellStyle2);
-					excel.merge(allRow + 1, allRow + 1, 0, 7);
+					excel.merge(allRow, allRow, 0, 7);
 
 					FileDialog fileDialog = new FileDialog(frame, "保存",
 							FileDialog.SAVE);
