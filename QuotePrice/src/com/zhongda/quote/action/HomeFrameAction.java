@@ -52,8 +52,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	private JTable jt_inspectionBatch;
 	// 主界面检验内容JTabel
 	private JTable jt_inspectionContent;
-	// 区别鼠标单击事件名称
-	private String clickName;
+	// 区别鼠标单击/悬浮事件名称
+	private String clickmove_Name;
 	// 主界面查询对象的名称
 	private JTextField jtf_queryName;
 	// 主界面对象
@@ -80,7 +80,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		this.jt_quoteProject = jt_quoteProject;
 		this.jt_inspectionBatch = jt_inspectionBatch;
 		this.jt_inspectionContent = jt_inspectionContent;
-		this.clickName = name;
+		this.clickmove_Name = name;
 	}
 
 	public HomeFrameAction(JTable jt_quoteTask, JTable jt_quoteProject,
@@ -585,27 +585,60 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	@Override
 	public void mouseMoved(java.awt.event.MouseEvent e) {
-		int row = jt_quoteTask.rowAtPoint(e.getPoint());
-		int col = jt_quoteTask.columnAtPoint(e.getPoint());
-		if (row > -1 && col > -1) {
-			Object value = jt_quoteTask.getValueAt(row, col);
-			if (null != value && !"".equals(value))
-				jt_quoteTask.setToolTipText(value.toString());// 悬浮显示单元格内容
-			else
-				jt_quoteTask.setToolTipText(null);// 关闭提示
+		int row;
+		int col;
+		if("task".equals(clickmove_Name)){
+			row = jt_quoteTask.rowAtPoint(e.getPoint());
+			col = jt_quoteTask.columnAtPoint(e.getPoint());
+			if (row > -1 && col > -1) {
+				Object value = jt_quoteTask.getValueAt(row, col);
+				if (null != value && !"".equals(value))
+					jt_quoteTask.setToolTipText(value.toString());// 悬浮显示单元格内容
+				else
+					jt_quoteTask.setToolTipText(null);// 关闭提示
+			}
+		}else if ("project".equals(clickmove_Name)) {
+			row = jt_quoteProject.rowAtPoint(e.getPoint());
+			col = jt_quoteProject.columnAtPoint(e.getPoint());
+			if (row > -1 && col > -1) {
+				Object value = jt_quoteProject.getValueAt(row, col);
+				if (null != value && !"".equals(value))
+					jt_quoteProject.setToolTipText(value.toString());// 悬浮显示单元格内容
+				else
+					jt_quoteProject.setToolTipText(null);// 关闭提示
+			}
+		}else if ("batch".equals(clickmove_Name)) {
+			row = jt_inspectionBatch.rowAtPoint(e.getPoint());
+			col = jt_inspectionBatch.columnAtPoint(e.getPoint());
+			if (row > -1 && col > -1) {
+				Object value = jt_inspectionBatch.getValueAt(row, col);
+				if (null != value && !"".equals(value))
+					jt_inspectionBatch.setToolTipText(value.toString());// 悬浮显示单元格内容
+				else
+					jt_inspectionBatch.setToolTipText(null);// 关闭提示
+			}
+		}else if ("content".equals(clickmove_Name)) {
+			row = jt_inspectionContent.rowAtPoint(e.getPoint());
+			col = jt_inspectionContent.columnAtPoint(e.getPoint());
+			if (row > -1 && col > -1) {
+				Object value = jt_inspectionContent.getValueAt(row, col);
+				if (null != value && !"".equals(value))
+					jt_inspectionContent.setToolTipText(value.toString());// 悬浮显示单元格内容
+				else
+					jt_inspectionContent.setToolTipText(null);// 关闭提示
+			}
 		}
-
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if ("task_jtabel".equals(clickName)) {
+		if ("task_jtabel".equals(clickmove_Name)) {
 			taskToProject(jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
 					jt_inspectionContent);
-		} else if ("project_jtabel".equals(clickName)) {
+		} else if ("project_jtabel".equals(clickmove_Name)) {
 			projectToInspectionBatch(jt_quoteProject, jt_inspectionBatch,
 					jt_inspectionContent);
-		} else if ("batch_jtabel".equals(clickName)) {
+		} else if ("batch_jtabel".equals(clickmove_Name)) {
 			inspectionBatchToContent(jt_inspectionBatch, jt_inspectionContent);
 		}
 	}

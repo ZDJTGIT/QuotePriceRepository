@@ -317,9 +317,9 @@ public class HomeFrame {
 		tabbedPane.setFont(new Font("黑体", 0, 15));
 
 		// 调整模块大小
-		sp_left_size = (int) (scrSize.getWidth() * 0.5);
-		sp_center_size = (int) (scrSize.getWidth() * 0.3);
-		sp_right_size = (int) (scrSize.getHeight() * 0.4);
+		sp_left_size = (int) (scrSize.getWidth() * 0.45);
+		sp_center_size = (int) (scrSize.getWidth() * 0.27);
+		sp_right_size = (int) (scrSize.getHeight() * 0.28);
 
 		panel = new JPanel();
 		tabbedPane.addTab("任务管理", null, panel, null);
@@ -672,15 +672,16 @@ public class HomeFrame {
 		jt_quoteTask = new MyTable(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 });
 		DefaultTableModel taskTableModel = new DefaultTableModel(null,
 				taskColumnsName);
+		jt_quoteTask.getTableHeader().setReorderingAllowed(false);// 设置报价任务表头不可移动
 		jt_quoteTask.setModel(taskTableModel);
 		jt_quoteTask.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_quoteTask.getColumnModel().getColumn(0).setMaxWidth(0);
-		jt_quoteTask.getColumnModel().getColumn(1).setPreferredWidth(110);
+		jt_quoteTask.getColumnModel().getColumn(1).setPreferredWidth(100);
 		jt_quoteTask.getColumnModel().getColumn(2).setPreferredWidth(76);
-		jt_quoteTask.getColumnModel().getColumn(3).setPreferredWidth(137);
+		jt_quoteTask.getColumnModel().getColumn(3).setPreferredWidth(107);
 		jt_quoteTask.getColumnModel().getColumn(4).setPreferredWidth(44);
-		jt_quoteTask.getColumnModel().getColumn(5).setPreferredWidth(55);
-		jt_quoteTask.getColumnModel().getColumn(6).setPreferredWidth(70);
+		jt_quoteTask.getColumnModel().getColumn(5).setPreferredWidth(65);
+		jt_quoteTask.getColumnModel().getColumn(6).setPreferredWidth(85);
 		jsp_jsrw.setViewportView(jt_quoteTask);
 		jpanel_left.add(jsp_jsrw, BorderLayout.CENTER);
 
@@ -691,24 +692,28 @@ public class HomeFrame {
 		jt_quoteProject = new MyTable(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 });
 		DefaultTableModel projectTableModel = new DefaultTableModel(null,
 				projectColumnsName);
+		jt_quoteProject.getTableHeader().setReorderingAllowed(false);// 设置报价项目表头不可移动
 		jt_quoteProject.setModel(projectTableModel);
 		jt_quoteProject.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_quoteProject.getColumnModel().getColumn(0).setMaxWidth(0);
-		jt_quoteProject.getColumnModel().getColumn(1).setPreferredWidth(100);
-		jt_quoteProject.getColumnModel().getColumn(2).setPreferredWidth(30);
-		jt_quoteProject.getColumnModel().getColumn(3).setPreferredWidth(120);
+		jt_quoteProject.getColumnModel().getColumn(1).setPreferredWidth(70);
+		jt_quoteProject.getColumnModel().getColumn(2).setPreferredWidth(40);
+		jt_quoteProject.getColumnModel().getColumn(4).setPreferredWidth(70);
+		jt_quoteProject.getColumnModel().getColumn(5).setPreferredWidth(100);
 		jt_quoteProject.getColumnModel().getColumn(6).setMinWidth(0);
 		jt_quoteProject.getColumnModel().getColumn(6).setMaxWidth(0);
 		jt_quoteProject.getColumnModel().getColumn(7).setMinWidth(0);
 		jt_quoteProject.getColumnModel().getColumn(7).setMaxWidth(0);
-		jsp_center_up.setViewportView(jt_quoteProject);
 
+		jsp_center_up.setViewportView(jt_quoteProject);
+		
 		// 报价检验批表格面板
 		// 初始化检验批表列名
 		final Object[] batchColumnsName = { "序号", "检验批名称", "检验批总金额" };
 		jt_inspectionBatch = new MyTable(new int[] { 1, 2 });
 		DefaultTableModel batchTableModel = new DefaultTableModel(null,
 				batchColumnsName);
+		jt_inspectionBatch.getTableHeader().setReorderingAllowed(false);// 设置检验批表头不可移动
 		jt_inspectionBatch.setModel(batchTableModel);
 		jt_inspectionBatch.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_inspectionBatch.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -722,7 +727,9 @@ public class HomeFrame {
 		jt_inspectionContent = new MyTable(new int[] { 0, 1, 2, 3, 4, 5 });
 		DefaultTableModel contentTableModel = new DefaultTableModel(null,
 				contentColumnsName);
+		jt_inspectionContent.getTableHeader().setReorderingAllowed(false);// 设置检验内容表头不可移动
 		jt_inspectionContent.setModel(contentTableModel);
+		
 		jt_inspectionContent.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_inspectionContent.getColumnModel().getColumn(0).setMaxWidth(0);
 		jt_inspectionContent.getColumnModel().getColumn(2)
@@ -737,7 +744,6 @@ public class HomeFrame {
 		// 设置单行可被选中
 		jt_inspectionContent.getSelectionModel().setSelectionMode(
 				ListSelectionModel.SINGLE_SELECTION);
-		jt_inspectionContent.getTableHeader().setReorderingAllowed(false);// 设置表头不可移动
 		scrollPanemike.setViewportView(jt_inspectionContent);
 		jpanel_right.add(scrollPanemike, BorderLayout.CENTER);
 
@@ -922,7 +928,16 @@ public class HomeFrame {
 
 		// 任务Jtable鼠标悬浮事件
 		jt_quoteTask.addMouseMotionListener(new HomeFrameAction(jt_quoteTask,
-				null, null, null));
+				null, null, null,"task"));
+		jt_quoteProject.addMouseMotionListener(new HomeFrameAction(null,
+				jt_quoteProject,null,null,"project"));
+		jt_inspectionBatch.addMouseMotionListener(new HomeFrameAction(null,null,
+				jt_inspectionBatch,null,"batch"));
+		jt_inspectionContent.addMouseMotionListener(new HomeFrameAction(null,null
+				,null,jt_inspectionContent,"content"));
+//		panel.addMouseMotionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
+//			jt_inspectionBatch, jt_inspectionContent));
+		
 		// 工具栏视图报价依据点击事件
 		jmi_quoteBasis.addActionListener(new HomeFrameAction(frame));
 		// 导出任务事件
