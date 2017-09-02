@@ -170,14 +170,14 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 创建项目，检验批或检验内容的时候判断是否有上级存在，有则打开创建窗口，没有则给出提示信息 <<<<<<< Updated upstream
-	 * 
+	 *
 	 * @param jt_quoteTask
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 * @param frameName
 	 *            项目和检验批以及内容的标志 =======
-	 * 
+	 *
 	 * @param jt_parentTable
 	 *            父级Table
 	 * @param jt_childTable
@@ -190,9 +190,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			int row = jt_quoteTask.getSelectedRow();
 			if (row < 0) {
 				JOptionPane.showMessageDialog(null, "请选中" + ConstantUtils.TASK,
-						"提示信息",
-
-						JOptionPane.WARNING_MESSAGE);
+						"提示信息", JOptionPane.WARNING_MESSAGE);
 			} else {
 				FrameGoUtils.createProject(jt_quoteTask, jt_quoteProject,
 						jt_inspectionBatch, jt_inspectionContent);
@@ -206,9 +204,6 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			} else {
 				FrameGoUtils.createBatch(jt_quoteTask, jt_quoteProject,
 						jt_inspectionBatch, jt_inspectionContent);
-
-				JOptionPane.showMessageDialog(null, "请选中" + frameName, "提示信息",
-						JOptionPane.WARNING_MESSAGE);
 			}
 		} else { // 创建检验内容
 			int row = jt_inspectionBatch.getSelectedRow();
@@ -219,15 +214,13 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			} else {
 				FrameGoUtils.createContent(jt_quoteTask, jt_quoteProject,
 						jt_inspectionBatch, jt_inspectionContent);
-				JOptionPane.showMessageDialog(null, "请选中" + frameName, "提示信息",
-						JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	}
 
 	/**
 	 * 查询报价任务
-	 * 
+	 *
 	 * @param jt_quoteTask
 	 * @param jtf_queryName
 	 *            存放查询条件的任务名称
@@ -299,7 +292,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 删除检验内容
-	 * 
+	 *
 	 * @param jt_inspectionContent
 	 */
 	private void deleteInspectionContent(final JTable jt_quoteTask,
@@ -380,7 +373,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 删除检验批
-	 * 
+	 *
 	 * @param jt_quoteProjec
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
@@ -456,7 +449,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 删除报价项目
-	 * 
+	 *
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
@@ -529,7 +522,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 删除报价任务
-	 * 
+	 *
 	 * @param jt_quoteTask
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
@@ -650,7 +643,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * Task面板Jtable点击事件逻辑处理
-	 * 
+	 *
 	 * @param jt_quoteTask
 	 * @param jt_quoteProjec
 	 * @param jt_inspectionBatch
@@ -742,7 +735,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 项目面板JTable点击事件逻辑处理
-	 * 
+	 *
 	 * @param jt_quoteProjec
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
@@ -810,7 +803,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 检验批面板JTable点击事件逻辑处理
-	 * 
+	 *
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 */
