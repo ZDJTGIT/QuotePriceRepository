@@ -66,4 +66,16 @@ public class StringUtil {
 		}
 		return Integer.parseInt(maxString);
 	}
+	
+	/*
+	 * 判断是不是数字
+	 */
+	public static boolean isNumeric(String str){
+		for (int i = str.length() ; --i>=0 ; ){ 
+			if (!Character.isDigit(str.charAt ( i ) ) ){
+			return false;
+			}
+		}
+		return true;
+	}									
 }

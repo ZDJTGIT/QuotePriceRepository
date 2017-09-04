@@ -87,5 +87,13 @@ public interface InspectionContentMapper {
 	 * @return 检验内容集合
 	 */
 	List<InspectionContent> selectAllContentByBatchId(int batchId);
-
+	
+	/**
+	 * 根据选中的检验批和输入关键字查询所有符合条件的检验内容
+	 * @param batchid
+	 * @param ContentName
+	 * @return
+	 */
+	List<InspectionContent> selectByBatchidAndContentName(Integer batchid,
+			String ContentName);
 }

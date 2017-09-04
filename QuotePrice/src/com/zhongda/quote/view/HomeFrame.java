@@ -547,8 +547,6 @@ public class HomeFrame {
 		jbt_queryContent.setIcon(new ImageIcon("images/find.png"));
 		jbt_queryContent.setToolTipText("查找");
 		jbt_queryContent.setFocusPainted(false);// 去除按钮边线
-		jbt_queryContent.setActionCommand("Forbidden");
-		jbt_queryContent.addActionListener(new HomeFrameAction());
 		jtb_right_jcnr.add(jbt_queryContent);
 
 		jbt_queryContent_next = new JButton();
@@ -868,7 +866,6 @@ public class HomeFrame {
 		bt_queryTask.setActionCommand("queryTask");
 		bt_queryTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
 				null, null, jtf_queryTaskName));
-
 		// 添加创建项目事件
 		jbt_createProject.setActionCommand("createProject");
 		jbt_createProject.addActionListener(new HomeFrameAction(jt_quoteTask,
@@ -877,7 +874,6 @@ public class HomeFrame {
 		jbt_deleteProject.setActionCommand("deleteProject");
 		jbt_deleteProject.addActionListener(new HomeFrameAction(jt_quoteTask,
 				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
-
 		// 添加创建检验批事件
 		jbt_createInspectionBatch.setActionCommand("createInspectionBatch");
 		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(
@@ -888,7 +884,6 @@ public class HomeFrame {
 		jbt_deleteInspectionBatch.addActionListener(new HomeFrameAction(
 				jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
 				jt_inspectionContent));
-
 		// 添加添加检验内容事件
 		jbt_createContent.setActionCommand("createContent");
 		jbt_createContent.addActionListener(new HomeFrameAction(jt_quoteTask,
@@ -925,7 +920,6 @@ public class HomeFrame {
 		// 检验批JTabel鼠标点击事件
 		jt_inspectionBatch.addMouseListener(new HomeFrameAction(null, null,
 				jt_inspectionBatch, jt_inspectionContent, "batch_jtabel"));
-
 		// 任务Jtable鼠标悬浮事件
 		jt_quoteTask.addMouseMotionListener(new HomeFrameAction(jt_quoteTask,
 				null, null, null,"task"));
@@ -935,15 +929,15 @@ public class HomeFrame {
 				jt_inspectionBatch,null,"batch"));
 		jt_inspectionContent.addMouseMotionListener(new HomeFrameAction(null,null
 				,null,jt_inspectionContent,"content"));
-//		panel.addMouseMotionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
-//			jt_inspectionBatch, jt_inspectionContent));
-		
 		// 工具栏视图报价依据点击事件
 		jmi_quoteBasis.addActionListener(new HomeFrameAction(frame));
 		// 导出任务事件
 		bt_exportTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
 				null, null));
-
+		// 查询当前检验批下检验内容事件
+		jbt_queryContent.setActionCommand("Forbidden");
+		jbt_queryContent.addActionListener(new HomeFrameAction(
+				null,null,jt_inspectionBatch,jt_inspectionContent,jtf_jcnr));
 	}
 
 	public Image titlePhoto(String file) {

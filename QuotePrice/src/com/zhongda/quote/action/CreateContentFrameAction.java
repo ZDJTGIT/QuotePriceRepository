@@ -19,7 +19,8 @@ import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.SysInspectionContenServiceImpl;
 import com.zhongda.quote.utils.RenderDataUtils;
 
-public class CreateContentFrameAction implements ActionListener, MouseMotionListener {
+public class CreateContentFrameAction implements ActionListener,
+		MouseMotionListener {
 
 	private JDialog jaDialog;
 	private JTable jt_sysInspectionContent;
@@ -66,51 +67,76 @@ public class CreateContentFrameAction implements ActionListener, MouseMotionList
 						JOptionPane.ERROR_MESSAGE);
 			} else {
 				int sourceId = (int) jt_sysInspectionContent.getValueAt(row, 0);
-				String inspectionContentName = String.valueOf(jt_sysInspectionContent.getValueAt(row, 1));
-				String sampleQuantityRange = String.valueOf(jt_sysInspectionContent.getValueAt(row, 2));
-				int sampleQuantity = (int)jt_sysInspectionContent.getValueAt(row, 3);
-				String singleQuantityRange = String.valueOf(jt_sysInspectionContent.getValueAt(row, 4));
-				int singleObjectQuantity = (int)jt_sysInspectionContent.getValueAt(row, 5);
-				int sampleBasisId = (int)jt_sysInspectionContent.getValueAt(row, 6);
-				String chargeUnit = String.valueOf(jt_sysInspectionContent.getValueAt(row, 7));
-				int chargeStandard = (int)jt_sysInspectionContent.getValueAt(row, 8);
-				String chargeStandardUnit = String.valueOf(jt_sysInspectionContent.getValueAt(row, 9));
-				int quoteBasisId = (int)jt_sysInspectionContent.getValueAt(row, 10);
-				//计算检测内容总金额
-				double inspectionContentAmount = sampleQuantity*singleObjectQuantity*chargeStandard;
-				final InspectionContent inspectionContent = new InspectionContent(sourceId,inspectionContentName,sampleQuantity,sampleQuantityRange,sampleBasisId,singleObjectQuantity,singleQuantityRange,chargeUnit,chargeStandard,chargeStandardUnit,quoteBasisId,inspectionContentAmount);
+				String inspectionContentName = String
+						.valueOf(jt_sysInspectionContent.getValueAt(row, 1));
+				String sampleQuantityRange = String
+						.valueOf(jt_sysInspectionContent.getValueAt(row, 2));
+				int sampleQuantity = (int) jt_sysInspectionContent.getValueAt(
+						row, 3);
+				String singleQuantityRange = String
+						.valueOf(jt_sysInspectionContent.getValueAt(row, 4));
+				int singleObjectQuantity = (int) jt_sysInspectionContent
+						.getValueAt(row, 5);
+				int sampleBasisId = (int) jt_sysInspectionContent.getValueAt(
+						row, 6);
+				String chargeUnit = String.valueOf(jt_sysInspectionContent
+						.getValueAt(row, 7));
+				int chargeStandard = (int) jt_sysInspectionContent.getValueAt(
+						row, 8);
+				String chargeStandardUnit = String
+						.valueOf(jt_sysInspectionContent.getValueAt(row, 9));
+				int quoteBasisId = (int) jt_sysInspectionContent.getValueAt(
+						row, 10);
+				// 计算检测内容总金额
+				double inspectionContentAmount = sampleQuantity
+						* singleObjectQuantity * chargeStandard;
+				final InspectionContent inspectionContent = new InspectionContent(
+						sourceId, inspectionContentName, sampleQuantity,
+						sampleQuantityRange, sampleBasisId,
+						singleObjectQuantity, singleQuantityRange, chargeUnit,
+						chargeStandard, chargeStandardUnit, quoteBasisId,
+						inspectionContentAmount);
 
 				final int batchRow = jt_inspectionBatch.getSelectedRow();
 				int batchId = (int) jt_inspectionBatch.getValueAt(batchRow, 0);
-				//传入batchId
+				// 传入batchId
 				inspectionContent.setBatchId(batchId);
-				//重新计算检验批金额
-				final double batchAmount = (double)jt_inspectionBatch.getValueAt(batchRow, 2) + inspectionContentAmount;
-				//重新计算项目金额
+				// 重新计算检验批金额
+				final double batchAmount = (double) jt_inspectionBatch
+						.getValueAt(batchRow, 2) + inspectionContentAmount;
+				// 重新计算项目金额
 				final int projectRow = jt_quoteProject.getSelectedRow();
-				final double projectAmount = (double)jt_quoteProject.getValueAt(projectRow, 5) + inspectionContentAmount;
-				//重新计算任务金额
+				final double projectAmount = (double) jt_quoteProject
+						.getValueAt(projectRow, 5) + inspectionContentAmount;
+				// 重新计算任务金额
 				final int taskRow = jt_quoteTask.getSelectedRow();
-				final double taskAmount = (double)jt_quoteTask.getValueAt(taskRow, 7) + inspectionContentAmount;
+				final double taskAmount = (double) jt_quoteTask.getValueAt(
+						taskRow, 7) + inspectionContentAmount;
 
 				// 启动任务线程往数据库插入数据
 				new SwingWorker<InspectionContent, Void>() {
 					protected InspectionContent doInBackground()
 							throws Exception {
 						return new InspectionContentServiceImpl()
-								.createInspectionContent(inspectionContent, taskAmount, projectAmount, batchAmount);
+								.createInspectionContent(inspectionContent,
+										taskAmount, projectAmount, batchAmount);
 					}
 
 					protected void done() {
-						InspectionContent inspectionContent =null;
+						InspectionContent inspectionContent = null;
 						try {
 							// 获得当前插入的检验内容并展示在新增界面
 							inspectionContent = get();
 							if (null != inspectionContent) {
-								RenderDataUtils.renderSinglePartContentData(jt_inspectionContent, inspectionContent);
+								RenderDataUtils
+										.renderSinglePartContentData(
+												jt_inspectionContent,
+												inspectionContent);
 								jt_quoteTask.setValueAt(taskAmount, taskRow, 7);
-								jt_quoteProject.setValueAt(projectAmount, projectRow, 5);
-								jt_inspectionBatch.setValueAt(batchAmount, batchRow, 2);
+								jt_quoteProject.setValueAt(projectAmount,
+										projectRow, 5);
+								jt_inspectionBatch.setValueAt(batchAmount,
+										batchRow, 2);
 							} else {
 								JOptionPane.showMessageDialog(null, "任务添加失败！",
 										"提示信息", JOptionPane.ERROR_MESSAGE);
@@ -157,32 +183,23 @@ public class CreateContentFrameAction implements ActionListener, MouseMotionList
 			}.execute();
 		}
 	}
-
-	public static boolean isNumeric(String str) {
-		for (int i = str.length(); --i >= 0;) {
-			if (!Character.isDigit(str.charAt(i))) {
-				return false;
-			}
-		}
-		return true;
-	}
-
+	
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-			int row = jt_sysInspectionContent.rowAtPoint(e.getPoint());
-			int col = jt_sysInspectionContent.columnAtPoint(e.getPoint());
-			if (row > -1 && col > -1) {
-				Object value = jt_sysInspectionContent.getValueAt(row, col);
-				if (null != value && !"".equals(value))
-					jt_sysInspectionContent.setToolTipText(value.toString());// 悬浮显示单元格内容
-				else
-					jt_sysInspectionContent.setToolTipText(null);// 关闭提示
-			}
+		int row = jt_sysInspectionContent.rowAtPoint(e.getPoint());
+		int col = jt_sysInspectionContent.columnAtPoint(e.getPoint());
+		if (row > -1 && col > -1) {
+			Object value = jt_sysInspectionContent.getValueAt(row, col);
+			if (null != value && !"".equals(value))
+				jt_sysInspectionContent.setToolTipText(value.toString());// 悬浮显示单元格内容
+			else
+				jt_sysInspectionContent.setToolTipText(null);// 关闭提示
+		}
 	}
 }

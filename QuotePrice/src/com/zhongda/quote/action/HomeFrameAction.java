@@ -22,10 +22,12 @@ import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.model.QuoteProject;
 import com.zhongda.quote.model.QuoteTask;
+import com.zhongda.quote.model.SysInspectionContent;
 import com.zhongda.quote.service.impl.InspectionBatchServiceImpl;
 import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
+import com.zhongda.quote.service.impl.SysInspectionContenServiceImpl;
 import com.zhongda.quote.utils.ConstantUtils;
 import com.zhongda.quote.utils.FrameGoUtils;
 import com.zhongda.quote.utils.QuoteBasisPhotoUtils;
@@ -124,7 +126,6 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		} else if ("createInspectionBatch".equals(command)) {
 			createFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
 					jt_inspectionContent, ConstantUtils.BATCH);
-
 		} else if ("deleteInspectionBatch".equals(command)) {
 			deleteInspectionBatch(jt_quoteTask, jt_quoteProject,
 					jt_inspectionBatch, jt_inspectionContent);
@@ -143,8 +144,42 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				FrameGoUtils.modifyContent(jt_inspectionContent);
 			}
 		} else if ("Forbidden".equals(command)) {
-			JOptionPane.showMessageDialog(null, "当前内容过少，无需查找！！！", "提示信息",
-					JOptionPane.WARNING_MESSAGE);
+			// 获取当前选中的检验批ID InspectionContentID
+			int row = jt_inspectionBatch.getSelectedRow();
+			// 判定用户输入是否为空
+			String jjc = jtf_queryName.getText();
+			if(null==jjc|"".equals(jjc)){
+				JOptionPane.showMessageDialog(null, "请输入关键字查询！", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
+			}else{
+			//根据检验批ID和输入关键字查出相关内容
+			new SwingWorker<List<InspectionContent>, InspectionContent>() {
+				protected List<InspectionContent> doInBackground()
+						throws Exception {
+					Integer inspectionBatchID = (Integer) jt_inspectionBatch
+							.getValueAt(row, 0);
+					return new InspectionContentServiceImpl()
+							.selectByBatchidAndContentName(inspectionBatchID,
+									jtf_queryName.getText());
+				}
+
+				protected void done() {
+					try {
+						List<InspectionContent> inspectionContent = get();
+						if (null == inspectionContent
+								|| inspectionContent.size() <= 0) {
+							JOptionPane.showMessageDialog(null, "查询结果不存在！",
+									"提示信息", JOptionPane.WARNING_MESSAGE);
+						} else{
+							RenderDataUtils.renderPartContentData(
+									jt_inspectionContent, inspectionContent);
+						}
+					} catch (InterruptedException | ExecutionException e) {
+						e.printStackTrace();
+					}
+				}
+			}.execute();
+			}
 		} else if ("selectContent".equals(command)) {
 			// 获取当前选中的检验内容ID InspectionContentID
 			int row = jt_inspectionContent.getSelectedRow();

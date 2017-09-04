@@ -203,5 +203,20 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 		}
 		return contentList;
 	}
+
+	@Override
+	public List<InspectionContent> selectByBatchidAndContentName(Integer batchid,
+			String ContentName) {
+		List<InspectionContent> contentList = null;
+		try {
+			contentList = inspectionContentMapper
+					.selectByBatchidAndContentName(batchid, ContentName);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return contentList;
+	}
 }
 

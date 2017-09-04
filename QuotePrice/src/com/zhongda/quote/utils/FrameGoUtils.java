@@ -130,6 +130,9 @@ public class FrameGoUtils {
 		});
 	}
 
+	/*
+	 * 修改检验内容
+	 */
 	public static void modifyContent(final JTable jt_inspectionContent){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -177,6 +180,9 @@ public class FrameGoUtils {
 		});
 	}
 	
+	/*
+	 *启动关于界面
+	 */
 	public static void about(){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

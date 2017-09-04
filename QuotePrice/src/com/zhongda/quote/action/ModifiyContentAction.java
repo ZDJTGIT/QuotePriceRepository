@@ -58,7 +58,8 @@ public class ModifiyContentAction implements ActionListener {
 			String indiv = textField_4.getText();
 			String charges = textField_5.getText();
 			// 判断用户填写的是否是数字
-			if(isNumeric(samp)&&isNumeric(indiv)&&isNumeric(charges)){
+			if(StringUtil.isNumeric(samp)&&StringUtil.isNumeric(indiv)
+					&&StringUtil.isNumeric(charges)){
 				// 判断用户填写的任务信息是否完整
 				if (null != inspectionname && !"".equals(inspectionname)
 						&& null != samp
@@ -131,14 +132,4 @@ public class ModifiyContentAction implements ActionListener {
 			}
 		}
 	}
-	
-	public static boolean isNumeric(String str){
-		for (int i = str.length() ; --i>=0 ; ){ 
-			if (!Character.isDigit(str.charAt ( i ) ) ){
-			return false;
-			}
-		}
-		return true;
-	}
-
 }

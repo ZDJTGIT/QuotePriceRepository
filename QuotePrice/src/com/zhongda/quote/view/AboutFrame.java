@@ -13,7 +13,14 @@ import javax.swing.JButton;
 import com.zhongda.quote.action.AboutFrameAction;
 import com.zhongda.quote.view.uiutils.JPanelBackPhoto;
 
-
+/**
+ * 关于界面
+ *<p>
+ *
+ *<p>
+ * @author 研发中心-Mikepolite<1011592269@qq.com>
+ * @sine 2017年9月4日
+ */
 public class AboutFrame {
 	
 	public JDialog jaDialog;

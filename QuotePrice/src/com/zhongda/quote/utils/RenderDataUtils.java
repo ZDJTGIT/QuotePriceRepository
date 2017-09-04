@@ -314,7 +314,7 @@ public class RenderDataUtils {
 		}
 		jt_sysInspectionContent.updateUI();
 	}
-
+	
 	/**
 	 * 打开公司官网
 	 */
