@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.zhongda.quote.model.InspectionContent;
 import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
+import com.zhongda.quote.utils.StringUtil;
 
 public class ModifiyContentAction implements ActionListener {
 
@@ -21,6 +22,8 @@ public class ModifiyContentAction implements ActionListener {
 	private InspectionContent inspectionContent;
 	private JTextField textField_1,textField_3, textField_4,
 			textField_5;
+	private String SampleQuantityRange;
+	private String SingleQuantityRange;
 
 	public ModifiyContentAction() {
 
@@ -32,32 +35,40 @@ public class ModifiyContentAction implements ActionListener {
 
 	//检验批ID 
 	public ModifiyContentAction(JDialog jaDialog, JTable jt_inspectionContent,
-			JTextField textField_1,
-			JTextField textField_3, JTextField textField_4,
-			JTextField textField_5) {
+			      				JTextField textField_1,JTextField textField_3, 
+			      				JTextField textField_4,JTextField textField_5,
+			      				String SampleQuantityRange, String SingleQuantityRange) {
 		this.textField_1 = textField_1;
 		this.textField_3 = textField_3;
 		this.textField_4 = textField_4;
 		this.textField_5 = textField_5;
      	this.jt_inspectionContent = jt_inspectionContent;
 		this.jaDialog = jaDialog;
+		this.SampleQuantityRange = SampleQuantityRange;
+		this.SingleQuantityRange = SingleQuantityRange;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		// 如果command为确认创建任务，则打开创建任务窗口
+		// 如果command为确认，则提交当前修改的信息 
 		if ("yes".equals(command)) {
 			String inspectionname = textField_1.getText();
 			String samp = textField_3.getText();
 			String indiv = textField_4.getText();
 			String charges = textField_5.getText();
+			// 判断用户填写的是否是数字
 			if(isNumeric(samp)&&isNumeric(indiv)&&isNumeric(charges)){
 				// 判断用户填写的任务信息是否完整
 				if (null != inspectionname && !"".equals(inspectionname)
 						&& null != samp
 						&& !"".equals(samp.trim()) && null != indiv && !"".equals(indiv)
 						&& null != charges && !"".equals(charges)) {
+					//判断用户填写的数值是否在取值范围之内
+					if(StringUtil.stringToInteger(samp)>=StringUtil.stringToMinInteger(SampleQuantityRange)
+					  &StringUtil.stringToInteger(samp)<=StringUtil.stringToMaxInteger(SampleQuantityRange)
+					  &StringUtil.stringToInteger(indiv)>=StringUtil.stringToMinInteger(SingleQuantityRange)
+					  &StringUtil.stringToInteger(indiv)<=StringUtil.stringToMaxInteger(SingleQuantityRange)){
 					Integer samps = Integer.parseInt(textField_3.getText());
 					Integer indivs = Integer.parseInt(textField_4.getText());
 					Integer charge = Integer.parseInt(textField_5.getText());
@@ -100,12 +111,16 @@ public class ModifiyContentAction implements ActionListener {
 						};
 						
 					}.execute();
-				} else {
-					JOptionPane.showMessageDialog(null, "请完善您的检验内容信息！", "提示信息",
+					}else{
+						JOptionPane.showMessageDialog(null, "请确保您输入的数字在取值范围之内！", "提示信息",
+								JOptionPane.WARNING_MESSAGE);
+					}
+					} else {
+					JOptionPane.showMessageDialog(null, "您的修改为空！", "提示信息",
 							JOptionPane.WARNING_MESSAGE);
 				}
 			}else{
-				JOptionPane.showMessageDialog(null, "请按正确的格式填写！", "提示信息",
+				JOptionPane.showMessageDialog(null, "请确保您的输入为数字", "提示信息",
 						JOptionPane.WARNING_MESSAGE);
 			} 	
 		} else if ("no".equals(command)) {

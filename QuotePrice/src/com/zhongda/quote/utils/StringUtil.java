@@ -29,5 +29,41 @@ public class StringUtil {
 		}
 		return stringBuilder.toString();
 	}
+	/*
+	 * 字符串转数字
+	 */
+	public static Integer stringToInteger(String string){
+		return Integer.parseInt(string);
+	}
+	/*
+	 * 将数据库取得的取值范围转换为int类型
+	 * @return 取值范围最小值
+	 */
+	public static Integer stringToMinInteger(String string){
+		String minString = null;
+		if(string.length()==3){
+			minString = string.substring(0, 1);
+		}else if(string.length()==4){
+			minString = string.substring(0, 1);
+		}else if (string.length()==5) {
+			minString = string.substring(0, 2);
+		}
+		return Integer.parseInt(minString);
+	}
 
+	/*
+	 * 将数据库取得的取值范围转换为int类型
+	 * @return 取值范围最大值
+	 */
+	public static Integer stringToMaxInteger(String string){
+		String maxString = null;
+		if(string.length()==3){
+			maxString = string.substring(2, string.length());
+		}else if(string.length()==4){
+			maxString = string.substring(2, string.length());
+		}else if (string.length()>=5) {
+			maxString = string.substring(3, string.length());
+		}
+		return Integer.parseInt(maxString);
+	}
 }

@@ -2,6 +2,8 @@ package com.zhongda.quote.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -17,7 +19,7 @@ import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.SysInspectionContenServiceImpl;
 import com.zhongda.quote.utils.RenderDataUtils;
 
-public class CreateContentFrameAction implements ActionListener {
+public class CreateContentFrameAction implements ActionListener, MouseMotionListener {
 
 	private JDialog jaDialog;
 	private JTable jt_sysInspectionContent;
@@ -163,5 +165,24 @@ public class CreateContentFrameAction implements ActionListener {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+			int row = jt_sysInspectionContent.rowAtPoint(e.getPoint());
+			int col = jt_sysInspectionContent.columnAtPoint(e.getPoint());
+			if (row > -1 && col > -1) {
+				Object value = jt_sysInspectionContent.getValueAt(row, col);
+				if (null != value && !"".equals(value))
+					jt_sysInspectionContent.setToolTipText(value.toString());// 悬浮显示单元格内容
+				else
+					jt_sysInspectionContent.setToolTipText(null);// 关闭提示
+			}
 	}
 }

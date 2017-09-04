@@ -49,6 +49,8 @@ public class ModifyContentFrame {
 	private JLabel label_4;
 	private JLabel label_sampling;
 	private JLabel label_Implementation;
+	private String SampleQuantityRange;
+	private String SingleQuantityRange;
 
 	/**
 	 * @wbp.parser.constructor
@@ -167,8 +169,6 @@ public class ModifyContentFrame {
 
 		final Integer InspectiongID = (Integer) jt_inspectionContent.
 				getValueAt(jt_inspectionContent.getSelectedRow(), 0);
-		System.out.println(InspectiongID);
-		
 		new SwingWorker<InspectionContent, InspectionContent>() {
 			@Override
 			protected InspectionContent doInBackground() throws Exception {
@@ -179,11 +179,16 @@ public class ModifyContentFrame {
 			protected void done() {
 				try {
 					InspectionContent inspectionContent = get();
-					System.out.println(inspectionContent);
-					label_sampling.setText(inspectionContent.getSampleQuantityRange());
-					label_Implementation.setText(inspectionContent.getSingleQuantityRange());
-					System.out.println(inspectionContent.getSampleQuantityRange());
-					System.out.println(inspectionContent.getSingleQuantityRange());
+				    SampleQuantityRange = inspectionContent.getSampleQuantityRange();
+					SingleQuantityRange = inspectionContent.getSingleQuantityRange();
+					label_sampling.setText(SampleQuantityRange);
+					label_Implementation.setText(SingleQuantityRange);
+					btnNewButton_yes.setActionCommand("yes");
+					btnNewButton_yes.addActionListener(new ModifiyContentAction(jaDialog, jt_inspectionContent,
+							textField_Contentname,textField_SamplesCount, textField_ImplementationCount,textField_Charges,
+							SampleQuantityRange, SingleQuantityRange));
+					btnNewButton_no.setActionCommand("no");
+					btnNewButton_no.addActionListener(new ModifiyContentAction(jaDialog));
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (ExecutionException e) {
@@ -198,10 +203,5 @@ public class ModifyContentFrame {
 		textField_ImplementationCount.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 3)));
 		textField_Charges.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 4)));
 
-		btnNewButton_yes.setActionCommand("yes");
-		btnNewButton_yes.addActionListener(new ModifiyContentAction(jaDialog, jt_inspectionContent,
-				textField_Contentname,textField_SamplesCount, textField_ImplementationCount,textField_Charges) );
-		btnNewButton_no.setActionCommand("no");
-		
 	}
 }

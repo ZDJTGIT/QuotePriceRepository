@@ -73,7 +73,7 @@ public class CreateContentFrame {
 
 	public void init() {
 		jaDialog = new JDialog();
-		jaDialog.setBounds(0, 0, 700, 442);
+		jaDialog.setBounds(0, 0, 835, 442);
 		jaDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		ImageIcon icon = new ImageIcon("images\\zdLogo1.png");
 		jaDialog.setTitle("中大检测");
@@ -88,20 +88,20 @@ public class CreateContentFrame {
 		panel.setLayout(null);
 
 		bt_addContent = new JButton("添加");
-		bt_addContent.setBounds(446, 384, 93, 23);
+		bt_addContent.setBounds(569, 384, 93, 23);
 		panel.add(bt_addContent);
 
 		bt_cancel = new JButton("取消");
-		bt_cancel.setBounds(572, 384, 93, 23);
+		bt_cancel.setBounds(713, 384, 93, 23);
 		panel.add(bt_cancel);
 
-		panel_viw = new JpaneColorAndPhoto("images/bookpen.png", 610, 10, 48, 48);
-		panel_viw.setBounds(0, 0, 694, 76);
+		panel_viw = new JpaneColorAndPhoto("images/bookpen.png", 740, 10, 48, 48);
+		panel_viw.setBounds(0, 0, 829, 76);
 		panel_viw.setLayout(null);
 		panel.add(panel_viw);
 
 		panel_tab = new JPanel();
-		panel_tab.setBounds(0, 75, 694, 253);
+		panel_tab.setBounds(0, 75, 829, 253);
 		panel_tab.setLayout(new BorderLayout(0, 0));
 		panel.add(panel_tab);
 
@@ -110,13 +110,13 @@ public class CreateContentFrame {
 		label.setBounds(10, 23, 142, 15);
 		panel_viw.add(label);
 
-		label_1 = new JLabel("表中可选中的位置为可修改信息，不可选中的为系统默认信息");
-		label_1.setBounds(30, 48, 365, 15);
+		label_1 = new JLabel("表中检验内容皆出自官方文件，当您选择一个检验内容之后，列表中不会重复出现");
+		label_1.setBounds(30, 48, 493, 15);
 		panel_viw.add(label_1);
 
 
 		JSeparator separator = new JSeparator();
-		separator.setBounds(52, 375, 642, 2);
+		separator.setBounds(52, 375, 767, 2);
 		panel.add(separator);
 
 		label_2 = new JLabel("中大检测");
@@ -128,33 +128,34 @@ public class CreateContentFrame {
 		panel.add(label_3);
 
 		jtf_contentName = new JTextField();
-		jtf_contentName.setBounds(135, 338, 446, 21);
+		jtf_contentName.setBounds(135, 338, 576, 21);
 		panel.add(jtf_contentName);
 		jtf_contentName.setColumns(10);
 
 		bt_searchSysContent = new JButton("查询");
-		bt_searchSysContent.setBounds(599, 338, 85, 23);
+		bt_searchSysContent.setBounds(721, 338, 85, 23);
 		panel.add(bt_searchSysContent);
 
 		// 报价检验内容表格面板
 		scrollPanemike = new JScrollPane();
 		// 初始化检验内容表列名
 		String[] sysContentColumnsName = { "序号id", "检测内容", "抽样数量范围", "抽样数量",
-			    "单个检测对象实施数量范围", "单个检测对象实施数量", "抽样依据", "计费单位", "收费标准",
+			    "(实施数量范围)单个检测对象", "(实施数量)单个检验对象", "抽样依据", "计费单位", "收费标准",
 				"收费标准单位", "报价依据" };
 		jt_sysInspectionContent = new MyTable(new int[]{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 });
 		jt_sysInspectionContent.setModel(new DefaultTableModel(null, sysContentColumnsName));
 		jt_sysInspectionContent.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_sysInspectionContent.getColumnModel().getColumn(0).setMaxWidth(0);
 		jt_sysInspectionContent.getTableHeader().setFont(new Font("宋体", 0, 12));
-		jt_sysInspectionContent.getColumnModel().getColumn(1).setPreferredWidth(50);
-		jt_sysInspectionContent.getColumnModel().getColumn(5).setPreferredWidth(50);
-		jt_sysInspectionContent.getColumnModel().getColumn(6).setPreferredWidth(50);
-		jt_sysInspectionContent.getColumnModel().getColumn(6).setPreferredWidth(50);
-		jt_sysInspectionContent.getColumnModel().getColumn(7).setPreferredWidth(100);
-		jt_sysInspectionContent.getColumnModel().getColumn(8).setPreferredWidth(100);
-		jt_sysInspectionContent.getColumnModel().getColumn(10).setPreferredWidth(50);
-		jt_sysInspectionContent.getColumnModel().getColumn(10).setPreferredWidth(50);
+		jt_sysInspectionContent.getColumnModel().getColumn(1).setPreferredWidth(45);
+		jt_sysInspectionContent.getColumnModel().getColumn(2).setPreferredWidth(62);
+		jt_sysInspectionContent.getColumnModel().getColumn(3).setPreferredWidth(38);
+		jt_sysInspectionContent.getColumnModel().getColumn(5).setPreferredWidth(70);
+		jt_sysInspectionContent.getColumnModel().getColumn(6).setPreferredWidth(38);
+		jt_sysInspectionContent.getColumnModel().getColumn(7).setPreferredWidth(38);
+		jt_sysInspectionContent.getColumnModel().getColumn(8).setPreferredWidth(38);
+		jt_sysInspectionContent.getColumnModel().getColumn(9).setPreferredWidth(70);
+		jt_sysInspectionContent.getColumnModel().getColumn(10).setPreferredWidth(36);
 
 		// 设置单行可被选中
 		jt_sysInspectionContent.getSelectionModel().setSelectionMode(
@@ -203,5 +204,7 @@ public class CreateContentFrame {
 		bt_searchSysContent.setActionCommand("searchContent");
 		bt_searchSysContent.addActionListener(new CreateContentFrameAction(jtf_contentName,jt_sysInspectionContent));
 
+		//添加鼠标悬浮事件
+		jt_sysInspectionContent.addMouseMotionListener(new CreateContentFrameAction(null,jt_sysInspectionContent));
 	}
 }

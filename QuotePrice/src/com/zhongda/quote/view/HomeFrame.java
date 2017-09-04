@@ -723,7 +723,7 @@ public class HomeFrame {
 		scrollPanemike = new JScrollPane();
 		// 初始化检验内容表列名
 		final Object contentColumnsName[] = { "序号", "检验内容名称", "抽样数量",
-				"单个检验对象实施数量", "收费标准", "检验内容金额" };
+				"(实施数量)单个检验对象", "收费标准", "检验内容金额" };
 		jt_inspectionContent = new MyTable(new int[] { 0, 1, 2, 3, 4, 5 });
 		DefaultTableModel contentTableModel = new DefaultTableModel(null,
 				contentColumnsName);
