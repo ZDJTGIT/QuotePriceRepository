@@ -161,13 +161,15 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 		if (count == 2) {
 			jp_search.setVisible(false);
 			double contentAmount = addSysDataToTabel(jt_sysInspectionContent, jt_inspectionContent);
-			//获取原来的检验批金额
-			String amount = jtf_batchAmount.getText();
-			//如果有值则加上当前获得的检验内容金额
-			if(null != amount && !"".equals(amount.trim())){
-				contentAmount = contentAmount + Double.parseDouble(amount);
+			if(contentAmount != -1){
+				//获取原来的检验批金额
+				String amount = jtf_batchAmount.getText();
+				//如果有值则加上当前获得的检验内容金额
+				if(null != amount && !"".equals(amount.trim())){
+					contentAmount = contentAmount + Double.parseDouble(amount);
+				}
+				jtf_batchAmount.setText(String.valueOf(contentAmount));
 			}
-			jtf_batchAmount.setText(String.valueOf(contentAmount));
 		}
 	}
 
@@ -189,7 +191,7 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 				searchSysInspectionContent(jt_sysInspectionContent, contentName, industry, address);
 			}
 		} else if ("confirm".equals(commandName)) {
-			int flag = JOptionPane.showConfirmDialog(null, "确定提交?", "提交项目",
+			int flag = JOptionPane.showConfirmDialog(null, "确定提交?", "提交检验批",
 					JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
 				if(null != this.batchMap){
@@ -199,7 +201,7 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 				}
 			}
 		} else if ("cancel".equals(commandName)) {
-			int flag = JOptionPane.showConfirmDialog(null, "取消项目？", "取消项目",
+			int flag = JOptionPane.showConfirmDialog(null, "取消项目？", "取消检验批",
 					JOptionPane.OK_OPTION);
 			if (flag == JOptionPane.OK_OPTION) {
 				dialog.dispose();
@@ -392,6 +394,23 @@ public class CreateBatchFrameAction implements MouseMotionListener, ItemListener
 
 		int row = jt_sysInspectionContent.getSelectedRow();
 		int sourceId = (int) jt_sysInspectionContent.getValueAt(row, 0);
+		if(null != this.batchMap){
+			for (InspectionContent inspectionContent : contentList) {
+				if(sourceId == inspectionContent.getSourceId()){
+					JOptionPane.showMessageDialog(null, "该检验内容已被选中，请不要重复选择", "提示信息",
+							JOptionPane.WARNING_MESSAGE);
+					return -1;
+				}
+			}
+		}else{
+			for (InspectionContent inspectionContent : singleContentList) {
+				if(sourceId == inspectionContent.getSourceId()){
+					JOptionPane.showMessageDialog(null, "该检验内容已被选中，请不要重复选择", "提示信息",
+							JOptionPane.WARNING_MESSAGE);
+					return -1;
+				}
+			}
+		}
 		String inspectionContentName = String.valueOf(jt_sysInspectionContent.getValueAt(row, 1));
 		String sampleQuantityRange = String.valueOf(jt_sysInspectionContent.getValueAt(row, 2));
 		int sampleQuantity = (int)jt_sysInspectionContent.getValueAt(row, 3);

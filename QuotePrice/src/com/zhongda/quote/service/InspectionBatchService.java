@@ -43,4 +43,19 @@ public interface InspectionBatchService {
 	Map<String, Object> createBatchAndContent(
 			InspectionBatch inspectionBatch,
 			List<InspectionContent> singleContentList, double taskAmount, double projectAmount);
+
+	/**
+	 * 修改检验批
+	 * @param inspectionBatch 新的检验批
+	 * @return 返回新的检验批
+	 */
+	InspectionBatch updateBatch(InspectionBatch inspectionBatch);
+
+	/**
+	 * 查询检验批通过项目id和检验批名称
+	 * @param projectId
+	 * @param batchName
+	 * @return
+	 */
+	List<InspectionBatch> queryBatchByPidAndName(Integer projectId, String batchName);
 }

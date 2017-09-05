@@ -133,4 +133,37 @@ public class InspectionBatchServiceImpl implements InspectionBatchService {
 		}
 		return quoteMap;
 	}
+
+	public InspectionBatch updateBatch(InspectionBatch inspectionBatch) {
+		int index = 0;
+		try {
+			index = inspectionBatchMapper.updateByPrimaryKeySelective(inspectionBatch);
+			sqlSession.commit();
+			if (index > 0) {
+				inspectionBatch = inspectionBatchMapper.selectByPrimaryKey(inspectionBatch.getId());
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			sqlSession.rollback();
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return inspectionBatch;
+	}
+
+	public List<InspectionBatch> queryBatchByPidAndName(Integer projectId, String batchName) {
+		List<InspectionBatch> batchList = null;
+		try {
+			if("".equals(batchName)){
+				batchList = inspectionBatchMapper.selectByProjectNumber(projectId);
+			}else{
+				batchList = inspectionBatchMapper.selectProjectByPidAndName(projectId, batchName);
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return batchList;
+	}
 }

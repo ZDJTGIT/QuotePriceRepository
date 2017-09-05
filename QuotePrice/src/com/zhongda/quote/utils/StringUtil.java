@@ -1,6 +1,6 @@
 package com.zhongda.quote.utils;
 /**
- * 
+ *
  * <p>字符串处理。</p>
  * @author rojay<1250368725@qq.com>
  * @since 2017年8月12日
@@ -9,7 +9,7 @@ public class StringUtil {
 
 	/**
 	 * 转换成十六进制的字符串并且小写转大写
-	 * 
+	 *
 	 * @param src
 	 * @return 十六进制的字符串
 	 */
@@ -35,47 +35,27 @@ public class StringUtil {
 	public static Integer stringToInteger(String string){
 		return Integer.parseInt(string);
 	}
-	/*
-	 * 将数据库取得的取值范围转换为int类型
-	 * @return 取值范围最小值
+
+	/**
+	 * 将字符串以“-”分割，在转换成整数型
+	 * @param range
+	 * @return 整形数组
 	 */
-	public static Integer stringToMinInteger(String string){
-		String minString = null;
-		if(string.length()==3){
-			minString = string.substring(0, 1);
-		}else if(string.length()==4){
-			minString = string.substring(0, 1);
-		}else if (string.length()==5) {
-			minString = string.substring(0, 2);
-		}
-		return Integer.parseInt(minString);
+	public static int[] rangeToMinMax(String range){
+		String[] string = range.split("-");
+		int[] array = new int[]{Integer.parseInt(string[0]), Integer.parseInt(string[1])};
+		return array;
 	}
 
-	/*
-	 * 将数据库取得的取值范围转换为int类型
-	 * @return 取值范围最大值
-	 */
-	public static Integer stringToMaxInteger(String string){
-		String maxString = null;
-		if(string.length()==3){
-			maxString = string.substring(2, string.length());
-		}else if(string.length()==4){
-			maxString = string.substring(2, string.length());
-		}else if (string.length()>=5) {
-			maxString = string.substring(3, string.length());
-		}
-		return Integer.parseInt(maxString);
-	}
-	
 	/*
 	 * 判断是不是数字
 	 */
 	public static boolean isNumeric(String str){
 		try{
-		Integer.parseInt(str);
+			Integer.parseInt(str);
 		}catch(NumberFormatException ne){
 			return false;
 		}
 		return true;
-	}									
+	}
 }

@@ -49,7 +49,7 @@ public class DetailsOfContentFrame {
 	private JLabel label_4;
 	private JLabel label_2;
 	private JLabel label_3;
-	private DefaultTableModel basicModel, sampingModel, quotesModel; 
+	private DefaultTableModel basicModel, sampingModel, quotesModel;
 	private Integer InspectionContentID;
 
 	/**
@@ -58,7 +58,7 @@ public class DetailsOfContentFrame {
 	public DetailsOfContentFrame() {
 		initialize();
 	}
-	
+
 	public DetailsOfContentFrame(Integer InspectionContentID){
 		this.InspectionContentID = InspectionContentID;
 		initialize();
@@ -98,17 +98,17 @@ public class DetailsOfContentFrame {
 		label_4.setFont(new Font("宋体", Font.BOLD, 14));
 		label_4.setBounds(10, 65, 132, 15);
 		panel.add(label_4);
-		
+
 		label_2 = new JLabel("抽样依据表");
 		label_2.setFont(new Font("宋体", Font.BOLD, 14));
 		label_2.setBounds(10, 260, 92, 15);
 		panel.add(label_2);
-		
+
 		label_3 = new JLabel("报价依据表");
 		label_3.setFont(new Font("宋体", Font.BOLD, 14));
 		label_3.setBounds(10, 414, 120, 15);
 		panel.add(label_3);
-		
+
 		//基本信息
 		panel_Basic = new JPanel();
 		panel_Basic.setBounds(0, 90, 466, 160);
@@ -118,13 +118,13 @@ public class DetailsOfContentFrame {
 		panel_Sampling = new JPanel();
 		panel_Sampling.setBounds(0, 284, 466, 120);
 		panel.add(panel_Sampling);
-		
+
 		//报价依据
 		panel_Quotes = new JPanel();
 		panel_Quotes.setBounds(0, 440, 466, 120);
 		panel.add(panel_Quotes);
-		
-		
+
+
 		//基本信息表格，表格条例为1+9，左边内容为属性名称，自定义数据插入，右边数据从相应表格查询
 		final Object contentColumnsName[] = {"属性", "值"};
 		basicModel = new DefaultTableModel(null,
@@ -133,7 +133,7 @@ public class DetailsOfContentFrame {
 				contentColumnsName);
 		quotesModel = new DefaultTableModel(null,
 				contentColumnsName);
-		
+
 		scrollPaneBasic = new JScrollPane();
 		tab_Basic = new MyTable(new int[] { 1, 2});
 		//设置表头
@@ -157,7 +157,7 @@ public class DetailsOfContentFrame {
 			dataBasic.add(basic[i]);
 			modelBasic.addRow(dataBasic);
 		}
-		
+
 		//抽样依据表格，表格条例为1+3，左边内容为属性名称，自定义数据插入，右边数据从相应表格查询
 		scrollPaneSampling = new JScrollPane();
 		tab_Sampling = new MyTable(new int[] { 1, 2, 3});
@@ -179,7 +179,7 @@ public class DetailsOfContentFrame {
 			dataSampling.add(Sampling[i]);
 			modelSampling.addRow(dataSampling);
 		}
-		
+
 		//报价依据表格，表格条例为1+3，左边内容为属性名称，自定义数据插入，右边数据从相应表格查询
 		scrollPaneQuotes = new JScrollPane();
 		tab_Quotes = new MyTable(new int[] { 1, 2, 3});
@@ -196,14 +196,14 @@ public class DetailsOfContentFrame {
 		panel_Quotes.add(scrollPaneQuotes, BorderLayout.CENTER);
 		DefaultTableModel modelQuotes = (DefaultTableModel) tab_Quotes
 				.getModel();
-		
+
 		Object[] Quotes = {"依据文件号","依据文件名","依据详情"};
 		for(int i = 0 ; i < 3 ; i ++ ){
 			Vector<Object> dataQuotes = new Vector<Object>();
 			dataQuotes.add(Quotes[i]);
 			modelQuotes.addRow(dataQuotes);
 		}
-		
+
 		new SwingWorker <QuoteBasis, QuoteBasis>(){
 			@Override
 			protected QuoteBasis doInBackground() throws Exception {
@@ -225,8 +225,8 @@ public class DetailsOfContentFrame {
 				}
 			}
 		}.execute();
-		
-		
+
+
 		new SwingWorker <SampleBasis, SampleBasis>(){
 			@Override
 			protected SampleBasis doInBackground() throws Exception {
@@ -248,8 +248,8 @@ public class DetailsOfContentFrame {
 				}
 			}
 		}.execute();
-		
-		
+
+
 		new SwingWorker <Industry, Industry>(){
 			@Override
 			protected Industry doInBackground() throws Exception {
@@ -269,7 +269,7 @@ public class DetailsOfContentFrame {
 				}
 			}
 		}.execute();
-		
+
 		new SwingWorker <Address, Address>(){
 			@Override
 			protected Address doInBackground() throws Exception {
@@ -289,12 +289,12 @@ public class DetailsOfContentFrame {
 				}
 			}
 		}.execute();
-		
+
 		new SwingWorker <InspectionContent, InspectionContent>(){
 			@Override
 			protected InspectionContent doInBackground() throws Exception {
 				return new InspectionContentServiceImpl()
-				.selectInspectionContentByInspectionContentID(InspectionContentID);
+				.selectInspectionContentById(InspectionContentID);
 			}
 			@Override
 			protected void done() {
@@ -315,7 +315,7 @@ public class DetailsOfContentFrame {
 				}
 			}
 		}.execute();
-		
+
 	}
 }
 

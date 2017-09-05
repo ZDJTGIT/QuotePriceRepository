@@ -142,4 +142,38 @@ public class QuoteProjectServiceImpl implements QuoteProjectService {
 		return quoteMap;
 	}
 
+	public QuoteProject updateProject(QuoteProject quoteProject, QuoteTask quoteTask) {
+		int index = 0;
+		try {
+			index = quoteProjectMapper.updateByPrimaryKeySelective(quoteProject);
+			quoteTaskMapper.updateByPrimaryKeySelective(quoteTask);
+			sqlSession.commit();
+			if (index > 0) {
+				quoteProject = quoteProjectMapper.selectByPrimaryKey(quoteProject.getId());
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			sqlSession.rollback();
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return quoteProject;
+	}
+
+	public List<QuoteProject> queryProjectByPidAndName(Integer taskId, String projectName) {
+		List<QuoteProject> projectList = null;
+		try {
+			if("".equals(projectName)){
+				projectList = quoteProjectMapper.selectByTaskNumber(taskId);
+			}else{
+				projectList = quoteProjectMapper.selectProjectByPidAndName(taskId, projectName);
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return projectList;
+	}
+
 }

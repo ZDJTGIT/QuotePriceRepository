@@ -57,13 +57,12 @@ public class InspectionContent {
 		this.inspectionContentAmount = inspectionContentAmount;
 	}
 
-	public InspectionContent(String inspectionContentName,
-			Integer sampleQuantity, Integer singleObjectQuantity,
-			Integer chargeStandard) {
-		this.inspectionContentName = inspectionContentName;
-		this.sampleQuantity = sampleQuantity;
-		this.singleObjectQuantity = singleObjectQuantity;
-		this.chargeStandard = chargeStandard;
+	public InspectionContent(Integer contentId, Integer samplesQuantityInt,
+			Integer singleObjectQuantityInt, Double contentAmount) {
+		this.id = contentId;
+		this.sampleQuantity = samplesQuantityInt;
+		this.singleObjectQuantity = singleObjectQuantityInt;
+		this.inspectionContentAmount = contentAmount;
 	}
 
 	public Integer getId() {

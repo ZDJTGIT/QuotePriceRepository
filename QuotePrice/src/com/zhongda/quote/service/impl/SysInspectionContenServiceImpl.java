@@ -37,10 +37,10 @@ public class SysInspectionContenServiceImpl implements
 
 	//从系统中获得所有未添加的检验内容
 	@Override
-	public List<SysInspectionContent> selectSysInspectionContent(Integer batchID) {
+	public List<SysInspectionContent> selectSysInspectionContent(Integer batchID, Integer industryId, Integer addressId) {
 		List<SysInspectionContent> sysInspectionContent = null;
 		try {
-			sysInspectionContent = sysInsContentMapper.selectAllSysInspectionContent(batchID);
+			sysInspectionContent = sysInsContentMapper.selectAllSysInspectionContent(batchID, industryId, addressId);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {

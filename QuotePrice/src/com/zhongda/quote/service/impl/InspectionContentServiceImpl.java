@@ -129,12 +129,14 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 		return inspectionContentList;
 	}
 
-	public InspectionContent updateInspectionContent(
-			InspectionContent inspectionContent) {
+	public InspectionContent updateInspectionContent(QuoteTask quoteTask, QuoteProject quoteProject,
+			InspectionBatch inspectionBatch, InspectionContent inspectionContent) {
 		int index = 0;
 		try {
-			index = inspectionContentMapper
-					.updateByPrimaryKeySelective(inspectionContent);
+			index = inspectionContentMapper.updateByPrimaryKeySelective(inspectionContent);
+			inspectionBatchMapper.updateByPrimaryKeySelective(inspectionBatch);
+			quoteProjectMapper.updateByPrimaryKeySelective(quoteProject);
+			quoteTaskMapper.updateByPrimaryKeySelective(quoteTask);
 			sqlSession.commit();
 			if (index > 0) {
 				inspectionContent = inspectionContentMapper
@@ -176,7 +178,7 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 	}
 
 	@Override
-	public InspectionContent selectInspectionContentByInspectionContentID(
+	public InspectionContent selectInspectionContentById(
 			Integer InspectionContentID) {
 		InspectionContent inspectionContent = null;
 		try {
@@ -204,13 +206,14 @@ public class InspectionContentServiceImpl implements InspectionContentService {
 		return contentList;
 	}
 
-	@Override
-	public List<InspectionContent> selectByBatchidAndContentName(Integer batchid,
-			String ContentName) {
+	public List<InspectionContent> queryContentByPidAndName(Integer batchId, String contentName) {
 		List<InspectionContent> contentList = null;
 		try {
-			contentList = inspectionContentMapper
-					.selectByBatchidAndContentName(batchid, ContentName);
+			if("".equals(contentName)){
+				contentList = inspectionContentMapper.selectAllInspectionContentByBatchId(batchId);
+			}else{
+				contentList = inspectionContentMapper.selectByBatchidAndContentName(batchId, contentName);
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {

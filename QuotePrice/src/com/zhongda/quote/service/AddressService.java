@@ -32,4 +32,11 @@ public interface AddressService {
 	 * @return
 	 */
 	Address selectAddressByInspectionID(Integer InspectionID);
+
+	/**
+	 * 根据三级地址id,分割获取地址详细信息
+	 * @param addressId
+	 * @return 以，分割的省市区组合
+	 */
+	String queryAddressDetialById(Integer addressId);
 }

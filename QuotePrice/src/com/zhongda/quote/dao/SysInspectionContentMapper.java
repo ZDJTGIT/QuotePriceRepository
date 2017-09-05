@@ -29,9 +29,11 @@ public interface SysInspectionContentMapper {
 
 	/**
 	 * 查询所有未添加的系统检验内容
+	 * @param addressId
+	 * @param industryId
 	 * @return SysInspectionContent
 	 */
-	List<SysInspectionContent> selectAllSysInspectionContent(Integer batchID);
+	List<SysInspectionContent> selectAllSysInspectionContent(Integer batchID, Integer industryId, Integer addressId);
 
 	/**
 	 * 根据用户输入的关键字查询所有匹配的选项

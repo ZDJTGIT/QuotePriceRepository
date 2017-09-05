@@ -168,6 +168,10 @@ public class CreateContentFrame {
 		//获取检验批Id
 		int batchRow = jt_inspectionBatch.getSelectedRow();
 		final int batchId = (int) jt_inspectionBatch.getValueAt(batchRow, 0);
+		//获取报价项目行业和地址
+		int projectRow = jt_quoteProject.getSelectedRow();
+		final int industryId = (int) jt_quoteProject.getValueAt(projectRow, 6);
+		final int addressId = (int) jt_quoteProject.getValueAt(projectRow, 7) / 10000 * 10000;
 		// 生成该窗口时启动任务线程从数据库加载初始化数据(包括所有检验内容)
 		new SwingWorker<List<SysInspectionContent>, SysInspectionContent>() {
 
@@ -176,7 +180,7 @@ public class CreateContentFrame {
 					throws Exception {
 				// 从数据库获取所有未选中系统检验内容
 				return new SysInspectionContenServiceImpl()
-						.selectSysInspectionContent(batchId);
+						.selectSysInspectionContent(batchId, industryId, addressId);
 			}
 
 			@Override

@@ -15,7 +15,7 @@ import com.zhongda.quote.utils.PrimaryGeneraterUtil;
  * <p>
  * 报价任务service类
  * </p>
- * 
+ *
  * @author zmdeng
  * @date 2017年8月10日
  */
@@ -104,7 +104,11 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 	public List<QuoteTask> queryQuoteTaskByName(String taskName) {
 		List<QuoteTask> taskList = null;
 		try {
-			taskList = quoteTaskMapper.selectByName(taskName);
+			if("".equals(taskName)){
+				taskList = quoteTaskMapper.selectAll();
+			}else{
+				taskList = quoteTaskMapper.selectByName(taskName);
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		} finally {

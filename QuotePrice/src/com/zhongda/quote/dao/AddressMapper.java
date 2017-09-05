@@ -6,6 +6,11 @@ import com.zhongda.quote.model.Address;
 
 public interface AddressMapper {
 
+	/**
+	 * 根据id查询对应的地址
+	 * @param id
+	 * @return
+	 */
     Address selectByPrimaryKey(Integer id);
 
     /**

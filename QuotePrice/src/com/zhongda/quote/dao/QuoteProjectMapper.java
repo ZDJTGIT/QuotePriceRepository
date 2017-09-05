@@ -42,4 +42,13 @@ public interface QuoteProjectMapper {
 	 */
 	QuoteProject selectMaxProjectId();
 
+	/**
+	 * 查询报价任务通过任务id和项目名
+	 * @param taskId
+	 * @param projectName
+	 * @return
+	 */
+	List<QuoteProject> selectProjectByPidAndName(Integer taskId,
+			String projectName);
+
 }

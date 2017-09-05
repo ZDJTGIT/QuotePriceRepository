@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.zhongda.quote.model.QuoteProject;
+import com.zhongda.quote.model.QuoteTask;
 
 public interface QuoteProjectService {
 
@@ -39,4 +40,19 @@ public interface QuoteProjectService {
 	 */
 	Map<String, Object> createProjectAndBatchAndContent(QuoteProject quoteProject,
 			Map<String, Map<String, Object>> batchMap, double taskAmount);
+
+	/**
+	 * 修改项目,同时修改任务金额
+	 * @param quoteProject 新的项目
+	 * @return 返回修改后的项目
+	 */
+	QuoteProject updateProject(QuoteProject quoteProject, QuoteTask quoteTask);
+
+	/**
+	 * 修改报价项目通过项目名和任务id
+	 * @param taskId
+	 * @param projectName
+	 * @return
+	 */
+	List<QuoteProject> queryProjectByPidAndName(Integer taskId, String projectName);
 }

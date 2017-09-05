@@ -2,7 +2,10 @@ package com.zhongda.quote.service;
 
 import java.util.List;
 
+import com.zhongda.quote.model.InspectionBatch;
 import com.zhongda.quote.model.InspectionContent;
+import com.zhongda.quote.model.QuoteProject;
+import com.zhongda.quote.model.QuoteTask;
 
 public interface InspectionContentService {
 
@@ -15,7 +18,7 @@ public interface InspectionContentService {
 
 	/**
 	 * 创建一个检验内容
-	 * 
+	 *
 	 * @param inspectionContent
 	 * @param taskAmount
 	 *            需修改的任务金额
@@ -39,9 +42,9 @@ public interface InspectionContentService {
 	List<InspectionContent> queryAllInspectionContentByBatchId(Integer batchId);
 
 	/**
-	 * 
+	 *
 	 * 查询所有关联抽样依据和报价依据表的检测内容根据检验批ID
-	 * 
+	 *
 	 * @param batchId
 	 *            检验批ID
 	 * @return 检验内容集合
@@ -50,7 +53,7 @@ public interface InspectionContentService {
 
 	/**
 	 * 按ID删除检验内容,同时修改任务，项目以及检验批金额
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -58,14 +61,15 @@ public interface InspectionContentService {
 			double projectAmount, double batchAmount);
 
 	/**
-	 * 修改检验内容
-	 *
+	 * 修改检验内容的抽样数量以及单个对象实施数量时，同时修改任务，项目，检验批的金额
+	 * @param quoteTask
+	 * @param quoteProject
+	 * @param inspectionBatch
 	 * @param inspectionContent
-	 *            被修改的检验内容
-	 * @return 修改后的检验内容
+	 * @return
 	 */
-	InspectionContent updateInspectionContent(
-			InspectionContent inspectionContent);
+	InspectionContent updateInspectionContent(QuoteTask quoteTask, QuoteProject quoteProject,
+			InspectionBatch inspectionBatch, InspectionContent inspectionContent);
 
 	/**
 	 * 插入用户自定义检验内容
@@ -78,18 +82,18 @@ public interface InspectionContentService {
 
 	/**
 	 * 传当前检验内容ID获取检验内容
-	 * 
+	 *
 	 * @param InspectionContentID
 	 * @return InspectionContent
 	 */
-	InspectionContent selectInspectionContentByInspectionContentID(
+	InspectionContent selectInspectionContentById(
 			Integer InspectionContentID);
+
 	/**
-	 * 根据选中的检验批和输入关键字查询所有符合条件的检验内容
-	 * @param batchid
-	 * @param ContentName
+	 * 查询检验内容根据检验批id和检验内容名称
+	 * @param batchId
+	 * @param contentName
 	 * @return
 	 */
-	List<InspectionContent>selectByBatchidAndContentName(Integer batchid,
-			String ContentName);
+	List<InspectionContent> queryContentByPidAndName(Integer batchId, String contentName);
 }

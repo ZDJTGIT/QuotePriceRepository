@@ -1,26 +1,23 @@
 package com.zhongda.quote.view;
 
 import java.awt.BorderLayout;
-
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.SwingWorker;
-
-import com.zhongda.quote.action.CreateContentFrameAction;
-import com.zhongda.quote.action.ModifiyContentAction;
-import com.zhongda.quote.model.InspectionContent;
-import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
-import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
-
 import java.awt.Font;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingWorker;
+
+import com.zhongda.quote.action.ModifyContentFrameAction;
+import com.zhongda.quote.model.InspectionContent;
+import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
+import com.zhongda.quote.view.uiutils.JpaneColorAndPhoto;
 
 /**
  * 修改检验内容弹框界面
@@ -36,31 +33,26 @@ public class ModifyContentFrame {
 	public JDialog jaDialog;
 	private JPanel panel;
 	private JPanel panel_1;
-	private JTextField textField_Contentname, textField_SamplesCount, textField_ImplementationCount,
-			textField_Charges;
-	private JLabel lblNewLabel_1, lblNewLabel_3, lblNewLabel_4,
-			lblNewLabel_5;
-	private JButton btnNewButton_yes, btnNewButton_no;
-	private JTable jt_inspectionContent;
+	private JTextField jtf_contentName, jtf_samplesQuantity, jtf_singleObjectQuantity, jtf_chargeStandard;
+	private JLabel lblNewLabel_1, lblNewLabel_3, lblNewLabel_4, lblNewLabel_5;
+	private JButton jbt_confirm, jbt_cancel;
 	private JLabel label;
 	private JLabel label_1;
 	private JLabel label_2;
 	private JLabel label_3;
 	private JLabel label_4;
-	private JLabel label_sampling;
-	private JLabel label_Implementation;
-	private String SampleQuantityRange;
-	private String SingleQuantityRange;
+	private JLabel jl_sampleQuantityRange;
+	private JLabel jl_singleQuantityRange;
+	private JTable jt_quoteTask;
+	private JTable jt_quoteProject;
+	private JTable jt_inspectionBatch;
+	private JTable jt_inspectionContent;
 
-	/**
-	 * @wbp.parser.constructor
-	 */
-	public ModifyContentFrame() {
-		init();
-	}
-
-	//检验批ID 检验内容主界面table 删除操作
-	public ModifyContentFrame(JTable jt_inspectionContent) {
+	public ModifyContentFrame(JTable jt_quoteTask, JTable jt_quoteProject,
+			JTable jt_inspectionBatch, JTable jt_inspectionContent) {
+		this.jt_quoteTask = jt_quoteTask;
+		this.jt_quoteProject = jt_quoteProject;
+		this.jt_inspectionBatch = jt_inspectionBatch;
 		this.jt_inspectionContent = jt_inspectionContent;
 		init();
 	}
@@ -97,43 +89,43 @@ public class ModifyContentFrame {
 		lblNewLabel_5.setBounds(26, 258, 85, 15);
 		panel.add(lblNewLabel_5);
 
-		textField_Contentname = new JTextField();
-		textField_Contentname.setBounds(26, 111, 442, 23);
-		panel.add(textField_Contentname);
-		textField_Contentname.setColumns(10);
-		textField_Contentname.setEnabled(false);
+		jtf_contentName = new JTextField();
+		jtf_contentName.setBounds(26, 111, 442, 23);
+		panel.add(jtf_contentName);
+		jtf_contentName.setColumns(10);
+		jtf_contentName.setEnabled(false);
 
-		textField_SamplesCount = new JTextField();
-		textField_SamplesCount.setBounds(26, 167, 443, 21);
-		panel.add(textField_SamplesCount);
-		textField_SamplesCount.setColumns(10);
+		jtf_samplesQuantity = new JTextField();
+		jtf_samplesQuantity.setBounds(26, 167, 443, 21);
+		panel.add(jtf_samplesQuantity);
+		jtf_samplesQuantity.setColumns(10);
 
-		textField_ImplementationCount = new JTextField();
-		textField_ImplementationCount.setBounds(26, 227, 442, 21);
-		panel.add(textField_ImplementationCount);
-		textField_ImplementationCount.setColumns(10);
+		jtf_singleObjectQuantity = new JTextField();
+		jtf_singleObjectQuantity.setBounds(26, 227, 442, 21);
+		panel.add(jtf_singleObjectQuantity);
+		jtf_singleObjectQuantity.setColumns(10);
 
-		textField_Charges = new JTextField();
-		textField_Charges.setBounds(26, 283, 442, 21);
-		panel.add(textField_Charges);
-		textField_Charges.setColumns(10);
-		textField_Charges.setEnabled(false);
+		jtf_chargeStandard = new JTextField();
+		jtf_chargeStandard.setBounds(26, 283, 442, 21);
+		panel.add(jtf_chargeStandard);
+		jtf_chargeStandard.setColumns(10);
+		jtf_chargeStandard.setEnabled(false);
 
-		btnNewButton_yes = new JButton("确认");
-		btnNewButton_yes.setBounds(250, 370, 93, 23);
-		panel.add(btnNewButton_yes);
+		jbt_confirm = new JButton("确认");
+		jbt_confirm.setBounds(250, 370, 93, 23);
+		panel.add(jbt_confirm);
 
-		btnNewButton_no = new JButton("取消");
-		btnNewButton_no.setBounds(375, 370, 93, 23);
-		panel.add(btnNewButton_no);
+		jbt_cancel = new JButton("取消");
+		jbt_cancel.setBounds(375, 370, 93, 23);
+		panel.add(jbt_cancel);
 
 		panel_1 = new JpaneColorAndPhoto("images/bookpen.png", 430, 2, 48, 48);
 		panel_1.setBounds(0, 0, 494, 76);
 		panel_1.setLayout(null);
 		panel.add(panel_1);
-		
+
 		JSeparator separator = new JSeparator();
-		separator.setBounds(52, 338, 442, 2);
+		separator.setBounds(55, 336, 442, 2);
 		panel.add(separator);
 
 		label = new JLabel("修改检验内容");
@@ -146,26 +138,24 @@ public class ModifyContentFrame {
 		panel_1.add(label_1);
 
 		label_2 = new JLabel("中大检测");
-		label_2.setBounds(0, 327, 54, 15);
+		label_2.setBounds(4, 327, 54, 15);
 		panel.add(label_2);
-		btnNewButton_no.addActionListener(new CreateContentFrameAction(
-				jaDialog));
-		
+
 		label_3 = new JLabel("抽样数量范围：");
 		label_3.setBounds(89, 142, 85, 15);
 		panel.add(label_3);
-		
+
 		label_4 = new JLabel("单个检验内容实施数量范围：");
 		label_4.setBounds(161, 198, 156, 15);
 		panel.add(label_4);
-		
-		label_sampling = new JLabel();
-		label_sampling.setBounds(184, 142, 72, 15);
-		panel.add(label_sampling);
-		
-		label_Implementation = new JLabel();
-		label_Implementation.setBounds(326, 198, 72, 15);
-		panel.add(label_Implementation);
+
+		jl_sampleQuantityRange = new JLabel();
+		jl_sampleQuantityRange.setBounds(184, 142, 72, 15);
+		panel.add(jl_sampleQuantityRange);
+
+		jl_singleQuantityRange = new JLabel();
+		jl_singleQuantityRange.setBounds(326, 198, 72, 15);
+		panel.add(jl_singleQuantityRange);
 
 		final Integer InspectiongID = (Integer) jt_inspectionContent.
 				getValueAt(jt_inspectionContent.getSelectedRow(), 0);
@@ -173,22 +163,18 @@ public class ModifyContentFrame {
 			@Override
 			protected InspectionContent doInBackground() throws Exception {
 				return new InspectionContentServiceImpl()
-				.selectInspectionContentByInspectionContentID(InspectiongID);
+				.selectInspectionContentById(InspectiongID);
 			}
 			@Override
 			protected void done() {
 				try {
 					InspectionContent inspectionContent = get();
-				    SampleQuantityRange = inspectionContent.getSampleQuantityRange();
-					SingleQuantityRange = inspectionContent.getSingleQuantityRange();
-					label_sampling.setText(SampleQuantityRange);
-					label_Implementation.setText(SingleQuantityRange);
-					btnNewButton_yes.setActionCommand("yes");
-					btnNewButton_yes.addActionListener(new ModifiyContentAction(jaDialog, jt_inspectionContent,
-							textField_Contentname,textField_SamplesCount, textField_ImplementationCount,textField_Charges,
-							SampleQuantityRange, SingleQuantityRange));
-					btnNewButton_no.setActionCommand("no");
-					btnNewButton_no.addActionListener(new ModifiyContentAction(jaDialog));
+					jtf_contentName.setText(inspectionContent.getInspectionContentName());
+					jtf_samplesQuantity.setText(String.valueOf(inspectionContent.getSampleQuantity()));
+					jtf_singleObjectQuantity.setText(String.valueOf(inspectionContent.getSingleObjectQuantity()));
+					jtf_chargeStandard.setText(String.valueOf(inspectionContent.getChargeStandard()));
+					jl_sampleQuantityRange.setText(inspectionContent.getSampleQuantityRange());
+					jl_singleQuantityRange.setText(inspectionContent.getSingleQuantityRange());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (ExecutionException e) {
@@ -197,11 +183,12 @@ public class ModifyContentFrame {
 			}
 		}.execute();
 
-		int row = jt_inspectionContent.getSelectedRow();
-		textField_Contentname.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 1)));
-		textField_SamplesCount.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 2)));
-		textField_ImplementationCount.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 3)));
-		textField_Charges.setText(String.valueOf(jt_inspectionContent.getValueAt(row, 4)));
-
+		//确认按钮事件
+		jbt_confirm.setActionCommand("confirm");
+		jbt_confirm.addActionListener(new ModifyContentFrameAction(jaDialog, jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
+				jt_inspectionContent, jtf_samplesQuantity, jtf_singleObjectQuantity, jl_sampleQuantityRange, jl_singleQuantityRange));
+		//取消按钮事件
+		jbt_cancel.setActionCommand("cancel");
+		jbt_cancel.addActionListener(new ModifyContentFrameAction(jaDialog));
 	}
 }

@@ -29,6 +29,7 @@ import com.zhongda.quote.service.impl.AddressServiceImpl;
 import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.utils.FrameGoUtils;
 import com.zhongda.quote.utils.RenderDataUtils;
+import com.zhongda.quote.utils.StringUtil;
 
 public class CreateProjectFrameAction implements ItemListener, ActionListener {
 
@@ -144,11 +145,19 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 		if ("confirm".equals(command)) {
-			int flag = JOptionPane.showConfirmDialog(null, "确定提交?", "提交项目",
-					JOptionPane.OK_OPTION);
-			if (flag == JOptionPane.OK_OPTION) {
-				commitProject();
-
+			String otherAmountString = jtf_otherAmount.getText();
+			if(null != otherAmountString && !"".equals(otherAmountString.trim())){
+				if(StringUtil.isNumeric(otherAmountString)){
+					int flag = JOptionPane.showConfirmDialog(null, "确定提交?", "提交项目",
+							JOptionPane.OK_OPTION);
+					if (flag == JOptionPane.OK_OPTION) {
+						commitProject(otherAmountString);
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, "其它费用项请输入大于0的整形数字", "提示信息", JOptionPane.WARNING_MESSAGE);
+				}
+			}else{
+				JOptionPane.showMessageDialog(null, "其它费用项修改后的值不能是空值！", "提示信息", JOptionPane.WARNING_MESSAGE);
 			}
 		} else if ("cancel".equals(command)) {
 			int flag = JOptionPane.showConfirmDialog(null, "取消项目？", "取消项目",
@@ -157,10 +166,9 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 				dialog.dispose();
 			}
 		}
-
 	}
 
-	private void commitProject() {
+	private void commitProject(String otherAmountString) {
 		Component[] component = jp_batchItems.getComponents();
 		if (component.length > 0) {
 			// 获取当前选中任务ID
@@ -173,11 +181,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 			int addressId = ((Address) jcb_county.getSelectedItem())
 					.getId();
 			double projectAmount = Double.parseDouble(jtf_projectAmount.getText());
-			String otherAmountString = jtf_otherAmount.getText();
-			double otherAmount = 0;
-			if(null != otherAmountString && !"".equals(otherAmountString.trim())){
-				otherAmount = Double.parseDouble(otherAmountString);
-			}
+			double otherAmount = Double.parseDouble(otherAmountString);
 			final int row = jt_quoteTask.getSelectedRow();
 			double taskAmountOld = (double)jt_quoteTask.getValueAt(row, 7);
 			final double taskAmount = taskAmountOld + projectAmount + otherAmount;

@@ -52,14 +52,15 @@
 	where sc.industry_id = ${_parameter.param2} and sc.address_id = ${_parameter.param3} and sc.quote_basis_id = qb.id and sc.sample_basis_id = sb.id and sc.inspection_content_name like '%${_parameter.param1}%'
   </select>
 
-  <select id="selectAllSysInspectionContent" parameterType="java.lang.Integer"
+  <select id="selectAllSysInspectionContent"
   resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from SysInspectionContent
     where id not in
     (select source_id from InspectionContent
-    where InspectionContent.batch_id = #{batchID,jdbcType=INTEGER})
+    where InspectionContent.batch_id = #{0})
+    and industry_id = #{1} and address_id = #{2}
   </select>
   <select id="selectSysInspectionContentByInspectionContentID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select

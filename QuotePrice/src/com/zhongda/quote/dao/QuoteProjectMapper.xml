@@ -45,6 +45,12 @@
    from QuoteProject qp, Industry i, Address a
     where qp.industry_id = i.id and qp.address_id = a.id and qp.id = (select max(id) from QuoteProject)
   </select>
+  <select id="selectProjectByPidAndName" resultMap="BaseResultMap">
+  	select
+  	qp.*, i.*, a.*
+  	from QuoteProject qp, Industry i, Address a
+  	where qp.industry_id = i.id and qp.address_id = a.id and qp.task_id = ${_parameter.param1} and qp.project_name like '%${_parameter.param2}%'
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from QuoteProject
     where id = #{id,jdbcType=INTEGER}

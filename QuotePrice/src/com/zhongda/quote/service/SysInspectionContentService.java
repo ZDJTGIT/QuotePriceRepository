@@ -20,7 +20,7 @@ public interface SysInspectionContentService {
 	 * 查询所有未添加的系统检测内容
 	 * @return
 	 */
-	List<SysInspectionContent> selectSysInspectionContent(Integer batchID);
+	List<SysInspectionContent> selectSysInspectionContent(Integer batchID, Integer industryId, Integer addressId);
 
 	/**
 	 * 根据用户输入的关键字查询所有匹配的选项

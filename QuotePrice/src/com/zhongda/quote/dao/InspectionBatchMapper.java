@@ -42,4 +42,13 @@ public interface InspectionBatchMapper {
 	 * @return
 	 */
 	InspectionBatch selectInspectionBatchByMaxId();
+
+	/**
+	 * 查询检验批通过项目id和检验批名称
+	 * @param projectId
+	 * @param batchName
+	 * @return
+	 */
+	List<InspectionBatch> selectProjectByPidAndName(Integer projectId,
+			String batchName);
 }

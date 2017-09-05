@@ -21,6 +21,11 @@ public class InspectionBatch {
 		this.inspectionBatchAmount = batchAmount;
 	}
 
+	public InspectionBatch(Integer batchId, String batchName) {
+		this.id = batchId;
+		this.inspectionBatchName = batchName;
+	}
+
 	public Integer getId() {
 		return id;
 	}

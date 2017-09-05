@@ -86,4 +86,19 @@ public class AddressServiceImpl implements AddressService {
 		return address;
 	}
 
+	public String queryAddressDetialById(Integer addressId) {
+		String address = null;
+		try{
+			Address county = addressMapper.selectByPrimaryKey(addressId);
+			Address city = addressMapper.selectByPrimaryKey(county.getPid());
+			Address province = addressMapper.selectByPrimaryKey(city.getPid());
+			address = province.getName() + "," + city.getName() + "," + county.getName();
+		}catch(Exception e){
+			logger.error(e.getMessage());
+		}finally{
+			MyBatisUtil.closeSqlSession();
+		}
+		return address;
+	}
+
 }

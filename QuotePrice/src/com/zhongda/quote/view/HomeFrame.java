@@ -132,20 +132,20 @@ public class HomeFrame {
 	private JButton jbt_deleteContent;
 	private JButton jbt_queryContent;
 	private JLabel jlb_rwxm;
-	private JTextField jtf_rwxm;
+	private JTextField jtf_queryProjectName;
 	private JButton jbt_queryProject_next;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JButton jbt_queryInspectionBatch_next;
 	private JLabel jlb_jyp;
-	private JTextField jtf_jyp;
+	private JTextField jtf_queryBatchName;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JButton jbt_queryContent_next;
 	private JLabel jlb_jcnr;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
-	private JTextField jtf_jcnr;
+	private JTextField jtf_queryContentName;
 	private JButton bt_createTask_next;
 	private JLabel lblNewLabel_6;
 	private JLabel lblNewLabel_7;
@@ -386,9 +386,9 @@ public class HomeFrame {
 		jlb_rwxm = new JLabel(" 查找 ");
 		jtb_center_up.add(jlb_rwxm);
 
-		jtf_rwxm = new JTextField();
-		jtb_center_up.add(jtf_rwxm);
-		jtf_rwxm.setColumns(10);
+		jtf_queryProjectName = new JTextField();
+		jtb_center_up.add(jtf_queryProjectName);
+		jtf_queryProjectName.setColumns(10);
 
 		lblNewLabel = new JLabel(" ");
 		jtb_center_up.add(lblNewLabel);
@@ -461,9 +461,9 @@ public class HomeFrame {
 		jlb_jyp = new JLabel(" 查找 ");
 		jtb_center_down.add(jlb_jyp);
 
-		jtf_jyp = new JTextField();
-		jtb_center_down.add(jtf_jyp);
-		jtf_jyp.setColumns(10);
+		jtf_queryBatchName = new JTextField();
+		jtb_center_down.add(jtf_queryBatchName);
+		jtf_queryBatchName.setColumns(10);
 
 		lblNewLabel_2 = new JLabel(" ");
 		jtb_center_down.add(lblNewLabel_2);
@@ -536,9 +536,9 @@ public class HomeFrame {
 		jlb_jcnr = new JLabel(" 查找  ");
 		jtb_right_jcnr.add(jlb_jcnr);
 
-		jtf_jcnr = new JTextField();
-		jtb_right_jcnr.add(jtf_jcnr);
-		jtf_jcnr.setColumns(10);
+		jtf_queryContentName = new JTextField();
+		jtb_right_jcnr.add(jtf_queryContentName);
+		jtf_queryContentName.setColumns(10);
 
 		lblNewLabel_4 = new JLabel(" ");
 		jtb_right_jcnr.add(lblNewLabel_4);
@@ -686,7 +686,7 @@ public class HomeFrame {
 		// 报价项目表格面板
 		// 初始化项目表列名
 		final Object[] projectColumnsName = { "序号", "项目名称", "行业", "项目地址",
-				"其他费用", "项目总金额", "行业id", "地址id" };
+				"其他费用", "项目报价金额", "行业id", "地址id" };
 		jt_quoteProject = new MyTable(new int[] { 0, 1, 2, 3, 4, 5, 6, 7 });
 		DefaultTableModel projectTableModel = new DefaultTableModel(null,
 				projectColumnsName);
@@ -704,10 +704,10 @@ public class HomeFrame {
 		jt_quoteProject.getColumnModel().getColumn(7).setMaxWidth(0);
 
 		jsp_center_up.setViewportView(jt_quoteProject);
-		
+
 		// 报价检验批表格面板
 		// 初始化检验批表列名
-		final Object[] batchColumnsName = { "序号", "检验批名称", "检验批总金额" };
+		final Object[] batchColumnsName = { "序号", "检验批名称", "检验批报价金额" };
 		jt_inspectionBatch = new MyTable(new int[] { 1, 2 });
 		DefaultTableModel batchTableModel = new DefaultTableModel(null,
 				batchColumnsName);
@@ -727,7 +727,7 @@ public class HomeFrame {
 				contentColumnsName);
 		jt_inspectionContent.getTableHeader().setReorderingAllowed(false);// 设置检验内容表头不可移动
 		jt_inspectionContent.setModel(contentTableModel);
-		
+
 		jt_inspectionContent.getColumnModel().getColumn(0).setMinWidth(0);
 		jt_inspectionContent.getColumnModel().getColumn(0).setMaxWidth(0);
 		jt_inspectionContent.getColumnModel().getColumn(2)
@@ -870,6 +870,14 @@ public class HomeFrame {
 		jbt_createProject.setActionCommand("createProject");
 		jbt_createProject.addActionListener(new HomeFrameAction(jt_quoteTask,
 				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
+		// 添加修改项目事件
+		jbt_updateProject.setActionCommand("updateProject");
+		jbt_updateProject.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, null, null));
+		//添加查询项目事件
+		jbt_queryProject.setActionCommand("queryProject");
+		jbt_queryProject.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
+				null, null, jtf_queryProjectName));
 		// 添加删除项目事件
 		jbt_deleteProject.setActionCommand("deleteProject");
 		jbt_deleteProject.addActionListener(new HomeFrameAction(jt_quoteTask,
@@ -879,23 +887,35 @@ public class HomeFrame {
 		jbt_createInspectionBatch.addActionListener(new HomeFrameAction(
 				jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
 				jt_inspectionContent));
+		// 添加修改检验批事件
+		jbt_updateInspectionBatch.setActionCommand("updateInspectionBatch");
+		jbt_updateInspectionBatch.addActionListener(new HomeFrameAction(
+				null, jt_quoteProject, jt_inspectionBatch, null));
+		//添加查询检验批事件
+		jbt_queryInspectionBatch.setActionCommand("queryBatch");
+		jbt_queryInspectionBatch.addActionListener(new HomeFrameAction(null, jt_quoteProject,
+				jt_inspectionBatch, null, jtf_queryBatchName));
 		// 添加删除检验批事件
 		jbt_deleteInspectionBatch.setActionCommand("deleteInspectionBatch");
 		jbt_deleteInspectionBatch.addActionListener(new HomeFrameAction(
 				jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
 				jt_inspectionContent));
-		// 添加添加检验内容事件
+		// 添加创建检验内容事件
 		jbt_createContent.setActionCommand("createContent");
 		jbt_createContent.addActionListener(new HomeFrameAction(jt_quoteTask,
 				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加修改检验内容事件
 		jbt_updateContent.setActionCommand("updateContent");
-		jbt_updateContent.addActionListener(new HomeFrameAction(null, null,
-				jt_inspectionBatch, jt_inspectionContent));
+		jbt_updateContent.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加删除检验内容事件
 		jbt_deleteContent.setActionCommand("deleteContent");
 		jbt_deleteContent.addActionListener(new HomeFrameAction(jt_quoteTask,
 				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
+		// 添加查询检验内容事件
+		jbt_queryContent.setActionCommand("queryContent");
+		jbt_queryContent.addActionListener(new HomeFrameAction(null, null,
+				jt_inspectionBatch, jt_inspectionContent, jtf_queryContentName));
 		// 添加查看详细检验内容事件
 		jbt_selectContent.setActionCommand("selectContent");
 		jbt_selectContent.addActionListener(new HomeFrameAction(null, null,
@@ -929,15 +949,12 @@ public class HomeFrame {
 				jt_inspectionBatch,null,"batch"));
 		jt_inspectionContent.addMouseMotionListener(new HomeFrameAction(null,null
 				,null,jt_inspectionContent,"content"));
+
 		// 工具栏视图报价依据点击事件
 		jmi_quoteBasis.addActionListener(new HomeFrameAction(frame));
 		// 导出任务事件
 		bt_exportTask.addActionListener(new HomeFrameAction(jt_quoteTask, null,
 				null, null));
-		// 查询当前检验批下检验内容事件
-		jbt_queryContent.setActionCommand("Forbidden");
-		jbt_queryContent.addActionListener(new HomeFrameAction(
-				null,null,jt_inspectionBatch,jt_inspectionContent,jtf_jcnr));
 	}
 
 	public Image titlePhoto(String file) {

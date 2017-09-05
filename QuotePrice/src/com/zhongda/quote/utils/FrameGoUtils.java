@@ -15,7 +15,9 @@ import com.zhongda.quote.view.CreateContentFrame;
 import com.zhongda.quote.view.CreateProjectFrame;
 import com.zhongda.quote.view.CreateTaskFrame;
 import com.zhongda.quote.view.DetailsOfContentFrame;
+import com.zhongda.quote.view.ModifyBatchFrame;
 import com.zhongda.quote.view.ModifyContentFrame;
+import com.zhongda.quote.view.ModifyProjectFrame;
 
 /**
  *
@@ -69,6 +71,24 @@ public class FrameGoUtils {
 	}
 
 	/**
+	 * 修改报价项目窗口
+	 * @param jt_quoteTask
+	 * @param jt_quoteProject
+	 */
+	public static void modifyProject(JTable jt_quoteTask, JTable jt_quoteProject) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ModifyProjectFrame window = new ModifyProjectFrame(jt_quoteTask, jt_quoteProject);
+					window.dialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
 	  * 联动创建检验批窗口
 	 * @param batchMap 需传入一个map对象接受用户选择好的检验批和检验内容
 	 * @param jp_inspectionBatch 添加检验批的panel
@@ -111,6 +131,24 @@ public class FrameGoUtils {
 	}
 
 	/**
+	 * 修改检验批窗口
+	 * @param jt_quoteProject
+	 * @param jt_inspectionBatch
+	 */
+	public static void modifyBatch(JTable jt_quoteProject, JTable jt_inspectionBatch) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ModifyBatchFrame window = new ModifyBatchFrame(jt_quoteProject, jt_inspectionBatch);
+					window.dialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
 	 * 创建检验内容窗口
 	 * @param jt_quoteTask
 	 * @param jt_quoteProject
@@ -130,32 +168,19 @@ public class FrameGoUtils {
 		});
 	}
 
-	/*
-	 * 修改检验内容
+	/**
+	 * 修改检验内容窗口
+	 * @param jt_quoteTask
+	 * @param jt_quoteProject
+	 * @param jt_inspectionBatch
+	 * @param jt_inspectionContent
 	 */
-	public static void modifyContent(final JTable jt_inspectionContent){
+	public static void modifyContent(final JTable jt_quoteTask, final JTable jt_quoteProject, final JTable jt_inspectionBatch, final JTable jt_inspectionContent){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					//传入一个检验批ID作为显示的内容的依据
-					ModifyContentFrame window = new ModifyContentFrame( jt_inspectionContent);
-					window.jaDialog.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-
-	/*
-	 * 添加检验内容界面
-	 */
-	public static void updateContent(){
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateContentFrame window = new CreateContentFrame();
+					ModifyContentFrame window = new ModifyContentFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
 					window.jaDialog.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -179,9 +204,9 @@ public class FrameGoUtils {
 			}
 		});
 	}
-	
-	/*
-	 *启动关于界面
+
+	/**
+	 * 启动关于界面
 	 */
 	public static void about(){
 		EventQueue.invokeLater(new Runnable() {
@@ -195,5 +220,4 @@ public class FrameGoUtils {
 			}
 		});
 	}
-	
 }
