@@ -145,7 +145,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			}
 		} else if ("Forbidden".equals(command)) {
 			// 获取当前选中的检验批ID InspectionContentID
-			int row = jt_inspectionBatch.getSelectedRow();
+			final int row = jt_inspectionBatch.getSelectedRow();
 			// 判定用户输入是否为空
 			String jjc = jtf_queryName.getText();
 			if(null==jjc|"".equals(jjc)){

@@ -71,10 +71,10 @@ public class StringUtil {
 	 * 判断是不是数字
 	 */
 	public static boolean isNumeric(String str){
-		for (int i = str.length() ; --i>=0 ; ){ 
-			if (!Character.isDigit(str.charAt ( i ) ) ){
+		try{
+		Integer.parseInt(str);
+		}catch(NumberFormatException ne){
 			return false;
-			}
 		}
 		return true;
 	}									

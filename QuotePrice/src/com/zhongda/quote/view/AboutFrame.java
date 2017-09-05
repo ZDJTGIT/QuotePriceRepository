@@ -76,7 +76,7 @@ public class AboutFrame {
 		lblquoteprice.setBounds(10, 53, 139, 15);
 		panel.add(lblquoteprice);
 		
-		lblNewLabel = new JLabel("版本号：17.8.001");
+		lblNewLabel = new JLabel("版 本 号：v1.0");
 		lblNewLabel.setBounds(10, 87, 156, 15);
 		panel.add(lblNewLabel);
 		
@@ -97,15 +97,15 @@ public class AboutFrame {
 		lblNewLabel_1.setBounds(10, 185, 83, 15);
 		panel.add(lblNewLabel_1);
 		
-		label_2 = new JLabel("电话：18670053775");
-		label_2.setBounds(10, 210, 139, 15);
+		label_2 = new JLabel("电话：0731-88137366转8000");
+		label_2.setBounds(10, 210, 150, 15);
 		panel.add(label_2);
 		
-		lblNewLabel_2 = new JLabel("18616540312");
-		lblNewLabel_2.setBounds(47, 226, 102, 15);
+		lblNewLabel_2 = new JLabel("4008930909（转分机号）");
+		lblNewLabel_2.setBounds(44, 226, 150, 15);
 		panel.add(lblNewLabel_2);
 		
-		lblqqcom = new JLabel("邮箱：1011592269@qq.com");
+		lblqqcom = new JLabel("邮箱：zdjtxz@hnzdjt.com.cn");
 		lblqqcom.setBounds(10, 246, 207, 15);
 		panel.add(lblqqcom);
 		
