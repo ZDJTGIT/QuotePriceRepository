@@ -156,6 +156,13 @@ public class LoginFrame {
 
 		// 左面板键盘监听事件
 		jp_left.addKeyListener(new LoginFrameAction(frame, jp_password));
+		// 左右面版鼠标拖拽事件
+		LoginFrameAction loginFrameAction = new LoginFrameAction(frame,
+				"jp_right");
+		jp_right.addMouseMotionListener(loginFrameAction);
+		jp_right.addMouseListener(loginFrameAction);
+		jp_left.addMouseMotionListener(loginFrameAction);
+		jp_left.addMouseListener(loginFrameAction);
 
 		// 生成该窗口时启动任务线程加载数据库配置文件
 		new SwingWorker<String, Void>() {
@@ -166,8 +173,7 @@ public class LoginFrame {
 				MyBatisUtil.getSqlSession();
 				long end = new Date().getTime();
 				System.out.println("加载数据库配置文件结束");
-				System.out.println("此次加载数据库配置文件耗时：" + (end - start)
-						+ "ms");
+				System.out.println("此次加载数据库配置文件耗时：" + (end - start) + "ms");
 				return null;
 			}
 

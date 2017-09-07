@@ -1,15 +1,19 @@
 package com.zhongda.quote.action;
 
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
+import javax.swing.event.MouseInputListener;
 
 import com.zhongda.quote.view.HomeFrame;
 import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
@@ -24,13 +28,14 @@ import com.zhongda.quote.view.uiutils.JPasswordFieldUser;
  * @sine 2017年8月7日
  */
 public class LoginFrameAction implements ActionListener, FocusListener,
-		KeyListener {
+		KeyListener, MouseInputListener {
 
 	private String name;
 	private JPasswordFieldUser passwordFieldUser;
 	private String compoName;
 	private String passwordCommand;
 	private JFrame jFrame;
+	private Point origin;
 
 	public LoginFrameAction() {
 	}
@@ -42,6 +47,12 @@ public class LoginFrameAction implements ActionListener, FocusListener,
 	 */
 	public LoginFrameAction(JFrame frame) {
 		this.jFrame = frame;
+	}
+
+	public LoginFrameAction(JFrame frame, String name) {
+		this.jFrame = frame;
+		this.name = name;
+		origin = new Point();
 	}
 
 	public LoginFrameAction(JFrame frame, JPasswordFieldUser passwordFieldUser) {
@@ -143,4 +154,45 @@ public class LoginFrameAction implements ActionListener, FocusListener,
 		// // ***********为方便测试，机器码功能暂时注释
 
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+		origin.x = e.getX();
+		origin.y = e.getY();
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		jFrame.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		jFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		Point p = this.jFrame.getLocation();
+		this.jFrame.setLocation(p.x + (e.getX() - origin.x), p.y
+				+ (e.getY() - origin.y));
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

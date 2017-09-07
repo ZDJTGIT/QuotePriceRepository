@@ -68,7 +68,6 @@ public class HomeFrame {
 	private JMenu jm_t;
 	private JMenu jm_w;
 	private JMenu jm_help;
-	private JMenu jm_f_1;
 	private JMenuItem jm_f_2;
 	private JMenu jm_f_3;
 	private JMenuItem jm_f_4;
@@ -79,6 +78,7 @@ public class HomeFrame {
 	private JMenuItem jm_l_2;
 	private JToolBar jtb_tb;
 	private JButton jb_bt_1;
+	private JButton jb_bt_creatTask;
 	private JButton jb_bt_save;
 	private JTabbedPane tabbedPane;
 	private JSplitPane sp_left;
@@ -174,6 +174,7 @@ public class HomeFrame {
 	private JMenuItem mmi_help_about;
 
 	private JMenuItem jmi_quoteBasis;
+	private JMenuItem jmf_creatTask;
 
 	/**
 	 * Create the frame.
@@ -210,8 +211,8 @@ public class HomeFrame {
 		jm_f = new JMenu("文件(F) ");
 		jmb_tb.add(jm_f);
 
-		jm_f_1 = new JMenu("新建    Ctrl+N");
-		jm_f.add(jm_f_1);
+		jmf_creatTask = new JMenuItem("新建    Ctrl+N");
+		jm_f.add(jmf_creatTask);
 
 		jm_f_2 = new JMenuItem("保存    Ctrl+S");
 		jm_f.add(jm_f_2);
@@ -837,11 +838,11 @@ public class HomeFrame {
 		lblNewLabel_8 = new JLabel("  ");
 		jtb_tb.add(lblNewLabel_8);
 
-		jb_bt_1 = new JButton();
-		jb_bt_1.setIcon(new ImageIcon("images/creat.png"));
-		jb_bt_1.setToolTipText("新建  (Ctrl+N)");
-		jb_bt_1.setFocusPainted(false);// 去除按钮边线
-		jtb_tb.add(jb_bt_1);
+		jb_bt_creatTask = new JButton();
+		jb_bt_creatTask.setIcon(new ImageIcon("images/creat.png"));
+		jb_bt_creatTask.setToolTipText("新建  (Ctrl+N)");
+		jb_bt_creatTask.setFocusPainted(false);// 去除按钮边线
+		jtb_tb.add(jb_bt_creatTask);
 
 		jb_bt_save = new JButton();
 		jb_bt_save.setIcon(new ImageIcon("images/save.png"));
@@ -853,6 +854,12 @@ public class HomeFrame {
 		// 添加创建任务事件
 		bt_createTask.setActionCommand("createTask");
 		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
+		jb_bt_creatTask.setActionCommand("createTask");
+		jb_bt_creatTask.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
+		jmf_creatTask.setActionCommand("createTask");
+		jmf_creatTask.addActionListener(new HomeFrameAction(jt_quoteTask,
 				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加删除任务事件
 		bt_deleteTask.setActionCommand("deleteTask");
@@ -874,10 +881,10 @@ public class HomeFrame {
 		jbt_updateProject.setActionCommand("updateProject");
 		jbt_updateProject.addActionListener(new HomeFrameAction(jt_quoteTask,
 				jt_quoteProject, null, null));
-		//添加查询项目事件
+		// 添加查询项目事件
 		jbt_queryProject.setActionCommand("queryProject");
-		jbt_queryProject.addActionListener(new HomeFrameAction(jt_quoteTask, jt_quoteProject,
-				null, null, jtf_queryProjectName));
+		jbt_queryProject.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, null, null, jtf_queryProjectName));
 		// 添加删除项目事件
 		jbt_deleteProject.setActionCommand("deleteProject");
 		jbt_deleteProject.addActionListener(new HomeFrameAction(jt_quoteTask,
@@ -889,12 +896,12 @@ public class HomeFrame {
 				jt_inspectionContent));
 		// 添加修改检验批事件
 		jbt_updateInspectionBatch.setActionCommand("updateInspectionBatch");
-		jbt_updateInspectionBatch.addActionListener(new HomeFrameAction(
-				null, jt_quoteProject, jt_inspectionBatch, null));
-		//添加查询检验批事件
+		jbt_updateInspectionBatch.addActionListener(new HomeFrameAction(null,
+				jt_quoteProject, jt_inspectionBatch, null));
+		// 添加查询检验批事件
 		jbt_queryInspectionBatch.setActionCommand("queryBatch");
-		jbt_queryInspectionBatch.addActionListener(new HomeFrameAction(null, jt_quoteProject,
-				jt_inspectionBatch, null, jtf_queryBatchName));
+		jbt_queryInspectionBatch.addActionListener(new HomeFrameAction(null,
+				jt_quoteProject, jt_inspectionBatch, null, jtf_queryBatchName));
 		// 添加删除检验批事件
 		jbt_deleteInspectionBatch.setActionCommand("deleteInspectionBatch");
 		jbt_deleteInspectionBatch.addActionListener(new HomeFrameAction(
@@ -914,8 +921,10 @@ public class HomeFrame {
 				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		// 添加查询检验内容事件
 		jbt_queryContent.setActionCommand("queryContent");
-		jbt_queryContent.addActionListener(new HomeFrameAction(null, null,
-				jt_inspectionBatch, jt_inspectionContent, jtf_queryContentName));
+		jbt_queryContent
+				.addActionListener(new HomeFrameAction(null, null,
+						jt_inspectionBatch, jt_inspectionContent,
+						jtf_queryContentName));
 		// 添加查看详细检验内容事件
 		jbt_selectContent.setActionCommand("selectContent");
 		jbt_selectContent.addActionListener(new HomeFrameAction(null, null,
@@ -942,13 +951,13 @@ public class HomeFrame {
 				jt_inspectionBatch, jt_inspectionContent, "batch_jtabel"));
 		// 任务Jtable鼠标悬浮事件
 		jt_quoteTask.addMouseMotionListener(new HomeFrameAction(jt_quoteTask,
-				null, null, null,"task"));
+				null, null, null, "task"));
 		jt_quoteProject.addMouseMotionListener(new HomeFrameAction(null,
-				jt_quoteProject,null,null,"project"));
-		jt_inspectionBatch.addMouseMotionListener(new HomeFrameAction(null,null,
-				jt_inspectionBatch,null,"batch"));
-		jt_inspectionContent.addMouseMotionListener(new HomeFrameAction(null,null
-				,null,jt_inspectionContent,"content"));
+				jt_quoteProject, null, null, "project"));
+		jt_inspectionBatch.addMouseMotionListener(new HomeFrameAction(null,
+				null, jt_inspectionBatch, null, "batch"));
+		jt_inspectionContent.addMouseMotionListener(new HomeFrameAction(null,
+				null, null, jt_inspectionContent, "content"));
 
 		// 工具栏视图报价依据点击事件
 		jmi_quoteBasis.addActionListener(new HomeFrameAction(frame));
