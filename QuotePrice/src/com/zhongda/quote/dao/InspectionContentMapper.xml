@@ -3,8 +3,8 @@
 <mapper namespace="com.zhongda.quote.dao.InspectionContentMapper">
   <resultMap id="BaseResultMap" type="com.zhongda.quote.model.InspectionContent">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="source_id" jdbcType="INTEGER" property="sourceId" />
     <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
-    <result column="inspection_method_name" jdbcType="VARCHAR" property="inspectionMethodName" />
     <result column="sample_quantity" jdbcType="INTEGER" property="sampleQuantity" />
     <result column="sample_quantity_range" jdbcType="VARCHAR" property="sampleQuantityRange" />
     <result column="sample_basis_id" jdbcType="INTEGER" property="sampleBasisId" />
@@ -16,33 +16,92 @@
     <result column="quote_basis_id" jdbcType="INTEGER" property="quoteBasisId" />
     <result column="batch_id" jdbcType="INTEGER" property="batchId" />
     <result column="inspection_content_amount" jdbcType="FLOAT" property="inspectionContentAmount" />
+    <association property="quoteBasis" javaType="QuoteBasis">
+       	<id column="id" jdbcType="INTEGER" property="id" />
+	    <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
+	    <result column="industry_id" jdbcType="INTEGER" property="industryId" />
+	    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+	    <result column="basis_file_number" jdbcType="VARCHAR" property="basisFileNumber" />
+	    <result column="basis_file_name" jdbcType="VARCHAR" property="basisFileName" />
+	    <result column="basis_file_index" jdbcType="VARCHAR" property="basisFileIndex" />
+   	</association>
+   	<association property="sampleBasis" javaType="SampleBasis">
+       	<id column="id" jdbcType="INTEGER" property="id" />
+	    <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
+	    <result column="industry_id" jdbcType="INTEGER" property="industryId" />
+	    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+	    <result column="basis_file_number" jdbcType="VARCHAR" property="basisFileNumber" />
+	    <result column="basis_file_name" jdbcType="VARCHAR" property="basisFileName" />
+	    <result column="basis_file_index" jdbcType="VARCHAR" property="basisFileIndex" />
+   	</association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, inspection_content_name, inspection_method_name, sample_quantity, sample_quantity_range,
-    sample_basis_id, single_object_quantity, single_quantity_range, charge_unit, charge_standard,
-    charge_standard_unit, quote_basis_id, batch_id, inspection_content_amount
+    id, source_id, inspection_content_name, sample_quantity, sample_quantity_range, sample_basis_id, 
+    single_object_quantity, single_quantity_range, charge_unit, charge_standard, charge_standard_unit, 
+    quote_basis_id, batch_id, inspection_content_amount
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from InspectionContent
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectAllInspectionContent" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from InspectionContent
+  </select>
+  <select id="selectInspectionContentByMaxId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from InspectionContent
+    where id = (select max(id) from InspectionContent)
+  </select>
+  <select id="selectAllInspectionContentByBatchId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from InspectionContent
+    where batch_id = #{batchId,jdbcType=INTEGER}
+  </select>
+  <select id="selectInspectionContentByInspectionContentID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from InspectionContent
+    where id = #{InspectionContentID,jdbcType=INTEGER}
+  </select>
+  <select id="selectByBatchidAndContentName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from InspectionContent 
+    where inspection_content_name like '%${_parameter.param2}%'
+    and 
+    batch_id= ${_parameter.param1}
+  </select>
+  <select id="selectAllContentByBatchId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  select
+  ic.*,qb.*,sb.*
+  from InspectionContent ic,QuoteBasis qb,SampleBasis sb
+  where ic.quote_Basis_Id = qb.id and ic.sample_Basis_Id = sb.id and ic.batch_Id = #{batchId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteInspectionByID" parameterType="java.lang.Integer">
+    delete from InspectionContent
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from InspectionContent
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zhongda.quote.model.InspectionContent">
-    insert into InspectionContent (id, inspection_content_name, inspection_method_name,
-      sample_quantity, sample_quantity_range, sample_basis_id,
-      single_object_quantity, single_quantity_range,
-      charge_unit, charge_standard, charge_standard_unit,
+    insert into InspectionContent (id, source_id, inspection_content_name, 
+      sample_quantity, sample_quantity_range, sample_basis_id, 
+      single_object_quantity, single_quantity_range, 
+      charge_unit, charge_standard, charge_standard_unit, 
       quote_basis_id, batch_id, inspection_content_amount
       )
-    values (#{id,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR}, #{inspectionMethodName,jdbcType=VARCHAR},
-      #{sampleQuantity,jdbcType=INTEGER}, #{sampleQuantityRange,jdbcType=VARCHAR}, #{sampleBasisId,jdbcType=INTEGER},
-      #{singleObjectQuantity,jdbcType=INTEGER}, #{singleQuantityRange,jdbcType=VARCHAR},
-      #{chargeUnit,jdbcType=VARCHAR}, #{chargeStandard,jdbcType=INTEGER}, #{chargeStandardUnit,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{sourceId,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR}, 
+      #{sampleQuantity,jdbcType=INTEGER}, #{sampleQuantityRange,jdbcType=VARCHAR}, #{sampleBasisId,jdbcType=INTEGER}, 
+      #{singleObjectQuantity,jdbcType=INTEGER}, #{singleQuantityRange,jdbcType=VARCHAR}, 
+      #{chargeUnit,jdbcType=VARCHAR}, #{chargeStandard,jdbcType=INTEGER}, #{chargeStandardUnit,jdbcType=VARCHAR}, 
       #{quoteBasisId,jdbcType=INTEGER}, #{batchId,jdbcType=INTEGER}, #{inspectionContentAmount,jdbcType=FLOAT}
       )
   </insert>
@@ -52,11 +111,11 @@
       <if test="id != null">
         id,
       </if>
+      <if test="sourceId != null">
+        source_id,
+      </if>
       <if test="inspectionContentName != null">
         inspection_content_name,
-      </if>
-      <if test="inspectionMethodName != null">
-        inspection_method_name,
       </if>
       <if test="sampleQuantity != null">
         sample_quantity,
@@ -96,11 +155,11 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="sourceId != null">
+        #{sourceId,jdbcType=INTEGER},
+      </if>
       <if test="inspectionContentName != null">
         #{inspectionContentName,jdbcType=VARCHAR},
-      </if>
-      <if test="inspectionMethodName != null">
-        #{inspectionMethodName,jdbcType=VARCHAR},
       </if>
       <if test="sampleQuantity != null">
         #{sampleQuantity,jdbcType=INTEGER},
@@ -140,11 +199,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.quote.model.InspectionContent">
     update InspectionContent
     <set>
+      <if test="sourceId != null">
+        source_id = #{sourceId,jdbcType=INTEGER},
+      </if>
       <if test="inspectionContentName != null">
         inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
-      </if>
-      <if test="inspectionMethodName != null">
-        inspection_method_name = #{inspectionMethodName,jdbcType=VARCHAR},
       </if>
       <if test="sampleQuantity != null">
         sample_quantity = #{sampleQuantity,jdbcType=INTEGER},
@@ -184,8 +243,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zhongda.quote.model.InspectionContent">
     update InspectionContent
-    set inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
-      inspection_method_name = #{inspectionMethodName,jdbcType=VARCHAR},
+    set source_id = #{sourceId,jdbcType=INTEGER},
+      inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
       sample_quantity = #{sampleQuantity,jdbcType=INTEGER},
       sample_quantity_range = #{sampleQuantityRange,jdbcType=VARCHAR},
       sample_basis_id = #{sampleBasisId,jdbcType=INTEGER},
@@ -199,5 +258,4 @@
       inspection_content_amount = #{inspectionContentAmount,jdbcType=FLOAT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
 </mapper>

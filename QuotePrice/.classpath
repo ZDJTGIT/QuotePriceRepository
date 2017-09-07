@@ -5,6 +5,11 @@
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.11.2.jar"/>
 	<classpathentry kind="lib" path="lib/mybatis-3.2.2.jar"/>
 	<classpathentry kind="lib" path="lib/beautyeye_lnf.jar"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
+=======
+	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.5-FINAL-20090928.jar"/>
+>>>>>>> main_dev
 	<classpathentry kind="output" path="classes"/>
 </classpath>

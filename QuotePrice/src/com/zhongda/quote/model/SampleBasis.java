@@ -5,15 +5,15 @@ public class SampleBasis {
 
     private String inspectionContentName;
 
-    private String inspectionMethodName;
+    private Integer industryId;
+
+    private Integer addressId;
 
     private String basisFileNumber;
 
     private String basisFileName;
 
     private String basisFileIndex;
-
-    private String basisImage;
 
     public Integer getId() {
         return id;
@@ -31,12 +31,20 @@ public class SampleBasis {
         this.inspectionContentName = inspectionContentName == null ? null : inspectionContentName.trim();
     }
 
-    public String getInspectionMethodName() {
-        return inspectionMethodName;
+    public Integer getIndustryId() {
+        return industryId;
     }
 
-    public void setInspectionMethodName(String inspectionMethodName) {
-        this.inspectionMethodName = inspectionMethodName == null ? null : inspectionMethodName.trim();
+    public void setIndustryId(Integer industryId) {
+        this.industryId = industryId;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
     }
 
     public String getBasisFileNumber() {
@@ -61,13 +69,5 @@ public class SampleBasis {
 
     public void setBasisFileIndex(String basisFileIndex) {
         this.basisFileIndex = basisFileIndex == null ? null : basisFileIndex.trim();
-    }
-
-    public String getBasisImage() {
-        return basisImage;
-    }
-
-    public void setBasisImage(String basisImage) {
-        this.basisImage = basisImage == null ? null : basisImage.trim();
     }
 }

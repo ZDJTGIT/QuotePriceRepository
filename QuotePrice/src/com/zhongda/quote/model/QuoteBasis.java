@@ -5,7 +5,9 @@ public class QuoteBasis {
 
     private String inspectionContentName;
 
-    private String inspectionMethodName;
+    private Integer industryId;
+
+    private Integer addressId;
 
     private String basisFileNumber;
 
@@ -29,12 +31,20 @@ public class QuoteBasis {
         this.inspectionContentName = inspectionContentName == null ? null : inspectionContentName.trim();
     }
 
-    public String getInspectionMethodName() {
-        return inspectionMethodName;
+    public Integer getIndustryId() {
+        return industryId;
     }
 
-    public void setInspectionMethodName(String inspectionMethodName) {
-        this.inspectionMethodName = inspectionMethodName == null ? null : inspectionMethodName.trim();
+    public void setIndustryId(Integer industryId) {
+        this.industryId = industryId;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
     }
 
     public String getBasisFileNumber() {

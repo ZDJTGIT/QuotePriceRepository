@@ -15,7 +15,8 @@ import javax.swing.SwingWorker;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.zhongda.quote.action.LoginFrameAction;
-import com.zhongda.quote.utils.GetMachineUtil;
+import com.zhongda.quote.machine.impl.SequenceServiceImpl;
+//import com.zhongda.quote.machine.impl.SequenceServiceImpl;
 import com.zhongda.quote.utils.MyBatisUtil;
 import com.zhongda.quote.utils.SkinUtil;
 import com.zhongda.quote.view.uiutils.JPanelBackPhoto;
@@ -44,8 +45,7 @@ public class LoginFrame {
 	private JLabel jl_number;
 	private static String machineCode;
 	static {
-		// 机器码
-		machineCode = GetMachineUtil.getMachineLanguage();
+		machineCode = SequenceServiceImpl.getMachineCode();
 	}
 
 	/**
@@ -166,8 +166,8 @@ public class LoginFrame {
 				MyBatisUtil.getSqlSession();
 				long end = new Date().getTime();
 				System.out.println("加载数据库配置文件结束");
-				System.out.println("此次加载数据库配置文件耗时：" + (end - start) / 1000
-						+ "秒");
+				System.out.println("此次加载数据库配置文件耗时：" + (end - start)
+						+ "ms");
 				return null;
 			}
 

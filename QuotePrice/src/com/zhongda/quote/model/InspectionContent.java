@@ -1,11 +1,11 @@
 package com.zhongda.quote.model;
 
 public class InspectionContent {
-    private Integer id;
+	private Integer id;
+
+	private Integer sourceId;
 
 	private String inspectionContentName;
-
-	private String inspectionMethodName;
 
 	private Integer sampleQuantity;
 
@@ -29,12 +29,56 @@ public class InspectionContent {
 
 	private Double inspectionContentAmount;
 
+	private QuoteBasis quoteBasis;
+
+	private SampleBasis sampleBasis;
+
+	public InspectionContent() {
+
+	}
+
+	public InspectionContent(Integer sourceId, String inspectionContentName,
+			Integer sampleQuantity, String sampleQuantityRange,
+			Integer sampleBasisId, Integer singleObjectQuantity,
+			String singleQuantityRange, String chargeUnit,
+			Integer chargeStandard, String chargeStandardUnit,
+			Integer quoteBasisId, Double inspectionContentAmount) {
+		this.sourceId = sourceId;
+		this.inspectionContentName = inspectionContentName;
+		this.sampleQuantity = sampleQuantity;
+		this.sampleQuantityRange = sampleQuantityRange;
+		this.sampleBasisId = sampleBasisId;
+		this.singleObjectQuantity = singleObjectQuantity;
+		this.singleQuantityRange = singleQuantityRange;
+		this.chargeUnit = chargeUnit;
+		this.chargeStandard = chargeStandard;
+		this.chargeStandardUnit = chargeStandardUnit;
+		this.quoteBasisId = quoteBasisId;
+		this.inspectionContentAmount = inspectionContentAmount;
+	}
+
+	public InspectionContent(Integer contentId, Integer samplesQuantityInt,
+			Integer singleObjectQuantityInt, Double contentAmount) {
+		this.id = contentId;
+		this.sampleQuantity = samplesQuantityInt;
+		this.singleObjectQuantity = singleObjectQuantityInt;
+		this.inspectionContentAmount = contentAmount;
+	}
+
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Integer getSourceId() {
+		return sourceId;
+	}
+
+	public void setSourceId(Integer sourceId) {
+		this.sourceId = sourceId;
 	}
 
 	public String getInspectionContentName() {
@@ -44,15 +88,6 @@ public class InspectionContent {
 	public void setInspectionContentName(String inspectionContentName) {
 		this.inspectionContentName = inspectionContentName == null ? null
 				: inspectionContentName.trim();
-	}
-
-	public String getInspectionMethodName() {
-		return inspectionMethodName;
-	}
-
-	public void setInspectionMethodName(String inspectionMethodName) {
-		this.inspectionMethodName = inspectionMethodName == null ? null
-				: inspectionMethodName.trim();
 	}
 
 	public Integer getSampleQuantity() {
@@ -146,4 +181,19 @@ public class InspectionContent {
 		this.inspectionContentAmount = inspectionContentAmount;
 	}
 
+	public QuoteBasis getQuoteBasis() {
+		return quoteBasis;
+	}
+
+	public void setQuoteBasis(QuoteBasis quoteBasis) {
+		this.quoteBasis = quoteBasis;
+	}
+
+	public SampleBasis getSampleBasis() {
+		return sampleBasis;
+	}
+
+	public void setSampleBasis(SampleBasis sampleBasis) {
+		this.sampleBasis = sampleBasis;
+	}
 }

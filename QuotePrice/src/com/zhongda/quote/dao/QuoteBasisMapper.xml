@@ -4,13 +4,14 @@
   <resultMap id="BaseResultMap" type="com.zhongda.quote.model.QuoteBasis">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="inspection_content_name" jdbcType="VARCHAR" property="inspectionContentName" />
-    <result column="inspection_method_name" jdbcType="VARCHAR" property="inspectionMethodName" />
+    <result column="industry_id" jdbcType="INTEGER" property="industryId" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
     <result column="basis_file_number" jdbcType="VARCHAR" property="basisFileNumber" />
     <result column="basis_file_name" jdbcType="VARCHAR" property="basisFileName" />
     <result column="basis_file_index" jdbcType="VARCHAR" property="basisFileIndex" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, inspection_content_name, inspection_method_name, basis_file_number, basis_file_name, 
+    id, inspection_content_name, industry_id, address_id, basis_file_number, basis_file_name, 
     basis_file_index
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -19,17 +20,24 @@
     from QuoteBasis
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="SelectQuoteBasisByInspectionContentID" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from QuoteBasis where id = 
+    (select quote_basis_id from inspectionContent 
+    where id = #{InspectionContentID,jdbcType=INTEGER})
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from QuoteBasis
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zhongda.quote.model.QuoteBasis">
-    insert into QuoteBasis (id, inspection_content_name, inspection_method_name, 
-      basis_file_number, basis_file_name, basis_file_index
-      )
-    values (#{id,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR}, #{inspectionMethodName,jdbcType=VARCHAR}, 
-      #{basisFileNumber,jdbcType=VARCHAR}, #{basisFileName,jdbcType=VARCHAR}, #{basisFileIndex,jdbcType=VARCHAR}
-      )
+    insert into QuoteBasis (id, inspection_content_name, industry_id, 
+      address_id, basis_file_number, basis_file_name, 
+      basis_file_index)
+    values (#{id,jdbcType=INTEGER}, #{inspectionContentName,jdbcType=VARCHAR}, #{industryId,jdbcType=INTEGER}, 
+      #{addressId,jdbcType=INTEGER}, #{basisFileNumber,jdbcType=VARCHAR}, #{basisFileName,jdbcType=VARCHAR}, 
+      #{basisFileIndex,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zhongda.quote.model.QuoteBasis">
     insert into QuoteBasis
@@ -40,8 +48,11 @@
       <if test="inspectionContentName != null">
         inspection_content_name,
       </if>
-      <if test="inspectionMethodName != null">
-        inspection_method_name,
+      <if test="industryId != null">
+        industry_id,
+      </if>
+      <if test="addressId != null">
+        address_id,
       </if>
       <if test="basisFileNumber != null">
         basis_file_number,
@@ -60,8 +71,11 @@
       <if test="inspectionContentName != null">
         #{inspectionContentName,jdbcType=VARCHAR},
       </if>
-      <if test="inspectionMethodName != null">
-        #{inspectionMethodName,jdbcType=VARCHAR},
+      <if test="industryId != null">
+        #{industryId,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null">
+        #{addressId,jdbcType=INTEGER},
       </if>
       <if test="basisFileNumber != null">
         #{basisFileNumber,jdbcType=VARCHAR},
@@ -80,8 +94,11 @@
       <if test="inspectionContentName != null">
         inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
       </if>
-      <if test="inspectionMethodName != null">
-        inspection_method_name = #{inspectionMethodName,jdbcType=VARCHAR},
+      <if test="industryId != null">
+        industry_id = #{industryId,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null">
+        address_id = #{addressId,jdbcType=INTEGER},
       </if>
       <if test="basisFileNumber != null">
         basis_file_number = #{basisFileNumber,jdbcType=VARCHAR},
@@ -98,7 +115,8 @@
   <update id="updateByPrimaryKey" parameterType="com.zhongda.quote.model.QuoteBasis">
     update QuoteBasis
     set inspection_content_name = #{inspectionContentName,jdbcType=VARCHAR},
-      inspection_method_name = #{inspectionMethodName,jdbcType=VARCHAR},
+      industry_id = #{industryId,jdbcType=INTEGER},
+      address_id = #{addressId,jdbcType=INTEGER},
       basis_file_number = #{basisFileNumber,jdbcType=VARCHAR},
       basis_file_name = #{basisFileName,jdbcType=VARCHAR},
       basis_file_index = #{basisFileIndex,jdbcType=VARCHAR}

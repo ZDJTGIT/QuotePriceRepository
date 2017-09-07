@@ -12,7 +12,10 @@ import com.zhongda.quote.utils.MyBatisUtil;
 import com.zhongda.quote.utils.PrimaryGeneraterUtil;
 
 /**
- *<p>报价任务service类</p>
+ * <p>
+ * 报价任务service类
+ * </p>
+ *
  * @author zmdeng
  * @date 2017年8月10日
  */
@@ -21,35 +24,36 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 	private static Logger logger = Logger.getLogger(QuoteTaskServiceImpl.class);
 
 	private SqlSession sqlSession = MyBatisUtil.getSqlSession();
-	private QuoteTaskMapper quoteTaskMapper = sqlSession.getMapper(QuoteTaskMapper.class);
+	private QuoteTaskMapper quoteTaskMapper = sqlSession
+			.getMapper(QuoteTaskMapper.class);
 
 	@Override
 	public QuoteTask createQuoteTask(QuoteTask quoteTask) {
-		//流水号工具类
+		// 流水号工具类
 		PrimaryGeneraterUtil primaryGeneraterUtil = null;
 		String nextNumber = null;
 		int index = 0;
 		try {
 			primaryGeneraterUtil = PrimaryGeneraterUtil.getInstance();
-			//获得下一个流水号
+			// 获得下一个流水号
 			nextNumber = primaryGeneraterUtil.getNextNumber();
 			quoteTask.setTaskNumber(nextNumber);
-			//插入数据库的操作
+			// 插入数据库的操作
 			index = quoteTaskMapper.insertSelective(quoteTask);
 			sqlSession.commit();
-			//插入数据成功
-			if(index>0){
-				//保存流水号
+			// 插入数据成功
+			if (index > 0) {
+				// 保存流水号
 				primaryGeneraterUtil.saveNextNumber(nextNumber);
-				//再查出该条数据
+				// 再查出该条数据
 				quoteTask = quoteTaskMapper.selectByNumber(nextNumber);
-			}else{
+			} else {
 				quoteTask = null;
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			sqlSession.rollback();
-		}finally{
+		} finally {
 			MyBatisUtil.closeSqlSession();
 		}
 		return quoteTask;
@@ -64,43 +68,50 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			sqlSession.rollback();
-		}finally{
+		} finally {
 			MyBatisUtil.closeSqlSession();
 		}
-		if(index<1){
+		if (index < 1) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 	}
 
 	@Override
-	public boolean updateQuoteTask(QuoteTask quoteTask) {
+	public QuoteTask updateQuoteTask(QuoteTask quoteTask) {
 		int index = 0;
 		try {
 			index = quoteTaskMapper.updateByPrimaryKeySelective(quoteTask);
+			if (index > 0) {
+				// 再查出该条数据
+				quoteTask = quoteTaskMapper.selectByPrimaryKey(quoteTask
+						.getId());
+			} else {
+				quoteTask = null;
+			}
 			sqlSession.commit();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			sqlSession.rollback();
-		}finally{
+		} finally {
 			MyBatisUtil.closeSqlSession();
 		}
-		if(index<1){
-			return false;
-		}else{
-			return true;
-		}
+		return quoteTask;
 	}
 
 	@Override
 	public List<QuoteTask> queryQuoteTaskByName(String taskName) {
 		List<QuoteTask> taskList = null;
-		try{
-			taskList = quoteTaskMapper.selectByName(taskName);
-		}catch(Exception e){
+		try {
+			if("".equals(taskName)){
+				taskList = quoteTaskMapper.selectAll();
+			}else{
+				taskList = quoteTaskMapper.selectByName(taskName);
+			}
+		} catch (Exception e) {
 			logger.error(e.getMessage());
-		}finally{
+		} finally {
 			MyBatisUtil.closeSqlSession();
 		}
 		return taskList;
@@ -109,11 +120,11 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 	@Override
 	public List<QuoteTask> queryAllQuoteTask() {
 		List<QuoteTask> taskList = null;
-		try{
+		try {
 			taskList = quoteTaskMapper.selectAll();
-		}catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.getMessage());
-		}finally{
+		} finally {
 			MyBatisUtil.closeSqlSession();
 		}
 		return taskList;
@@ -122,13 +133,14 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 	@Override
 	public QuoteTask queryQuoteTaskByNumber(String taskNumber) {
 		QuoteTask quoteTask = null;
-		try{
+		try {
 			quoteTask = quoteTaskMapper.selectByNumber(taskNumber);
-		}catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.getMessage());
-		}finally{
+		} finally {
 			MyBatisUtil.closeSqlSession();
 		}
 		return quoteTask;
 	}
+
 }

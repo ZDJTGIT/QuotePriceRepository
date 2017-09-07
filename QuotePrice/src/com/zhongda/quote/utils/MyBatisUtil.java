@@ -20,7 +20,6 @@ public class MyBatisUtil {
 		 String resource = "mybatis-config.xml";
 	     InputStream is = MyBatisUtil.class.getClassLoader().getResourceAsStream(resource);
 	     factory = new SqlSessionFactoryBuilder().build(is);
-
 	}
 
     /**

@@ -11,7 +11,8 @@ import com.zhongda.quote.utils.MyBatisUtil;
 
 public class IndustryServiceImpl implements IndustryService {
 
-	private static Logger logger = Logger.getLogger(IndustryServiceImpl.class);
+	private static Logger logger = Logger.
+			getLogger(IndustryServiceImpl.class);
 
 	private IndustryMapper industryMapper = MyBatisUtil.getSqlSession().getMapper(IndustryMapper.class);
 
@@ -27,6 +28,20 @@ public class IndustryServiceImpl implements IndustryService {
 		}
 		return industryList;
 
+	}
+
+	@Override
+	public Industry selectIndustryByInspectionID(Integer InspectionID) {
+		Industry industry = null;
+		try {
+			industry = industryMapper
+					.selectIndustryByInspectionID(InspectionID);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		} finally {
+			MyBatisUtil.closeSqlSession();
+		}
+		return industry;
 	}
 
 }

@@ -8,6 +8,7 @@ public interface QuoteTaskService {
 
 	/**
 	 * 创建一个报价任务
+	 * 
 	 * @param quoteTask
 	 * @return 返回当前插入报价任务，可通过返回的任务是否为null来判断创建是否成功
 	 */
@@ -15,6 +16,7 @@ public interface QuoteTaskService {
 
 	/**
 	 * 删除一个报价任务根据任务id
+	 * 
 	 * @param id
 	 * @return 返回成功或失败的提示信息
 	 */
@@ -22,13 +24,15 @@ public interface QuoteTaskService {
 
 	/**
 	 * 修改一个报价任务
+	 * 
 	 * @param quoteTask
 	 * @return 返回成功或失败的提示信息
 	 */
-	boolean updateQuoteTask(QuoteTask quoteTask);
+	QuoteTask updateQuoteTask(QuoteTask quoteTask);
 
 	/**
 	 * 查询报价任务根据任务名称
+	 * 
 	 * @param taskName
 	 * @return
 	 */
@@ -36,14 +40,17 @@ public interface QuoteTaskService {
 
 	/**
 	 * 查询所有报价任务
+	 * 
 	 * @return
 	 */
 	List<QuoteTask> queryAllQuoteTask();
 
 	/**
-	 *  查询报价任务根据任务编号
+	 * 查询报价任务根据任务编号
+	 * 
 	 * @param taskNumber
 	 * @return
 	 */
 	QuoteTask queryQuoteTaskByNumber(String taskNumber);
+
 }

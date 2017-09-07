@@ -5,7 +5,14 @@ public class Industry {
 
     private String industryName;
 
-    public Integer getId() {
+    public Industry() {
+	}
+
+    public Industry(Integer industryId) {
+    	this.id = industryId;
+	}
+
+	public Integer getId() {
         return id;
     }
 

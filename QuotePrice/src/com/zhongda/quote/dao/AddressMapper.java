@@ -1,17 +1,35 @@
 package com.zhongda.quote.dao;
 
+import java.util.List;
+
 import com.zhongda.quote.model.Address;
 
 public interface AddressMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Address record);
-
-    int insertSelective(Address record);
-
+	/**
+	 * 根据id查询对应的地址
+	 * @param id
+	 * @return
+	 */
     Address selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Address record);
+    /**
+	 * 查询所有的省
+	 * @return
+	 */
+	List<Address> selectAllProvince();
 
-    int updateByPrimaryKey(Address record);
+	/**
+	 * 通过省(市)的id查询出在该省(市)下面所有的市(区或县)
+	 * @param id 省(市)的id
+	 * @return
+	 */
+	List<Address> selectAllCityOrCountyByParent(Integer id);
+	/**
+	 * 传入检验内容ID查所在地址
+	 * @param InspectionID
+	 * @return
+	 */
+	Address selectAddressByInspectionID(Integer InspectionID);
+
 }

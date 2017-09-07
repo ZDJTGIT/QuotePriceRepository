@@ -1,5 +1,7 @@
 package com.zhongda.quote.model;
 
+import java.util.List;
+
 public class QuoteTask {
 	private Integer id;
 
@@ -9,8 +11,6 @@ public class QuoteTask {
 
 	private String taskDescription;
 
-	private Integer industryId;
-
 	private String createUser;
 
 	private String createDate;
@@ -19,19 +19,23 @@ public class QuoteTask {
 
 	private Double taskAmount;
 
-	private Industry industry;
+	private List<QuoteProject> projectList;
 
 	public QuoteTask() {
 	}
 
-	public QuoteTask(String taskName, String taskDescription, Integer industryId,
+	public QuoteTask(String taskName, String taskDescription,
 			String createUser, String createDate, String lastUpdateDate) {
 		this.taskName = taskName;
 		this.taskDescription = taskDescription;
-		this.industryId = industryId;
 		this.createUser = createUser;
 		this.createDate = createDate;
 		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public QuoteTask(Integer taskId, double taskAmount) {
+		this.id = taskId;
+		this.taskAmount = taskAmount;
 	}
 
 	public Integer getId() {
@@ -100,19 +104,12 @@ public class QuoteTask {
 		this.taskAmount = taskAmount;
 	}
 
-	public Integer getIndustryId() {
-		return industryId;
+	public List<QuoteProject> getProjectList() {
+		return projectList;
 	}
 
-	public void setIndustryId(Integer industryId) {
-		this.industryId = industryId;
+	public void setProjectList(List<QuoteProject> projectList) {
+		this.projectList = projectList;
 	}
 
-	public void setIndustry(Industry industry) {
-		this.industry = industry;
-	}
-
-	public Industry getIndustry() {
-		return industry;
-	}
 }

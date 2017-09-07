@@ -14,4 +14,12 @@ public interface QuoteBasisMapper {
     int updateByPrimaryKeySelective(QuoteBasis record);
 
     int updateByPrimaryKey(QuoteBasis record);
+    
+    /**
+	 * 传当前选中检验内容ID查报价依据
+	 * @param InspectionContentID
+	 * @return 报价依据
+	 */
+	QuoteBasis SelectQuoteBasisByInspectionContentID(
+			Integer InspectionContentID);
 }

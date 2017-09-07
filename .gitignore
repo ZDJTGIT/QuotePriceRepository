@@ -10,3 +10,15 @@ classes/
 
 .settings/
 /.settings
+test/Test*.java
+/test
+data/
+/data
+.db
+log/
+/log
+.log
+config.properties
+generatorConfig.properties
+generatorConfig.xml
+
