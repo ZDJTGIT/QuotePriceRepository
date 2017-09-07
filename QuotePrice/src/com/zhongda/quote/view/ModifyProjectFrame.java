@@ -199,7 +199,7 @@ public class ModifyProjectFrame {
 
 	}
 
-	private void displayAddress(int addressId) {
+	private void displayAddress(final int addressId) {
 		new SwingWorker<String, Void>(){
 			@Override
 			protected String doInBackground() throws Exception {

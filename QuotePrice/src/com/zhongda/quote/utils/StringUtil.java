@@ -1,7 +1,11 @@
 package com.zhongda.quote.utils;
+
 /**
  *
- * <p>字符串处理。</p>
+ * <p>
+ * 字符串处理。
+ * </p>
+ * 
  * @author rojay<1250368725@qq.com>
  * @since 2017年8月12日
  */
@@ -29,33 +33,36 @@ public class StringUtil {
 		}
 		return stringBuilder.toString();
 	}
-	/*
+
+	/**
 	 * 字符串转数字
 	 */
-	public static Integer stringToInteger(String string){
+	public static Integer stringToInteger(String string) {
 		return Integer.parseInt(string);
 	}
 
 	/**
 	 * 将字符串以“-”分割，在转换成整数型
+	 * 
 	 * @param range
 	 * @return 整形数组
 	 */
-	public static int[] rangeToMinMax(String range){
+	public static int[] rangeToMinMax(String range) {
 		String[] string = range.split("-");
-		int[] array = new int[]{Integer.parseInt(string[0]), Integer.parseInt(string[1])};
+		int[] array = new int[] { Integer.parseInt(string[0]), Integer.parseInt(string[1]) };
 		return array;
 	}
 
 	/*
 	 * 判断是不是数字
 	 */
-	public static boolean isNumeric(String str){
-		try{
+	public static boolean isNumeric(String str) {
+		try {
 			Integer.parseInt(str);
-		}catch(NumberFormatException ne){
+		} catch (NumberFormatException ne) {
 			return false;
 		}
 		return true;
 	}
+
 }

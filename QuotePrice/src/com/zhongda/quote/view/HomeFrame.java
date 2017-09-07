@@ -217,13 +217,13 @@ public class HomeFrame {
 		jm_f_2 = new JMenuItem("保存    Ctrl+S");
 		jm_f.add(jm_f_2);
 
-		jm_f_3 = new JMenu("检");
+		jm_f_3 = new JMenu("功能一");
 		jm_f.add(jm_f_3);
 
-		jm_f_4 = new JMenuItem("测");
+		jm_f_4 = new JMenuItem("功能二");
 		jm_f.add(jm_f_4);
 
-		jm_f_5 = new JMenuItem("研");
+		jm_f_5 = new JMenuItem("功能三");
 		jm_f.add(jm_f_5);
 
 		// 工具栏编辑及其子组件
@@ -254,7 +254,7 @@ public class HomeFrame {
 		jm_view = new JMenu("视图(V) ");
 		jmb_tb.add(jm_view);
 
-		jmi_quoteBasis = new JMenuItem("报价依据", new ImageIcon(
+		jmi_quoteBasis = new JMenuItem("文献资料", new ImageIcon(
 				"images/quotebasis.png"));
 		jmi_quoteBasis.setActionCommand("jmi_quoteBasis");
 		jm_view.add(jmi_quoteBasis);
@@ -278,6 +278,7 @@ public class HomeFrame {
 		jm_help.add(mmi_help_semple);
 
 		mmi_help_registered = new JMenuItem("产品注册功能");
+		mmi_help_registered.setActionCommand("productRegistered");
 		jm_help.add(mmi_help_registered);
 
 		mmi_help_home = new JMenuItem("公司主页");
@@ -585,7 +586,7 @@ public class HomeFrame {
 		// 建设任务工具栏
 		bt_createTask = new JButton();
 		bt_createTask.setIcon(new ImageIcon("images/creat_1.png"));
-		bt_createTask.setToolTipText("新建建设任务");
+		bt_createTask.setToolTipText("新建报价任务");
 		bt_createTask.setFocusPainted(false);// 去除按钮边线
 		jtb_jsrw.add(bt_createTask);
 
@@ -935,6 +936,9 @@ public class HomeFrame {
 		// 添加查看关于事件
 		mmi_help_about.setActionCommand("About");
 		mmi_help_about.addActionListener(new HomeFrameAction());
+		//添加关于注册
+		mmi_help_registered.setActionCommand("registeredProduct");
+		mmi_help_registered.addActionListener(new HomeFrameAction());
 		/**
 		 * 鼠标点击事件
 		 */

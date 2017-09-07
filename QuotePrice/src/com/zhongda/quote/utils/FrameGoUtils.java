@@ -75,7 +75,7 @@ public class FrameGoUtils {
 	 * @param jt_quoteTask
 	 * @param jt_quoteProject
 	 */
-	public static void modifyProject(JTable jt_quoteTask, JTable jt_quoteProject) {
+	public static void modifyProject(final JTable jt_quoteTask, final JTable jt_quoteProject) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -135,7 +135,7 @@ public class FrameGoUtils {
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
 	 */
-	public static void modifyBatch(JTable jt_quoteProject, JTable jt_inspectionBatch) {
+	public static void modifyBatch(final JTable jt_quoteProject, final JTable jt_inspectionBatch) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

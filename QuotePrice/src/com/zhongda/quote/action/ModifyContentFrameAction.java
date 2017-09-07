@@ -77,19 +77,19 @@ public class ModifyContentFrameAction implements ActionListener {
 						double contentAmount = samplesQuantityInt * singleObjectQuantityInt * chargeStandard;
 						final InspectionContent inspectionContent = new InspectionContent(contentId, samplesQuantityInt, singleObjectQuantityInt, contentAmount);
 						//计算检验批金额
-						int batchRow = jt_inspectionBatch.getSelectedRow();
+						final int batchRow = jt_inspectionBatch.getSelectedRow();
 						int batchId = (int) jt_inspectionBatch.getValueAt(batchRow, 0);
-						double batchAmount = (double) jt_inspectionBatch.getValueAt(batchRow, 2) - oldContentAmount + contentAmount;
+						final double batchAmount = (double) jt_inspectionBatch.getValueAt(batchRow, 2) - oldContentAmount + contentAmount;
 						final InspectionBatch inspectionBatch = new InspectionBatch(batchId, batchAmount);
 						//计算报价项目金额
-						int projectRow = jt_quoteProject.getSelectedRow();
+						final int projectRow = jt_quoteProject.getSelectedRow();
 						int projectId = (int) jt_quoteProject.getValueAt(projectRow, 0);
-						double projectAmount = (double) jt_quoteProject.getValueAt(projectRow, 5) - oldContentAmount + contentAmount;
+						final double projectAmount = (double) jt_quoteProject.getValueAt(projectRow, 5) - oldContentAmount + contentAmount;
 						final QuoteProject quoteProject = new QuoteProject(projectId, projectAmount);
 						//计算报价任务金额
-						int taskRow = jt_quoteTask.getSelectedRow();
+						final int taskRow = jt_quoteTask.getSelectedRow();
 						int taskId = (int) jt_quoteTask.getValueAt(taskRow, 0);
-						double taskAmount = (double) jt_quoteTask.getValueAt(taskRow, 7) - oldContentAmount + contentAmount;
+						final double taskAmount = (double) jt_quoteTask.getValueAt(taskRow, 7) - oldContentAmount + contentAmount;
 						final QuoteTask quoteTask = new QuoteTask(taskId, taskAmount);
 
 						new SwingWorker<InspectionContent, Void>() {

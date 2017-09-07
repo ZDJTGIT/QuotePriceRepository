@@ -157,6 +157,9 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		} else if ("bt_exportTask".equals(command)) {
 			exportTask();
 
+		}else if("registeredProduct".equals(command)){
+			JOptionPane.showMessageDialog(null, "请联系软件版权方提供解码值！", "提示信息",
+					JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
@@ -262,7 +265,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jt_quoteProject
 	 * @param jtf_queryName
 	 */
-	private void queryProject(JTable jt_quoteTask, JTable jt_quoteProject,
+	private void queryProject(JTable jt_quoteTask, final JTable jt_quoteProject,
 			JTextField jtf_queryName) {
 		int taskRow = jt_quoteTask.getSelectedRow();
 		final int taskId = (int) jt_quoteTask.getValueAt(taskRow, 0);
@@ -297,7 +300,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jtf_queryName
 	 */
 	private void queryBatch(JTable jt_quoteProject,
-			JTable jt_inspectionBatch, JTextField jtf_queryName) {
+			final JTable jt_inspectionBatch, JTextField jtf_queryName) {
 		int projectRow = jt_quoteProject.getSelectedRow();
 		final int projectId = (int) jt_quoteProject.getValueAt(projectRow, 0);
 		final String batchName = jtf_queryName.getText();
@@ -331,7 +334,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 	 * @param jtf_queryName
 	 */
 	private void queryContent(JTable jt_inspectionBatch,
-			JTable jt_inspectionContent, JTextField jtf_queryName) {
+			final JTable jt_inspectionContent, JTextField jtf_queryName) {
 		int batchRow = jt_inspectionBatch.getSelectedRow();
 		final int batchId = (int) jt_inspectionBatch.getValueAt(batchRow, 0);
 		final String contentName = jtf_queryName.getText();
