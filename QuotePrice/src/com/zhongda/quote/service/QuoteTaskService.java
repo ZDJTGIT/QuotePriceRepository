@@ -52,5 +52,4 @@ public interface QuoteTaskService {
 	 * @return
 	 */
 	QuoteTask queryQuoteTaskByNumber(String taskNumber);
-
 }

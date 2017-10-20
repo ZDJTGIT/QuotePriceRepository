@@ -29,22 +29,18 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 
 	@Override
 	public QuoteTask createQuoteTask(QuoteTask quoteTask) {
-		// 流水号工具类
-		PrimaryGeneraterUtil primaryGeneraterUtil = null;
-		String nextNumber = null;
 		int index = 0;
 		try {
-			primaryGeneraterUtil = PrimaryGeneraterUtil.getInstance();
+			// 获得上一个流水号
+			String primaryNumber = quoteTaskMapper.selectMaxTaskNumber();
 			// 获得下一个流水号
-			nextNumber = primaryGeneraterUtil.getNextNumber();
+			String nextNumber = PrimaryGeneraterUtil.getNextNumber(primaryNumber);
 			quoteTask.setTaskNumber(nextNumber);
 			// 插入数据库的操作
 			index = quoteTaskMapper.insertSelective(quoteTask);
 			sqlSession.commit();
 			// 插入数据成功
 			if (index > 0) {
-				// 保存流水号
-				primaryGeneraterUtil.saveNextNumber(nextNumber);
 				// 再查出该条数据
 				quoteTask = quoteTaskMapper.selectByNumber(nextNumber);
 			} else {
@@ -142,5 +138,4 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 		}
 		return quoteTask;
 	}
-
 }

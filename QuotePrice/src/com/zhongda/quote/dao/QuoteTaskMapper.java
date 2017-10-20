@@ -58,5 +58,12 @@ public interface QuoteTaskMapper {
 	 * @return
 	 */
 	QuoteTask selectByNumber(String taskNumber);
+	
+	/**
+	 * 查询id最大一行项目数据
+	 *
+	 * @return
+	 */
+	String selectMaxTaskNumber();
 
 }
