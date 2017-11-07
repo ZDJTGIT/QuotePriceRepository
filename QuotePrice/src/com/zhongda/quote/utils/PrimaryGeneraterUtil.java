@@ -21,7 +21,7 @@ public class PrimaryGeneraterUtil {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         
        if (null == primaryNumber || "".equals(primaryNumber)) {
-           id = formatter.format(date) + "0001";
+           id = "ZD" + formatter.format(date) + "0001";
        } else {
            DecimalFormat df = new DecimalFormat("0000");
            id = "ZD" + formatter.format(date)

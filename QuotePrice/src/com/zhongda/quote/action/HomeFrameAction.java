@@ -9,9 +9,13 @@ import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -30,6 +34,7 @@ import com.zhongda.quote.utils.ConstantUtils;
 import com.zhongda.quote.utils.FrameGoUtils;
 import com.zhongda.quote.utils.QuoteBasisPhotoUtils;
 import com.zhongda.quote.utils.RenderDataUtils;
+import com.zhongda.quote.view.uiutils.PromptBoxUtil;
 
 /**
  *
@@ -641,7 +646,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		// 获取Table中被选中的行序号
 		final int row = jt_quoteTask.getSelectedRow();
 		if (row < 0) {
-			JOptionPane.showMessageDialog(null, "没有选中需要删除的报价任务,请选中后再进行删除操作！",
+			JOptionPane.showMessageDialog(null, "请选中您要删除的任务！",
 					"提示信息", JOptionPane.WARNING_MESSAGE);
 		} else {
 			int flag = JOptionPane.showConfirmDialog(null,
@@ -659,11 +664,9 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					protected void done() {
 						try {
 							boolean flag = get();
-							if (flag) {
-								JOptionPane.showMessageDialog(null,
-										"报价任务删除成功！", "提示信息",
-										JOptionPane.PLAIN_MESSAGE);
-
+							if (flag) {		
+								//提示框
+								PromptBoxUtil.getPromptBox("温馨提示","删除成功！");	
 								DefaultTableModel model = (DefaultTableModel) jt_quoteTask
 										.getModel();
 								model.removeRow(row);
@@ -675,10 +678,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 										jt_inspectionBatch,
 										jt_inspectionContent);
 							} else {
-								JOptionPane.showMessageDialog(null,
-										"报价任务删除失败！", "提示信息",
-										JOptionPane.ERROR_MESSAGE);
-							}
+								PromptBoxUtil.getPromptBox("温馨提示","删除失败！");								}
 						} catch (InterruptedException | ExecutionException e) {
 							e.printStackTrace();
 						}

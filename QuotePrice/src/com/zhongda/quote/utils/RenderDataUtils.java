@@ -384,7 +384,7 @@ public class RenderDataUtils {
 					taskList = get();
 
 					// 第一行类容
-					String workSheetTitle = "项目报价表";
+					String workSheetTitle = "检验检测机构技术服务费用";
 					// 表头字段
 					String[] head = { "序号", "项目名称", "检验批", "检测内容", "单位",
 							"单价(元)", "数量", "次数", "合价（元）", "抽样方法", "报价方法" };

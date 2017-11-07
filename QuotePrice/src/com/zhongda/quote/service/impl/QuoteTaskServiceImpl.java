@@ -48,6 +48,7 @@ public class QuoteTaskServiceImpl implements QuoteTaskService {
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			e.printStackTrace();
 			sqlSession.rollback();
 		} finally {
 			MyBatisUtil.closeSqlSession();
