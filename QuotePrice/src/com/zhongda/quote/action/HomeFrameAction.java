@@ -104,6 +104,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		} else if ("deleteTask".equals(command)) {
 			deleteQuoteTask(jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
 					jt_inspectionContent);
+		} else if ("lookProject".equals(command)) {
+			lookProject();
 		} else if ("queryTask".equals(command)) {
 			queryTask(jt_quoteTask, jtf_queryName);
 		} else if ("updateTask".equals(command)) {
@@ -166,6 +168,12 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			JOptionPane.showMessageDialog(null, "请联系软件版权方提供解码值！", "提示信息",
 					JOptionPane.WARNING_MESSAGE);
 		}
+	}
+
+	private void lookProject() {
+		String taskNumber = (String) jt_quoteTask.getValueAt(
+				jt_quoteTask.getSelectedRow(), 1);
+		RenderDataUtils.lookProject(taskNumber);
 	}
 
 	private void modifyFrame(JTable jt_parent, JTable jt_child,
@@ -762,6 +770,14 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					jt_inspectionContent);
 		} else if ("batch_jtabel".equals(clickmove_Name)) {
 			inspectionBatchToContent(jt_inspectionBatch, jt_inspectionContent);
+		}
+		int clicktimes = e.getClickCount();
+		if (clicktimes == 2) {
+			if ("jt_quoteTaskMouslis".equals(clickmove_Name)) {
+				String taskNumber = (String) jt_quoteTask.getValueAt(
+						jt_quoteTask.getSelectedRow(), 1);
+				RenderDataUtils.lookProject(taskNumber);
+			}
 		}
 	}
 

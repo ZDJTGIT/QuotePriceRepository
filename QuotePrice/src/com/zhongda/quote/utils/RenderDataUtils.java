@@ -1,5 +1,6 @@
 package com.zhongda.quote.utils;
 
+import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.FileDialog;
 import java.io.IOException;
@@ -9,10 +10,14 @@ import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -33,6 +38,7 @@ import com.zhongda.quote.service.impl.InspectionBatchServiceImpl;
 import com.zhongda.quote.service.impl.InspectionContentServiceImpl;
 import com.zhongda.quote.service.impl.QuoteProjectServiceImpl;
 import com.zhongda.quote.service.impl.QuoteTaskServiceImpl;
+import com.zhongda.quote.utils.table.GridBagTable;
 
 /**
  * <p>
@@ -314,7 +320,7 @@ public class RenderDataUtils {
 		}
 		jt_sysInspectionContent.updateUI();
 	}
-	
+
 	/**
 	 * 打开公司官网
 	 */
@@ -329,6 +335,172 @@ public class RenderDataUtils {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static void lookProject(String taskNumber) {
+		new SwingWorker<List<QuoteTask>, Void>() {
+			@Override
+			protected List<QuoteTask> doInBackground() throws Exception {
+				List<QuoteTask> taskList = new ArrayList<QuoteTask>();
+				taskList.add(new QuoteTaskServiceImpl()
+						.queryQuoteTaskByNumber(taskNumber));
+				if (null != taskList) {
+					for (QuoteTask quoteTask : taskList) {
+						if (null != quoteTask) {
+							quoteTask
+									.setProjectList(new QuoteProjectServiceImpl()
+											.queryAllQuoteProjectsByTaskNmber(quoteTask
+													.getId()));
+						}
+
+						if (null != quoteTask
+								&& null != quoteTask.getProjectList()) {
+							for (QuoteProject quoteProject : quoteTask
+									.getProjectList()) {
+								quoteProject
+										.setBatchList(new InspectionBatchServiceImpl()
+												.queryAllInspectionBatchByProjectID(quoteProject
+														.getId()));
+								if (null != quoteProject
+										&& null != quoteProject.getBatchList()) {
+									for (InspectionBatch inspectionBatch : quoteProject
+											.getBatchList()) {
+										inspectionBatch
+												.setContentList(new InspectionContentServiceImpl()
+														.queryAllContentByBatchId(inspectionBatch
+																.getId()));
+									}
+								}
+							}
+						}
+					}
+				}
+
+				return taskList;
+			}
+
+			protected void done() {
+				List<QuoteTask> taskList = null;
+				try {
+					taskList = get();
+
+					int xlength = 0;
+					for (QuoteTask quoteTask : taskList) {
+						for (QuoteProject quoteProject : quoteTask
+								.getProjectList()) {
+							for (InspectionBatch inspectionBatch : quoteProject
+									.getBatchList()) {
+								xlength += inspectionBatch.getContentList()
+										.size();
+							}
+						}
+					}
+					Object[][] object = new Object[xlength][10];
+
+					String[] strings = { "项目名称", "检验批", "检测内容", "单位", "单价(元)",
+							"数量", "次数", "合价（元）", "抽样方法", "报价方法" };
+					int xindex = 0;
+					int yindex = 0;
+					String taskName = null;
+					for (QuoteTask quoteTask : taskList) {
+						taskName = quoteTask.getTaskName();
+						for (QuoteProject quoteProject : quoteTask
+								.getProjectList()) {
+							for (InspectionBatch inspectionBatch : quoteProject
+									.getBatchList()) {
+								for (InspectionContent inspectionContent : inspectionBatch
+										.getContentList()) {
+									yindex = 0;
+									object[xindex][yindex] = quoteProject
+											.getProjectName();
+									yindex++;
+									object[xindex][yindex] = inspectionBatch
+											.getInspectionBatchName();
+									yindex++;
+									object[xindex][yindex] = inspectionContent
+											.getInspectionContentName();
+									yindex++;
+									object[xindex][yindex] = inspectionContent
+											.getChargeUnit();
+									yindex++;
+									object[xindex][yindex] = inspectionContent
+											.getChargeStandard();
+									yindex++;
+									object[xindex][yindex] = inspectionContent
+											.getSampleQuantity();
+									yindex++;
+									object[xindex][yindex] = inspectionContent
+											.getSingleObjectQuantity();
+									yindex++;
+									object[xindex][yindex] = inspectionContent
+											.getInspectionContentAmount();
+									yindex++;
+									object[xindex][yindex] = inspectionContent
+											.getSampleBasis()
+											.getBasisFileNumber()
+											+ " "
+											+ inspectionContent
+													.getSampleBasis()
+													.getBasisFileName()
+											+ " "
+											+ inspectionContent
+													.getSampleBasis()
+													.getBasisFileIndex();
+									yindex++;
+									object[xindex][yindex] = inspectionContent
+											.getQuoteBasis()
+											.getBasisFileNumber()
+											+ " "
+											+ inspectionContent.getQuoteBasis()
+													.getBasisFileName()
+											+ " "
+											+ inspectionContent.getQuoteBasis()
+													.getBasisFileIndex();
+									xindex++;
+								}
+							}
+						}
+					}
+					JFrame d = new JFrame();
+					d.setTitle(taskName);
+					DefaultTableModel model = new DefaultTableModel(object,
+							strings);
+
+					GridBagTable table = new GridBagTable(model);
+					table.setRowHeight(20);
+					JScrollPane pane = new JScrollPane(table);
+					d.getContentPane().add(pane, BorderLayout.CENTER);
+					xindex = 0;
+					int end = 0;
+					int pindex = 0;
+					for (QuoteTask quoteTask : taskList) {
+						for (QuoteProject quoteProject : quoteTask
+								.getProjectList()) {
+							for (InspectionBatch inspectionBatch : quoteProject
+									.getBatchList()) {
+								end = inspectionBatch.getContentList().size();
+								table.mergeCells(xindex, xindex + end - 1, 1, 1);
+								xindex = xindex + end;
+							}
+							table.mergeCells(pindex, xindex - 1, 0, 0);
+							pindex = xindex;
+						}
+					}
+
+					d.setBounds(0, 0, 1500, 442);
+					ImageIcon icon = new ImageIcon("images\\zdLogo1.png");
+					d.setIconImage(icon.getImage());
+					d.setLocationRelativeTo(null);// 设置界面居中
+					d.setVisible(true);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			};
+		}.execute();
 	}
 
 	public static void exportTask(final String[] taskidAry,

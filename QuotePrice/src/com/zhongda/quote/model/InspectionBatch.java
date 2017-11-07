@@ -67,4 +67,12 @@ public class InspectionBatch {
 		this.contentList = contentList;
 	}
 
+	@Override
+	public String toString() {
+		return "InspectionBatch [id=" + id + ", inspectionBatchName="
+				+ inspectionBatchName + ", projectId=" + projectId
+				+ ", inspectionBatchAmount=" + inspectionBatchAmount
+				+ ", contentList=" + contentList + "]";
+	}
+
 }

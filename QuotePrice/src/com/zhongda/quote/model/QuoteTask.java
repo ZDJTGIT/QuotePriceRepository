@@ -112,4 +112,14 @@ public class QuoteTask {
 		this.projectList = projectList;
 	}
 
+	@Override
+	public String toString() {
+		return "QuoteTask [id=" + id + ", taskNumber=" + taskNumber
+				+ ", taskName=" + taskName + ", taskDescription="
+				+ taskDescription + ", createUser=" + createUser
+				+ ", createDate=" + createDate + ", lastUpdateDate="
+				+ lastUpdateDate + ", taskAmount=" + taskAmount
+				+ ", projectList=" + projectList + "]";
+	}
+
 }

@@ -196,4 +196,22 @@ public class InspectionContent {
 	public void setSampleBasis(SampleBasis sampleBasis) {
 		this.sampleBasis = sampleBasis;
 	}
+
+	@Override
+	public String toString() {
+		return "InspectionContent [id=" + id + ", sourceId=" + sourceId
+				+ ", inspectionContentName=" + inspectionContentName
+				+ ", sampleQuantity=" + sampleQuantity
+				+ ", sampleQuantityRange=" + sampleQuantityRange
+				+ ", sampleBasisId=" + sampleBasisId
+				+ ", singleObjectQuantity=" + singleObjectQuantity
+				+ ", singleQuantityRange=" + singleQuantityRange
+				+ ", chargeUnit=" + chargeUnit + ", chargeStandard="
+				+ chargeStandard + ", chargeStandardUnit=" + chargeStandardUnit
+				+ ", quoteBasisId=" + quoteBasisId + ", batchId=" + batchId
+				+ ", inspectionContentAmount=" + inspectionContentAmount
+				+ ", quoteBasis=" + quoteBasis + ", sampleBasis=" + sampleBasis
+				+ "]";
+	}
+
 }

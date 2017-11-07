@@ -79,6 +79,7 @@ public class HomeFrame {
 	private JToolBar jtb_tb;
 	private JButton jb_bt_1;
 	private JButton jb_bt_creatTask;
+	private JButton jb_bt_project;
 	// private JButton jb_bt_save;
 	private JTabbedPane tabbedPane;
 	private JSplitPane sp_left;
@@ -845,6 +846,11 @@ public class HomeFrame {
 		jb_bt_creatTask.setFocusPainted(false);// 去除按钮边线
 		jtb_tb.add(jb_bt_creatTask);
 
+		jb_bt_project = new JButton("查看任务清单");
+		jb_bt_project.setToolTipText("查看任务清单");
+		jb_bt_project.setFocusPainted(false);// 去除按钮边线
+		jtb_tb.add(jb_bt_project);
+
 		// jb_bt_save = new JButton();
 		// jb_bt_save.setIcon(new ImageIcon("images/save.png"));
 		// jb_bt_save.setToolTipText("保存  (Ctrl+S)");
@@ -853,11 +859,16 @@ public class HomeFrame {
 		// jtb_tb.setRollover(true);
 
 		// 添加创建任务事件
+		jt_quoteTask.addMouseListener(new HomeFrameAction(jt_quoteTask, null,
+				null, null, "jt_quoteTaskMouslis"));
 		bt_createTask.setActionCommand("createTask");
 		bt_createTask.addActionListener(new HomeFrameAction(jt_quoteTask,
 				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		jb_bt_creatTask.setActionCommand("createTask");
 		jb_bt_creatTask.addActionListener(new HomeFrameAction(jt_quoteTask,
+				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
+		jb_bt_project.setActionCommand("lookProject");
+		jb_bt_project.addActionListener(new HomeFrameAction(jt_quoteTask,
 				jt_quoteProject, jt_inspectionBatch, jt_inspectionContent));
 		jmf_creatTask.setActionCommand("createTask");
 		jmf_creatTask.addActionListener(new HomeFrameAction(jt_quoteTask,

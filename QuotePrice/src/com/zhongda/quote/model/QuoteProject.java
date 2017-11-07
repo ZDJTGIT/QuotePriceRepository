@@ -45,7 +45,8 @@ public class QuoteProject {
 		this.projectAmount = projectAmount;
 	}
 
-	public QuoteProject(Integer projectId, String projectName, double otherAmount) {
+	public QuoteProject(Integer projectId, String projectName,
+			double otherAmount) {
 		this.id = projectId;
 		this.projectName = projectName;
 		this.otherAmount = otherAmount;
@@ -138,4 +139,15 @@ public class QuoteProject {
 	public void setBatchList(List<InspectionBatch> batchList) {
 		this.batchList = batchList;
 	}
+
+	@Override
+	public String toString() {
+		return "QuoteProject [id=" + id + ", projectName=" + projectName
+				+ ", industryId=" + industryId + ", addressId=" + addressId
+				+ ", addressPid=" + addressPid + ", taskId=" + taskId
+				+ ", projectAmount=" + projectAmount + ", otherAmount="
+				+ otherAmount + ", industry=" + industry + ", address="
+				+ address + ", batchList=" + batchList + "]";
+	}
+
 }
