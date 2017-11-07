@@ -229,6 +229,8 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 						RenderDataUtils.renderPartContentData(
 								jt_inspectionContent, contentList);
 						jt_quoteTask.setValueAt(taskAmount, row, 7);
+						RenderDataUtils.lookProject(String.valueOf(jt_quoteTask
+								.getValueAt(row, 1)));
 					} catch (InterruptedException | ExecutionException e) {
 						e.printStackTrace();
 					}
