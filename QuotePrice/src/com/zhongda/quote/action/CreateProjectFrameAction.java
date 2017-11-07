@@ -48,7 +48,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 	private JTable jt_quoteProject;
 	private JTable jt_inspectionBatch;
 	private JTable jt_inspectionContent;
-	private Map<String, Map<String,Object>> batchMap;
+	private Map<String, Map<String, Object>> batchMap;
 
 	public CreateProjectFrameAction() {
 	}
@@ -57,19 +57,21 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 		this.dialog = dialog;
 	}
 
-	public CreateProjectFrameAction(JComboBox<Address> jcb_province,JComboBox<Address> jcb_city,
-			JComboBox<Address> jcb_county, JComboBox<Industry> jcb_industry) {
+	public CreateProjectFrameAction(JComboBox<Address> jcb_province,
+			JComboBox<Address> jcb_city, JComboBox<Address> jcb_county,
+			JComboBox<Industry> jcb_industry) {
 		this.jcb_province = jcb_province;
 		this.jcb_city = jcb_city;
 		this.jcb_county = jcb_county;
 		this.jcb_industry = jcb_industry;
 	}
 
-	public CreateProjectFrameAction(Map<String, Map<String,Object>> batchMap,
-			JComboBox<Object> jcb_selectOrCreateBatch, JTextField jtf_projectName,
-			JComboBox<Industry> jcb_industry, JComboBox<Address> jcb_province,
-			JComboBox<Address> jcb_city, JComboBox<Address> jcb_county,
-			JPanel jp_batchItems, JTextField jtf_projectAmount) {
+	public CreateProjectFrameAction(Map<String, Map<String, Object>> batchMap,
+			JComboBox<Object> jcb_selectOrCreateBatch,
+			JTextField jtf_projectName, JComboBox<Industry> jcb_industry,
+			JComboBox<Address> jcb_province, JComboBox<Address> jcb_city,
+			JComboBox<Address> jcb_county, JPanel jp_batchItems,
+			JTextField jtf_projectAmount) {
 		this.batchMap = batchMap;
 		this.jcb_selectOrCreateBatch = jcb_selectOrCreateBatch;
 		this.jtf_projectName = jtf_projectName;
@@ -81,14 +83,15 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 		this.jtf_projectAmount = jtf_projectAmount;
 	}
 
-	public CreateProjectFrameAction(JTextField jtf_taskName, JTable jt_quoteTask,
-			JTable jt_quoteProject, JTable jt_inspectionBatch,
-			JTable jt_inspectionContent,JTextField jtf_projectName,
+	public CreateProjectFrameAction(JTextField jtf_taskName,
+			JTable jt_quoteTask, JTable jt_quoteProject,
+			JTable jt_inspectionBatch, JTable jt_inspectionContent,
+			JTextField jtf_projectName,
 			Map<String, Map<String, Object>> batchMap, JPanel jp_batchItems,
 			JTextField jtf_otherAmount, JTextField jtf_projectAmount,
 			JComboBox<Industry> jcb_industry, JComboBox<Address> jcb_province,
 			JComboBox<Address> jcb_county, JDialog dialog) {
-		this.jtf_taskName =jtf_taskName;
+		this.jtf_taskName = jtf_taskName;
 		this.jt_quoteTask = jt_quoteTask;
 		this.jt_quoteProject = jt_quoteProject;
 		this.jt_inspectionBatch = jt_inspectionBatch;
@@ -111,30 +114,36 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 			Object source = e.getSource();
 			// 如果是省的ComboBox产生事件
 			if (jcb_province == source) {
-				Address address = (Address)jcb_province.getSelectedItem();
-				if(address.getId() != 430000){
-					int flag = JOptionPane.showConfirmDialog(null, "目前暂无湖南省之外的数据，无法提供报价依据，请确认是否取消选择"+address.getName(), "取消选择",
+				Address address = (Address) jcb_province.getSelectedItem();
+				if (address.getId() != 430000) {
+					int flag = JOptionPane.showConfirmDialog(
+							null,
+							"目前暂无湖南省之外的数据，无法提供报价依据，请确认是否取消选择"
+									+ address.getName(), "取消选择",
 							JOptionPane.OK_OPTION);
 					if (flag == JOptionPane.OK_OPTION) {
 						jcb_province.setSelectedIndex(17);
-					}else{
+					} else {
 						provinceCityLinkage(e, jcb_city, jcb_county);
 					}
-				}else{
+				} else {
 					provinceCityLinkage(e, jcb_city, jcb_county);
 				}
 			} else if (jcb_city == source) { // 如果是市的ComboBox产生事件
 				cityCountyLinkage(e, 0, jcb_county);
 			} else if (jcb_industry == source) {
-				Industry industry = (Industry)jcb_industry.getSelectedItem();
-				if(industry.getId() != 1){
-					int flag = JOptionPane.showConfirmDialog(null, "目前暂无道路行业之外的数据，无法提供报价依据，请确认是否取消选择"+industry.getIndustryName(), "取消选择",
+				Industry industry = (Industry) jcb_industry.getSelectedItem();
+				if (industry.getId() != 1) {
+					int flag = JOptionPane.showConfirmDialog(
+							null,
+							"目前暂无道路行业之外的数据，无法提供报价依据，请确认是否取消选择"
+									+ industry.getIndustryName(), "取消选择",
 							JOptionPane.OK_OPTION);
 					if (flag == JOptionPane.OK_OPTION) {
 						jcb_industry.setSelectedIndex(0);
 					}
 				}
-			} else if(jcb_selectOrCreateBatch == source){
+			} else if (jcb_selectOrCreateBatch == source) {
 				creatInspectionBatch();
 			}
 
@@ -146,25 +155,29 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 		String command = e.getActionCommand();
 		if ("confirm".equals(command)) {
 			String otherAmountString = jtf_otherAmount.getText();
-			if(null != otherAmountString && !"".equals(otherAmountString.trim())){
-				if(StringUtil.isNumeric(otherAmountString)){
-					int flag = JOptionPane.showConfirmDialog(null, "确定提交?", "提交项目",
-							JOptionPane.OK_OPTION);
-					if (flag == JOptionPane.OK_OPTION) {
-						commitProject(otherAmountString);
-					}
-				}else{
-					JOptionPane.showMessageDialog(null, "其它费用项请输入大于0的整形数字", "提示信息", JOptionPane.WARNING_MESSAGE);
+			if (null != otherAmountString
+					&& !"".equals(otherAmountString.trim())) {
+				if (StringUtil.isNumeric(otherAmountString)) {
+					// int flag = JOptionPane.showConfirmDialog(null, "确定提交?",
+					// "提交项目",
+					// JOptionPane.OK_OPTION);
+					// if (flag == JOptionPane.OK_OPTION) {
+					commitProject(otherAmountString);
+					// }
+				} else {
+					JOptionPane.showMessageDialog(null, "其它费用项请输入大于0的整形数字",
+							"提示信息", JOptionPane.WARNING_MESSAGE);
 				}
-			}else{
-				JOptionPane.showMessageDialog(null, "其它费用项修改后的值不能是空值！", "提示信息", JOptionPane.WARNING_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, "其它费用项修改后的值不能是空值！", "提示信息",
+						JOptionPane.WARNING_MESSAGE);
 			}
 		} else if ("cancel".equals(command)) {
-			int flag = JOptionPane.showConfirmDialog(null, "取消项目？", "取消项目",
-					JOptionPane.OK_OPTION);
-			if (flag == JOptionPane.OK_OPTION) {
-				dialog.dispose();
-			}
+			// int flag = JOptionPane.showConfirmDialog(null, "取消项目？", "取消项目",
+			// JOptionPane.OK_OPTION);
+			// if (flag == JOptionPane.OK_OPTION) {
+			dialog.dispose();
+			// }
 		}
 	}
 
@@ -174,39 +187,47 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 			// 获取当前选中任务ID
 			int taskId = Integer.valueOf(jtf_taskName.getName());
 			String projectName = jtf_projectName.getText();
-			int industryId = ((Industry) jcb_industry
-					.getSelectedItem()).getId();
-			int addressPid = ((Address) jcb_province
-					.getSelectedItem()).getId();
-			int addressId = ((Address) jcb_county.getSelectedItem())
+			int industryId = ((Industry) jcb_industry.getSelectedItem())
 					.getId();
-			double projectAmount = Double.parseDouble(jtf_projectAmount.getText());
+			int addressPid = ((Address) jcb_province.getSelectedItem()).getId();
+			int addressId = ((Address) jcb_county.getSelectedItem()).getId();
+			double projectAmount = Double.parseDouble(jtf_projectAmount
+					.getText());
 			double otherAmount = Double.parseDouble(otherAmountString);
 			final int row = jt_quoteTask.getSelectedRow();
-			double taskAmountOld = (double)jt_quoteTask.getValueAt(row, 7);
-			final double taskAmount = taskAmountOld + projectAmount + otherAmount;
-			final QuoteProject quoteProject = new QuoteProject(
-					projectName, industryId, addressId, addressPid,
-					taskId, projectAmount, otherAmount);
-			new SwingWorker<Map<String, Object>, Void>(){
+			double taskAmountOld = (double) jt_quoteTask.getValueAt(row, 7);
+			final double taskAmount = taskAmountOld + projectAmount
+					+ otherAmount;
+			final QuoteProject quoteProject = new QuoteProject(projectName,
+					industryId, addressId, addressPid, taskId, projectAmount,
+					otherAmount);
+			new SwingWorker<Map<String, Object>, Void>() {
 
 				@Override
 				protected Map<String, Object> doInBackground() throws Exception {
-					return new QuoteProjectServiceImpl().createProjectAndBatchAndContent(quoteProject, batchMap, taskAmount);
+					return new QuoteProjectServiceImpl()
+							.createProjectAndBatchAndContent(quoteProject,
+									batchMap, taskAmount);
 				}
 
 				protected void done() {
 					Map<String, Object> quoteMap = null;
 					try {
 						quoteMap = get();
-						QuoteProject quoteProject = (QuoteProject) quoteMap.get("project");
-						RenderDataUtils.renderSingleProjectData(jt_quoteProject, quoteProject);
+						QuoteProject quoteProject = (QuoteProject) quoteMap
+								.get("project");
+						RenderDataUtils.renderSingleProjectData(
+								jt_quoteProject, quoteProject);
 						@SuppressWarnings("unchecked")
-						List<InspectionBatch> batchList = (List<InspectionBatch>) quoteMap.get("batch");
-						RenderDataUtils.renderBatchData(jt_inspectionBatch, batchList);
+						List<InspectionBatch> batchList = (List<InspectionBatch>) quoteMap
+								.get("batch");
+						RenderDataUtils.renderBatchData(jt_inspectionBatch,
+								batchList);
 						@SuppressWarnings("unchecked")
-						List<InspectionContent> contentList = (List<InspectionContent>) quoteMap.get("content");
-						RenderDataUtils.renderPartContentData(jt_inspectionContent, contentList);
+						List<InspectionContent> contentList = (List<InspectionContent>) quoteMap
+								.get("content");
+						RenderDataUtils.renderPartContentData(
+								jt_inspectionContent, contentList);
 						jt_quoteTask.setValueAt(taskAmount, row, 7);
 					} catch (InterruptedException | ExecutionException e) {
 						e.printStackTrace();
@@ -227,7 +248,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 		if ("新建检验批".equals((String) jcb_selectOrCreateBatch.getSelectedItem())) {
 			jcb_selectOrCreateBatch.setSelectedIndex(0);// 点击新建检验批后选中第一个数据
 			String projectName = jtf_projectName.getText();
-			//获取行业和地址
+			// 获取行业和地址
 			Industry industry = (Industry) jcb_industry.getSelectedItem();
 			Address address = (Address) jcb_province.getSelectedItem();
 			if (null == projectName || "".equals(projectName.trim())) {
@@ -235,7 +256,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 						JOptionPane.WARNING_MESSAGE);
 			} else {
 				int componentCount = jp_batchItems.getComponentCount();
-				if(componentCount == 0){
+				if (componentCount == 0) {
 					int flag = JOptionPane.showConfirmDialog(null,
 							"确认后将无法修改以上所有信息！", "创建检验批", JOptionPane.OK_OPTION);
 					if (flag == JOptionPane.OK_OPTION) {
@@ -244,12 +265,13 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 						jcb_province.setEnabled(false);
 						jcb_city.setEnabled(false);
 						jcb_county.setEnabled(false);
-						FrameGoUtils.createBatch(
-								batchMap, jp_batchItems, projectName, jtf_projectAmount, industry, address);
+						FrameGoUtils.createBatch(batchMap, jp_batchItems,
+								projectName, jtf_projectAmount, industry,
+								address);
 					}
-				}else{
-					FrameGoUtils.createBatch(
-							batchMap, jp_batchItems, projectName, jtf_projectAmount, industry, address);
+				} else {
+					FrameGoUtils.createBatch(batchMap, jp_batchItems,
+							projectName, jtf_projectAmount, industry, address);
 				}
 			}
 		}
@@ -258,7 +280,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 	// 对市区联动选项变化事件的处理，联动查询出下级地址渲染到界面下拉列表
 	private void cityCountyLinkage(ItemEvent e, int addressPid,
 			final JComboBox<Address> jcb_county) {
-		if(null != e){
+		if (null != e) {
 			final Address address = (Address) e.getItem();
 			addressPid = address.getId();
 		}
@@ -296,7 +318,8 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 
 	// 对省市联动选项变化事件的处理，联动查询出下级地址渲染到界面下拉列表
 	private void provinceCityLinkage(ItemEvent e,
-			final JComboBox<Address> jcb_city, final JComboBox<Address> jcb_county) {
+			final JComboBox<Address> jcb_city,
+			final JComboBox<Address> jcb_county) {
 		final Address address = (Address) e.getItem();
 		// 选中省时加载该省下的所有市
 		new SwingWorker<List<Address>, Address>() {
@@ -316,7 +339,7 @@ public class CreateProjectFrameAction implements ItemListener, ActionListener {
 					int addressPid = 0;
 					for (Address address : addressList) {
 						model.addElement(address);
-						if(addressPid == 0){
+						if (addressPid == 0) {
 							addressPid = address.getId();
 						}
 					}

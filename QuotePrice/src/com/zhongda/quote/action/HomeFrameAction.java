@@ -116,7 +116,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			createFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
 					jt_inspectionContent, ConstantUtils.PROJECT);
 		} else if ("updateProject".equals(command)) {
-			modifyFrame(jt_quoteTask, jt_quoteProject, null, null, ConstantUtils.PROJECT);
+			modifyFrame(jt_quoteTask, jt_quoteProject, null, null,
+					ConstantUtils.PROJECT);
 		} else if ("queryProject".equals(command)) {
 			queryProject(jt_quoteTask, jt_quoteProject, jtf_queryName);
 		} else if ("deleteProject".equals(command)) {
@@ -126,7 +127,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			createFrame(jt_quoteTask, jt_quoteProject, jt_inspectionBatch,
 					jt_inspectionContent, ConstantUtils.BATCH);
 		} else if ("updateInspectionBatch".equals(command)) {
-			modifyFrame(jt_quoteProject, jt_inspectionBatch, null, null, ConstantUtils.BATCH);
+			modifyFrame(jt_quoteProject, jt_inspectionBatch, null, null,
+					ConstantUtils.BATCH);
 		} else if ("queryBatch".equals(command)) {
 			queryBatch(jt_quoteProject, jt_inspectionBatch, jtf_queryName);
 		} else if ("deleteInspectionBatch".equals(command)) {
@@ -139,9 +141,11 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 			deleteInspectionContent(jt_quoteTask, jt_quoteProject,
 					jt_inspectionBatch, jt_inspectionContent);
 		} else if ("updateContent".equals(command)) {
-			modifyFrame(jt_inspectionBatch, jt_inspectionContent, jt_quoteTask, jt_quoteProject, ConstantUtils.CONTENT);
+			modifyFrame(jt_inspectionBatch, jt_inspectionContent, jt_quoteTask,
+					jt_quoteProject, ConstantUtils.CONTENT);
 		} else if ("queryContent".equals(command)) {
-			queryContent(jt_inspectionBatch, jt_inspectionContent, jtf_queryName);
+			queryContent(jt_inspectionBatch, jt_inspectionContent,
+					jtf_queryName);
 		} else if ("selectContent".equals(command)) {
 			// 获取当前选中的检验内容ID InspectionContentID
 			int row = jt_inspectionContent.getSelectedRow();
@@ -162,34 +166,36 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		} else if ("bt_exportTask".equals(command)) {
 			exportTask();
 
-		}else if("registeredProduct".equals(command)){
+		} else if ("registeredProduct".equals(command)) {
 			JOptionPane.showMessageDialog(null, "请联系软件版权方提供解码值！", "提示信息",
 					JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
-	private void modifyFrame(JTable jt_parent, JTable jt_child, JTable jt_first, JTable jt_two, String frameName) {
+	private void modifyFrame(JTable jt_parent, JTable jt_child,
+			JTable jt_first, JTable jt_two, String frameName) {
 		// 获取Table中被选中的行序号
 		int row = jt_child.getSelectedRow();
 		if (row < 0) {
-			JOptionPane.showMessageDialog(null,
-					"请选中需要修改的" + frameName, "提示信息",
+			JOptionPane.showMessageDialog(null, "请选中需要修改的" + frameName, "提示信息",
 					JOptionPane.WARNING_MESSAGE);
 		} else {
-			if(ConstantUtils.TASK.equals(frameName)){ // 修改任务
+			if (ConstantUtils.TASK.equals(frameName)) { // 修改任务
 				FrameGoUtils.creatTask(jt_child, null, null, null, false);
-			}else if(ConstantUtils.PROJECT.equals(frameName)){ // 修改项目
+			} else if (ConstantUtils.PROJECT.equals(frameName)) { // 修改项目
 				FrameGoUtils.modifyProject(jt_parent, jt_child);
-			}else if(ConstantUtils.BATCH.equals(frameName)){ // 修改检验批
+			} else if (ConstantUtils.BATCH.equals(frameName)) { // 修改检验批
 				FrameGoUtils.modifyBatch(jt_parent, jt_child);
-			}else{ // 修改检验内容
-				FrameGoUtils.modifyContent(jt_first, jt_two, jt_parent, jt_child);
+			} else { // 修改检验内容
+				FrameGoUtils.modifyContent(jt_first, jt_two, jt_parent,
+						jt_child);
 			}
 		}
 	}
 
 	/**
 	 * 创建项目，检验批或检验内容的时候判断是否有上级存在，有则打开创建窗口，没有则给出提示信息
+	 * 
 	 * @param jt_quoteTask
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
@@ -234,12 +240,12 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 查询报价任务
+	 * 
 	 * @param jt_quoteTask
 	 * @param jtf_queryName
 	 *            存放查询条件的任务名称
 	 */
-	private void queryTask(final JTable jt_quoteTask,
-			JTextField jtf_queryName) {
+	private void queryTask(final JTable jt_quoteTask, JTextField jtf_queryName) {
 		final String taskName = jtf_queryName.getText();
 		if (null != taskName) {
 			new SwingWorker<List<QuoteTask>, Void>() {
@@ -266,12 +272,13 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 查询报价项目
+	 * 
 	 * @param jt_quoteTask
 	 * @param jt_quoteProject
 	 * @param jtf_queryName
 	 */
-	private void queryProject(JTable jt_quoteTask, final JTable jt_quoteProject,
-			JTextField jtf_queryName) {
+	private void queryProject(JTable jt_quoteTask,
+			final JTable jt_quoteProject, JTextField jtf_queryName) {
 		int taskRow = jt_quoteTask.getSelectedRow();
 		final int taskId = (int) jt_quoteTask.getValueAt(taskRow, 0);
 		final String projectName = jtf_queryName.getText();
@@ -280,14 +287,16 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 				@Override
 				protected List<QuoteProject> doInBackground() throws Exception {
 					return new QuoteProjectServiceImpl()
-							.queryProjectByPidAndName(taskId, projectName.trim());
+							.queryProjectByPidAndName(taskId,
+									projectName.trim());
 				}
 
 				protected void done() {
 					List<QuoteProject> projectList = null;
 					try {
 						projectList = get();
-						RenderDataUtils.renderProjectData(jt_quoteProject, projectList);
+						RenderDataUtils.renderProjectData(jt_quoteProject,
+								projectList);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					} catch (ExecutionException e) {
@@ -300,6 +309,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 查询检验批
+	 * 
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
 	 * @param jtf_queryName
@@ -312,7 +322,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		if (null != batchName) {
 			new SwingWorker<List<InspectionBatch>, Void>() {
 				@Override
-				protected List<InspectionBatch> doInBackground() throws Exception {
+				protected List<InspectionBatch> doInBackground()
+						throws Exception {
 					return new InspectionBatchServiceImpl()
 							.queryBatchByPidAndName(projectId, batchName.trim());
 				}
@@ -321,7 +332,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					List<InspectionBatch> batchList = null;
 					try {
 						batchList = get();
-						RenderDataUtils.renderBatchData(jt_inspectionBatch, batchList);
+						RenderDataUtils.renderBatchData(jt_inspectionBatch,
+								batchList);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					} catch (ExecutionException e) {
@@ -334,6 +346,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 查询检验内容
+	 * 
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
 	 * @param jtf_queryName
@@ -346,16 +359,19 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		if (null != contentName) {
 			new SwingWorker<List<InspectionContent>, Void>() {
 				@Override
-				protected List<InspectionContent> doInBackground() throws Exception {
+				protected List<InspectionContent> doInBackground()
+						throws Exception {
 					return new InspectionContentServiceImpl()
-							.queryContentByPidAndName(batchId, contentName.trim());
+							.queryContentByPidAndName(batchId,
+									contentName.trim());
 				}
 
 				protected void done() {
 					List<InspectionContent> contentList = null;
 					try {
 						contentList = get();
-						RenderDataUtils.renderPartContentData(jt_inspectionContent, contentList);
+						RenderDataUtils.renderPartContentData(
+								jt_inspectionContent, contentList);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					} catch (ExecutionException e) {
@@ -404,6 +420,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 删除检验内容
+	 * 
 	 * @param jt_quoteTask
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
@@ -487,6 +504,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 删除检验批
+	 * 
 	 * @param jt_quoteProjec
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
@@ -562,6 +580,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 
 	/**
 	 * 删除报价项目
+	 * 
 	 * @param jt_quoteProject
 	 * @param jt_inspectionBatch
 	 * @param jt_inspectionContent
@@ -646,8 +665,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 		// 获取Table中被选中的行序号
 		final int row = jt_quoteTask.getSelectedRow();
 		if (row < 0) {
-			JOptionPane.showMessageDialog(null, "请选中您要删除的任务！",
-					"提示信息", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "请选中您要删除的任务！", "提示信息",
+					JOptionPane.WARNING_MESSAGE);
 		} else {
 			int flag = JOptionPane.showConfirmDialog(null,
 					"点击确认按钮，将会删除所选中的报价任务，包括报价任务下的所有项目以及检验批，是否确认删除？", "删除报价任务",
@@ -664,9 +683,9 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 					protected void done() {
 						try {
 							boolean flag = get();
-							if (flag) {		
-								//提示框
-								PromptBoxUtil.getPromptBox("温馨提示","删除成功！");	
+							if (flag) {
+								// 提示框
+								PromptBoxUtil.getPromptBox("温馨提示", "删除成功！");
 								DefaultTableModel model = (DefaultTableModel) jt_quoteTask
 										.getModel();
 								model.removeRow(row);
@@ -678,7 +697,8 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 										jt_inspectionBatch,
 										jt_inspectionContent);
 							} else {
-								PromptBoxUtil.getPromptBox("温馨提示","删除失败！");								}
+								PromptBoxUtil.getPromptBox("温馨提示", "删除失败！");
+							}
 						} catch (InterruptedException | ExecutionException e) {
 							e.printStackTrace();
 						}

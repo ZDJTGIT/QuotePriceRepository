@@ -45,9 +45,9 @@ public class CreateTaskFrameAction implements ActionListener {
 
 	public CreateTaskFrameAction(JTextField jtf_taskName,
 			JTextField jtf_createUser, JTextField df_createDate,
-			JTextArea jta_taskDescription, JTable jt_quoteTask, JTable jt_quoteProject,
-			JTable jt_inspectionBatch, JTable jt_inspectionContent,
-			JDialog dialog, boolean isCreate) {
+			JTextArea jta_taskDescription, JTable jt_quoteTask,
+			JTable jt_quoteProject, JTable jt_inspectionBatch,
+			JTable jt_inspectionContent, JDialog dialog, boolean isCreate) {
 
 		this.jtf_taskName = jtf_taskName;
 		this.jtf_createUser = jtf_createUser;
@@ -66,7 +66,7 @@ public class CreateTaskFrameAction implements ActionListener {
 		this.jDialog = jDialog;
 	}
 
-	public CreateTaskFrameAction(){
+	public CreateTaskFrameAction() {
 
 	}
 
@@ -83,7 +83,8 @@ public class CreateTaskFrameAction implements ActionListener {
 			String createDate = df_createDate.getText();
 			String taskDescription = jta_taskDescription.getText();
 
-			final DefaultTableModel model = (DefaultTableModel) jt_quoteTask.getModel();
+			final DefaultTableModel model = (DefaultTableModel) jt_quoteTask
+					.getModel();
 			final int row = jt_quoteTask.getSelectedRow();
 
 			// 判断用户填写的任务信息是否完整
@@ -121,9 +122,9 @@ public class CreateTaskFrameAction implements ActionListener {
 
 							if (isCreate) { // 如果是创建报价任务，则添加
 								if (null != quoteTask) {
-									JOptionPane.showMessageDialog(null,
-											"任务创建成功！", "提示信息",
-											JOptionPane.PLAIN_MESSAGE);
+									// JOptionPane.showMessageDialog(null,
+									// "任务创建成功！", "提示信息",
+									// JOptionPane.PLAIN_MESSAGE);
 
 									Vector<Object> rowData = new Vector<Object>();
 									rowData.add(quoteTask.getId());
@@ -142,7 +143,10 @@ public class CreateTaskFrameAction implements ActionListener {
 											jt_quoteTask.getRowCount() - 1);
 
 									jDialog.dispose();
-									FrameGoUtils.createProject(jt_quoteTask, jt_quoteProject, jt_inspectionBatch, jt_inspectionContent);
+									FrameGoUtils.createProject(jt_quoteTask,
+											jt_quoteProject,
+											jt_inspectionBatch,
+											jt_inspectionContent);
 								} else {
 									JOptionPane.showMessageDialog(null,
 											"任务创建失败！", "提示信息",
@@ -150,9 +154,9 @@ public class CreateTaskFrameAction implements ActionListener {
 								}
 							} else { // 如果是修改报价任务，则更新
 								if (null != quoteTask) {
-									JOptionPane.showMessageDialog(null,
-											"任务修改成功！", "提示信息",
-											JOptionPane.PLAIN_MESSAGE);
+									// JOptionPane.showMessageDialog(null,
+									// "任务修改成功！", "提示信息",
+									// JOptionPane.PLAIN_MESSAGE);
 									model.setValueAt(quoteTask.getTaskName(),
 											row, 2);
 									model.setValueAt(
@@ -185,11 +189,12 @@ public class CreateTaskFrameAction implements ActionListener {
 			}
 
 		} else if ("cancelCreateTask".equals(command)) {
-			int inf = JOptionPane.showConfirmDialog(null, "确定退出么？", "取消创建报价任务",
-					JOptionPane.OK_OPTION);
-			if (inf == JOptionPane.OK_OPTION) {
-				jDialog.dispose();
-			}
+			// int inf = JOptionPane.showConfirmDialog(null, "确定退出么？",
+			// "取消创建报价任务",
+			// JOptionPane.OK_OPTION);
+			// if (inf == JOptionPane.OK_OPTION) {
+			jDialog.dispose();
+			// }
 		}
 	}
 

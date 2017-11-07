@@ -150,11 +150,12 @@ public class CreateContentFrameAction implements ActionListener,
 				jaDialog.dispose();
 			}
 		} else if ("cancel".equals(command)) {
-			int inf = JOptionPane.showConfirmDialog(null, "确定退出么？", "取消添加检验内容",
-					JOptionPane.OK_OPTION);
-			if (inf == JOptionPane.OK_OPTION) {
-				jaDialog.dispose();
-			}// 添加模糊查询操作
+			// int inf = JOptionPane.showConfirmDialog(null, "确定退出么？",
+			// "取消添加检验内容",
+			// JOptionPane.OK_OPTION);
+			// if (inf == JOptionPane.OK_OPTION) {
+			jaDialog.dispose();
+			// }// 添加模糊查询操作
 		} else if ("searchContent".equals(command)) {
 			// 根据传入的字符串做模糊查询，查出的数据展示到表中
 			new SwingWorker<List<SysInspectionContent>, SysInspectionContent>() {
@@ -183,7 +184,7 @@ public class CreateContentFrameAction implements ActionListener,
 			}.execute();
 		}
 	}
-	
+
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
