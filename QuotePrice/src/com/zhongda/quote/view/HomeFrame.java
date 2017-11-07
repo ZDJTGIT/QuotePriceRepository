@@ -61,25 +61,25 @@ public class HomeFrame {
 	private Dimension scrSize;
 	private JMenuBar jmb_tb;
 	private JMenu jm_f;
-	private JMenu jm_e;
-	private JMenu jm_l;
-	private JMenu jm_g;
+	// private JMenu jm_e;
+	// private JMenu jm_l;
+	// private JMenu jm_g;
 	private JMenu jm_view;
-	private JMenu jm_t;
-	private JMenu jm_w;
+	// private JMenu jm_t;
+	// private JMenu jm_w;
 	private JMenu jm_help;
-	private JMenuItem jm_f_2;
-	private JMenu jm_f_3;
-	private JMenuItem jm_f_4;
-	private JMenuItem jm_f_5;
-	private JMenuItem jm_e_1;
-	private JMenuItem jm_e_2;
-	private JMenu jm_l_1;
-	private JMenuItem jm_l_2;
+	// private JMenuItem jm_f_2;
+	// private JMenu jm_f_3;
+	// private JMenuItem jm_f_4;
+	// private JMenuItem jm_f_5;
+	// private JMenuItem jm_e_1;
+	// private JMenuItem jm_e_2;
+	// private JMenu jm_l_1;
+	// private JMenuItem jm_l_2;
 	private JToolBar jtb_tb;
 	private JButton jb_bt_1;
 	private JButton jb_bt_creatTask;
-	private JButton jb_bt_save;
+	// private JButton jb_bt_save;
 	private JTabbedPane tabbedPane;
 	private JSplitPane sp_left;
 	private JSplitPane sp_center;
@@ -98,7 +98,7 @@ public class HomeFrame {
 	private JToolBar jtb_jsrw;
 	private JLabel jmb_left_lb;
 	private JButton bt_createTask;
-	private JButton bt_importTask;
+	// private JButton bt_importTask;
 	private JMenBarColor jmb_center_up;
 	private JPanel jpanel_center_up;
 	private JToolBar jtb_center_up;
@@ -214,41 +214,41 @@ public class HomeFrame {
 		jmf_creatTask = new JMenuItem("新建    Ctrl+N");
 		jm_f.add(jmf_creatTask);
 
-		jm_f_2 = new JMenuItem("保存    Ctrl+S");
-		jm_f.add(jm_f_2);
+		// jm_f_2 = new JMenuItem("保存    Ctrl+S");
+		// jm_f.add(jm_f_2);
 
-		jm_f_3 = new JMenu("功能一");
-		jm_f.add(jm_f_3);
-
-		jm_f_4 = new JMenuItem("功能二");
-		jm_f.add(jm_f_4);
-
-		jm_f_5 = new JMenuItem("功能三");
-		jm_f.add(jm_f_5);
+		// jm_f_3 = new JMenu("功能一");
+		// jm_f.add(jm_f_3);
+		//
+		// jm_f_4 = new JMenuItem("功能二");
+		// jm_f.add(jm_f_4);
+		//
+		// jm_f_5 = new JMenuItem("功能三");
+		// jm_f.add(jm_f_5);
 
 		// 工具栏编辑及其子组件
-		jm_e = new JMenu("编辑(E) ");
-		jmb_tb.add(jm_e);
+		// jm_e = new JMenu("编辑(E) ");
+		// jmb_tb.add(jm_e);
 
-		jm_e_1 = new JMenuItem("New menu item");
-		jm_e.add(jm_e_1);
-
-		jm_e_2 = new JMenuItem("New menu item");
-		jm_e.add(jm_e_2);
+		// jm_e_1 = new JMenuItem("New menu item");
+		// jm_e.add(jm_e_1);
+		//
+		// jm_e_2 = new JMenuItem("New menu item");
+		// jm_e.add(jm_e_2);
 
 		// 工具栏计算及其下子组件
-		jm_l = new JMenu("计算(L) ");
-		jmb_tb.add(jm_l);
+		// jm_l = new JMenu("计算(L) ");
+		// jmb_tb.add(jm_l);
+		//
+		// jm_l_1 = new JMenu("New menu");
+		// jm_l.add(jm_l_1);
+		//
+		// jm_l_2 = new JMenuItem("New menu item");
+		// jm_l_1.add(jm_l_2);
 
-		jm_l_1 = new JMenu("New menu");
-		jm_l.add(jm_l_1);
-
-		jm_l_2 = new JMenuItem("New menu item");
-		jm_l_1.add(jm_l_2);
-
-		// 工具栏造价审查
-		jm_g = new JMenu("造价审查(G)");
-		jmb_tb.add(jm_g);
+		// // 工具栏造价审查
+		// jm_g = new JMenu("造价审查(G)");
+		// jmb_tb.add(jm_g);
 
 		// 工具视图
 		jm_view = new JMenu("视图(V) ");
@@ -259,13 +259,13 @@ public class HomeFrame {
 		jmi_quoteBasis.setActionCommand("jmi_quoteBasis");
 		jm_view.add(jmi_quoteBasis);
 
-		// 工具栏工具
-		jm_t = new JMenu("工具(T) ");
-		jmb_tb.add(jm_t);
-
-		// 工具栏窗口
-		jm_w = new JMenu("窗口(W) ");
-		jmb_tb.add(jm_w);
+		// // 工具栏工具
+		// jm_t = new JMenu("工具(T) ");
+		// jmb_tb.add(jm_t);
+		//
+		// // 工具栏窗口
+		// jm_w = new JMenu("窗口(W) ");
+		// jmb_tb.add(jm_w);
 
 		// 工具栏帮助及下子键
 		jm_help = new JMenu("帮助(H) ");
@@ -590,11 +590,11 @@ public class HomeFrame {
 		bt_createTask.setFocusPainted(false);// 去除按钮边线
 		jtb_jsrw.add(bt_createTask);
 
-		bt_importTask = new JButton();
-		bt_importTask.setIcon(new ImageIcon("images/daoru.png"));
-		bt_importTask.setToolTipText("导入建设任务");
-		bt_importTask.setFocusPainted(false);// 去除按钮边线
-		jtb_jsrw.add(bt_importTask);
+		// bt_importTask = new JButton();
+		// bt_importTask.setIcon(new ImageIcon("images/daoru.png"));
+		// bt_importTask.setToolTipText("导入建设任务");
+		// bt_importTask.setFocusPainted(false);// 去除按钮边线
+		// jtb_jsrw.add(bt_importTask);
 
 		bt_exportTask = new JButton();
 		bt_exportTask.setIcon(new ImageIcon("images/daochu.png"));
@@ -657,12 +657,12 @@ public class HomeFrame {
 		jb_bt_1.setFocusPainted(false);// 去除按钮边线
 		jtb_tb.add(jb_bt_1);
 
-		jb_bt_save = new JButton();
-		jb_bt_save.setIcon(new ImageIcon("images/save.png"));
-		jb_bt_save.setToolTipText("保存  (Ctrl+S)");
-		jb_bt_save.setFocusPainted(false);// 去除按钮边线
-		jtb_tb.add(jb_bt_save);
-		jtb_tb.setRollover(true);
+		// jb_bt_save = new JButton();
+		// jb_bt_save.setIcon(new ImageIcon("images/save.png"));
+		// jb_bt_save.setToolTipText("保存  (Ctrl+S)");
+		// jb_bt_save.setFocusPainted(false);// 去除按钮边线
+		// jtb_tb.add(jb_bt_save);
+		// jtb_tb.setRollover(true);
 
 		// 报价任务表格面板
 		jsp_jsrw = new JScrollPane();
@@ -845,12 +845,12 @@ public class HomeFrame {
 		jb_bt_creatTask.setFocusPainted(false);// 去除按钮边线
 		jtb_tb.add(jb_bt_creatTask);
 
-		jb_bt_save = new JButton();
-		jb_bt_save.setIcon(new ImageIcon("images/save.png"));
-		jb_bt_save.setToolTipText("保存  (Ctrl+S)");
-		jb_bt_save.setFocusPainted(false);// 去除按钮边线
-		jtb_tb.add(jb_bt_save);
-		jtb_tb.setRollover(true);
+		// jb_bt_save = new JButton();
+		// jb_bt_save.setIcon(new ImageIcon("images/save.png"));
+		// jb_bt_save.setToolTipText("保存  (Ctrl+S)");
+		// jb_bt_save.setFocusPainted(false);// 去除按钮边线
+		// jtb_tb.add(jb_bt_save);
+		// jtb_tb.setRollover(true);
 
 		// 添加创建任务事件
 		bt_createTask.setActionCommand("createTask");
@@ -936,7 +936,7 @@ public class HomeFrame {
 		// 添加查看关于事件
 		mmi_help_about.setActionCommand("About");
 		mmi_help_about.addActionListener(new HomeFrameAction());
-		//添加关于注册
+		// 添加关于注册
 		mmi_help_registered.setActionCommand("registeredProduct");
 		mmi_help_registered.addActionListener(new HomeFrameAction());
 		/**

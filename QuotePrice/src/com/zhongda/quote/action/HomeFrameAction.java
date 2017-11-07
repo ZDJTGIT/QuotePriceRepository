@@ -9,13 +9,9 @@ import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -470,9 +466,9 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 						try {
 							flag = get();
 							if (flag > 0) {
-								JOptionPane.showMessageDialog(null,
-										"检验内容删除成功！", "提示信息",
-										JOptionPane.PLAIN_MESSAGE);
+								// JOptionPane.showMessageDialog(null,
+								// "检验内容删除成功！", "提示信息",
+								// JOptionPane.PLAIN_MESSAGE);
 
 								DefaultTableModel model = (DefaultTableModel) jt_inspectionContent
 										.getModel();
@@ -549,8 +545,9 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 						try {
 							boolean flag = get();
 							if (flag) {
-								JOptionPane.showMessageDialog(null, "检验批删除成功！",
-										"提示信息", JOptionPane.PLAIN_MESSAGE);
+								// JOptionPane.showMessageDialog(null,
+								// "检验批删除成功！",
+								// "提示信息", JOptionPane.PLAIN_MESSAGE);
 
 								DefaultTableModel model = (DefaultTableModel) jt_inspectionBatch
 										.getModel();
@@ -621,9 +618,9 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 						try {
 							boolean flag = get();
 							if (flag) {
-								JOptionPane.showMessageDialog(null,
-										"报价项目删除成功！", "提示信息",
-										JOptionPane.PLAIN_MESSAGE);
+								// JOptionPane.showMessageDialog(null,
+								// "报价项目删除成功！", "提示信息",
+								// JOptionPane.PLAIN_MESSAGE);
 
 								DefaultTableModel model = (DefaultTableModel) jt_quoteProject
 										.getModel();
@@ -685,7 +682,7 @@ public class HomeFrameAction implements ActionListener, MouseMotionListener,
 							boolean flag = get();
 							if (flag) {
 								// 提示框
-								PromptBoxUtil.getPromptBox("温馨提示", "删除成功！");
+								// PromptBoxUtil.getPromptBox("温馨提示", "删除成功！");
 								DefaultTableModel model = (DefaultTableModel) jt_quoteTask
 										.getModel();
 								model.removeRow(row);
